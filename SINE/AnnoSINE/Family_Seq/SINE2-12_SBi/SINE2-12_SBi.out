@@ -1,0 +1,52 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/SINE2-12_SBi/SINE2-12_SBi.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/SINE2-12_SBi/SINE2-12_SBi.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       SINE2-12_SBi-aln-stockholm  [M=321]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+        1.5    9.8   5.7  CP002687.1 12538901 12538821 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    9.8   5.7       1.5       199       284 ..  12538901  12538821 ..  12538921  12538812 ..  18585056    0.70
+
+  Alignment:
+  score: 9.8 bits
+  SINE2-12_SBi-aln-stockholm      199 ggctcagtctttcgaaggtgctcataggggtaggggtttgcgtacgtgtg..tttattatataggggtgagtg 269     
+                                      g+ tcagtctttc+aa g   tca agggg agg  tttg  tac t tg  t      +a +  +gt agt 
+                  CP002687.1 12538901 GTTTCAGTCTTTCAAATGATTTCAAAGGGGAAGG-ATTTGAATACTT-TGacTA-----CAAGAATGTAAGTA 12538836
+                                      56789***************************66.5***99999985.321222.....33344555555555 PP
+
+  SINE2-12_SBi-aln-stockholm      270 tgtgtgtgtgttgtg 284     
+                                         g+ + tgt+gtg
+                  CP002687.1 12538835 AAAGCACCTGTGGTG 12538821
+                                      433444445555555 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (321 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:        13565587  (0.365); expected (0.02)
+Residues passing bias filter:        6309991  (0.17); expected (0.02)
+Residues passing Vit filter:          120599  (0.00324); expected (0.003)
+Residues passing Fwd filter:            5344  (0.000144); expected (3e-05)
+Total number of hits:                      1  (2.18e-06)
+# CPU time: 2.99u 0.00s 00:00:02.99 Elapsed: 00:00:00.27
+# Mc/sec: 43921.61
+//
+[ok]

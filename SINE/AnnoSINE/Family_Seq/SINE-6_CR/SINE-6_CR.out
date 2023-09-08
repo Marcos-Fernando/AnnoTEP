@@ -1,0 +1,65 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/SINE-6_CR/SINE-6_CR.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/SINE-6_CR/SINE-6_CR.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       SINE-6_CR-aln-stockholm  [M=405]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+       0.85   10.8   0.5  CP002687.1 15671403 15671457 Arabidopsis thaliana chromosome 4 sequence
+        5.7    8.1   3.0  CP002687.1 12312740 12312816 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   10.8   0.5      0.85        12        66 ..  15671403  15671457 ..  15671394  15671473 ..  18585056    0.87
+
+  Alignment:
+  score: 10.8 bits
+  SINE-6_CR-aln-stockholm       12 tcaattggtagagcatgccgctgtcacatggcagacccaggttcgaatcgcggat 66      
+                                   tc a tggtaga  a   c ctg cac    cagaccc ggttcga tc cgg t
+               CP002687.1 15671403 TCTAGTGGTAGAATAGTACCCTGCCACGGTACAGACCCGGGTTCGATTCCCGGCT 15671457
+                                   678899*********999******************************9988754 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    8.1   3.0       5.7       103       175 ..  12312740  12312816 ..  12312720  12312838 ..  18585056    0.80
+
+  Alignment:
+  score: 8.1 bits
+  SINE-6_CR-aln-stockholm      103 tcggatcctgcccggggaacc....gagtcagtattccggtatggagtccgcggtactgacggaagcgttgtagcg 174     
+                                   t g at c g c g  gaac     gag ca t t  cg tatggag c  cggta tg  gga gc ttg a  g
+               CP002687.1 12312740 TTGCATTCAGTCAGAAGAACTggttGAGGCATTCTATCGATATGGAGACTCCGGTATTGGAGGATGCATTGGAAAG 12312815
+                                   5667788888888888888862222588899999999*******************************99977655 PP
+
+  SINE-6_CR-aln-stockholm      175 a 175     
+                                   a
+               CP002687.1 12312816 A 12312816
+                                   4 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (405 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:          445147  (0.012); expected (0.02)
+Residues passing bias filter:         437765  (0.0118); expected (0.02)
+Residues passing Vit filter:           44302  (0.00119); expected (0.003)
+Residues passing Fwd filter:            1324  (3.56e-05); expected (3e-05)
+Total number of hits:                      2  (3.55e-06)
+# CPU time: 1.40u 0.02s 00:00:01.42 Elapsed: 00:00:00.12
+# Mc/sec: 115852.81
+//
+[ok]

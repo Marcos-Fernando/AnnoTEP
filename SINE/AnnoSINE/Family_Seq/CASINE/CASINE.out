@@ -1,0 +1,37 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/CASINE/CASINE.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/CASINE/CASINE.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       CASINE-aln-stockholm  [M=175]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+
+   [No hits detected that satisfy reporting thresholds]
+
+
+Annotation for each hit  (and alignments):
+
+   [No targets detected that satisfy reporting thresholds]
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (175 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:         9136685  (0.246); expected (0.02)
+Residues passing bias filter:        4609662  (0.124); expected (0.02)
+Residues passing Vit filter:          347429  (0.00935); expected (0.003)
+Residues passing Fwd filter:           23853  (0.000642); expected (3e-05)
+Total number of hits:                      0  (0)
+# CPU time: 1.75u 0.01s 00:00:01.76 Elapsed: 00:00:00.16
+# Mc/sec: 39068.75
+//
+[ok]

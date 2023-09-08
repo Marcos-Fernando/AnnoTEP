@@ -1,0 +1,226 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/BoSB11/BoSB11.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/BoSB11/BoSB11.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       BoSB11-aln-stockholm  [M=162]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+    1.3e-15   60.7   0.0  CP002687.1  8203642  8203505 Arabidopsis thaliana chromosome 4 sequence
+      2e-13   53.6   2.6  CP002687.1   612898   613009 Arabidopsis thaliana chromosome 4 sequence
+  ------ inclusion threshold ------
+      0.066   16.1   1.9  CP002687.1 12334671 12334621 Arabidopsis thaliana chromosome 4 sequence
+       0.14   15.1   7.2  CP002687.1 15241292 15241359 Arabidopsis thaliana chromosome 4 sequence
+       0.14   15.1   7.2  CP002687.1 15218524 15218457 Arabidopsis thaliana chromosome 4 sequence
+       0.52   13.2   6.8  CP002687.1 15218037 15217971 Arabidopsis thaliana chromosome 4 sequence
+       0.52   13.2   6.8  CP002687.1 15219011 15218945 Arabidopsis thaliana chromosome 4 sequence
+       0.67   12.9   1.5  CP002687.1 10427231 10427183 Arabidopsis thaliana chromosome 4 sequence
+       0.85   12.5   3.2  CP002687.1  8203786  8203743 Arabidopsis thaliana chromosome 4 sequence
+          1   12.3   0.0  CP002687.1  8345688  8345643 Arabidopsis thaliana chromosome 4 sequence
+        1.2   12.1   0.8  CP002687.1  2292302  2292260 Arabidopsis thaliana chromosome 4 sequence
+        2.3   11.1   3.6  CP002687.1  7299876  7299920 Arabidopsis thaliana chromosome 4 sequence
+        4.6   10.1   7.7  CP002687.1 15219497 15219432 Arabidopsis thaliana chromosome 4 sequence
+        8.4    9.3   4.6  CP002687.1 15240085 15240150 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   60.7   0.0   1.3e-15         9       157 ..   8203642   8203505 ..   8203662   8203500 ..  18585056    0.83
+
+  Alignment:
+  score: 60.7 bits
+  BoSB11-aln-stockholm       9 gggctagtggtttagtgcttggagttggttctattgtgcccctagtt....tcgattcccgttgggagggatgttTtacgc 85     
+                               g +cta tggttt +t    gg +t       att  +cc      t    tcgatt   g t g+ag+gatg+tTtacgc
+            CP002687.1 8203642 GAACTAATGGTTTTATTGCAGGGAT-------ATTAGACCAA----TgtacTCGATT---GATAGAAGAGATGCTTTACGC 8203576
+                               6677888888777766666666665.......4444444444....23344566664...66799**************** PP
+
+  BoSB11-aln-stockholm      86 .catgttatcggtattagcaccggctggttccgggcctagggggttattagggccgaaggcccaaacccatcc 157    
+                                 atgt+ t g tat+agcac+ gc+ggttccggg c  g gg+  a tagggcc aaggcccaaaccc+tcc
+            CP002687.1 8203575 cGATGTATTTGATATCAGCACAAGCCGGTTCCGGGTCATGAGGA--ACTAGGGCCCAAGGCCCAAACCCCTCC 8203505
+                               877888**********************************9998..788*********************998 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   53.6   2.6     2e-13        47       161 ..    612898    613009 ..    612878    613010 ..  18585056    0.93
+
+  Alignment:
+  score: 53.6 bits
+  BoSB11-aln-stockholm     47 cccctagtttcgattcccgttgggagggatgttTtacgccatgttatcggtattagcaccggctggttccgggcctagggggt 129   
+                               ccctagtt c attcc g+tgg+  ggatgttTtacg c t t+   g t ttagca++g ctg t+c gggcc  gg g++
+            CP002687.1 612898 TCCCTAGTT-CAATTCCTGGTGGAGCGGATGTTTTACGTC-TTTATAAGATTTTAGCAAAGACTGATCCTGGGCCATGGAGAA 612978
+                              57889****.****************************88.888999***********************************9 PP
+
+  BoSB11-aln-stockholm    130 tattagggccgaaggcccaaacccatcctggt 161   
+                              +atta+ gc   a  cccaaac c+t ct gt
+            CP002687.1 612979 GATTAACGCTT-AAACCCAAACTCCTTCTAGT 613009
+                              9****999999.8888888*******999987 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   16.1   1.9     0.066        74       125 ..  12334671  12334621 ..  12334692  12334600 ..  18585056    0.84
+
+  Alignment:
+  score: 16.1 bits
+  BoSB11-aln-stockholm       74 gatgttTtacgccatgt....tatcggtattagcaccggctggttccgggcctagg 125     
+                                 atg tT      atgt    tat  g atta ca cggctggttccg g ct+  
+            CP002687.1 12334671 CATGATT-----AATGTcccaTATAAGCATTATCAACGGCTGGTTCCGAGTCTGAA 12334621
+                                4577777.....667777777899999************************99865 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   15.1   7.2      0.14        20        91 ..  15241292  15241359 ..  15241290  15241371 ..  18585056    0.86
+
+  Alignment:
+  score: 15.1 bits
+  BoSB11-aln-stockholm       20 ttagtgcttggagttggttctattgtgcccctagtttcgattcccgttgggagggatgttTtacgccatgt...t 91      
+                                tt gt+    ga+ttggtt tattg +cc      t c a tc c +tg +a+g+ t ttTta gccatg    +
+            CP002687.1 15241292 TTTGTCTAAAGAATTGGTTATATTGAACC------T-CAAGTCTCTGTGTAAAGACTTTTTTAAGCCATGGgtaA 15241359
+                                5667888899****************966......4.789999************************99877533 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   15.1   7.2      0.14        20        91 ..  15218524  15218457 ..  15218526  15218445 ..  18585056    0.86
+
+  Alignment:
+  score: 15.1 bits
+  BoSB11-aln-stockholm       20 ttagtgcttggagttggttctattgtgcccctagtttcgattcccgttgggagggatgttTtacgccatgt...t 91      
+                                tt gt+    ga+ttggtt tattg +cc      t c a tc c +tg +a+g+ t ttTta gccatg    +
+            CP002687.1 15218524 TTTGTCTAAAGAATTGGTTATATTGAACC------T-CAAGTCTCTGTGTAAAGACTTTTTTAAGCCATGGgtaA 15218457
+                                5667888899****************966......4.789999************************99877533 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   13.2   6.8      0.52        20        91 ..  15218037  15217971 ..  15218039  15217958 ..  18585056    0.86
+
+  Alignment:
+  score: 13.2 bits
+  BoSB11-aln-stockholm       20 ttagtgcttggagttggttctattgtgcccctagtttcgattcccgttgggagggatgttTtacgccatgt..t 91      
+                                tt gt+    ga+ttggtt tattg +cc      t c a tc c +tg +a+g+ t ttTta gcc tg   +
+            CP002687.1 15218037 TTTGTCTAAAGAATTGGTTATATTGAACC------T-CAAGTCTCTGTGTAAAGACTTTTTTAAGCCGTGGgtA 15217971
+                                5667888899****************966......4.789999***********************98877642 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   13.2   6.8      0.52        20        91 ..  15219011  15218945 ..  15219013  15218932 ..  18585056    0.86
+
+  Alignment:
+  score: 13.2 bits
+  BoSB11-aln-stockholm       20 ttagtgcttggagttggttctattgtgcccctagtttcgattcccgttgggagggatgttTtacgccatgt..t 91      
+                                tt gt+    ga+ttggtt tattg +cc      t c a tc c +tg +a+g+ t ttTta gcc tg   +
+            CP002687.1 15219011 TTTGTCTAAAGAATTGGTTATATTGAACC------T-CAAGTCTCTGTGTAAAGACTTTTTTAAGCCGTGGgtA 15218945
+                                5667888899****************966......4.789999***********************98877642 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.9   1.5      0.67       110       161 ..  10427231  10427183 ..  10427251  10427182 ..  18585056    0.84
+
+  Alignment:
+  score: 12.9 bits
+  BoSB11-aln-stockholm      110 tggttccgggcctagggggttattagggccgaaggcccaaacccatcctggt 161     
+                                tggtt cgggcct+g ggg  atta gg c   ggccc a  +c+tcctggt
+            CP002687.1 10427231 TGGTTTCGGGCCTGGAGGG--ATTACGGGCTTCGGCCC-AGAACCTCCTGGT 10427183
+                                689************9999..67777777777999988.4446889999986 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.5   3.2      0.85         2        46 ..   8203786   8203743 ..   8203787   8203725 ..  18585056    0.87
+
+  Alignment:
+  score: 12.5 bits
+  BoSB11-aln-stockholm       2 gtgcgttgggctagtggtttagtgcttggagttggttctattgtg 46     
+                                tgc tt g+ctagtggttta          ttgg tc+at gtg
+            CP002687.1 8203786 ATGCATTAGACTAGTGGTTTAAGTGCAAAGATTGGATCCAT-GTG 8203743
+                               689*******************999999999********95.444 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.3   0.0         1       110       158 ..   8345688   8345643 ..   8345708   8345640 ..  18585056    0.77
+
+  Alignment:
+  score: 12.3 bits
+  BoSB11-aln-stockholm     110 tggttccgggcctagggggttattagggccgaaggcccaaacccatcct 158    
+                               tggtt cgggcct+g gg+  atta gg c+  ggccca a  c+tcct
+            CP002687.1 8345688 TGGTTTCGGGCCTGGAGGA--ATTACGGGCTTCGGCCCAGA-ACCTCCT 8345643
+                               68*************9998..67777777777999977444.4666666 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.1   0.8       1.2       110       155 ..   2292302   2292260 ..   2292322   2292256 ..  18585056    0.76
+
+  Alignment:
+  score: 12.1 bits
+  BoSB11-aln-stockholm     110 tggttccgggcctagggggttattagggccgaaggcccaaacccat 155    
+                               tggtt cgg cct+ggggg  atta gg c+  ggcccaaa cc t
+            CP002687.1 2292302 TGGTTTCGGTCCTGGGGGG--ATTACGGGCTTCGGCCCAAAACC-T 2292260
+                               689************9999..67777777887999988665544.3 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   11.1   3.6       2.3        21        66 ..   7299876   7299920 ..   7299858   7299945 ..  18585056    0.79
+
+  Alignment:
+  score: 11.1 bits
+  BoSB11-aln-stockholm      21 tagtgcttggagttggttctattgtgcccctagtttcgattcccgt 66     
+                               ta t c  ggagtt gttct ttgt+ccc   gtt c at +c  t
+            CP002687.1 7299876 TAATACAAGGAGTTTGTTCTTTTGTACCCTCGGTT-CAATCTCTCT 7299920
+                               4788999***********************99999.9888777655 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   10.1   7.7       4.6        21        91 ..  15219497  15219432 ..  15219500  15219419 ..  18585056    0.85
+
+  Alignment:
+  score: 10.1 bits
+  BoSB11-aln-stockholm       21 tagtgcttggagttggttctattgtgcccctagtttcgattcccgttgggagggatgttTtacgccatgt..t 91      
+                                t gt+    ga+ttggtt t ttg +cc      t c a tc c +tg +a+g+ t ttTta gcc tg   +
+            CP002687.1 15219497 TTGTCTAAAGAATTGGTTATTTTGAACC------T-CAAGTCTCTGTGTAAAGACTTTTTTAAGCCGTGGgtA 15219432
+                                567788899*********9999998865......4.789999***********************98876542 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    9.3   4.6       8.4        20        91 ..  15240085  15240150 ..  15240082  15240158 ..  18585056    0.83
+
+  Alignment:
+  score: 9.3 bits
+  BoSB11-aln-stockholm       20 ttagtgcttggagttggttctattgtgcccctagtttcgattcccgttgggagggatgttTtacgccatgt.t 91      
+                                tt gt+    g +tt gtt + ttg +cc      t c a tc c +t  +a+g+ tgttTta gcc tg  t
+            CP002687.1 15240085 TTTGTCTAAAGGATTAGTTACTTTGAACC------T-CAAGTCTCTGTCTAAAGACTGTTTTAAGCCGTGGgT 15240150
+                                56677778888899999999999999865......4.789999***********************9776553 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (162 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:         1866411  (0.0502); expected (0.02)
+Residues passing bias filter:        1495578  (0.0402); expected (0.02)
+Residues passing Vit filter:          166568  (0.00448); expected (0.003)
+Residues passing Fwd filter:           15577  (0.000419); expected (3e-05)
+Total number of hits:                     14  (2.5e-05)
+# CPU time: 0.97u 0.00s 00:00:00.97 Elapsed: 00:00:00.09
+# Mc/sec: 64916.95
+//
+[ok]

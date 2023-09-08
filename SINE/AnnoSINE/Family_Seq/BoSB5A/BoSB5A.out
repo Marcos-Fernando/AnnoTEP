@@ -1,0 +1,104 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/BoSB5A/BoSB5A.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/BoSB5A/BoSB5A.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       BoSB5A-aln-stockholm  [M=176]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+       0.55   12.7   0.8  CP002687.1 10302021 10302086 Arabidopsis thaliana chromosome 4 sequence
+       0.62   12.5   3.0  CP002687.1  7814206  7814280 Arabidopsis thaliana chromosome 4 sequence
+       0.72   12.3   1.3  CP002687.1 17130072 17130134 Arabidopsis thaliana chromosome 4 sequence
+        2.2   10.7   0.3  CP002687.1  6707599  6707639 Arabidopsis thaliana chromosome 4 sequence
+        3.6   10.1   0.8  CP002687.1 16556643 16556697 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.7   0.8      0.55        24        90 ..  10302021  10302086 ..  10302003  10302106 ..  18585056    0.68
+
+  Alignment:
+  score: 12.7 bits
+  BoSB5A-aln-stockholm       24 aaggaacctcggct......gaggtgcccgccatcacgAgttcgagccccggccAcagcggatttaacatggt 90      
+                                 agga  ctcggct       a g g        c cg gttcgag cccggc Ac g g  ttt   at  t
+            CP002687.1 10302021 CAGGATACTCGGCTctcaccCAAGAG-------ACCCGGGTTCGAGTCCCGGCAACGGAGTTTTTTTTATAAT 10302086
+                                56777777777776222222111111.......2457889********************9998877666544 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.5   3.0      0.62         8        83 ..   7814206   7814280 ..   7814203   7814300 ..  18585056    0.78
+
+  Alignment:
+  score: 12.5 bits
+  BoSB5A-aln-stockholm       8 tcgtggtctggtggtaaaggaacctcggct.......gaggtgcccgccatcacgAgttcgagccccggccAcagcggatt 81     
+                               tcgt gtct g  g  +agga  ctcggct       gag   cc        cg gttcgag cccggc Ac g g  tt
+            CP002687.1 7814206 TCGTAGTCTAGCTGGTTAGGATACTCGGCTctcacccGAGAGACC--------CGGGTTCGAGTCCCGGCGACGGAGTTTT 7814278
+                               67888888888777779999999***9998555555555554444........678*****************99998877 PP
+
+  BoSB5A-aln-stockholm      82 ta 83     
+                               t 
+            CP002687.1 7814279 TT 7814280
+                               64 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   12.3   1.3      0.72        24        87 ..  17130072  17130134 ..  17130054  17130154 ..  18585056    0.70
+
+  Alignment:
+  score: 12.3 bits
+  BoSB5A-aln-stockholm       24 aaggaacctcggct.......gaggtgcccgccatcacgAgttcgagccccggccAcagcggatttaacat 87      
+                                 agga  ctcggct       gag           c cg gttcgag cccggc Ac g g  ttt   at
+            CP002687.1 17130072 CAGGATACTCGGCTctcacccGAGAGA--------CCCGGGTTCGAGTCCCGGCAACGGAGATTTTTTTAT 17130134
+                                577777777777764343333444333........346789******************999888876655 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   10.7   0.3       2.2        40        85 ..   6707599   6707639 ..   6707584   6707659 ..  18585056    0.83
+
+  Alignment:
+  score: 10.7 bits
+  BoSB5A-aln-stockholm      40 ggtgcccgccatcacgAgttcgagccccggccAcagcggatttaac 85     
+                               ggtg     c tcac Agtt  ag  cc gccAcagc g t taa 
+            CP002687.1 6707599 GGTG-----CTTCACCAGTTTTAGGTCCTGCCACAGCAGCTCTAAA 6707639
+                               5565.....469****************************999875 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   10.1   0.8       3.6        24        79 ..  16556643  16556697 ..  16556624  16556717 ..  18585056    0.70
+
+  Alignment:
+  score: 10.1 bits
+  BoSB5A-aln-stockholm       24 aaggaacctcggct.......gaggtgcccgccatcacgAgttcgagccccggccAcagcgga 79      
+                                 agga  ctcggct       gag   cc        cg gttcgag cccggc Ac g g  
+            CP002687.1 16556643 CAGGATACTCGGCTctcacccGAGAGACC--------CGGGTTCGAGTCCCGGCAACGGAGTT 16556697
+                                57888888888876555555455544444........6779***************9998743 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (176 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:          382975  (0.0103); expected (0.02)
+Residues passing bias filter:         382310  (0.0103); expected (0.02)
+Residues passing Vit filter:           56199  (0.00151); expected (0.003)
+Residues passing Fwd filter:            2671  (7.19e-05); expected (3e-05)
+Total number of hits:                      5  (8.07e-06)
+# CPU time: 0.62u 0.01s 00:00:00.63 Elapsed: 00:00:00.07
+# Mc/sec: 85761.54
+//
+[ok]

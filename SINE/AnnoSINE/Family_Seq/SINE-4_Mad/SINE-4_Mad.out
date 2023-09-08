@@ -1,0 +1,60 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/SINE-4_Mad/SINE-4_Mad.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/SINE-4_Mad/SINE-4_Mad.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       SINE-4_Mad-aln-stockholm  [M=220]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+        1.1   11.9   3.2  CP002687.1  2082808  2082848 Arabidopsis thaliana chromosome 4 sequence
+        2.9   10.6   5.9  CP002687.1  8940259  8940325 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   11.9   3.2       1.1        50        89 ..   2082808   2082848 ..   2082788   2082867 ..  18585056    0.73
+
+  Alignment:
+  score: 11.9 bits
+  SINE-4_Mad-aln-stockholm      50 ataaaaaaaaaaaaatgggaggtctcgggtTc.gatgctct 89     
+                                   a +a+ aaaaaaa++  ggagg ctcgggtTc +a  c +t
+                CP002687.1 2082808 AGTACTAAAAAAATGAAGGAGGACTCGGGTTCaAAGACCTT 2082848
+                                   334455667888*******************9744444344 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   10.6   5.9       2.9        53       121 ..   8940259   8940325 ..   8940240   8940359 ..  18585056    0.73
+
+  Alignment:
+  score: 10.6 bits
+  SINE-4_Mad-aln-stockholm      53 aaaaaaaaaaaatgggaggtctcgggtTcgatgctctga.....gctggtgagtgtgttc.Tgactgtggccacg 121    
+                                   aaaaa aa aaa ggg g tct gggtT        tga     gct gtga + tg t+ Tga+t   gc a g
+                CP002687.1 8940259 AAAAACAAGAAAAGGGGGATCTAGGGTT--------TGAgaatgGCTTGTGAAGTTGATAcTGATTTGAGCAAGG 8940325
+                                   4556666778888999999999999999........666677888*******************97555554443 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (220 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:         7271781  (0.196); expected (0.02)
+Residues passing bias filter:        2823539  (0.076); expected (0.02)
+Residues passing Vit filter:          166218  (0.00447); expected (0.003)
+Residues passing Fwd filter:            5986  (0.000161); expected (3e-05)
+Total number of hits:                      2  (2.91e-06)
+# CPU time: 1.56u 0.01s 00:00:01.57 Elapsed: 00:00:00.14
+# Mc/sec: 56880.50
+//
+[ok]

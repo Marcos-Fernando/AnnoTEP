@@ -1,0 +1,37 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/SINEX-3_CR/SINEX-3_CR.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/SINEX-3_CR/SINEX-3_CR.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       SINEX-3_CR-aln-stockholm  [M=506]
+Scores for complete hits:
+    E-value  score  bias  Sequence  start    end  Description
+    ------- ------ -----  --------  -----  -----  -----------
+
+   [No hits detected that satisfy reporting thresholds]
+
+
+Annotation for each hit  (and alignments):
+
+   [No targets detected that satisfy reporting thresholds]
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (506 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:         1137415  (0.0306); expected (0.02)
+Residues passing bias filter:        1132471  (0.0305); expected (0.02)
+Residues passing Vit filter:          120625  (0.00325); expected (0.003)
+Residues passing Fwd filter:               0  (0); expected (3e-05)
+Total number of hits:                      0  (0)
+# CPU time: 1.98u 0.03s 00:00:02.00 Elapsed: 00:00:00.17
+# Mc/sec: 104676.49
+//
+[ok]

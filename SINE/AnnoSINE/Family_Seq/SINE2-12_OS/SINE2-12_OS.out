@@ -1,0 +1,83 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/SINE2-12_OS/SINE2-12_OS.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/SINE2-12_OS/SINE2-12_OS.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       SINE2-12_OS-aln-stockholm  [M=330]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+        1.4   10.3   3.1  CP002687.1 16890972 16891040 Arabidopsis thaliana chromosome 4 sequence
+        7.6    7.9   2.8  CP002687.1 15430280 15430216 Arabidopsis thaliana chromosome 4 sequence
+        7.9    7.8  10.1  CP002687.1 13250270 13250167 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   10.3   3.1       1.4       150       272 ..  16890972  16891040 ..  16890951  16891050 ..  18585056    0.76
+
+  Alignment:
+  score: 10.3 bits
+  SINE2-12_OS-aln-stockholm      150 gaggacgggccctcttgtagggggcaggggcctcaaagcAcgggttaaggaccgatccatagggggcgagtccc 223     
+                                     g+gg  +gg cc+          + a++ggcct aaagc                                   
+                 CP002687.1 16890972 GTGGCTAGGGCCC----------AAAAAGGCCTTAAAGC----------------------------------- 16891000
+                                     4444444444444..........3356677777777766................................... PP
+
+  SINE2-12_OS-aln-stockholm      224 ggggggccaagggttcgtggcctttctcgggccggtttggttgaggctt 272     
+                                           ccaa g ttcgtgg +tttct+   c   t tggtt aggctt
+                 CP002687.1 16891001 ------CCAAAGCTTCGTGGTTTTTCTT---CTCTTGTGGTTTAGGCTT 16891040
+                                     ......88899**************998...788899999999999887 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    7.9   2.8       7.6        17        81 ..  15430280  15430216 ..  15430291  15430196 ..  18585056    0.83
+
+  Alignment:
+  score: 7.9 bits
+  SINE2-12_OS-aln-stockholm       17 ggtTacagtgctcaagTAgcacctctaggtccttgggt.cgactccccatggggagcgaaTTttag 81      
+                                     ggtTa ag  c+c   TAg a  +   +g +cttg gt c actc c atg   agc aaTTtt g
+                 CP002687.1 15430280 GGTTAGAGCACCCGTTTAGTAAGCGGGAGGTCTTGAGTtCAACTCTCAATGA-AAGCAAATTTTTG 15430216
+                                     677777788888877888888888888888998999999*************.9********9865 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    7.8  10.1       7.9       208       319 ..  13250270  13250167 ..  13250290  13250165 ..  18585056    0.75
+
+  Alignment:
+  score: 7.8 bits
+  SINE2-12_OS-aln-stockholm      208 atagggggcgagtccc.......ggggggccaagggttcgtggcctttctcgggccggtttggttgaggcttct 274     
+                                     at gggg  + gtcc        g   g  c     ttc tg c t tctc         t gtt  gg ttct
+                 CP002687.1 13250270 ATTGGGGTTATGTCCAacattttG---GTAC---TTTTCATGACTTGTCTC---------TTGTTTTGGTTTCT 13250212
+                                     566666666666666677765431...3333...58999*********998.........5555688889**** PP
+
+  SINE2-12_OS-aln-stockholm      275 tcTtattaataaaaagccgtgggggcggtctttcccccaccggtc 319     
+                                     tcT  +taataaaa   c      g+g  c+tt cc c c g tc
+                 CP002687.1 13250211 TCTATATAATAAAATTTCCCAAAAGGGACCATTACCTCTCTGATC 13250167
+                                     **************9999886666667899999999999988776 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (330 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:         4184245  (0.113); expected (0.02)
+Residues passing bias filter:        3103486  (0.0835); expected (0.02)
+Residues passing Vit filter:          184714  (0.00497); expected (0.003)
+Residues passing Fwd filter:           22531  (0.000606); expected (3e-05)
+Total number of hits:                      3  (6.4e-06)
+# CPU time: 2.12u 0.01s 00:00:02.13 Elapsed: 00:00:00.19
+# Mc/sec: 63995.88
+//
+[ok]

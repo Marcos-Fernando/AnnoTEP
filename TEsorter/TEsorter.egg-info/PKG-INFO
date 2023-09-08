@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: TEsorter
+Version: 1.4.1
+Summary: TEsorter: clade-level classification of transposable elements reflecting phylogenies and diversities
+Home-page: https://github.com/zhangrengang/TEsorter
+Author: Zhang, Ren-Gang and Wang, Zhao-Xuan, Jacques Dainat
+License: GPL-3.0
+Download-URL: https://github.com/zhangrengang/TEsorter/archive/v1.3.tar.gz
+Platform: UNKNOWN
+Requires-Python: >=3
+License-File: LICENSE
+
+UNKNOWN
+

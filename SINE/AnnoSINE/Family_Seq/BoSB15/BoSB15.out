@@ -1,0 +1,37 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/BoSB15/BoSB15.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/BoSB15/BoSB15.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       BoSB15-aln-stockholm  [M=175]
+Scores for complete hits:
+    E-value  score  bias  Sequence  start    end  Description
+    ------- ------ -----  --------  -----  -----  -----------
+
+   [No hits detected that satisfy reporting thresholds]
+
+
+Annotation for each hit  (and alignments):
+
+   [No targets detected that satisfy reporting thresholds]
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (175 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:          464539  (0.0125); expected (0.02)
+Residues passing bias filter:         447585  (0.012); expected (0.02)
+Residues passing Vit filter:           35325  (0.00095); expected (0.003)
+Residues passing Fwd filter:               0  (0); expected (3e-05)
+Total number of hits:                      0  (0)
+# CPU time: 0.64u 0.00s 00:00:00.64 Elapsed: 00:00:00.07
+# Mc/sec: 88985.81
+//
+[ok]

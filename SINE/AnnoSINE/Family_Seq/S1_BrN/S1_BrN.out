@@ -1,0 +1,86 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/S1_BrN/S1_BrN.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/S1_BrN/S1_BrN.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       S1_BrN-aln-stockholm  [M=169]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+       0.17   14.3   3.9  CP002687.1 14470288 14470342 Arabidopsis thaliana chromosome 4 sequence
+       0.19   14.2   4.0  CP002687.1 13285484 13285430 Arabidopsis thaliana chromosome 4 sequence
+       0.29   13.6   3.5  CP002687.1 17149481 17149534 Arabidopsis thaliana chromosome 4 sequence
+        1.9   11.0   2.2  CP002687.1  1390904  1390958 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   14.3   3.9      0.17        17        69 ..  14470288  14470342 ..  14470277  14470345 ..  18585056    0.82
+
+  Alignment:
+  score: 14.3 bits
+  S1_BrN-aln-stockholm       17 tccagtggtt..acttcctccttggggaggggAggtcggctgttcgactcgcggg 69      
+                                tc agtggt+  a+t+ c c+ttggg   g+gAggtc + +gttcga tc cgg 
+            CP002687.1 14470288 TCTAGTGGTAtgATTCTCGCTTTGGGTGCGAGAGGTCCCGAGTTCGATTCTCGGA 14470342
+                                566666666554667778889999999*************************965 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   14.2   4.0      0.19        17        69 ..  13285484  13285430 ..  13285494  13285427 ..  18585056    0.82
+
+  Alignment:
+  score: 14.2 bits
+  S1_BrN-aln-stockholm       17 tccagtggtt..acttcctccttggggaggggAggtcggctgttcgactcgcggg 69      
+                                tc agtggt+  a t  c c+ttggg   g+gAggtc + +gttcga tc cgg 
+            CP002687.1 13285484 TCTAGTGGTAtgATTCTCGCTTTGGGTGCGAGAGGTCCCGAGTTCGATTCTCGGA 13285430
+                                566666666554667778889999999*************************965 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   13.6   3.5      0.29        17        68 ..  17149481  17149534 ..  17149472  17149537 ..  18585056    0.81
+
+  Alignment:
+  score: 13.6 bits
+  S1_BrN-aln-stockholm       17 tccagtggtt..acttcctccttggggaggggAggtcggctgttcgactcgcgg 68      
+                                tc agtggt+  a t  c c+t+ggg   g+gAggtc + +gttcga tc cgg
+            CP002687.1 17149481 TCTAGTGGTAtgATTCTCGCTTCGGGTGCGAGAGGTCCCGAGTTCGATTCTCGG 17149534
+                                55566666554466677788999999999***********************95 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   11.0   2.2       1.9        16        68 ..   1390904   1390958 ..   1390894   1390962 ..  18585056    0.80
+
+  Alignment:
+  score: 11.0 bits
+  S1_BrN-aln-stockholm      16 gtccagtggtt..acttcctccttggggaggggAggtcggctgttcgactcgcgg 68     
+                               gtc agtggt+  a+t+ c c+t ggg   g+gAggtc + +gttc a tc cgg
+            CP002687.1 1390904 GTCTAGTGGTAtgATTCTCGCTTAGGGTGCGAGAGGTCCCGAGTTCAATTCTCGG 1390958
+                               566666666655466667778889999999***********************94 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (169 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:          238851  (0.00643); expected (0.02)
+Residues passing bias filter:         229687  (0.00618); expected (0.02)
+Residues passing Vit filter:           41784  (0.00112); expected (0.003)
+Residues passing Fwd filter:            1354  (3.64e-05); expected (3e-05)
+Total number of hits:                      4  (5.89e-06)
+# CPU time: 0.59u 0.01s 00:00:00.60 Elapsed: 00:00:00.06
+# Mc/sec: 90029.55
+//
+[ok]

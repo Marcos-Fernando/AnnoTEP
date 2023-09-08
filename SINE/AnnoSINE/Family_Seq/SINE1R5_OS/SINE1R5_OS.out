@@ -1,0 +1,47 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/SINE1R5_OS/SINE1R5_OS.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/SINE1R5_OS/SINE1R5_OS.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       SINE1R5_OS-aln-stockholm  [M=120]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+        2.8   11.3   3.6  CP002687.1 18177141 18177075 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   11.3   3.6       2.8        22        83 ..  18177141  18177075 ..  18177155  18177055 ..  18585056    0.75
+
+  Alignment:
+  score: 11.3 bits
+  SINE1R5_OS-aln-stockholm       22 cggctagcttc.acaaggtggtgggctagacgacctgggttcgaagcctca....ccccttctaatt 83      
+                                     ggct g  +  ++aag tggtgg ct  a g  ct g ttcgaag  t         cttc aatt
+                CP002687.1 18177141 TGGCTGGGACAaCAAAGTTGGTGGACTTAATGTTCTCGTTTCGAAGGTTAGttcaATACTTCCAATT 18177075
+                                    5677777777744599*****************************9865333222444555555543 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (120 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:         4118400  (0.111); expected (0.02)
+Residues passing bias filter:        2249812  (0.0605); expected (0.02)
+Residues passing Vit filter:          137134  (0.00369); expected (0.003)
+Residues passing Fwd filter:           16427  (0.000442); expected (3e-05)
+Total number of hits:                      1  (1.8e-06)
+# CPU time: 0.97u 0.01s 00:00:00.98 Elapsed: 00:00:00.09
+# Mc/sec: 47948.43
+//
+[ok]

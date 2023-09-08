@@ -1,0 +1,37 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/BoSB8B/BoSB8B.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/BoSB8B/BoSB8B.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       BoSB8B-aln-stockholm  [M=97]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+
+   [No hits detected that satisfy reporting thresholds]
+
+
+Annotation for each hit  (and alignments):
+
+   [No targets detected that satisfy reporting thresholds]
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (97 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:          577270  (0.0155); expected (0.02)
+Residues passing bias filter:         570526  (0.0153); expected (0.02)
+Residues passing Vit filter:           60434  (0.00163); expected (0.003)
+Residues passing Fwd filter:             610  (1.64e-05); expected (3e-05)
+Total number of hits:                      0  (0)
+# CPU time: 0.43u 0.01s 00:00:00.44 Elapsed: 00:00:00.06
+# Mc/sec: 56864.69
+//
+[ok]

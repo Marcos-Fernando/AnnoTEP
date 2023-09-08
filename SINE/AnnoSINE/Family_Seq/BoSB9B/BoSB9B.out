@@ -1,0 +1,60 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.3.1 (Jul 2020); http://hmmer.org/
+# Copyright (C) 2020 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      ../Family_Seq/BoSB9B/BoSB9B.hmm
+# target sequence database:        /home/marcoscosta/TEs/Temp/input/A.thaliana_Chr4_0524.fasta
+# output directed to file:         ../Family_Seq/BoSB9B/BoSB9B.out
+# number of worker threads:        12
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       BoSB9B-aln-stockholm  [M=216]
+Scores for complete hits:
+    E-value  score  bias  Sequence      start      end  Description
+    ------- ------ -----  --------      -----    -----  -----------
+  ------ inclusion threshold ------
+       0.23   13.8   0.1  CP002687.1  2636020  2636073 Arabidopsis thaliana chromosome 4 sequence
+        3.8    9.8   3.4  CP002687.1  5313723  5313777 Arabidopsis thaliana chromosome 4 sequence
+
+
+Annotation for each hit  (and alignments):
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?   13.8   0.1      0.23       171       215 ..   2636020   2636073 ..   2636005   2636074 ..  18585056    0.76
+
+  Alignment:
+  score: 13.8 bits
+  BoSB9B-aln-stockholm     171 ggtctcTagtctggaccaccacggtg.........gggccaggacactcggtta 215    
+                               g tctcTagtctggacca ca g  g         gg c  g acact ggtta
+            CP002687.1 2636020 GTTCTCTAGTCTGGACCAACATGACGaaagcacttGGCCATGAACACTTGGTTA 2636073
+                               5589****************9887663333333325555566999999999986 PP
+
+>> CP002687.1  Arabidopsis thaliana chromosome 4 sequence
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    9.8   3.4       3.8        48        94 ..   5313723   5313777 ..   5313703   5313797 ..  18585056    0.77
+
+  Alignment:
+  score: 9.8 bits
+  BoSB9B-aln-stockholm      48 cgggTTcgAtTcgcactggccac........cagggaaTttAcATgcggacTTgc 94     
+                                gggTTcgA T gc  tggccac         ag +a+Tt AcATg g   TT c
+            CP002687.1 5313723 TGGGTTCGAGTAGCTTTGGCCACtgggattcGAGTAATTTAACATGGGTTTTTTC 5313777
+                               69********************8222222224666789999*****998877754 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (216 nodes)
+Target sequences:                          1  (37170112 residues searched)
+Residues passing SSV filter:          422743  (0.0114); expected (0.02)
+Residues passing bias filter:         421572  (0.0113); expected (0.02)
+Residues passing Vit filter:           66577  (0.00179); expected (0.003)
+Residues passing Fwd filter:            1174  (3.16e-05); expected (3e-05)
+Total number of hits:                      2  (2.93e-06)
+# CPU time: 0.80u 0.01s 00:00:00.81 Elapsed: 00:00:00.08
+# Mc/sec: 98631.18
+//
+[ok]
