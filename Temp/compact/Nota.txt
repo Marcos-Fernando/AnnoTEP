@@ -1,0 +1,1 @@
+ Aqui ficarão os arquivos compactados gerados pelo comando SINE e MGEscan (LINE), estão divididos em .zip e .tar.gz dentro de pastas referentes ao genoma
