@@ -108,57 +108,65 @@ const lineCheckbox = document.getElementById('line');
 const completeCheckbox = document.getElementById('complete');
 
 // Adicionar evento de clique para a checkbox 'sine', desativa o checkbox complete
-sineCheckbox.addEventListener('click', function() {
-  if (this.checked) {
-    completeCheckbox.disabled = true;
-    completeCheckbox.parentElement.classList.add('disabled');
-  } else if (lineCheckbox.checked){
-    completeCheckbox.disabled = true;
-    completeCheckbox.parentElement.classList.add('disabled');
-  } else {
-	completeCheckbox.disabled = false;
-    completeCheckbox.parentElement.classList.remove('disabled');
-  }
-});
-
-// Adicionar evento de clique para a checkbox 'line', desativa o checkbox complete
-lineCheckbox.addEventListener('click', function() {
-  if (this.checked) {
-    completeCheckbox.disabled = true;
-    completeCheckbox.parentElement.classList.add('disabled');
-  } else if (sineCheckbox.checked){
-    completeCheckbox.disabled = true;
-    completeCheckbox.parentElement.classList.add('disabled');
-  } else {
-    completeCheckbox.disabled = false;
-    completeCheckbox.parentElement.classList.remove('disabled');
-  }
-});
-
-// Adicionar evento de clique para a checkbox 'complete', desativa os checkbox line e sine
 completeCheckbox.addEventListener('click', function() {
-  sineCheckbox.disabled = this.checked;
-  lineCheckbox.disabled = this.checked;
-  sineCheckbox.parentElement.classList.toggle('disabled', this.checked);
-  lineCheckbox.parentElement.classList.toggle('disabled', this.checked);
+  // Verifique se o checkbox 'complete' está marcado
+  if (completeCheckbox.checked) {
+    // Se estiver marcado, desmarque os checkboxes 'sine' e 'line'
+    sineCheckbox.checked = false;
+    lineCheckbox.checked = false;
+  } else if (!sineCheckbox.checked && !lineCheckbox.checked) {
+    // Se nenhum dos checkboxes 'sine' e 'line' estiver marcado, mantenha o checkbox 'complete' marcado
+    completeCheckbox.checked = true;
+  }
+});
+
+// Adicione ouvintes de evento de clique aos checkboxes 'sine' e 'line'
+sineCheckbox.addEventListener('click', function() {
+  // Verifique se o checkbox 'sine' está marcado
+  if (sineCheckbox.checked) {
+    // Se estiver marcado, desmarque o checkbox 'complete'
+    completeCheckbox.checked = false;
+  } else if (!lineCheckbox.checked) {
+    // Se nenhum dos checkboxes 'sine' e 'line' estiver marcado, mantenha o checkbox 'sine' marcado
+    sineCheckbox.checked = true;
+  }
+});
+
+lineCheckbox.addEventListener('click', function() {
+  // Verifique se o checkbox 'line' está marcado
+  if (lineCheckbox.checked) {
+    // Se estiver marcado, desmarque o checkbox 'complete'
+    completeCheckbox.checked = false;
+  } else if (!sineCheckbox.checked) {
+    // Se nenhum dos checkboxes 'sine' e 'line' estiver marcado, mantenha o checkbox 'line' marcado
+    lineCheckbox.checked = true;
+  }
 });
 
 
 //Enquanto não houver arquivo para ser enviado, o submit fica desativado
-//Selecionando o elemento input type="file"
 const fileInput = document.getElementById('inputdata');
-
-//Selecionar o botão de envio
+const emailInput = document.getElementById('email');
 const submitButton = document.getElementById('uploaddata');
 
-//Verificando se o arquivo foi selecionado
-fileInput.addEventListener('change', function() {
-  if (fileInput.files.length > 0) {
-    submitButton.disabled = false;
-  } else {
-    submitButton.disabled = true;
-  }
-});
+// Adicione um ouvinte de evento de entrada ao campo de email e ao campo de arquivo
+emailInput.addEventListener('input', validateInputs);
+fileInput.addEventListener('change', validateInputs);
+
+// Função para verificar o formato de email válido
+function isValidEmail(email) {
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return emailRegex.test(email);
+}
+
+// Função para validar ambos os campos
+function validateInputs() {
+  const isEmailValid = isValidEmail(emailInput.value);
+  const isFileSelected = fileInput.files.length > 0;
+
+  // Habilitar ou desabilitar o botão Submit com base nas condições
+  submitButton.disabled = !(isEmailValid && isFileSelected);
+}
 
 //SINE e LINE
 //Selecionando os elementos inputs
@@ -195,8 +203,8 @@ const loaddataButton = document.getElementById('loaddata');
 tepFileNameInput.addEventListener('input', function() {
   const value = tepFileNameInput.value.trim();
   
-  // Verificar se o campo de entrada tem exatamente 9 caracteres e os dois últimos são 'tp'
-  if (value.length === 9 && value.slice(-2) === 'tp') {
+  // Verificar se o campo de entrada tem exatamente 24 caracteres
+  if (value.length === 24) {
     //Se a condição for atendida, habilitar o botão de download
     loaddataButton.disabled = false;
   } else {
@@ -210,26 +218,127 @@ tepFileNameInput.addEventListener('input', function() {
 
 
 //------------------  Script para o Flask ---------------//
-var carregardados = document.getElementById("uploaddata");
+// var carregardados = document.getElementById("uploaddata");
 
-carregardados.addEventListener("click", function() {
-	//Obtendo o arquivo de entrada
-	var arquivoInput = document.getElementById('inputdata');
-	var emailInput = document.getElementById('email');
+// carregardados.addEventListener("click", function() {
+// 	//Obtendo o arquivo de entrada
+// 	var arquivoInput = document.getElementById('inputdata');
+// 	var emailInput = document.getElementById('email');
 
-	//Obtendo arquivo selecionado pelo usuário
+// 	//Obtendo arquivo selecionado pelo usuário
+// 	var arquivo = arquivoInput.files[0];
+// 	var email = emailInput.value;
+// 	console.log(arquivo);
+// 	console.log(email);
+
+// 	//Cria um objeto FormData e adiciona o arquivo a ele
+// 	var data = new FormData();
+// 	data.append('file', arquivo);
+// 	data.append('email', email);
+
+// 	//Requisitando o servidor
+// 	fetch('/complete-annotation', {
+// 		method: 'POST',
+// 		body: data
+// 	}).then(response => {
+// 		//redireciona o usuário a página de sucesso
+// 		console.log("Enviado");
+// 	}).catch(error => {
+// 		console.error(error);
+// 	});
+
+
+// 	const inputfile = document.getElementById('inputdata');
+// 	const fileName = document.getElementById('fileNameInput');
+// 	inputfile.value = '';
+// 	fileName.value = '';
+// 	emailInput.value = '';
+// });
+
+function getFileAndEmail() {
+  //Obtendo arquivo selecionado pelo usuário
+ 	var arquivoInput = document.getElementById('inputdata');
+ 	var emailInput = document.getElementById('email');
+
 	var arquivo = arquivoInput.files[0];
 	var email = emailInput.value;
-	console.log(arquivo);
-	console.log(email);
 
-	//Cria um objeto FormData e adiciona o arquivo a ele
-	var data = new FormData();
-	data.append('file', arquivo);
-	data.append('email', email);
+  return { arquivo, email };
+}
 
-	//Requisitando o servidor
-	fetch('/loading', {
+const uploaddate = document.getElementById('uploaddata');
+const sineCheck = document.getElementById('sine');
+const lineCheck = document.getElementById('line');
+const completeCheck = document.getElementById('complete');
+
+// Adicionado um evento de clique ao botão 'Submit'
+uploaddate.addEventListener('click', function () {
+  // Verifcando o estado das checkboxes
+  const isSineChecked = sineCheck.checked;
+  const isLineChecked = lineCheck.checked;
+  const isCompleteChecked = completeCheck.checked;
+
+  // Lógica para determinar quais funções chamar com base nas condições
+  if (isSineChecked && !isLineChecked && !isCompleteChecked) {
+    execute_annotationSINE();
+  } else if (!isSineChecked && isLineChecked && !isCompleteChecked) {
+    execute_annotationLine();
+  } else if (isSineChecked && isLineChecked && !isCompleteChecked) {
+    execute_annotationSINE_LINE();
+  } else if (!isSineChecked && !isLineChecked && isCompleteChecked) {
+    execute_annotationCOMPLETE();
+  } else {
+    console.error('Condição inválida');
+  }
+
+  const inputfile = document.getElementById('inputdata');
+	const fileName = document.getElementById('fileNameInput');
+	inputfile.value = '';
+	fileName.value = '';
+	emailInput.value = '';
+  sineCheckbox.checked = true;
+  lineCheckbox.checked = false;
+  completeCheckbox.checked = false;
+  uploaddate.setAttribute("disabled", "disabled");
+});
+
+// Função para ativar apenas a anotação dos elementos SINE
+function execute_annotationSINE() {
+  console.log('Função execute_annotationSINE');
+  const { arquivo, email } = getFileAndEmail();
+  
+  //Cria um objeto FormData e adiciona o arquivo a ele
+ 	var data = new FormData();
+ 	data.append('file', arquivo);
+ 	data.append('email', email);
+  console.log(arquivo);
+  console.log(email);
+
+  //Requisitando o servidor
+	fetch('/sine-annotation', {
+		method: 'POST',
+		body: data
+	}).then(response => {
+		//redireciona o usuário a página de sucesso
+		console.log("Enviado");
+	}).catch(error => {
+		console.error(error);
+	});
+}
+
+function execute_annotationLine() {
+  console.log('Função execute_annotationLine');
+  const { arquivo, email } = getFileAndEmail();
+  
+  //Cria um objeto FormData e adiciona o arquivo a ele
+ 	var data = new FormData();
+ 	data.append('file', arquivo);
+ 	data.append('email', email);
+  console.log(arquivo);
+  console.log(email);
+
+  //Requisitando o servidor
+	fetch('/line-annotation', {
 		method: 'POST',
 		body: data
 	}).then(response => {
@@ -239,10 +348,49 @@ carregardados.addEventListener("click", function() {
 		console.error(error);
 	});
 
+}
 
-	const inputfile = document.getElementById('inputdata');
-	const fileName = document.getElementById('fileNameInput');
-	inputfile.value = '';
-	fileName.value = '';
-	emailInput.value = '';
-});
+function execute_annotationSINE_LINE() {
+  console.log('Função execute_annotationSINE_LINE');
+  const { arquivo, email } = getFileAndEmail();
+
+  //Cria um objeto FormData e adiciona o arquivo a ele
+   var data = new FormData();
+   data.append('file', arquivo);
+   data.append('email', email);
+   console.log(arquivo);
+   console.log(email);
+
+  //Requisitando o servidor
+	fetch('/sineline-annotation', {
+		method: 'POST',
+		body: data
+	}).then(response => {
+		//redireciona o usuário a página de sucesso
+		console.log("Enviado");
+	}).catch(error => {
+		console.error(error);
+	});
+}
+
+function execute_annotationCOMPLETE() {
+  console.log('Função execute_annotation_complete');
+  const { arquivo, email } = getFileAndEmail();
+  //Cria um objeto FormData e adiciona o arquivo a ele
+  var data = new FormData();
+  data.append('file', arquivo);
+  data.append('email', email);
+  console.log(arquivo);
+  console.log(email);
+
+  //Requisitando o servidor
+	fetch('/complete-annotation', {
+		method: 'POST',
+		body: data
+	}).then(response => {
+		//redireciona o usuário a página de sucesso
+		console.log("Enviado");
+	}).catch(error => {
+		console.error(error);
+	});
+}

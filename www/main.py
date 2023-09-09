@@ -5,16 +5,13 @@ import subprocess
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
 from flask_pymongo import PyMongo
-from extensions.annotation import annoSINE, annoLINE, annoMSC, annoTREE
+from extensions.annotation import annotation_elementSINE, annotation_elementLINE, merge_SINE_LINE, create_phylogeny
 from extensions.compact import zip_folder, tar_folder
 
 #Definindo local dos arquivos
 #ambientes
 CONDA = os.environ['CONDA_PREFIX']
-HOME = os.environ['HOME']
-
-#principal
-UPLOAD_FOLDER = os.path.join(HOME, 'TEs')
+UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
 #temporárias
 TEMPSL_FOLDER = os.path.join(UPLOAD_FOLDER, 'Temp', 'sine-line')
@@ -31,25 +28,14 @@ EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 #Extensões que serão permitidas
 ALLOWED_EXTENSIONS = {'fasta'}
 
-# Gere uma chave secreta aleatória
-#secret_key = os.urandom(24)
-# Converta a chave em uma string hexadecimal
-#secret_key_hex = secret_key.hex()
-# Exiba a chave secreta
-#print(f"Secret Key: {secret_key_hex}")
-
 #configurando ambiente flask
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
-#app.secret_key = secret_key_hex
-#app.config["MONGO_URI"] = "mongodb+srv://marcoscosta:xMhvCuaHWyuwoPy5@cluster-tep.qznvfsw.mongodb.net/AnnoTEP?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 
 @app.route("/")
 def index():
-    #online_users = mongo.db.users.find({"online": True})
-    #mongo.db.invetory.insert_one({"teste":1})
     return render_template("index.html")
 
 #Verifica se a extensão é válida e depois redireciona o usuário para a URL
@@ -57,8 +43,8 @@ def allowed_file(filename):
     return '.' in filename and \
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/loading', methods=['GET','POST'])
-def upload_file():
+@app.route('/complete-annotation', methods=['GET','POST'])
+def upload_file_for_complete_annotation():
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form.get('email')
@@ -67,9 +53,9 @@ def upload_file():
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
+
         file = request.files['file']
-        #Se o usuário selecionar um arquivo, o navegador enviará um
-        #Arquivo vazio sem um nome de arquivo
+        
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
@@ -79,69 +65,33 @@ def upload_file():
             filename = secure_filename(file.filename)
            
             #-------------- Processo de nomeação dos dados -------------------
-            #Gerando quatro números randomicos para renomear o arquivo enviado
             random_numbers = [str(random.randint(0,9)) for i in range(4)]
 
-            #Salvando nome e extensão para não perde-los durante processo
             filename, extension = os.path.splitext(file.filename)
             new_filename = f'{filename}_{"".join(random_numbers)}{extension}'
-           
-            #criando a pasta para armazenar dados SINE
             folderSINE =f'{filename[:2]}_{"".join(random_numbers)}'
-
-            #Nome para Seed_SINE
             seedSINE =f'{filename}_{"".join(random_numbers)}-Seed_SINE.fa'
-
-            #criando pasta para armazenamento dos dados LINE
             folderLINE = f'{folderSINE}-LINE'
             resultsLINE = f'{folderLINE}-results'
-
-            #recebendo nome do para o arquivo lib da anotação LINE
             libLINE = f'{folderSINE}-LINE-lib.fa'
-
-            #Criando a pasta que irá conter a Mesclagem do seedSINE e libLINE
             folderEDTA = f'Anno-{folderSINE}'
-
-            #Salvando arquivo recebido
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
 
             #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
-            os.chdir(TEMPSL_FOLDER)
-            cmdtemp = f""" mkdir {folderSINE} """
-            process = subprocess.Popen(cmdtemp, shell=True, executable='/bin/bash')
-            process.wait()
-
+            tempsl_folder = os.path.join(TEMPSL_FOLDER, folderSINE)
+            os.makedirs(tempsl_folder)
 
             #----------- Funções chamando os comandos do pipeline ------------------
             #Registro de erro
             e = "Dados não fornecidos ou não disponíveis"
 
-	        # 1° processo - anotação dos elementos SINE
             try:
-                annoSINE(new_filename, folderSINE, seedSINE)
+                annotation_elementSINE(new_filename, folderSINE, seedSINE)
+                annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE)
+                merge_SINE_LINE(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, libLINE)
+                create_phylogeny(new_filename, folderEDTA)
             except subprocess.CalledProcessError as e:
-                flash(f'Annotation SINE failed with error: {e}')
-                return redirect(request.url)
-
-            # 2° processo - anotação dos elementos LINE
-            try:
-                annoLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE)
-            except:
-                flash(f'Annotation LINE failde with error: {e}')
-                return redirect(request.url)
-            
-            # 3° processo - mesclagem dos dados SINEs e LINEs
-            try:
-                annoMSC(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, libLINE)
-            except:
-                flash(f'Annotation Complete  failde with error: {e}')
-                return redirect(request.url)
-
-            #Criação da filogenia e densidade
-            try:
-                annoTREE(new_filename, folderEDTA)
-            except:
-                flash(f'Annotation Complete  failde with error: {e}')
+                flash(f'Annotation failed with error: {e}')
                 return redirect(request.url)
 
             #Informando as pastas criadas
@@ -154,22 +104,30 @@ def upload_file():
             #------------------ Compactando os dados SINE e LINE ----------------
             #Adiconado pasta de armazenamento temporário para receber os dados compactados
             #folderSINE = 'A._2639'
+            
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.makedirs(tempcom_folder)
 
-            os.chdir(TEMPCOM_FOLDER)
-            cmdtemp = f""" mkdir {folderSINE} """
-            process = subprocess.Popen(cmdtemp, shell=True, executable='/bin/bash')
-            process.wait()
+            origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
+            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE')
+            zip_folder(origin_folderSINE, dest_zipSINE)
+            tar_folder(origin_folderSINE, dest_zipSINE)
 
-            origin_folder = os.path.join(SINE_FOLDER, 'temp', folderSINE)
-            dest_zip = os.path.join(TEMPCOM_FOLDER, folderSINE, folderSINE)
-            zip_folder(origin_folder, dest_zip)
-            tar_folder(origin_folder, dest_zip)
+            origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
+            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE')
+            zip_folder(origin_folderLINE, dest_zipLINE)
+            tar_folder(origin_folderLINE, dest_zipLINE)
 
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}.zip'), "rb") as zip_file:
-                zip_data = zip_file.read()
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}.tar.gz'), "rb") as tar_file:
-                tar_data = tar_file.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE.zip'), "rb") as zip_fileSINE:
+                zip_dataSINE = zip_fileSINE.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE.tar.gz'), "rb") as tar_fileSINE:
+                tar_dataSINE = tar_fileSINE.read()
+            
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE.zip'), "rb") as zip_fileLINE:
+                zip_dataLINE = zip_fileLINE.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE.tar.gz'), "rb") as tar_fileLINE:
+                tar_dataLINE = tar_fileLINE.read()
         
             # Leitura de arquivo TREE SVG
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TREE', 'LTR_RT-Tree1.svg'), "rb") as file_tree1:
@@ -192,18 +150,32 @@ def upload_file():
                 "anno-data": folderEDTA
             })
 
-            mongo.db.compactzip.insert_one({
+            mongo.db.zipSINE.insert_one({
                  "key": key_security,
                  "email": email,
-                 "zip-name": (f'{folderSINE}.zip'),
-                 "zip-file": zip_data
+                 "zip-sine-name": (f'{folderSINE}-SINE.zip'),
+                 "zip-sine-file": zip_dataSINE
             })
 
-            mongo.db.compacttar.insert_one({
+            mongo.db.tarSINE.insert_one({
                  "key": key_security,
                  "email": email,
-                 "tar-name": (f'{folderSINE}.tar.gz'),
-                 "tar-file": tar_data
+                 "tar-sine-name": (f'{folderSINE}-SINE.tar.gz'),
+                 "tar-sine-file": tar_dataSINE
+            })
+
+            mongo.db.zipLINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "zip-line-name": (f'{folderSINE}-LINE.zip'),
+                 "zip-line-file": zip_dataLINE
+            })
+
+            mongo.db.tarLINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "tar-line-name": (f'{folderSINE}-LINE.tar.gz'),
+                 "tar-line-file": tar_dataLINE
             })
 
             mongo.db.files.insert_one({
@@ -216,8 +188,338 @@ def upload_file():
             return render_template("index.html")        
     return render_template("index.html")
 
+
+@app.route('/sine-annotation', methods=['GET','POST'])
+def upload_file_for_sine_annotation():
+    if request.method == 'POST':
+        if 'email' in request.form:
+            email = request.form.get('email')
+
+        #Verificando se a solicitação de postagem tem a parte do arquivo
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+        
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            #secure_filename() verificar se um inject foi aplicado, se o arquivo conter ../ será alterado para: " " ou "_"
+            filename = secure_filename(file.filename)
+           
+            #-------------- Processo de nomeação dos dados -------------------
+            random_numbers = [str(random.randint(0,9)) for i in range(4)]
+
+            filename, extension = os.path.splitext(file.filename)
+            new_filename = f'{filename}_{"".join(random_numbers)}{extension}'
+            folderSINE =f'{filename[:2]}_{"".join(random_numbers)}'
+            seedSINE =f'{filename}_{"".join(random_numbers)}-Seed_SINE.fa'
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
+
+            #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
+            tempsl_folder = os.path.join(TEMPSL_FOLDER, folderSINE)
+            os.makedirs(tempsl_folder)
+
+            #----------- Funções chamando os comandos do pipeline ------------------
+            #Registro de erro
+            e = "Dados não fornecidos ou não disponíveis"
+
+            try:
+                annotation_elementSINE(new_filename, folderSINE, seedSINE)
+            except subprocess.CalledProcessError as e:
+                flash(f'Annotation failed with error: {e}')
+                return redirect(request.url)
+
+            #Informando as pastas criadas
+            print("Pasta criada para armazenamento dos dados SINE: ", folderSINE)
+            print("")
+
+
+            #------------------ Compactando os dados SINE e LINE ----------------
+            #Adiconado pasta de armazenamento temporário para receber os dados compactados
+            
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.chdir(TEMPCOM_FOLDER)
+
+            origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
+            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE')
+
+            zip_folder(origin_folderSINE, dest_zipSINE)
+            tar_folder(origin_folderSINE, dest_zipSINE)
+
+            #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE.zip'), "rb") as zip_fileSINE:
+                zip_dataSINE = zip_fileSINE.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE.tar.gz'), "rb") as tar_fileSINE:
+                tar_dataSINE = tar_fileSINE.read()
+
+            #--------------------Trabalhando com BD -----------------------------
+            #Criando uma chave para o usuário busca dados
+            secret_key = os.urandom(24)
+            # Converta a chave em uma string hexadecimal
+            key_security = secret_key.hex()
+
+            #banco de dados mongodb
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "genome-name": filename,
+                "email": email,
+                "data": folderSINE,
+                "anno-data": 'null'
+            })
+
+            mongo.db.zipSINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "zip-sine-name": (f'{folderSINE}-SINE.zip'),
+                 "zip-sine-file": zip_dataSINE
+            })
+
+            mongo.db.tarSINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "tar-sine-name": (f'{folderSINE}-SINE.tar.gz'),
+                 "tar-sine-file": tar_dataSINE
+            })
+
+            return render_template("index.html")        
+    return render_template("index.html")
+
+@app.route('/line-annotation', methods=['GET','POST'])
+def upload_file_for_line_annotation():
+    if request.method == 'POST':
+        if 'email' in request.form:
+            email = request.form.get('email')
+
+        #Verificando se a solicitação de postagem tem a parte do arquivo
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+        
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            #secure_filename() verificar se um inject foi aplicado, se o arquivo conter ../ será alterado para: " " ou "_"
+            filename = secure_filename(file.filename)
+           
+            #-------------- Processo de nomeação dos dados -------------------
+            random_numbers = [str(random.randint(0,9)) for i in range(4)]
+
+            filename, extension = os.path.splitext(file.filename)
+            new_filename = f'{filename}_{"".join(random_numbers)}{extension}'
+            folderSINE =f'{filename[:2]}_{"".join(random_numbers)}'
+            folderLINE = f'{folderSINE}-LINE'
+            resultsLINE = f'{folderLINE}-results'
+            libLINE = f'{folderSINE}-LINE-lib.fa'
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
+
+            #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
+            tempsl_folder = os.path.join(TEMPSL_FOLDER, folderSINE)
+            os.makedirs(tempsl_folder)
+
+            #----------- Funções chamando os comandos do pipeline ------------------
+            #Registro de erro
+            e = "Dados não fornecidos ou não disponíveis"
+
+            try:
+                annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE)
+            except subprocess.CalledProcessError as e:
+                flash(f'Annotation failed with error: {e}')
+                return redirect(request.url)
+
+            #Informando as pastas criadas
+            print("Pasta criada para armazenamento dos dados LINE: ", folderLINE)
+            print("")
+
+
+            #------------------ Compactando os dados SINE e LINE ----------------
+            #Adiconado pasta de armazenamento temporário para receber os dados compactados
+            
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.makedirs(tempcom_folder)
+
+            origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
+            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE')
+            zip_folder(origin_folderLINE, dest_zipLINE)
+            tar_folder(origin_folderLINE, dest_zipLINE)
+
+            #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE.zip'), "rb") as zip_fileLINE:
+                zip_dataLINE = zip_fileLINE.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE.tar.gz'), "rb") as tar_fileLINE:
+                tar_dataLINE = tar_fileLINE.read()
+
+            #--------------------Trabalhando com BD -----------------------------
+            #Criando uma chave para o usuário busca dados
+            secret_key = os.urandom(24)
+            # Converta a chave em uma string hexadecimal
+            key_security = secret_key.hex()
+
+            #banco de dados mongodb
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "genome-name": filename,
+                "email": email,
+                "data": folderSINE,
+                "anno-data": 'null'
+            })
+
+            mongo.db.zipLINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "zip-line-name": (f'{folderSINE}-LINE.zip'),
+                 "zip-line-file": zip_dataLINE
+            })
+
+            mongo.db.tarLINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "tar-line-name": (f'{folderSINE}-LINE.tar.gz'),
+                 "tar-line-file": tar_dataLINE
+            })
+
+            return render_template("index.html")        
+    return render_template("index.html")
+
+@app.route('/sineline-annotation', methods=['GET','POST'])
+def upload_file_for_sineline_annotation():
+    if request.method == 'POST':
+        if 'email' in request.form:
+            email = request.form.get('email')
+
+        #Verificando se a solicitação de postagem tem a parte do arquivo
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+        
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            #secure_filename() verificar se um inject foi aplicado, se o arquivo conter ../ será alterado para: " " ou "_"
+            filename = secure_filename(file.filename)
+           
+            #-------------- Processo de nomeação dos dados -------------------
+            random_numbers = [str(random.randint(0,9)) for i in range(4)]
+
+            filename, extension = os.path.splitext(file.filename)
+            new_filename = f'{filename}_{"".join(random_numbers)}{extension}'
+            folderSINE =f'{filename[:2]}_{"".join(random_numbers)}'
+            seedSINE =f'{filename}_{"".join(random_numbers)}-Seed_SINE.fa'
+            folderLINE = f'{folderSINE}-LINE'
+            resultsLINE = f'{folderLINE}-results'
+            libLINE = f'{folderSINE}-LINE-lib.fa'
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
+
+            #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
+            tempsl_folder = os.path.join(TEMPSL_FOLDER, folderSINE)
+            os.makedirs(tempsl_folder)
+
+            #----------- Funções chamando os comandos do pipeline ------------------
+            #Registro de erro
+            e = "Dados não fornecidos ou não disponíveis"
+
+            try:
+                annotation_elementSINE(new_filename, folderSINE, seedSINE)
+                annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE)
+            except subprocess.CalledProcessError as e:
+                flash(f'Annotation failed with error: {e}')
+                return redirect(request.url)
+
+            #Informando as pastas criadas
+            print("Pasta criada para armazenamento dos dados SINE: ", folderSINE)
+            print("Pasta criada para armazenamento dos dados LINE: ", folderLINE)
+            print("")
+
+
+            #------------------ Compactando os dados SINE e LINE ----------------
+            #Adiconado pasta de armazenamento temporário para receber os dados compactados
+            #folderSINE = 'A._2639'
+            
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.makedirs(tempcom_folder)
+
+            origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
+            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE')
+            zip_folder(origin_folderSINE, dest_zipSINE)
+            tar_folder(origin_folderSINE, dest_zipSINE)
+
+            origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
+            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE')
+            zip_folder(origin_folderLINE, dest_zipLINE)
+            tar_folder(origin_folderLINE, dest_zipLINE)
+
+            #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE.zip'), "rb") as zip_fileSINE:
+                zip_dataSINE = zip_fileSINE.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-SINE.tar.gz'), "rb") as tar_fileSINE:
+                tar_dataSINE = tar_fileSINE.read()
+            
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE.zip'), "rb") as zip_fileLINE:
+                zip_dataLINE = zip_fileLINE.read()
+            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{folderSINE}-LINE.tar.gz'), "rb") as tar_fileLINE:
+                tar_dataLINE = tar_fileLINE.read()
+
+            #--------------------Trabalhando com BD -----------------------------
+            #Criando uma chave para o usuário busca dados
+            secret_key = os.urandom(24)
+            # Converta a chave em uma string hexadecimal
+            key_security = secret_key.hex()
+
+            #banco de dados mongodb
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "genome-name": filename,
+                "email": email,
+                "data": folderSINE,
+                "anno-data": 'null'
+            })
+
+            mongo.db.zipSINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "zip-sine-name": (f'{folderSINE}-SINE.zip'),
+                 "zip-sine-file": zip_dataSINE
+            })
+
+            mongo.db.tarSINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "tar-sine-name": (f'{folderSINE}-SINE.tar.gz'),
+                 "tar-sine-file": tar_dataSINE
+            })
+
+            mongo.db.zipLINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "zip-line-name": (f'{folderSINE}-LINE.zip'),
+                 "zip-line-file": zip_dataLINE
+            })
+
+            mongo.db.tarLINE.insert_one({
+                 "key": key_security,
+                 "email": email,
+                 "tar-line-name": (f'{folderSINE}-LINE.tar.gz'),
+                 "tar-line-file": tar_dataLINE
+            })
+
+            return render_template("index.html")        
+    return render_template("index.html")
+
+
 @app.route("/results")
 def results():
     return "results"
+
 if __name__ == "__main__":
     app.run(debug=True)

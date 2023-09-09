@@ -4,10 +4,9 @@ import os
 #Definindo local dos arquivos
 #ambientes
 CONDA = os.environ['CONDA_PREFIX']
-HOME = os.environ['HOME']
 
 #principal
-UPLOAD_FOLDER = os.path.join(HOME, 'TEs')
+UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
 #temporárias
 TEMPSL_FOLDER = os.path.join(UPLOAD_FOLDER, 'Temp', 'sine-line')
@@ -22,7 +21,7 @@ EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
  
 #Funções de processo do pipeline
 #Anotação do elemento SINE
-def annoSINE(new_filename, folderSINE, seedSINE):
+def annotation_elementSINE(new_filename, folderSINE, seedSINE):
     print("Anotação SINE iniciada...")
 
     os.chdir(SINE_FOLDER)
@@ -41,7 +40,7 @@ def annoSINE(new_filename, folderSINE, seedSINE):
     print("")
 
 #Anotação LINE
-def annoLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE):
+def annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE):
     print("Anotação LINE iniciada...")
 
     os.chdir(NONLTR_FOLDER)
@@ -104,7 +103,7 @@ def annoLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE):
     print("Anotação LINE finalizado")
     print("")
 
-def annoMSC(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, libLINE):
+def merge_SINE_LINE(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, libLINE):
     print("Processo de mesclagem iniciado, análise com pipeline EDTA")
 
     os.chdir(EDTA_FOLDER)
@@ -178,7 +177,7 @@ def annoMSC(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, libLINE)
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
     process.wait()
 
-def annoTREE(new_filename, folderEDTA):
+def create_phylogeny(new_filename, folderEDTA):
     print("Criando arvores iniciada...")
 
     os.chdir(TEMPANNO_FOLDER)
