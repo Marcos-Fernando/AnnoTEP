@@ -14,8 +14,10 @@ O AnnoTEP encontra-se em sua fase de prototipagem e oferecerá uma versão basea
 * Geração de gráficos apresentando a idade dos elementos Gypsy e Copia
 * Geração de gráfico da filogenia e densidade dos TEs
 
+## Instalação local
 ## Prerequisitos
 [Python 3.7+](https://www.python.org/)
+
 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
 
 ### Criação do ambiente
@@ -54,9 +56,16 @@ E por último, a variável <b>FLASK_ENV</b> definirá o tipo de ambiente projeto
 
 Outras informações sobre as váriaveis de desenvolvimento poderá ser encontrado no site do [Flask](https://flask.palletsprojects.com/en/2.3.x/cli/#dotenv)
 
-Em seu bashrc adicione os comandos:
+Em sua área de trabalho abra o terminal/cmd e digite:
+```sh
+vim ./bashrc
+```
+
+E adicione os comandos ao final do documento as variáveis:
 ```sh
 export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH"
 export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH"
 export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH"
 ```
+
+Dica para usar o vim: aperte a tecla ``i`` para inserir informações e ir até o final do documento, ``ctrl+shift+v`` para colar,  ``esc`` para sair da edição, digite ``:wq`` e depois clique ``enter``para salvar e sair
