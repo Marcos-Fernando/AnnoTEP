@@ -15,7 +15,8 @@ O AnnoTEP encontra-se em sua fase de prototipagem e oferecerá uma versão basea
 * Geração de gráfico da filogenia e densidade dos TEs
 
 ## Prerequisitos
-Python 3.7+
+[Python 3.7+](https://www.python.org/)
+[Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
 
 ### Criação do ambiente
 Dentro da pasta www crie o ambiente de desenvolvimento:
