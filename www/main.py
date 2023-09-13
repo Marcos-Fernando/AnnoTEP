@@ -4,6 +4,7 @@ import random
 import subprocess
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, flash, url_for, send_from_directory, jsonify
+from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from extensions.annotation import annotation_elementSINE, annotation_elementLINE, merge_SINE_LINE, create_phylogeny
 from extensions.compact import zip_folder, tar_folder
@@ -34,9 +35,36 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MONGO_URI'] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
 
+#ambiente para envio de email
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'annoteps@gmail.com'
+app.config['MAIL_PASSWORD'] = 'ioqh hqbi frpo yuuq'
+
+mail = Mail(app)
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
+def send_email_checking(email):
+    msg_title = "Email de verificação"
+    sender = "noreply@app.com"
+    msg = Message(msg_title, sender=sender, recipients=[email])
+    msg.body = "Este é o email de verificação"
+
+    mail.send(msg)
+
+def send_email_complete_annotation(email):
+    msg_title = "Anotação completa"
+    sender = "noreply@app.com"
+    msg = Message(msg_title, sender=sender, recipients=[email])
+    msg.body = "Email contendo link de acesso aos resultados"
+
+    mail.send(msg)
+
 
 #Verifica se a extensão é válida e depois redireciona o usuário para a URL
 def allowed_file(filename):
@@ -48,6 +76,7 @@ def upload_file_for_complete_annotation():
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form.get('email')
+            send_email_checking(email)
 
         #Verificando se a solicitação de postagem tem a parte do arquivo
         if 'file' not in request.files:
@@ -185,6 +214,7 @@ def upload_file_for_complete_annotation():
                  "file-Tree-2": svg_tree2
             })
 
+            send_email_complete_annotation(email)
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -194,6 +224,7 @@ def upload_file_for_sine_annotation():
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form.get('email')
+            send_email_checking(email)
 
         #Verificando se a solicitação de postagem tem a parte do arquivo
         if 'file' not in request.files:
@@ -285,6 +316,7 @@ def upload_file_for_sine_annotation():
                  "tar-sine-file": tar_dataSINE
             })
 
+            send_email_complete_annotation(email)
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -293,6 +325,7 @@ def upload_file_for_line_annotation():
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form.get('email')
+            send_email_checking(email)
 
         #Verificando se a solicitação de postagem tem a parte do arquivo
         if 'file' not in request.files:
@@ -385,6 +418,7 @@ def upload_file_for_line_annotation():
                  "tar-line-file": tar_dataLINE
             })
 
+            send_email_complete_annotation(email)
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -393,6 +427,7 @@ def upload_file_for_sineline_annotation():
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form.get('email')
+            send_email_checking(email)
 
         #Verificando se a solicitação de postagem tem a parte do arquivo
         if 'file' not in request.files:
@@ -513,6 +548,7 @@ def upload_file_for_sineline_annotation():
                  "tar-line-file": tar_dataLINE
             })
 
+            send_email_complete_annotation(email)
             return render_template("index.html")        
     return render_template("index.html")
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/process-complete.css') }}" /> 
+    <title>TEP - Status Job </title>
+</head>
+<body>
+	<header>
+		<section class="container-header">
+			<img class="logo" src="static/assets/logo.svg" alt="Logo TEP"/>
+
+			<nav class="navigating">
+				<div class="box-icon">
+					<img class="nav-icon" src="static/assets/icon_download.svg"/>
+					<a class="link" href=""> Download </a>
+				</div>
+				<div class="box-icon">
+					<img class="nav-icon" src="static/assets/icon_info.svg"/>
+					<a class="link" href=""> About </a>
+				</div>
+				<div class="box-icon">
+					<img class="nav-icon" src="static/assets/icon_message.svg"/>
+					<a class="link" href=""> Help </a>
+				</div>
+				<div class="box-icon">
+					<img class="nav-icon" src="static/assets/icon_question.svg"/>
+					<a class="link" href=""> Contact </a>
+				</div>
+			</nav>
+		</section>
+	</header>
+	<main>
+		<section class="container-main">
+			<div class="container-notification">
+				<p class="session-title">
+					Annotation and analysis process
+					<img class="icon-help" src="static/assets/help.svg"/>
+				</p>
+				<div class="box-information">
+					<p>The annotation process has started</p>
+					<p>A confirmation email has been sent to your inbox containing further instructions.</p>
+				</div>
+			</div>
+		</section>
+
+		<div class="footer-notice">
+			<a>Important: </a>
+			If you did not provide an email address, please bookmark this page so you can access your TE results later. If you specified an email address on the job submission page, you will be notified by email once the job is complete. Running TE on a complete genome will take a couple of hours, and depending on the server load it will take a while for your job to start.</div>
+	</main>
+
+	<footer>
+		<div class="cite-us">If you have found TE useful, please <a href=""> cite us </a>.</div>
+	</footer>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='process-complete.js') }}"></script> 
+</body>
+</html>
+
