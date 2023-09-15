@@ -4,9 +4,10 @@ import random
 import subprocess
 
 import base64
+import zipfile
 
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, Response
 from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from extensions.annotation import annotation_elementSINE, annotation_elementLINE, merge_SINE_LINE, create_phylogeny
@@ -585,24 +586,59 @@ def results(key_security):
 
     # Recupere informações relevantes do usuário
     email = user_info["email"]
-
     files_info = mongo.db.files.find_one({"key": key_security})
-    
-    zipsine_info = mongo.db.zipsine.find_one({"key": key_security})
-    zipline_info = mongo.db.zipline.find_one({"key": key_security})
 
-    zip_sine_file = zipsine_info.get("zip-sine-file")
-    zip_line_file = zipline_info.get("zip-line-file")
+    sine_file = f"/download_zip_sine/{key_security}"
+    line_file = f"/download_zip_line/{key_security}"
 
     svg_tree1 = base64.b64encode(files_info.get("file-Tree-1")).decode('utf-8')
     svg_tree2 = base64.b64encode(files_info.get("file-Tree-2")).decode('utf-8')
 
     # Renderize o template HTML passando as informações relevantes
-    return render_template("results.html", email=email, 
-                           zip_sine_file=zip_sine_file, 
-                           zip_line_file=zip_line_file, 
+    return render_template("results.html", 
+                           email=email, 
+                           zip_sine_file=sine_file, 
+                           zip_line_file=line_file, 
                            svg_tree1=svg_tree1, 
                            svg_tree2=svg_tree2)
+
+@app.route("/download_zip_sine/<key_security>")
+def download_zip_sine(key_security):
+    # Consulte o banco de dados para obter os dados binários do arquivo ZIP SINE
+    zipsine_info = mongo.db.zipsine.find_one({"key": key_security})
+    
+    if zipsine_info is not None:
+        # Crie um objeto BytesIO para armazenar o arquivo ZIP
+        zip_data = zipsine_info.get("zip-sine-file")
+        zip_name = zipsine_info.get("zip-sine-name")
+        zip_buffer = io.BytesIO(zip_data)
+        
+        # Configure o cabeçalho de resposta para o download
+        response = Response(zip_buffer.getvalue(), content_type='application/zip')
+        response.headers['Content-Disposition'] = f'attachment; filename={zip_name}'
+        
+        return response
+    
+    return "Arquivo ZIP SINE não encontrado."
+
+@app.route("/download_zip_line/<key_security>")
+def download_zip_line(key_security):
+    # Consulte o banco de dados para obter os dados binários do arquivo ZIP SINE
+    zipline_info = mongo.db.zipline.find_one({"key": key_security})
+    
+    if zipline_info is not None:
+        # Crie um objeto BytesIO para armazenar o arquivo ZIP
+        zip_data = zipline_info.get("zip-line-file")
+        zip_name = zipline_info.get("zip-line-name")
+        zip_buffer = io.BytesIO(zip_data)
+        
+        # Configure o cabeçalho de resposta para o download
+        response = Response(zip_buffer.getvalue(), content_type='application/zip')
+        response.headers['Content-Disposition'] = f'attachment; filename={zip_name}'
+        
+        return response
+    
+    return "Arquivo ZIP LINE não encontrado."
 
 if __name__ == "__main__":
     app.run(debug=True)
