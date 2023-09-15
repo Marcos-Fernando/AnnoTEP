@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="../static/css/results.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}" />
     <title>TEP - Status Union</title>
 </head>
 <body>
@@ -41,18 +41,24 @@
 			<div class="download">
 				<p> Click on the icons to download the <a>sine</a> or <a>line</a> annotations </p>
 				<div class="container-btn">
-					<button class="btn-box">
-						<div>
-							SINE
-							<img class="icon-box" src="../static/assets/box.svg"/>
-						</div>
-					</button>
-					<button class="btn-box">
-						<div>
-							LINE
-							<img class="icon-box" src="../static/assets/box.svg"/>
-						</div>
-					</button>
+					<a href="{{ zip_sine_file }}" download>
+						<button class="btn-box">
+							<div>
+								SINE
+								<img class="icon-box" src="../static/assets/box.svg"/>
+							</div>
+						</button>
+					</a>
+				
+					<!-- Botão para baixar o arquivo LINE -->
+					<a href="{{ zip_line_file }}" download>
+						<button class="btn-box">
+							<div>
+								LINE
+								<img class="icon-box" src="../static/assets/box.svg"/>
+							</div>
+						</button>
+					</a>
 				</div>
 			</div>
 
@@ -118,10 +124,10 @@
 						<img class="icon-doc" src="../static/assets/icon_document_download.svg"/>
 					</div>
 
-					<img id="ml-phy" class="img-results phylogeny" src="../static/assets/Phylogeny.png"/>
-					<img id="ml-den" class="img-results density" src="../static/assets/Density.png"/>
+					<img id="ml-phy" class="img-results phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}" />
+					<img id="ml-den" class="img-results density" src="data:image/svg+xml;base64,{{ svg_tree2 }}" />
 
-					<!-- <embed id="ml-den" class="img-results density" src="../static/assets/LTR_RT-Tree2.pdf" type="application/pdf"/> -->
+					<!-- <embed id="ml-den" class="img-results density" src="static/assets/LTR_RT-Tree2.pdf" type="application/pdf"/> -->
 
 				</div>
 			</section>
@@ -152,6 +158,6 @@
 		<div class="cite-us">If you have found TE useful, please <a href=""> cite us </a>.</div>
 	</footer>
 
-	<script type="text/javascript" src="../static/results.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='results.js')}}"></script>
 </body>
 </html>
