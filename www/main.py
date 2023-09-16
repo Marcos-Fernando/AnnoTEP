@@ -66,8 +66,8 @@ def send_email_complete_annotation(email, key_security):
     msg_title = "Anotação completa"
     sender = "noreply@app.com"
     msg = Message(msg_title, sender=sender, recipients=[email])
+    result_url = f'http://127.0.0.1:5000/results/{key_security}'
     msg.body = f"Para acessar os resultados, visite o seguinte link: {result_url}"
-    result_url = f'http://127.0.0.1:5000//{key_security}'
 
     mail.send(msg)
 
@@ -110,7 +110,7 @@ def upload_file_for_complete_annotation():
             filename, extension = os.path.splitext(file.filename)
            
             #-------------- Processo de nomeação dos dados -------------------
-            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"data": 1})]
+            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"genome-output": 1})]
             generate_new_name = generate_unique_name(filename, existing_names)
             new_name = generate_new_name
 
@@ -259,7 +259,7 @@ def upload_file_for_sine_annotation():
             filename, extension = os.path.splitext(file.filename)
            
             #-------------- Processo de nomeação dos dados -------------------
-            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"data": 1})]
+            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"genome-output": 1})]
             generate_new_name = generate_unique_name(filename, existing_names)
             new_name = generate_new_name
 
@@ -362,7 +362,7 @@ def upload_file_for_line_annotation():
             filename, extension = os.path.splitext(file.filename)
            
             #-------------- Processo de nomeação dos dados -------------------
-            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"data": 1})]
+            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"genome-output": 1})]
             generate_new_name = generate_unique_name(filename, existing_names)
             new_name = generate_new_name
 
@@ -466,7 +466,7 @@ def upload_file_for_sineline_annotation():
             filename, extension = os.path.splitext(file.filename)
 
             #-------------- Processo de nomeação dos dados -------------------
-            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"data": 1})]
+            existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"genome-output": 1})]
             generate_new_name = generate_unique_name(filename, existing_names)
             new_name = generate_new_name
 
