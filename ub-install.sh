@@ -31,21 +31,30 @@ sudo python3 setup.py install
 python_version=$(python3 --version | awk '{print $2}')
 if [[ "$python_version" == "3.6"* ]]; then
     cd /usr/local/lib/python3.6/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
+    sudo hmmpress REXdb_v3_TIR.hmm
+    sudo hmmpress Yuan_and_Wessler.PNAS.TIR.hmm
+    sudo hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm
+    sudo hmmpress REXdb_protein_database_viridiplantae_v3.0.hmm
+    sudo hmmpress REXdb_protein_database_metazoa_v3.hmm
+    sudo hmmpress Kapitonov_et_al.GENE.LINE.hmm
+    sudo hmmpress GyDB2.hmm
+    sudo hmmpress AnnoSINE.hmm
 elif [[ "$python_version" == "3.10"* ]]; then
     cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/
+    sudo hmmpress REXdb_v3_TIR.hmm
+    sudo hmmpress Yuan_and_Wessler.PNAS.TIR.hmm
+    sudo hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm
+    sudo hmmpress REXdb_protein_database_viridiplantae_v3.0.hmm
+    sudo hmmpress REXdb_protein_database_metazoa_v3.hmm
+    sudo hmmpress Kapitonov_et_al.GENE.LINE.hmm
+    sudo hmmpress GyDB2.hmm
+    sudo hmmpress AnnoSINE.hmm
 else
     echo "Versão do Python não suportada."
     exit 1
 fi
 
-sudo hmmpress REXdb_v3_TIR.hmm
-sudo hmmpress Yuan_and_Wessler.PNAS.TIR.hmm
-sudo hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm
-sudo hmmpress REXdb_protein_database_viridiplantae_v3.0.hmm
-sudo hmmpress REXdb_protein_database_metazoa_v3.hmm
-sudo hmmpress Kapitonov_et_al.GENE.LINE.hmm
-sudo hmmpress GyDB2.hmm
-sudo hmmpress AnnoSINE.hmm
+
 
 # Voltar para o diretório inicial
 cd $HOME/TEs
