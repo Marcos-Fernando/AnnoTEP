@@ -21,7 +21,7 @@ EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
  
 #Funções de processo do pipeline
 #Anotação do elemento SINE
-def annotation_elementSINE(new_filename, folderSINE, seedSINE):
+def annotation_elementSINE(new_filename, folderSINE, new_name, seedSINE):
     print("Anotação SINE iniciada...")
 
     os.chdir(SINE_FOLDER)
@@ -31,7 +31,7 @@ def annotation_elementSINE(new_filename, folderSINE, seedSINE):
 
     python3 AnnoSINE.py 3 {os.path.join(TEMPINPUT_FOLDER, new_filename)} temp/{folderSINE}
     wait
-    cp ./temp/{folderSINE}/Seed_SINE.fa {os.path.join(TEMPSL_FOLDER, folderSINE, seedSINE)}
+    cp ./temp/{folderSINE}/Seed_SINE.fa {os.path.join(TEMPSL_FOLDER, new_name, seedSINE)}
     """
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
     process.wait()
@@ -40,7 +40,7 @@ def annotation_elementSINE(new_filename, folderSINE, seedSINE):
     print("")
 
 #Anotação LINE
-def annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, libLINE):
+def annotation_elementLINE(new_filename, new_name, folderLINE, resultsLINE, libLINE):
     print("Anotação LINE iniciada...")
 
     os.chdir(NONLTR_FOLDER)
@@ -94,7 +94,7 @@ def annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, li
     rm LINE2*
     rm LINE.cls.*
     rm A.txt B.txt clustered.clstr clustered LINE.dom* list2.txt list.txt pre1.fa pre2.fa pre-final2.fa pre-final.fa rename.sh temp.fa ver.sh candidates.fa
-    cp LINE-lib.fa {os.path.join(TEMPSL_FOLDER, folderSINE, libLINE)}
+    cp LINE-lib.fa {os.path.join(TEMPSL_FOLDER, new_name, libLINE)}
     """
 
     process = subprocess.Popen(commands, shell=True, executable='/bin/bash')
@@ -103,7 +103,7 @@ def annotation_elementLINE(new_filename, folderSINE, folderLINE, resultsLINE, li
     print("Anotação LINE finalizado")
     print("")
 
-def merge_SINE_LINE(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, libLINE):
+def merge_SINE_LINE(new_filename, new_name, seedSINE, folderEDTA, libLINE):
     print("Processo de mesclagem iniciado, análise com pipeline EDTA")
 
     os.chdir(EDTA_FOLDER)
@@ -116,7 +116,7 @@ def merge_SINE_LINE(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, 
     mkdir {folderEDTA}
 
     cd {folderEDTA}
-    nohup {EDTA_FOLDER}/EDTA.pl --genome ../../input/{new_filename} --species others --step all --line ../../sine-line/{folderSINE}/{libLINE} --sine ../../sine-line/{folderSINE}/{seedSINE} --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+    nohup {EDTA_FOLDER}/EDTA.pl --genome ../../input/{new_filename} --species others --step all --line ../../sine-line/{new_name}/{libLINE} --sine ../../sine-line/{new_name}/{seedSINE} --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
 
     wait
 
@@ -160,6 +160,7 @@ def merge_SINE_LINE(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, 
     
     wait
     cd {TEMPANNO_FOLDER}/{folderEDTA}
+
     mkdir LTR-AGE
     cd LTR-AGE
     ln -s ../{new_filename}.mod.EDTA.raw/{new_filename}.mod.LTR-AGE.pass.list
@@ -172,6 +173,12 @@ def merge_SINE_LINE(new_filename, folderLINE, folderSINE, seedSINE, folderEDTA, 
 
     Rscript plot-AGE-Gypsy.R
     Rscript plot-AGE-Copia.R
+
+    pdf2svg AGE-Copia.pdf AGE-Copia.svg
+    pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
+
+    cd ..
+    pdf2svg RepeatLandScape.pdf RLandScape.svg
     """
 
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')

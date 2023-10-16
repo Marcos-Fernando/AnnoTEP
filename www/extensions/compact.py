@@ -1,6 +1,3 @@
-import zipfile
-import tarfile
-import os
 import shutil
 
 #compactando no formato .zip

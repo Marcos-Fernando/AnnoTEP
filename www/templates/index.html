@@ -4,84 +4,104 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}" />
+    <link rel="shortcut icon" href="static/assets/icon.svg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
     <title>TEP - Home </title>
 </head>
 <body>
-	<header>
-		<section class="container-header">
-			<img class="logo" src="static/assets/logo.svg" alt="Logo TEP"/>
+	<aside class="aside">
+		<div class="menu-side">
+			<img class="btn-expand" id="btn-expand" src="static/assets/Vector.svg">
+		</div>
+		<ul id="menu">
+			<li class="li open" id="Home">
+				<img class="home-icon" src="static/assets/home.svg">
+				<spam class="txt-link">Home</spam>
+			</li>
+			<li class="li" id="Download">
+				<img class="download-icon" src="static/assets/download.svg">
+				<spam class="txt-link">Download</spam>
+			</li>
+			<li class="li" id="Help">
+				<img class="help-icon" src="static/assets/QuestionCircle.svg">
+				<spam class="txt-link"> Help </spam>
+			</li>
+			<li class="li" id="About">
+				<img class="about-icon" src="static/assets/InfoCircle.svg">
+				<spam class="txt-link"> About </spam>
+			</li>
+			<li class="li" id="Contact">
+				<img class="contact-icon" src="static/assets/contact-us.svg">
+				<spam class="txt-link"> Contact </spam>
+			</li>
+		</ul>
+	</aside>
 
-			<nav class="navigating">
-				<div class="box-icon">
-					<img class="nav-icon" src="static/assets/icon_download.svg"/>
-					<a class="link" href=""> Download </a>
-				</div>
-				<div class="box-icon">
-					<img class="nav-icon" src="static/assets/icon_info.svg"/>
-					<a class="link" href=""> About </a>
-				</div>
-				<div class="box-icon">
-					<img class="nav-icon" src="static/assets/icon_message.svg"/>
-					<a class="link" href=""> Help </a>
-				</div>
-				<div class="box-icon">
-					<img class="nav-icon" src="static/assets/icon_question.svg"/>
-					<a class="link" href=""> Contact </a>
-				</div>
-			</nav>
-		</section>
-	</header>
-	<main>
-		<section class="menu">
-			<ul id="menu-horizontal">
-				<li class="li li-1" id="chromosome-input">Chromosome input</li>
-				<li class="li" id="sine-line">SINE and LINE input</li>
-				<li class="li" id="results-job">Results for existing job</li>
-			</ul>
-		</section>
+	<main class="main">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+				<img id="cloudImage" class="replace" src="static/assets/CloudMoon.svg">
+			</section>
+		</header>
 
 		<section class="container-main">
-			<div class="example">
-				<p> The input is a fasta file containing the plant genome in chromosome-scale (preferably)</p>
-				<div class="container-btn">
-					<button class="btn btn-example"> Load sample input </button>
-					<button class="btn btn-example"> Open example output </button>
-				</div>
-			</div>
+			<article class="description-screen">
+				<p> AnnoTEP is a platform for annotating transposable elements in plants. Using an input file in <span>fasta</span> format containing the plant genome on a chromosomal scale, it is possible to obtain:</p>
+			</article>
 
-			<div class="container-notification">
-				<p class="session-title">
-					Notification settings 
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
-				<div class="box-email">
-					<input id="email" class="email" type="email" pattern=".com" placeholder="you@email.com" onfocus="clearPlaceholder(this)" required/> 
-					<p class="text-email">email adress</p>
+			<section class="container-explicative">
+				<div class="box-explicative">
+					<img class="img-dna" src="static/assets/dna-icon.svg">
+					<span class="be1"><b>Annotation</b> of SINEs and LINEs elements. </span>
 				</div>
+				<div class="box-explicative">
+					<img class="img-phylogeny" src="static/assets/phylogeny.svg">
+					<span class="be2"> <b>Data visualization</b> in graph format and phylogenetic trees. </span>
+				</div>
+				<div class="box-explicative box-email">
+					<img class="img-email" src="static/assets/email-icon-light.svg">
+					<span class="be3">A link with the results is sent directly to your email. </span>
+					<a href="" class="click-here be3">Click here - Results example</a>	
+				</div>
+			</section>
+			<div class="rectangle">
+				<div class="rectangle-green"></div>
 			</div>
+		</section>
 
-			<div class="container-data-input">
-				<p class="session-title">
-					Data input
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
+		<section class="container-data-input">
+			<div class="title-input">
+				<p>Data input</p>
+			</div>
+			<section class="container-email">
+				<div class="session-title">
+					<p>Email Adress </p>
+					<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+				</div>
+					<input id="email" class="email" type="email" pattern=".com" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
+			</section>
+
+			<section class="container-genome">
+				<div class="session-title">
+					<p>Genome data</p>
+					<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+				</div>
 				<div class="box-input">
 					<input type="text" id="fileNameInput" class="input-text" readonly disabled>
 
 					<label for="inputdata" class="file-input">
 						<p class="name-btn">Browser</p>
-  						<input type="file" class="input-data" accept=".fasta" id="inputdata" onchange="updateFileName()">
+						  <input type="file" class="input-data" accept=".fasta" id="inputdata" onchange="updateFileName()">
 					</label>
 				</div>
-			</div>
-
-			<div class="container-action">
-				<p class="session-title">
-					Complete annotation TE
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
+			</section>
+	
+			<section class="container-action">
+				<div class="session-title">
+					<p>Type annotation</p>
+					<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+				</div>
 				<div class="box-checkboxs">
 					<div class="container-checkbox">
 						<input type="checkbox" id="sine" name="sine" class="checkbox" checked>
@@ -93,101 +113,46 @@
 					</div>
 					<div class="container-checkbox">
 						<input type="checkbox" id="complete" name="complete" class="checkbox">
-						<label for="complete">Annotation TE complete</label>
+						<label for="complete">Complete annotation</label>
 					</div>	  
 				</div>	
-			</div>
-
+			</section>
+	
 			<div class="container-submit">
 				<button type="button" id="uploaddata" class="uploaddata" disabled> Submit </button>
 			</div>
+
 		</section>
 
-		<div id="myModal" class="modal">
+			
+		
+
+		<section id="myModal" class="modal">
 			<div class="modal-content">
-			  <span class="close">&times;</span>
-			  <div class="container-notification">
-				<p class="session-title session-modal">
-				  Annotation and analysis process
-				</p>
-				<div class="box-information">
-				  <p>The annotation process has started</p>
-				  <p>A confirmation email has been sent to your inbox containing further instructions.</p>
-				</div>
-			  </div>
-			</div>
-		  </div>
-
-		<section class="container-linesine">
-			<div class="description">
-				<p> The inputs are .tar.gz files containing the plant genome in sine and line format (preferably)</p>
-			</div>
-
-			<div class="container-notification">
-				<p class="session-title">
-					Notification settings 
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
-				<div class="box-email">
-					<input class="email" type="email" pattern=".com" placeholder="you@email.com" onfocus="clearPlaceholder(this)"/> 
-					<p class="text-email">email adress</p>
-				</div>
-			</div>
-
-			<div class="container-data-input">
-				<p class="session-title">
-					SINE data input
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
-				<div class="box-input">
-					<input type="text" id="fileNameInput-sine" class="input-text" readonly disabled>
-
-					<label for="inputdatasine" class="file-input">
-						<p class="name-btn">Browser</p>
-  						<input type="file" class="input-data" accept=".tar.gz" id="inputdatasine" onchange="sineUpdateFileName()">
-					</label>
-				</div>
-			</div>
-
-			<div class="container-data-input">
-				<p class="session-title">
-					LINE data input
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
-				<div class="box-input">
-					<input type="text" id="fileNameInput-line" class="input-text" readonly disabled>
-
-					<label for="inputdataline" class="file-input">
-						<p class="name-btn">Browser</p>
-  						<input type="file" class="input-data" accept=".tar.gz" id="inputdataline" onchange="lineUpdateFileName()">
-					</label>
-				</div>
-			</div>
-
-			<div class="container-submit-ls">
-				<button type="button" id="uploaddatals" class="uploaddatals" disabled> Submit </button>
+			  	<span class="close">&times;</span>
+			  	<div class="container-notification">
+					<p class="session-title session-modal">
+				  		Annotation and analysis process
+					</p>
+					<div class="box-information">
+				  		<p>The annotation process has started</p>
+				  		<p>A confirmation email has been sent to your inbox containing further instructions.</p>
+					</div>
+			  	</div>
 			</div>
 		</section>
 
-		<section class="container-results">
-				<p class="session-title">
-					TE job id for existing job
-					<img class="icon-help" src="static/assets/help.svg"/>
-				</p>
-				<div class="box-load">
-					<input type="text" id="tepFileNameInput" class="input-results">
-
-					<button type="button" id="loaddata" class="loaddata" disabled> Load </button>
-				</div>
-		</section>
-
-		<div class="footer-notice">Please be considerate in your use of TEP. Help us keep TEP available for everybody by limiting yourself to 2 concurrent jobs. Need to run more? See the TEP <a href=""> install guide </a> for instructions for getting your own TEP installation.</div>
+		<footer class="footer">
+			<div class="cite-us">
+				Results are saved in the database for up to 48 hours. 
+				We recommend users to run a maximum of two jobs at a time. 
+				For private work or work with a large amount of data, 
+				we recommend downloading AnnoTEP. If you have found AnnoTEP 
+				useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
 	</main>
 
-	<footer>
-		<div class="cite-us">If you have found TE useful, please <a href=""> cite us </a>.</div>
-	</footer>
-
-	<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

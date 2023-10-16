@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results-page.css') }}" />
+    <title>TEP - Results </title>
+</head>
+<body>
+	<aside class="aside">
+		<div class="menu-side">
+			<img class="btn-expand" id="btn-expand" src="../static/assets/Vector.svg">
+		</div>
+		<ul id="menu">
+			<li class="li open" id="Non-LTR">
+				<a href="#Non-LTR-section">
+					<img class="home-icon" src="../static/assets/icon-dna-sl.svg">
+					<span class="txt-link">Non-LTR Data</span>	
+				</a>
+			</li>
+			<li class="li" id="#Report">
+				<a href="#Report-section">
+					<img class="download-icon" src="../static/assets/Table.svg">
+					<span class="txt-link">Report</span>
+				</a>
+			</li>
+			<li class="li" id="Landscape">
+				<a href="#Landscape-section">
+					<img class="help-icon" src="../static/assets/diagram-icon.svg">
+					<span class="txt-link"> Landscape Graphs </span>
+				</a>
+			</li>
+			<li class="li" id="Ltr">
+				<a href="#Ltr-section">
+					<img class="about-icon" src="../static/assets/diagram.svg">
+					<span class="txt-link"> LTR Family </span>
+				</a>
+			</li>
+			<li class="li" id="phylogeny">
+				<a href="#phylogeny-section">
+					<img class="contact-icon" src="../static/assets/phylogeny-icon.svg">
+					<span class="txt-link"> Phylogeny </span>
+				</a>
+			</li>
+			<li class="li" id="density">
+				<a href="#density-section">
+					<img class="contact-icon" src="../static/assets/Bullseye.svg">
+					<span class="txt-link"> Density </span>
+				</a>
+			</li>
+		</ul>
+	</aside>
+
+	<main class="main">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+				<img id="cloudImage" class="replace" src="../static/assets/CloudMoon.svg">
+			</section>
+		</header>
+		
+		<section class="container-data" id="Non-LTR-section">
+			<div class="title-data">
+				<p>Non-LTR Data</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-compact">
+				<section class="box-compact">
+					<p>.zip format</p>
+					<div class="nonLTRdownload">
+						<a href="{{ zip_sine_file }}" class="non-ltr-data" download>
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							SINE Data 
+						</a>
+					</div>
+					<div class="nonLTRdownload">
+						<a href="{{ zip_line_file }}" class="non-ltr-data" download> 
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							LINE Data 
+						</a>
+					</div>
+				</section>
+				<section class="box-compact">
+					<p>.tar.gz format</p>
+					<div class="nonLTRdownload">
+						<a href="{{ tar_sine_file }}" class="non-ltr-data" download>
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							SINE Data 
+						</a>
+					</div>
+					<div class="nonLTRdownload">
+						<a href="{{ tar_line_file }}" class="non-ltr-data" download>
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							LINE Data 
+						</a>
+					</div>
+				</section>
+			</section>
+		</section>
+
+		<section class="container-data" id="Report-section">
+			<div class="title-data">
+				<p>Report</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-table">
+				<table>
+					<tr>
+						<td colspan="4" class="main-td title-td">Report</td>
+					</tr>
+					<tr class="main-tr">
+						<th>Elements</th>
+						<th>Number of Elements</th>
+						<th>Length Occupied (bp)</th>
+						<th>% Sequence</th>
+					</tr>
+					<tr>
+						<td class="main-td">Class I Total</td>
+						<td class="main-td">267724</td>
+						<td class="main-td">220481358</td>
+						<td class="main-td">52.01</td>
+					</tr>
+					<tr>
+						<td>Non-LTR</td>
+						<td>9976</td>
+						<td>4198745</td>
+						<td>0.99</td>
+					</tr>
+					<tr>
+						<td>LTR non-auto</td>
+						<td>87608</td>
+						<td>62759152</td>
+						<td>14.80</td>
+					</tr>
+					<tr>
+						<td>LTR auto</td>
+						<td>169697</td>
+						<td>153088056</td>
+						<td>36.11</td>
+					</tr>
+					<tr>
+						<td>LTR/Gypsy</td>
+						<td>4444</td>
+						<td>5835516</td>
+						<td>4.88</td>
+					</tr>
+					<tr>
+						<td>Class I others</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td class="main-td">Class II Total</td>
+						<td class="main-td">16439</td>
+						<td class="main-td">6635283</td>
+						<td class="main-td">5.54</td>
+					</tr>
+					<tr>
+						<td>TIRs</td>
+						<td>3134</td>
+						<td>1730409</td>
+						<td>1.45</td>
+					</tr>
+					<tr>
+						<td>RC/Helitron</td>
+						<td>13305</td>
+						<td>4904874</td>
+						<td>4.10</td>
+					</tr>
+					<tr>
+						<td>Class II Unknown</td>
+						<td>0</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td class="main-td footer-td">Unclassified</td>
+						<td class="main-td footer-td">10161</td>
+						<td class="main-td footer-td">2919709</td>
+						<td class="main-td footer-td">2.44</td>
+					</tr>
+				</table>
+
+				<div class="container-downloaddata">
+					<a href="" class="downloaddata">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Table 
+					</a>
+				</div>
+			</section>
+		</section>
+
+		<section class="container-data" id="Landscape-section">
+			<div class="title-data">
+				<p>Landscape Graphs</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-landscape">
+				<img class="Landscape-img" src="data:image/svg+xml;base64,{{ svg_landscape }}"/>
+
+				<div class="container-downloaddata">
+					<a href="data:image/svg+xml;base64,{{ svg_landscape }}" class="downloaddata" download="landscape-graphs">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Landscape Graphs 
+					</a>
+				</div>
+			</section>
+		</section>
+
+		<section class="container-data" id="Ltr-section">
+			<div class="title-data">
+				<p>LTR Family</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-ltrfamily">
+				<img class="ltr-copia" src="data:image/svg+xml;base64,{{ svg_copia }}"/>
+				<img class="ltr-gypsy" src="data:image/svg+xml;base64,{{ svg_gypsy }}"/>
+
+				<div class="container-downloaddata container-family">
+					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloaddata" download="family-copia">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Family Copia
+					</a>
+					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloaddata" download="family-gypsy">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Family Gypsy
+					</a>
+			</section>
+			</div>
+		</section>
+
+		<section class="container-data" id="phylogeny-section">
+			<div class="title-data">
+				<p>Phylogeny</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-phylogeny">
+				<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
+
+				<div class="container-downloaddata">
+					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="Phylogeny">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Phylogeny 
+					</a>
+				</div>
+			</section>
+		</section>
+
+		<section class="container-data" id="density-section">
+			<div class="title-data">
+				<p>Density</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-density">
+				<img class="ltr-density" src="data:image/svg+xml;base64,{{ svg_tree2 }}"/>
+		
+				<div class="container-downloaddata">
+					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="Density">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Density 
+					</a>
+				</div>
+			</section>
+		</section>
+
+
+			
+		
+		<!-- Modal -->
+		<section id="myModal" class="modal">
+			<div class="modal-content">
+			  	<span class="close">&times;</span>
+			  	<div class="container-notification">
+					<p class="session-title session-modal">
+				  		Annotation and analysis process
+					</p>
+					<div class="box-information">
+				  		<p>The annotation process has started</p>
+				  		<p>A confirmation email has been sent to your inbox containing further instructions.</p>
+					</div>
+			  	</div>
+			</div>
+		</section>
+		<!-- Modal -->
+
+		<footer class="footer">
+			<div class="cite-us">
+				Results are saved in the database for up to 48 hours. 
+				We recommend users to run a maximum of two jobs at a time. 
+				For private work or work with a large amount of data, 
+				we recommend downloading AnnoTEP. If you have found AnnoTEP 
+				useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
+	</main>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='results-page.js')}}"></script>
+</body>
+</html>

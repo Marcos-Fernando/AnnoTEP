@@ -181,6 +181,14 @@ def upload_file_for_complete_annotation():
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TREE', 'LTR_RT-Tree2.svg'), "rb") as file_tree2:
                 svg_tree2 = file_tree2.read()
 
+            with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'LTR-AGE', 'AGE-Copia.svg'), "rb") as file_copia:
+                svg_copia = file_copia.read()
+            with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'LTR-AGE', 'AGE-Gypsy.svg'), "rb") as file_gypsy:
+                svg_gypsy = file_gypsy.read()
+            
+            with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'RLandScape.svg'), "rb") as file_landscape:
+                svg_landscape = file_landscape.read()
+
             #--------------------Trabalhando com BD -----------------------------
             #Criando uma chave para o usuário busca dados
             secret_key = os.urandom(24)
@@ -227,7 +235,10 @@ def upload_file_for_complete_annotation():
                  "key": key_security,
                  "anno-data": folderEDTA,
                  "file-Tree-1": svg_tree1,
-                 "file-Tree-2": svg_tree2
+                 "file-Tree-2": svg_tree2,
+                 "file-age-copia": svg_copia,
+                 "file-age-gypsy": svg_gypsy,
+                 "file-landscape": svg_landscape
             })
 
             send_email_complete_annotation(email, key_security)
@@ -588,20 +599,33 @@ def results(key_security):
     email = user_info["email"]
     files_info = mongo.db.files.find_one({"key": key_security})
 
-    sine_file = f"/download_zip_sine/{key_security}"
-    line_file = f"/download_zip_line/{key_security}"
+    zip_sine_file = f"/download_zip_sine/{key_security}"
+    zip_line_file = f"/download_zip_line/{key_security}"
+    tar_sine_file = f"/download_tar_sine/{key_security}"
+    tar_line_file = f"/download_tar_line/{key_security}"
+    
 
     svg_tree1 = base64.b64encode(files_info.get("file-Tree-1")).decode('utf-8')
     svg_tree2 = base64.b64encode(files_info.get("file-Tree-2")).decode('utf-8')
+    
+    svg_copia = base64.b64encode(files_info.get("file-age-copia")).decode('utf-8')
+    svg_gypsy = base64.b64encode(files_info.get("file-age-gypsy")).decode('utf-8')
+    svg_landscape = base64.b64encode(files_info.get("file-landscape")).decode('utf-8')
 
     # Renderize o template HTML passando as informações relevantes
-    return render_template("results.html", 
+    return render_template("results-page.html", 
                            email=email, 
-                           zip_sine_file=sine_file, 
-                           zip_line_file=line_file, 
+                           zip_sine_file=zip_sine_file, 
+                           zip_line_file=zip_line_file,
+                           tar_sine_file=tar_sine_file,
+                           tar_line_file=tar_line_file,
                            svg_tree1=svg_tree1, 
-                           svg_tree2=svg_tree2)
+                           svg_tree2=svg_tree2,
+                           svg_copia=svg_copia,
+                           svg_gypsy=svg_gypsy,
+                           svg_landscape=svg_landscape)
 
+# ------------------- Buscando dados do arquivo ZIP SINE -------------------------------
 @app.route("/download_zip_sine/<key_security>")
 def download_zip_sine(key_security):
     # Consulte o banco de dados para obter os dados binários do arquivo ZIP SINE
@@ -621,24 +645,56 @@ def download_zip_sine(key_security):
     
     return "Arquivo ZIP SINE não encontrado."
 
+# ------------------- Buscando dados do arquivo ZIP LINE -------------------------------
 @app.route("/download_zip_line/<key_security>")
 def download_zip_line(key_security):
-    # Consulte o banco de dados para obter os dados binários do arquivo ZIP SINE
     zipline_info = mongo.db.zipline.find_one({"key": key_security})
     
     if zipline_info is not None:
-        # Crie um objeto BytesIO para armazenar o arquivo ZIP
         zip_data = zipline_info.get("zip-line-file")
         zip_name = zipline_info.get("zip-line-name")
         zip_buffer = io.BytesIO(zip_data)
         
-        # Configure o cabeçalho de resposta para o download
         response = Response(zip_buffer.getvalue(), content_type='application/zip')
         response.headers['Content-Disposition'] = f'attachment; filename={zip_name}'
         
         return response
     
     return "Arquivo ZIP LINE não encontrado."
+
+# ------------------- Buscando dados do arquivo TAR.GZ SINE -------------------------------
+@app.route("/download_tar_sine/<key_security>")
+def download_tar_sine(key_security):
+    tarsine_info = mongo.db.tarsine.find_one({"key": key_security})
+    
+    if tarsine_info is not None:
+        tar_gz_data = tarsine_info.get("tar-sine-file")
+        tar_gz_name = tarsine_info.get("tar-sine-name")
+        tar_gz_buffer = io.BytesIO(tar_gz_data)
+        
+        response = Response(tar_gz_buffer.getvalue(), content_type='application/gzip')
+        response.headers['Content-Disposition'] = f'attachment; filename={tar_gz_name}'
+        
+        return response
+    
+    return "Arquivo tar.gz SINE não encontrado."
+
+# ------------------- Buscando dados do arquivo TAR.GZ LINE -------------------------------
+@app.route("/download_tar_line/<key_security>")
+def download_tar_line(key_security):
+    tarline_info = mongo.db.tarline.find_one({"key": key_security})
+    
+    if tarline_info is not None:
+        tar_gz_data = tarline_info.get("tar-line-file")
+        tar_gz_name = tarline_info.get("tar-line-name")
+        tar_gz_buffer = io.BytesIO(tar_gz_data)
+        
+        response = Response(tar_gz_buffer.getvalue(), content_type='application/gzip')
+        response.headers['Content-Disposition'] = f'attachment; filename={tar_gz_name}'
+        
+        return response
+    
+    return "Arquivo tar.gz LINE não encontrado."
 
 if __name__ == "__main__":
     app.run(debug=True)
