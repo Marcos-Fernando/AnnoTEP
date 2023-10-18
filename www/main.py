@@ -2,9 +2,8 @@ import io
 import os
 import random
 import subprocess
-
+import csv
 import base64
-import zipfile
 
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, flash, Response
@@ -194,6 +193,21 @@ def upload_file_for_complete_annotation():
             secret_key = os.urandom(24)
             # Converta a chave em uma string hexadecimal
             key_security = secret_key.hex()
+
+            with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TEs-Report-Complete.csv'), 'r') as csv_file:
+                csv_reader = csv.DictReader(csv_file)
+                
+                # Itere sobre as linhas do arquivo CSV
+                for row in csv_reader:
+                    document = {
+                        "key": key_security,
+                        "Name": row['Name'],
+                        "Number of Elements": int(row['Number of Elements']),
+                        "Length": int(row['Length']),
+                        "Percentage": row['Percentage']
+                    }
+                    
+                    mongo.db.report.insert_one(document)
 
             #banco de dados mongodb
             mongo.db.users.insert_one({
@@ -598,6 +612,7 @@ def results(key_security):
     # Recupere informações relevantes do usuário
     email = user_info["email"]
     files_info = mongo.db.files.find_one({"key": key_security})
+    documents = list(mongo.db.report.find({"key": key_security}))
 
     zip_sine_file = f"/download_zip_sine/{key_security}"
     zip_line_file = f"/download_zip_line/{key_security}"
@@ -623,7 +638,8 @@ def results(key_security):
                            svg_tree2=svg_tree2,
                            svg_copia=svg_copia,
                            svg_gypsy=svg_gypsy,
-                           svg_landscape=svg_landscape)
+                           svg_landscape=svg_landscape,
+                           list_documents=documents)
 
 # ------------------- Buscando dados do arquivo ZIP SINE -------------------------------
 @app.route("/download_zip_sine/<key_security>")

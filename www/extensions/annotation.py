@@ -179,6 +179,7 @@ def merge_SINE_LINE(new_filename, new_name, seedSINE, folderEDTA, libLINE):
 
     cd ..
     pdf2svg RepeatLandScape.pdf RLandScape.svg
+    python ../../../Scripts/convert-table.py
     """
 
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')

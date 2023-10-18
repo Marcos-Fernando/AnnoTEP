@@ -108,7 +108,7 @@
 			</div>
 
 			<section class="container-table">
-				<table>
+				<table class="table-top">
 					<tr>
 						<td colspan="4" class="main-td title-td">Report</td>
 					</tr>
@@ -118,73 +118,21 @@
 						<th>Length Occupied (bp)</th>
 						<th>% Sequence</th>
 					</tr>
-					<tr>
-						<td class="main-td">Class I Total</td>
-						<td class="main-td">267724</td>
-						<td class="main-td">220481358</td>
-						<td class="main-td">52.01</td>
-					</tr>
-					<tr>
-						<td>Non-LTR</td>
-						<td>9976</td>
-						<td>4198745</td>
-						<td>0.99</td>
-					</tr>
-					<tr>
-						<td>LTR non-auto</td>
-						<td>87608</td>
-						<td>62759152</td>
-						<td>14.80</td>
-					</tr>
-					<tr>
-						<td>LTR auto</td>
-						<td>169697</td>
-						<td>153088056</td>
-						<td>36.11</td>
-					</tr>
-					<tr>
-						<td>LTR/Gypsy</td>
-						<td>4444</td>
-						<td>5835516</td>
-						<td>4.88</td>
-					</tr>
-					<tr>
-						<td>Class I others</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td class="main-td">Class II Total</td>
-						<td class="main-td">16439</td>
-						<td class="main-td">6635283</td>
-						<td class="main-td">5.54</td>
-					</tr>
-					<tr>
-						<td>TIRs</td>
-						<td>3134</td>
-						<td>1730409</td>
-						<td>1.45</td>
-					</tr>
-					<tr>
-						<td>RC/Helitron</td>
-						<td>13305</td>
-						<td>4904874</td>
-						<td>4.10</td>
-					</tr>
-					<tr>
-						<td>Class II Unknown</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td class="main-td footer-td">Unclassified</td>
-						<td class="main-td footer-td">10161</td>
-						<td class="main-td footer-td">2919709</td>
-						<td class="main-td footer-td">2.44</td>
-					</tr>
 				</table>
+				<div class="table-footer">
+					<table>
+						<tbody>
+							{% for document in list_documents %}
+							<tr class="table-row">
+								<td>{{ document.Name }}</td>
+								<td>{{ document["Number of Elements"] }}</td>
+								<td>{{ document.Length }}</td>
+								<td>{{ document.Percentage }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
 
 				<div class="container-downloaddata">
 					<a href="" class="downloaddata">
