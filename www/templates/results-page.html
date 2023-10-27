@@ -71,31 +71,59 @@
 				<section class="box-compact">
 					<p>.zip format</p>
 					<div class="nonLTRdownload">
-						<a href="{{ zip_sine_file }}" class="non-ltr-data" download>
+						{% if zip_sine_file %}
+						<a href="data:application/zip;base64,{{ zip_sine_file }}" class="non-ltr-data" download="TES-zip-sine">
 							<img class="box-icon" src="../static/assets/box.svg"/>
 							SINE Data 
 						</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data">
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No SINE Data avaliable
+						</a>
+						{% endif %}
 					</div>
 					<div class="nonLTRdownload">
-						<a href="{{ zip_line_file }}" class="non-ltr-data" download> 
+						{% if zip_line_file %}
+							<a href="data:application/zip;base64,{{ zip_line_file }}" class="non-ltr-data" download="TES-zip-line"> 
+								<img class="box-icon" src="../static/assets/box.svg"/>
+								LINE Data 
+							</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-zip-line"> 
 							<img class="box-icon" src="../static/assets/box.svg"/>
-							LINE Data 
+							No LINE Data avaliable
 						</a>
+						{% endif %}
 					</div>
 				</section>
 				<section class="box-compact">
 					<p>.tar.gz format</p>
 					<div class="nonLTRdownload">
-						<a href="{{ tar_sine_file }}" class="non-ltr-data" download>
+						{% if tar_sine_file %}
+						<a href="{{ tar_sine_file }}" class="non-ltr-data" download="TES-tar-sine">
 							<img class="box-icon" src="../static/assets/box.svg"/>
 							SINE Data 
 						</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-tar-sine"> 
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No SINE Data avaliable
+						</a>
+						{% endif %}
 					</div>
 					<div class="nonLTRdownload">
-						<a href="{{ tar_line_file }}" class="non-ltr-data" download>
+						{% if tar_line_file %}
+						<a href="data:application/x-tar;base64,{{ tar_line_file }}" class="non-ltr-data" download="TES-tar-line">
 							<img class="box-icon" src="../static/assets/box.svg"/>
 							LINE Data 
 						</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-tar-line"> 
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No LINE Data avaliable
+						</a>
+						{% endif %}
 					</div>
 				</section>
 			</section>
@@ -135,10 +163,17 @@
 				</div>
 
 				<div class="container-downloaddata">
-					<a href="" class="downloaddata">
+					{% if filecsv %}
+					<a href="data:text/csv;base64,{{ filecsv }}" class="downloaddata" download="TEs-report">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download Table 
 					</a>
+					{% else %}
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-report"> 
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Table not avaliable
+					</a>
+					{% endif %}
 				</div>
 			</section>
 		</section>
@@ -150,14 +185,23 @@
 			</div>
 
 			<section class="container-landscape">
+				{% if svg_landscape %}
 				<img class="Landscape-img" src="data:image/svg+xml;base64,{{ svg_landscape }}"/>
 
 				<div class="container-downloaddata">
-					<a href="data:image/svg+xml;base64,{{ svg_landscape }}" class="downloaddata" download="landscape-graphs">
+					<a href="data:image/svg+xml;base64,{{ svg_landscape }}" class="downloaddata" download="TEs-landscape-graphs">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download Landscape Graphs 
 					</a>
 				</div>
+				{% else %}
+				<div class="container-downloaddata">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-landscape-graphs">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Landscape Graphs not avaliable
+					</a>
+				</div>
+				{% endif %}
 			</section>
 		</section>
 
@@ -166,22 +210,35 @@
 				<p>LTR Family</p>
 				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 			</div>
-
+		
 			<section class="container-ltrfamily">
+			{% if svg_copia %}	
 				<img class="ltr-copia" src="data:image/svg+xml;base64,{{ svg_copia }}"/>
 				<img class="ltr-gypsy" src="data:image/svg+xml;base64,{{ svg_gypsy }}"/>
 
 				<div class="container-downloaddata container-family">
-					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloaddata" download="family-copia">
+					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloaddata" download="TES-family-copia">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download LTR Family Copia
 					</a>
-					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloaddata" download="family-gypsy">
+					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloaddata" download="TES-family-gypsy">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download LTR Family Gypsy
 					</a>
+				</div>
+			{% else %}
+				<div class="container-downloaddata container-family">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-copia">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Family Copia not avaliable
+					</a>
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-gypsy">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Family Gypsy not avaliable
+					</a>
+				</div>
+			{% endif %}
 			</section>
-			</div>
 		</section>
 
 		<section class="container-data" id="phylogeny-section">
@@ -191,14 +248,23 @@
 			</div>
 
 			<section class="container-phylogeny">
+				{% if svg_tree1 %}
 				<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
 
 				<div class="container-downloaddata">
-					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="Phylogeny">
+					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="TES-Phylogeny">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download Phylogeny 
 					</a>
 				</div>
+				{% else %}
+				<div class="container-downloaddata">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Phylogeny">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Phylogeny not avaliable
+					</a>
+				</div>
+				{% endif %}
 			</section>
 		</section>
 
@@ -209,14 +275,23 @@
 			</div>
 
 			<section class="container-density">
+				{% if svg_tree2 %}
 				<img class="ltr-density" src="data:image/svg+xml;base64,{{ svg_tree2 }}"/>
 		
 				<div class="container-downloaddata">
-					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="Density">
+					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="TES-Density">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Density 
+						Download Density
 					</a>
 				</div>
+				{% else %}
+				<div class="container-downloaddata">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Density">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Density not avaliable
+					</a>
+				</div>
+				{% endif %}
 			</section>
 		</section>
 

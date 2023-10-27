@@ -5,6 +5,7 @@ import subprocess
 import csv
 import base64
 
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, flash, Response
 from flask_mail import Mail, Message
@@ -33,11 +34,17 @@ EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 #Extensões que serão permitidas
 ALLOWED_EXTENSIONS = {'fasta'}
 
+
+#"mongodb://localhost:27017/annotepdb"
+#"mongodb+srv://marcoscosta:xMhvCuaHWyuwoPy5@cluster-tep.qznvfsw.mongodb.net/annotepdb?retryWrites=true"
+
 #configurando ambiente flask
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MONGO_URI'] = "mongodb://localhost:27017/annotepdb"
+#mongo = MongoClient(app.config['MONGO_URI'])
 mongo = PyMongo(app)
+
 
 #ambiente para envio de email
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
@@ -188,71 +195,117 @@ def upload_file_for_complete_annotation():
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'RLandScape.svg'), "rb") as file_landscape:
                 svg_landscape = file_landscape.read()
 
+            with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TEs-Report-Complete.csv'), 'rb') as csv_file:
+                binary_data = csv_file.read()
+
             #--------------------Trabalhando com BD -----------------------------
             #Criando uma chave para o usuário busca dados
             secret_key = os.urandom(24)
             # Converta a chave em uma string hexadecimal
             key_security = secret_key.hex()
 
+            # Definir o período de expiração
+            expiration_period = timedelta(hours=72)
+
+            # Definir a data de expiração para cada coleção
+            expiration_date = datetime.utcnow() + expiration_period
+
+            mongo.db.report.create_index("expiration-date", expireAfterSeconds=259200)
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TEs-Report-Complete.csv'), 'r') as csv_file:
                 csv_reader = csv.DictReader(csv_file)
                 
-                # Itere sobre as linhas do arquivo CSV
+                # Recebendo cada linha do arquivo CSV
                 for row in csv_reader:
                     document = {
                         "key": key_security,
                         "Name": row['Name'],
                         "Number of Elements": int(row['Number of Elements']),
                         "Length": int(row['Length']),
-                        "Percentage": row['Percentage']
+                        "Percentage": row['Percentage'],
+                        "expiration-date": expiration_date
                     }
                     
                     mongo.db.report.insert_one(document)
+                    
 
             #banco de dados mongodb
+            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.users.insert_one({
                 "key": key_security,
                 "email": email,
                 "genome-input": filename,
                 "genome-output": new_name,
+                "expiration-date": expiration_date
             })
 
+            mongo.db.zipsine.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.zipsine.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "zip-sine-name": (f'{new_name}-SINE.zip'),
-                 "zip-sine-file": zip_dataSINE
+                 "zip-sine-file": zip_dataSINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.tarsine.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.tarsine.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
-                 "tar-sine-file": tar_dataSINE
+                 "tar-sine-file": tar_dataSINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.zipline.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.zipline.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "zip-line-name": (f'{new_name}-LINE.zip'),
-                 "zip-line-file": zip_dataLINE
+                 "zip-line-file": zip_dataLINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.tarline.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.tarline.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "tar-line-name": (f'{new_name}-LINE.tar.gz'),
-                 "tar-line-file": tar_dataLINE
+                 "tar-line-file": tar_dataLINE,
+                 "expiration-date": expiration_date
             })
 
-            mongo.db.files.insert_one({
+            mongo.db.csv.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.csv.insert_one({
+                "key": key_security,
+                "anno-data": folderEDTA,
+                "file-csv": binary_data,
+                "expiration-date": expiration_date
+            })
+
+            mongo.db.family.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.family.insert_one({
+                "key": key_security,
+                "anno-data": folderEDTA,
+                "file-age-copia": svg_copia,
+                "file-age-gypsy": svg_gypsy,
+                "expiration-date": expiration_date
+            })
+
+            mongo.db.landscape.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.landscape.insert_one({
+                "key": key_security,
+                "anno-data": folderEDTA,
+                "file-landscape": svg_landscape,
+                "expiration-date": expiration_date
+            })
+
+            mongo.db.fileTree.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.fileTree.insert_one({
                  "key": key_security,
                  "anno-data": folderEDTA,
                  "file-Tree-1": svg_tree1,
                  "file-Tree-2": svg_tree2,
-                 "file-age-copia": svg_copia,
-                 "file-age-gypsy": svg_gypsy,
-                 "file-landscape": svg_landscape
+                 "expiration-date": expiration_date
             })
 
             send_email_complete_annotation(email, key_security)
@@ -336,27 +389,35 @@ def upload_file_for_sine_annotation():
             # Converta a chave em uma string hexadecimal
             key_security = secret_key.hex()
 
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
             #banco de dados mongodb
+            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.users.insert_one({
                 "key": key_security,
                 "email": email,
                 "genome-input": filename,
                 "genome-output": new_name,
-                "anno-data": 'null'
+                "expiration-date": expiration_date
             })
 
+            mongo.db.zipsine.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.zipsine.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "zip-sine-name": (f'{new_name}-SINE.zip'),
-                 "zip-sine-file": zip_dataSINE
+                 "zip-sine-file": zip_dataSINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.tarsine.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.tarsine.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
-                 "tar-sine-file": tar_dataSINE
+                 "tar-sine-file": tar_dataSINE,
+                 "expiration-date": expiration_date
             })
 
             send_email_complete_annotation(email, key_security)
@@ -440,27 +501,35 @@ def upload_file_for_line_annotation():
             # Converta a chave em uma string hexadecimal
             key_security = secret_key.hex()
 
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
             #banco de dados mongodb
+            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.users.insert_one({
                 "key": key_security,
                 "email": email,
                 "genome-input": filename,
                 "genome-output": new_name,
-                "anno-data": 'null'
+                "expiration-date": expiration_date
             })
 
+            mongo.db.zipline.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.zipline.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "zip-line-name": (f'{new_name}-LINE.zip'),
-                 "zip-line-file": zip_dataLINE
+                 "zip-line-file": zip_dataLINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.tarline.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.tarline.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "tar-line-name": (f'{new_name}-LINE.tar.gz'),
-                 "tar-line-file": tar_dataLINE
+                 "tar-line-file": tar_dataLINE,
+                 "expiration-date": expiration_date
             })
 
             send_email_complete_annotation(email, key_security)
@@ -558,41 +627,53 @@ def upload_file_for_sineline_annotation():
             # Converta a chave em uma string hexadecimal
             key_security = secret_key.hex()
 
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
             #banco de dados mongodb
+            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.users.insert_one({
                 "key": key_security,
                 "email": email,
                 "genome-input": filename,
                 "genome-output": new_name,
-                "anno-data": 'null'
+                "expiration-date": expiration_date
             })
 
+            mongo.db.zipsine.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.zipsine.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "zip-sine-name": (f'{new_name}-SINE.zip'),
-                 "zip-sine-file": zip_dataSINE
+                 "zip-sine-file": zip_dataSINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.tarsine.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.tarsine.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
-                 "tar-sine-file": tar_dataSINE
+                 "tar-sine-file": tar_dataSINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.zipline.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.zipline.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "zip-line-name": (f'{new_name}-LINE.zip'),
-                 "zip-line-file": zip_dataLINE
+                 "zip-line-file": zip_dataLINE,
+                 "expiration-date": expiration_date
             })
 
+            mongo.db.tarline.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.tarline.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "tar-line-name": (f'{new_name}-LINE.tar.gz'),
-                 "tar-line-file": tar_dataLINE
+                 "tar-line-file": tar_dataLINE,
+                 "expiration-date": expiration_date
             })
 
             send_email_complete_annotation(email, key_security)
@@ -611,21 +692,67 @@ def results(key_security):
 
     # Recupere informações relevantes do usuário
     email = user_info["email"]
-    files_info = mongo.db.files.find_one({"key": key_security})
+    fileTree = mongo.db.fileTree.find_one({"key": key_security})
+    if fileTree is None:
+        svg_tree1 = ""
+        svg_tree2 = ""
+    else:
+        svg_tree1 = base64.b64encode(fileTree.get("file-Tree-1")).decode('utf-8')
+        svg_tree2 = base64.b64encode(fileTree.get("file-Tree-2")).decode('utf-8')
+
+    fileLandscape = mongo.db.landscape.find_one({"key": key_security})
+    if fileLandscape is None:
+        svg_landscape = ""
+    else:
+        svg_landscape = base64.b64encode(fileLandscape.get("file-landscape")).decode('utf-8')
+    
+    fileFamily = mongo.db.family.find_one({"key": key_security})
+    if fileFamily is None:
+        svg_copia = ""
+        svg_gypsy = ""
+    else:
+        svg_copia = base64.b64encode(fileFamily.get("file-age-copia")).decode('utf-8')
+        svg_gypsy = base64.b64encode(fileFamily.get("file-age-gypsy")).decode('utf-8')
+
     documents = list(mongo.db.report.find({"key": key_security}))
+    if not documents:
+        # Se for vazio, defina list_documents como uma lista vazia
+        list_documents = []
+    else:
+        list_documents = documents
 
-    zip_sine_file = f"/download_zip_sine/{key_security}"
-    zip_line_file = f"/download_zip_line/{key_security}"
-    tar_sine_file = f"/download_tar_sine/{key_security}"
-    tar_line_file = f"/download_tar_line/{key_security}"
-    
+    filecsv = mongo.db.csv.find_one({"key": key_security})
+    if filecsv is None:
+        file_csv = ""
+    else:
+        bin_file = filecsv.get("file-csv")
+        file_csv = base64.b64encode(bin_file).decode('utf-8')
 
-    svg_tree1 = base64.b64encode(files_info.get("file-Tree-1")).decode('utf-8')
-    svg_tree2 = base64.b64encode(files_info.get("file-Tree-2")).decode('utf-8')
+    zipsine_info = mongo.db.zipsine.find_one({"key": key_security})
+    if zipsine_info is None:
+        zip_sine_file = ""
+    else:
+        zip_sine_file = base64.b64encode(zipsine_info.get("zip-sine-file")).decode('utf-8')
+
+    zipline_info = mongo.db.zipline.find_one({"key": key_security})
+    if zipline_info is None:
+        zip_line_file = ""
+    else:
+        zip_line_file = base64.b64encode(zipline_info.get("zip-line-file")).decode('utf-8')
+
+    tarsine_info = mongo.db.tarsine.find_one({"key": key_security})
+    if tarsine_info is None:
+        tar_sine_file = ""
+    else:
+        tar_sine_file = base64.b64encode(tarsine_info.get("tar-sine-file")).decode('utf-8')
+
+    tarline_info = mongo.db.tarline.find_one({"key": key_security})
+    if tarline_info is None:
+        tar_line_file = ""
+    else:
+        tar_line_file = base64.b64encode(tarline_info.get("tar-line-file")).decode('utf-8')
+
     
-    svg_copia = base64.b64encode(files_info.get("file-age-copia")).decode('utf-8')
-    svg_gypsy = base64.b64encode(files_info.get("file-age-gypsy")).decode('utf-8')
-    svg_landscape = base64.b64encode(files_info.get("file-landscape")).decode('utf-8')
 
     # Renderize o template HTML passando as informações relevantes
     return render_template("results-page.html", 
@@ -639,78 +766,9 @@ def results(key_security):
                            svg_copia=svg_copia,
                            svg_gypsy=svg_gypsy,
                            svg_landscape=svg_landscape,
-                           list_documents=documents)
+                           list_documents=list_documents,
+                           filecsv=file_csv)
 
-# ------------------- Buscando dados do arquivo ZIP SINE -------------------------------
-@app.route("/download_zip_sine/<key_security>")
-def download_zip_sine(key_security):
-    # Consulte o banco de dados para obter os dados binários do arquivo ZIP SINE
-    zipsine_info = mongo.db.zipsine.find_one({"key": key_security})
-    
-    if zipsine_info is not None:
-        # Crie um objeto BytesIO para armazenar o arquivo ZIP
-        zip_data = zipsine_info.get("zip-sine-file")
-        zip_name = zipsine_info.get("zip-sine-name")
-        zip_buffer = io.BytesIO(zip_data)
-        
-        # Configure o cabeçalho de resposta para o download
-        response = Response(zip_buffer.getvalue(), content_type='application/zip')
-        response.headers['Content-Disposition'] = f'attachment; filename={zip_name}'
-        
-        return response
-    
-    return "Arquivo ZIP SINE não encontrado."
-
-# ------------------- Buscando dados do arquivo ZIP LINE -------------------------------
-@app.route("/download_zip_line/<key_security>")
-def download_zip_line(key_security):
-    zipline_info = mongo.db.zipline.find_one({"key": key_security})
-    
-    if zipline_info is not None:
-        zip_data = zipline_info.get("zip-line-file")
-        zip_name = zipline_info.get("zip-line-name")
-        zip_buffer = io.BytesIO(zip_data)
-        
-        response = Response(zip_buffer.getvalue(), content_type='application/zip')
-        response.headers['Content-Disposition'] = f'attachment; filename={zip_name}'
-        
-        return response
-    
-    return "Arquivo ZIP LINE não encontrado."
-
-# ------------------- Buscando dados do arquivo TAR.GZ SINE -------------------------------
-@app.route("/download_tar_sine/<key_security>")
-def download_tar_sine(key_security):
-    tarsine_info = mongo.db.tarsine.find_one({"key": key_security})
-    
-    if tarsine_info is not None:
-        tar_gz_data = tarsine_info.get("tar-sine-file")
-        tar_gz_name = tarsine_info.get("tar-sine-name")
-        tar_gz_buffer = io.BytesIO(tar_gz_data)
-        
-        response = Response(tar_gz_buffer.getvalue(), content_type='application/gzip')
-        response.headers['Content-Disposition'] = f'attachment; filename={tar_gz_name}'
-        
-        return response
-    
-    return "Arquivo tar.gz SINE não encontrado."
-
-# ------------------- Buscando dados do arquivo TAR.GZ LINE -------------------------------
-@app.route("/download_tar_line/<key_security>")
-def download_tar_line(key_security):
-    tarline_info = mongo.db.tarline.find_one({"key": key_security})
-    
-    if tarline_info is not None:
-        tar_gz_data = tarline_info.get("tar-line-file")
-        tar_gz_name = tarline_info.get("tar-line-name")
-        tar_gz_buffer = io.BytesIO(tar_gz_data)
-        
-        response = Response(tar_gz_buffer.getvalue(), content_type='application/gzip')
-        response.headers['Content-Disposition'] = f'attachment; filename={tar_gz_name}'
-        
-        return response
-    
-    return "Arquivo tar.gz LINE não encontrado."
 
 if __name__ == "__main__":
     app.run(debug=True)
