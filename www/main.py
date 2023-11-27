@@ -135,7 +135,7 @@ def upload_file_for_complete_annotation():
             os.makedirs(tempsl_folder)
             
             # ---- Criando pasta para armazena dados SINEs / LINEs compactados -----
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, new_name)
             os.makedirs(tempcom_folder)
 
             #----------- Funções chamando os comandos do pipeline ------------------
@@ -179,7 +179,7 @@ def upload_file_for_complete_annotation():
             print("Processo de compactação SINE iniciado...")
 
             origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
-            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE')
+            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE')
             zip_folder(origin_folderSINE, dest_zipSINE)
             tar_folder(origin_folderSINE, dest_zipSINE)
 
@@ -190,7 +190,7 @@ def upload_file_for_complete_annotation():
             print("Processo de compactação LINE iniciado...")
 
             origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
-            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE')
+            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE')
             zip_folder(origin_folderLINE, dest_zipLINE)
             tar_folder(origin_folderLINE, dest_zipLINE)
 
@@ -204,14 +204,14 @@ def upload_file_for_complete_annotation():
 
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
             print("Conversão de arquivos compactos em binário iniciada...")
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
                 zip_dataSINE = gridfs_zipsine.put(zip_fileSINE, filename=f'{new_name}-SINE.zip')
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
                 tar_dataSINE = gridfs_tarsine.put(tar_fileSINE, filename=f'{new_name}-SINE.tar.gz')
 
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
                 zip_dataLINE = gridfs_zipline.put(zip_fileLINE,filename=f'{new_name}-LINE.zip')
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
                 tar_dataLINE = gridfs_tarline.put(tar_fileLINE,filename=f'{new_name}-LINE.tar.gz')
             print("Conversão concluída!")
             print("")
@@ -414,7 +414,7 @@ def upload_file_for_sine_annotation():
             os.makedirs(tempsl_folder)
             
             # ---- Criando pasta temporária para receber os dados compactados ---
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, new_name)
             os.chdir(TEMPCOM_FOLDER)
 
             # ----- CONFIGURANDO DADOS PARA O BANCO DE DADOS --------
@@ -451,7 +451,7 @@ def upload_file_for_sine_annotation():
             #------------------ Compactando os dados SINE e LINE ----------------
             print("Processo de compactação SINE iniciado...")
             origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
-            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE')
+            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE')
             zip_folder(origin_folderSINE, dest_zipSINE)
             tar_folder(origin_folderSINE, dest_zipSINE)
 
@@ -463,9 +463,9 @@ def upload_file_for_sine_annotation():
 
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
             print("Conversão de arquivos compactos em binário iniciada...")
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
                 zip_dataSINE = gridfs_zipsine.put(zip_fileSINE, filename=f'{new_name}-SINE.zip')
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
                 tar_dataSINE = gridfs_tarsine.put(tar_fileSINE, filename=f'{new_name}-SINE.tar.gz')
             print("Conversão concluída!")
             print("")
@@ -545,7 +545,7 @@ def upload_file_for_line_annotation():
             os.makedirs(tempsl_folder)
 
             # ---- Pasta temporária para receber os dados compactados
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, new_name)
             os.makedirs(tempcom_folder)
 
             ### ---- Chave em formato hexadecimal do usuário ----
@@ -582,7 +582,7 @@ def upload_file_for_line_annotation():
             #------------------ Compactando os dados LINEs ----------------
             print("Processo de compactação LINE iniciado...")
             origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
-            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE')
+            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE')
             zip_folder(origin_folderLINE, dest_zipLINE)
             tar_folder(origin_folderLINE, dest_zipLINE)
 
@@ -594,9 +594,9 @@ def upload_file_for_line_annotation():
 
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
             print("Conversão de arquivos compactos em binário iniciada...")
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
                 zip_dataLINE = gridfs_zipline.put(zip_fileLINE,filename=f'{new_name}-LINE.zip')
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
                 tar_dataLINE = gridfs_tarline.put(tar_fileLINE,filename=f'{new_name}-LINE.tar.gz')
 
             #--------------------Trabalhando com BD -----------------------------
@@ -675,7 +675,7 @@ def upload_file_for_sineline_annotation():
             os.makedirs(tempsl_folder)
 
             # ---- Pasta temporária para receber os dados compactados
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, new_name)
             os.makedirs(tempcom_folder)
 
             ### ---- Chave em formato hexadecimal do usuário ----
@@ -712,7 +712,7 @@ def upload_file_for_sineline_annotation():
             # --- Compactação de arquivos ----
             print("Processo de compactação SINE iniciado...")
             origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
-            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE')
+            dest_zipSINE = os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE')
             zip_folder(origin_folderSINE, dest_zipSINE)
             tar_folder(origin_folderSINE, dest_zipSINE)
 
@@ -721,7 +721,7 @@ def upload_file_for_sineline_annotation():
 
             print("Processo de compactação LINE iniciado...")
             origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
-            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE')
+            dest_zipLINE = os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-LINE')
             zip_folder(origin_folderLINE, dest_zipLINE)
             tar_folder(origin_folderLINE, dest_zipLINE)
 
@@ -735,7 +735,7 @@ def upload_file_for_sineline_annotation():
 
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
             print("Conversão de arquivos compactos em binário iniciada...")
-            with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
+            with open(os.path.join(TEMPCOM_FOLDER, new_name, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
                 zip_dataSINE = gridfs_zipsine.put(zip_fileSINE, filename=f'{new_name}-SINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
                 tar_dataSINE = gridfs_tarsine.put(tar_fileSINE, filename=f'{new_name}-SINE.tar.gz')
