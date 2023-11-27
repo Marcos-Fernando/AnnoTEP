@@ -908,13 +908,24 @@ def extend_seq(in_genome_assembly_path, out_genome_assembly_path):
 
 
 def inverted_repeat_finder(out_genome_assembly_path):
+    #path = os.path.abspath(os.path.dirname(os.getcwd()))
+    #os.system('irf ' + out_genome_assembly_path +'/Step6_irf_input.fasta '
+    #          '2 3 5 80 10 20 500000 10000 -d -h -t4 74 -t5 493 -t7 10000')
+    os.chdir(out_genome_assembly_path)
     path = os.path.abspath(os.path.dirname(os.getcwd()))
-    os.system('irf ' + out_genome_assembly_path +'/Step6_irf_input.fasta '
+    os.system('irf Step6_irf_input.fasta '
               '2 3 5 80 10 20 500000 10000 -d -h -t4 74 -t5 493 -t7 10000')
 
 
 def process_irf(out_genome_assembly_path):
-    irf_file = out_genome_assembly_path+'/Step6_irf_input.fasta.2.3.5.80.10.20.500000.10000.dat'
+    anno_sine_bin_path = os.path.expanduser('~/TEs/SINE/AnnoSINE/bin')
+    os.chdir(anno_sine_bin_path)
+
+    out_genome = out_genome_assembly_path
+    irf_file = os.path.join(out_genome, 'Step6_irf_input.fasta.2.3.5.80.10.20.500000.10000.dat')
+    #irf_file = out_genome_assembly_path+'/Step6_irf_input.fasta.2.3.5.80.10.20.500000.10000.dat'
+    
+    print(irf_file)
 
     with open(irf_file)as irf_f:
         irf_list = []

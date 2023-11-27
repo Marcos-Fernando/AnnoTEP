@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Baixar e instalar o Miniconda
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-rm Miniconda3-latest-Linux-x86_64.sh
-
 # Atualizar pacotes e instalar dependências iniciais
 sudo apt-get update
 sudo apt-get install -y lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk hmmer emboss python3-virtualenv python2 python2-setuptools-whl python2-pip-whl cd-hit iqtree python2-dev build-essential linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl

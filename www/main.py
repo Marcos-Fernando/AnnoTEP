@@ -5,6 +5,8 @@ import subprocess
 import csv
 import base64
 
+from gridfs import GridFS
+from bson import ObjectId
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, flash, Response
@@ -47,13 +49,12 @@ mongo = PyMongo(app)
 
 
 #ambiente para envio de email
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'annoteps@gmail.com'
-app.config['MAIL_PASSWORD'] = 'ioqh hqbi frpo yuuq'
-
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT'))
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.environ.get('MAIL_USE_SSL') == 'True'
 mail = Mail(app)
 
 @app.route("/")
@@ -64,7 +65,7 @@ def send_email_checking(email):
     msg_title = "Email de verificação"
     sender = "noreply@app.com"
     msg = Message(msg_title, sender=sender, recipients=[email])
-    msg.body = "Este é o email de verificação"
+    msg.body = "Obrigado por escolher a AnnoTEP, a sua ferramenta confiável para anotar elementos transponíveis em genomas de plantas. Estamos empolgados por fazer parte da sua jornada de pesquisa! Lembre-se de mencionar nosso trabalho em suas pesquisas para ajudar a promover o avanço da nossa pesquisa. Se tiver alguma dúvida ou precisar de assistência, não hesite em entrar em contato conosco. Boa sorte em seus estudos!"
 
     mail.send(msg)
 
@@ -73,7 +74,7 @@ def send_email_complete_annotation(email, key_security):
     sender = "noreply@app.com"
     msg = Message(msg_title, sender=sender, recipients=[email])
     result_url = f'http://127.0.0.1:5000/results/{key_security}'
-    msg.body = f"Para acessar os resultados, visite o seguinte link: {result_url}"
+    msg.body = f"Sua anotação foi concluída! Para visualizar os dados obtidos clique no link: {result_url} . Esperamos que essas informações sejam úteis em sua pesquisa"
 
     mail.send(msg)
 
@@ -129,92 +130,176 @@ def upload_file_for_complete_annotation():
             folderEDTA = f'Anno-{new_name}'
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
 
-            #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
+            # ---- Criando pasta temporária para receber os seedSINE e libLINE ---
             tempsl_folder = os.path.join(TEMPSL_FOLDER, new_name)
             os.makedirs(tempsl_folder)
+            
+            # ---- Criando pasta para armazena dados SINEs / LINEs compactados -----
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.makedirs(tempcom_folder)
 
             #----------- Funções chamando os comandos do pipeline ------------------
             #Registro de erro
             e = "Dados não fornecidos ou não disponíveis"
 
-            try:
-                annotation_elementSINE(new_filename, folderSINE, new_name, seedSINE)
-                annotation_elementLINE(new_filename, new_name, folderLINE, resultsLINE, libLINE)
-                merge_SINE_LINE(new_filename, new_name, seedSINE, folderEDTA, libLINE)
-                create_phylogeny(new_filename, folderEDTA)
-            except subprocess.CalledProcessError as e:
-                flash(f'Annotation failed with error: {e}')
-                return redirect(request.url)
+            # ----- CONFIGURANDO DADOS PARA O BANCO DE DADOS --------
+            ## --- Chave do usuário em formato hexadecimal ---
+            secret_key = os.urandom(24)
+            key_security = secret_key.hex()
 
-            #Informando as pastas criadas
-            print("Pasta criada para armazenamento dos dados SINE: ", folderSINE)
-            print("Pasta criada para armazenamento dos dados LINE: ", folderLINE)
-            print("Pasta criada para armazenamento de anotações: ", folderEDTA)
+            ## --- Definindo o período de expiração dos arquivos aramazenados ---
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
+            ### ---- Banco de dados mongodb, users dados ----
+            print("Enviando dados do usuário para o banco de dados... ")
+            mongo.db.users.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "email": email,
+                "genome-input": filename,
+                "genome-output": new_name,
+                "expiration-date": expiration_date
+            })
+
+            print("Dados registrados")
             print("")
 
 
+            # -------------- Trabalhando com SINEs e LINEs  ------------------------
+            try:
+                annotation_elementSINE(new_filename, folderSINE, new_name, seedSINE)
+                annotation_elementLINE(new_filename, new_name, folderLINE, resultsLINE, libLINE)
+            except subprocess.CalledProcessError as e:
+                flash(f'Annotation SINEs OR LINEs failed with error: {e}')
+                return redirect(request.url)
+
             #------------------ Compactando os dados SINE e LINE ----------------
-            #Adiconado pasta de armazenamento temporário para receber os dados compactados
-            #folderSINE = 'A._2639'
-            
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
-            os.makedirs(tempcom_folder)
+            # --- Dados SINEs  ----
+            print("Processo de compactação SINE iniciado...")
 
             origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
             dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE')
             zip_folder(origin_folderSINE, dest_zipSINE)
             tar_folder(origin_folderSINE, dest_zipSINE)
 
+            print("SINE compactado!")
+            print("")
+
+             # --- Dados LINEs  ----
+            print("Processo de compactação LINE iniciado...")
+
             origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
             dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE')
             zip_folder(origin_folderLINE, dest_zipLINE)
             tar_folder(origin_folderLINE, dest_zipLINE)
 
+            print("LINE compactado!")
+            print("")
+
+            gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
+            gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
+            gridfs_zipline = GridFS(mongo.db, collection='zipline')
+            gridfs_tarline = GridFS(mongo.db, collection='tarline')
+
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            print("Conversão de arquivos compactos em binário iniciada...")
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
-                zip_dataSINE = zip_fileSINE.read()
+                zip_dataSINE = gridfs_zipsine.put(zip_fileSINE, filename=f'{new_name}-SINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
-                tar_dataSINE = tar_fileSINE.read()
-            
+                tar_dataSINE = gridfs_tarsine.put(tar_fileSINE, filename=f'{new_name}-SINE.tar.gz')
+
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
-                zip_dataLINE = zip_fileLINE.read()
+                zip_dataLINE = gridfs_zipline.put(zip_fileLINE,filename=f'{new_name}-LINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
-                tar_dataLINE = tar_fileLINE.read()
-        
-            # Leitura de arquivo TREE SVG
+                tar_dataLINE = gridfs_tarline.put(tar_fileLINE,filename=f'{new_name}-LINE.tar.gz')
+            print("Conversão concluída!")
+            print("")
+
+            # ----------------- BANCO DE DADOS ---------------
+            ## --- Armazenando os arquivos SINE e LINE compactados ---
+            print("Enviando binários para o banco de dados")
+            mongo.db.zipsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.zipsine_metadata.insert_one({
+                "key": key_security,
+                "sine-data": folderSINE,
+                "zip-sine-name": (f'{new_name}-SINE.zip'),
+                "zip-sine-file": zip_dataSINE,
+                "expiration-date": expiration_date
+            })
+
+
+            mongo.db.tarsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.tarsine_metadata.insert_one({
+                "key": key_security,
+                "sine-data": folderSINE,
+                "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
+                "tar-sine-file": tar_dataSINE,
+                "expiration-date": expiration_date
+            })
+
+            mongo.db.zipline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.zipline_metadata.insert_one({
+                "key": key_security,
+                "line-data": folderLINE,
+                "zip-line-name": (f'{new_name}-LINE.zip'),
+                "zip-line-file": zip_dataLINE,
+                "expiration-date": expiration_date
+            })
+
+            mongo.db.tarline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.tarline_metadata.insert_one({
+                "key": key_security,
+                "line-data": folderLINE,
+                "tar-line-name": (f'{new_name}-LINE.tar.gz'),
+                "tar-line-file": tar_dataLINE,
+                "expiration-date": expiration_date
+            })
+
+            print("Dados registrados")
+            print("")
+
+            # ----- Mesclando SINE e LINE e criando arvores filogeticas --------
+            try:
+                merge_SINE_LINE(new_filename, new_name, seedSINE, folderEDTA, libLINE)
+                create_phylogeny(new_filename, folderEDTA)
+            except subprocess.CalledProcessError as e:
+                flash(f'Annotation EDTA failed with error: {e}')
+                return redirect(request.url)
+
+            ## ----------------- Leitura de arquivo TREE SVG ---------------
+            print("Convertendo imagens TREE em binários...")
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TREE', 'LTR_RT-Tree1.svg'), "rb") as file_tree1:
                 svg_tree1 = file_tree1.read()
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TREE', 'LTR_RT-Tree2.svg'), "rb") as file_tree2:
                 svg_tree2 = file_tree2.read()
-
+            
+            print("Convertendo imagens LTR-AGE em binários...")
+            ## ----------------- Leitura dos arquivos referente a idade dos LTRs (LTR-AGE) ---------------
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'LTR-AGE', 'AGE-Copia.svg'), "rb") as file_copia:
                 svg_copia = file_copia.read()
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'LTR-AGE', 'AGE-Gypsy.svg'), "rb") as file_gypsy:
                 svg_gypsy = file_gypsy.read()
-            
+
+            print("Convertendo imagens LandScape em binários...")
+            ## ---------------- Leitura do arquivo RLandScape -------------------------
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'RLandScape.svg'), "rb") as file_landscape:
                 svg_landscape = file_landscape.read()
 
+            print("Convertendo planilha Report-Complete em binários...")
+            ## ---------------- Leitura da lista de dados completos em formato csv ----------------------
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TEs-Report-Complete.csv'), 'rb') as csv_file:
                 binary_data = csv_file.read()
 
+            print("Conervsões finalizadas!")
+            print("")
+
             #--------------------Trabalhando com BD -----------------------------
-            #Criando uma chave para o usuário busca dados
-            secret_key = os.urandom(24)
-            # Converta a chave em uma string hexadecimal
-            key_security = secret_key.hex()
-
-            # Definir o período de expiração
-            expiration_period = timedelta(hours=72)
-
-            # Definir a data de expiração para cada coleção
-            expiration_date = datetime.utcnow() + expiration_period
-
+            # ---- Dados CSV -----
+            print("Enviando dados csv para o banco de dados")
             mongo.db.report.create_index("expiration-date", expireAfterSeconds=259200)
             with open(os.path.join(TEMPANNO_FOLDER, folderEDTA, 'TEs-Report-Complete.csv'), 'r') as csv_file:
                 csv_reader = csv.DictReader(csv_file)
-                
-                # Recebendo cada linha do arquivo CSV
                 for row in csv_reader:
                     document = {
                         "key": key_security,
@@ -224,55 +309,8 @@ def upload_file_for_complete_annotation():
                         "Percentage": row['Percentage'],
                         "expiration-date": expiration_date
                     }
-                    
+
                     mongo.db.report.insert_one(document)
-                    
-
-            #banco de dados mongodb
-            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.users.insert_one({
-                "key": key_security,
-                "email": email,
-                "genome-input": filename,
-                "genome-output": new_name,
-                "expiration-date": expiration_date
-            })
-
-            mongo.db.zipsine.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.zipsine.insert_one({
-                 "key": key_security,
-                 "sine-data": folderSINE,
-                 "zip-sine-name": (f'{new_name}-SINE.zip'),
-                 "zip-sine-file": zip_dataSINE,
-                 "expiration-date": expiration_date
-            })
-
-            mongo.db.tarsine.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.tarsine.insert_one({
-                 "key": key_security,
-                 "sine-data": folderSINE,
-                 "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
-                 "tar-sine-file": tar_dataSINE,
-                 "expiration-date": expiration_date
-            })
-
-            mongo.db.zipline.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.zipline.insert_one({
-                 "key": key_security,
-                 "line-data": folderLINE,
-                 "zip-line-name": (f'{new_name}-LINE.zip'),
-                 "zip-line-file": zip_dataLINE,
-                 "expiration-date": expiration_date
-            })
-
-            mongo.db.tarline.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.tarline.insert_one({
-                 "key": key_security,
-                 "line-data": folderLINE,
-                 "tar-line-name": (f'{new_name}-LINE.tar.gz'),
-                 "tar-line-file": tar_dataLINE,
-                 "expiration-date": expiration_date
-            })
 
             mongo.db.csv.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.csv.insert_one({
@@ -282,6 +320,10 @@ def upload_file_for_complete_annotation():
                 "expiration-date": expiration_date
             })
 
+            print("Dados registrados")
+
+            ### ---- Dados LTR AGEs ----
+            print("Enviando dados LTR-AGEs para o banco de dados")
             mongo.db.family.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.family.insert_one({
                 "key": key_security,
@@ -291,6 +333,10 @@ def upload_file_for_complete_annotation():
                 "expiration-date": expiration_date
             })
 
+            print("Dados registrados")
+
+            ### --- Dados Landscape ---
+            print("Enviando dados landscape para o banco de dados")
             mongo.db.landscape.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.landscape.insert_one({
                 "key": key_security,
@@ -298,7 +344,11 @@ def upload_file_for_complete_annotation():
                 "file-landscape": svg_landscape,
                 "expiration-date": expiration_date
             })
+            
+            print("Dados registrados")
 
+            ### --- Dados das árvores filogenéticas ---
+            print("Enviando dados TREE para o banco de dados")
             mongo.db.fileTree.create_index("expiration-date", expireAfterSeconds=259200)
             mongo.db.fileTree.insert_one({
                  "key": key_security,
@@ -308,7 +358,20 @@ def upload_file_for_complete_annotation():
                  "expiration-date": expiration_date
             })
 
+            print("Dados registrados")
+            print("")
+
             send_email_complete_annotation(email, key_security)
+            print("Dados enviados para: ", email)
+            print("")
+
+            #------ Informando as pastas criadas -------
+            print("Pasta SINE: ", folderSINE)
+            print("Pasta LINE: ", folderLINE)
+            print("Pasta de Mesclagem: ", folderEDTA)
+            print("Operação de anotação completa finalizada")
+            print("")
+
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -346,9 +409,34 @@ def upload_file_for_sine_annotation():
             seedSINE =f'{new_name}-Seed_SINE.fa'
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
 
-            #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
+            # ---- Criando pasta temporária para receber os seedSINE e libLINE ---
             tempsl_folder = os.path.join(TEMPSL_FOLDER, new_name)
             os.makedirs(tempsl_folder)
+            
+            # ---- Criando pasta temporária para receber os dados compactados ---
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.chdir(TEMPCOM_FOLDER)
+
+            # ----- CONFIGURANDO DADOS PARA O BANCO DE DADOS --------
+            ## --- Chave do usuário em formato hexadecimal ---
+            secret_key = os.urandom(24)
+            key_security = secret_key.hex()
+
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
+            ### ---- Banco de dados mongodb, users dados ----
+            print("Enviando dados do usuário para o banco de dados... ")
+            mongo.db.users.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "email": email,
+                "genome-input": filename,
+                "genome-output": new_name,
+                "expiration-date": expiration_date
+            })
+            print("Dados registrados")
+            print("")
 
             #----------- Funções chamando os comandos do pipeline ------------------
             #Registro de erro
@@ -360,50 +448,32 @@ def upload_file_for_sine_annotation():
                 flash(f'Annotation failed with error: {e}')
                 return redirect(request.url)
 
-            #Informando as pastas criadas
-            print("Pasta criada para armazenamento dos dados SINE: ", folderSINE)
-            print("")
-
-
             #------------------ Compactando os dados SINE e LINE ----------------
-            #Adiconado pasta de armazenamento temporário para receber os dados compactados
-            
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
-            os.chdir(TEMPCOM_FOLDER)
-
+            print("Processo de compactação SINE iniciado...")
             origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
             dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE')
-
             zip_folder(origin_folderSINE, dest_zipSINE)
             tar_folder(origin_folderSINE, dest_zipSINE)
 
+            print("SINE compactado!")
+            print("")
+
+            gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
+            gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
+
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            print("Conversão de arquivos compactos em binário iniciada...")
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
-                zip_dataSINE = zip_fileSINE.read()
+                zip_dataSINE = gridfs_zipsine.put(zip_fileSINE, filename=f'{new_name}-SINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
-                tar_dataSINE = tar_fileSINE.read()
+                tar_dataSINE = gridfs_tarsine.put(tar_fileSINE, filename=f'{new_name}-SINE.tar.gz')
+            print("Conversão concluída!")
+            print("")
 
             #--------------------Trabalhando com BD -----------------------------
-            #Criando uma chave para o usuário busca dados
-            secret_key = os.urandom(24)
-            # Converta a chave em uma string hexadecimal
-            key_security = secret_key.hex()
-
-            expiration_period = timedelta(hours=72)
-            expiration_date = datetime.utcnow() + expiration_period
-
-            #banco de dados mongodb
-            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.users.insert_one({
-                "key": key_security,
-                "email": email,
-                "genome-input": filename,
-                "genome-output": new_name,
-                "expiration-date": expiration_date
-            })
-
-            mongo.db.zipsine.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.zipsine.insert_one({
+            print("Enviando binários para o banco de dados")
+            mongo.db.zipsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.zipsine_metadata.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "zip-sine-name": (f'{new_name}-SINE.zip'),
@@ -411,8 +481,8 @@ def upload_file_for_sine_annotation():
                  "expiration-date": expiration_date
             })
 
-            mongo.db.tarsine.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.tarsine.insert_one({
+            mongo.db.tarsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.tarsine_metadata.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
@@ -420,7 +490,18 @@ def upload_file_for_sine_annotation():
                  "expiration-date": expiration_date
             })
 
+            print("Dados registrados")
+            print("")
+
             send_email_complete_annotation(email, key_security)
+            print("Dados enviados para: ", email)
+            print("")
+
+            #Informando as pastas criadas
+            print("Pasta SINE: ", folderSINE)
+            print("Operação de anotação SINE finalizada")
+            print("")
+
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -459,9 +540,33 @@ def upload_file_for_line_annotation():
             libLINE = f'{new_name}-LINE-lib.fa'
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],'Temp', 'input', new_filename))
 
-            #Adiconado pasta de armazenamento temporário para receber os seedSINE e libLINE
+            # ---- Pasta temporária para receber os seedSINE e libLINE
             tempsl_folder = os.path.join(TEMPSL_FOLDER, new_name)
             os.makedirs(tempsl_folder)
+
+            # ---- Pasta temporária para receber os dados compactados
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.makedirs(tempcom_folder)
+
+            ### ---- Chave em formato hexadecimal do usuário ----
+            secret_key = os.urandom(24)
+            key_security = secret_key.hex()
+
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
+            ### ---- Banco de dados mongodb, users dados ----
+            print("Enviando dados do usuário para o banco de dados... ")
+            mongo.db.users.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "email": email,
+                "genome-input": filename,
+                "genome-output": new_name,
+                "expiration-date": expiration_date
+            })
+            print("Dados registrados")
+            print("")
 
             #----------- Funções chamando os comandos do pipeline ------------------
             #Registro de erro
@@ -473,49 +578,31 @@ def upload_file_for_line_annotation():
                 flash(f'Annotation failed with error: {e}')
                 return redirect(request.url)
 
-            #Informando as pastas criadas
-            print("Pasta criada para armazenamento dos dados LINE: ", folderLINE)
-            print("")
 
-
-            #------------------ Compactando os dados SINE e LINE ----------------
-            #Adiconado pasta de armazenamento temporário para receber os dados compactados
-            
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
-            os.makedirs(tempcom_folder)
-
+            #------------------ Compactando os dados LINEs ----------------
+            print("Processo de compactação LINE iniciado...")
             origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
             dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE')
             zip_folder(origin_folderLINE, dest_zipLINE)
             tar_folder(origin_folderLINE, dest_zipLINE)
 
+            print("LINE compactado!")
+            print("")
+
+            gridfs_zipline = GridFS(mongo.db, collection='zipline')
+            gridfs_tarline = GridFS(mongo.db, collection='tarline')
+
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            print("Conversão de arquivos compactos em binário iniciada...")
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
-                zip_dataLINE = zip_fileLINE.read()
+                zip_dataLINE = gridfs_zipline.put(zip_fileLINE,filename=f'{new_name}-LINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
-                tar_dataLINE = tar_fileLINE.read()
+                tar_dataLINE = gridfs_tarline.put(tar_fileLINE,filename=f'{new_name}-LINE.tar.gz')
 
             #--------------------Trabalhando com BD -----------------------------
-            #Criando uma chave para o usuário busca dados
-            secret_key = os.urandom(24)
-            # Converta a chave em uma string hexadecimal
-            key_security = secret_key.hex()
-
-            expiration_period = timedelta(hours=72)
-            expiration_date = datetime.utcnow() + expiration_period
-
-            #banco de dados mongodb
-            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.users.insert_one({
-                "key": key_security,
-                "email": email,
-                "genome-input": filename,
-                "genome-output": new_name,
-                "expiration-date": expiration_date
-            })
-
-            mongo.db.zipline.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.zipline.insert_one({
+            print("Enviando binários para o banco de dados")
+            mongo.db.zipline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.zipline_metadata.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "zip-line-name": (f'{new_name}-LINE.zip'),
@@ -523,8 +610,8 @@ def upload_file_for_line_annotation():
                  "expiration-date": expiration_date
             })
 
-            mongo.db.tarline.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.tarline.insert_one({
+            mongo.db.tarline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.tarline_metadata.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "tar-line-name": (f'{new_name}-LINE.tar.gz'),
@@ -532,7 +619,18 @@ def upload_file_for_line_annotation():
                  "expiration-date": expiration_date
             })
 
+            print("Dados registrados")
+            print("")
+
             send_email_complete_annotation(email, key_security)
+            print("Dados enviados para: ", email)
+            print("")
+
+            #Informando as pastas criadas
+            print("Pasta criada para armazenamento dos dados LINE: ", folderLINE)
+            print("Operação de anotação LINEs finalizada")
+            print("")
+
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -576,6 +674,30 @@ def upload_file_for_sineline_annotation():
             tempsl_folder = os.path.join(TEMPSL_FOLDER, new_name)
             os.makedirs(tempsl_folder)
 
+            # ---- Pasta temporária para receber os dados compactados
+            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
+            os.makedirs(tempcom_folder)
+
+            ### ---- Chave em formato hexadecimal do usuário ----
+            secret_key = os.urandom(24)
+            key_security = secret_key.hex()
+
+            expiration_period = timedelta(hours=72)
+            expiration_date = datetime.utcnow() + expiration_period
+
+            ### ---- Banco de dados mongodb, users dados ----
+            print("Enviando dados do usuário para o banco de dados... ")
+            mongo.db.users.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.users.insert_one({
+                "key": key_security,
+                "email": email,
+                "genome-input": filename,
+                "genome-output": new_name,
+                "expiration-date": expiration_date
+            })
+            print("Dados registrados")
+            print("")
+
             #----------- Funções chamando os comandos do pipeline ------------------
             #Registro de erro
             e = "Dados não fornecidos ou não disponíveis"
@@ -587,61 +709,48 @@ def upload_file_for_sineline_annotation():
                 flash(f'Annotation failed with error: {e}')
                 return redirect(request.url)
 
-            #Informando as pastas criadas
-            print("Pasta criada para armazenamento dos dados SINE: ", folderSINE)
-            print("Pasta criada para armazenamento dos dados LINE: ", folderLINE)
-            print("")
-
-
-            #------------------ Compactando os dados SINE e LINE ----------------
-            #Adiconado pasta de armazenamento temporário para receber os dados compactados
-            #folderSINE = 'A._2639'
-            
-            tempcom_folder = os.path.join(TEMPCOM_FOLDER, folderSINE)
-            os.makedirs(tempcom_folder)
-
+            # --- Compactação de arquivos ----
+            print("Processo de compactação SINE iniciado...")
             origin_folderSINE = os.path.join(SINE_FOLDER, 'temp', folderSINE)
             dest_zipSINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE')
             zip_folder(origin_folderSINE, dest_zipSINE)
             tar_folder(origin_folderSINE, dest_zipSINE)
 
+            print("SINE compactado!")
+            print("")
+
+            print("Processo de compactação LINE iniciado...")
             origin_folderLINE = os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)
             dest_zipLINE = os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE')
             zip_folder(origin_folderLINE, dest_zipLINE)
             tar_folder(origin_folderLINE, dest_zipLINE)
 
+            print("LINE compactado!")
+            print("")
+
+            gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
+            gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
+            gridfs_zipline = GridFS(mongo.db, collection='zipline')
+            gridfs_tarline = GridFS(mongo.db, collection='tarline')
+
             #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
+            print("Conversão de arquivos compactos em binário iniciada...")
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.zip'), "rb") as zip_fileSINE:
-                zip_dataSINE = zip_fileSINE.read()
+                zip_dataSINE = gridfs_zipsine.put(zip_fileSINE, filename=f'{new_name}-SINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-SINE.tar.gz'), "rb") as tar_fileSINE:
-                tar_dataSINE = tar_fileSINE.read()
-            
+                tar_dataSINE = gridfs_tarsine.put(tar_fileSINE, filename=f'{new_name}-SINE.tar.gz')
+
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.zip'), "rb") as zip_fileLINE:
-                zip_dataLINE = zip_fileLINE.read()
+                zip_dataLINE = gridfs_zipline.put(zip_fileLINE,filename=f'{new_name}-LINE.zip')
             with open(os.path.join(TEMPCOM_FOLDER, folderSINE, f'{new_name}-LINE.tar.gz'), "rb") as tar_fileLINE:
-                tar_dataLINE = tar_fileLINE.read()
+                tar_dataLINE = gridfs_tarline.put(tar_fileLINE,filename=f'{new_name}-LINE.tar.gz')
+            print("Conversão concluída!")
+            print("")
 
             #--------------------Trabalhando com BD -----------------------------
-            #Criando uma chave para o usuário busca dados
-            secret_key = os.urandom(24)
-            # Converta a chave em uma string hexadecimal
-            key_security = secret_key.hex()
-
-            expiration_period = timedelta(hours=72)
-            expiration_date = datetime.utcnow() + expiration_period
-
-            #banco de dados mongodb
-            mongo.db.user.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.users.insert_one({
-                "key": key_security,
-                "email": email,
-                "genome-input": filename,
-                "genome-output": new_name,
-                "expiration-date": expiration_date
-            })
-
-            mongo.db.zipsine.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.zipsine.insert_one({
+            print("Enviando binários para o banco de dados")
+            mongo.db.zipsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.zipsine_metadata.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "zip-sine-name": (f'{new_name}-SINE.zip'),
@@ -649,8 +758,8 @@ def upload_file_for_sineline_annotation():
                  "expiration-date": expiration_date
             })
 
-            mongo.db.tarsine.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.tarsine.insert_one({
+            mongo.db.tarsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.tarsine_metadata.insert_one({
                  "key": key_security,
                  "sine-data": folderSINE,
                  "tar-sine-name": (f'{new_name}-SINE.tar.gz'),
@@ -658,8 +767,10 @@ def upload_file_for_sineline_annotation():
                  "expiration-date": expiration_date
             })
 
-            mongo.db.zipline.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.zipline.insert_one({
+            print("Dados registrados")
+
+            mongo.db.zipline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.zipline_metadata.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "zip-line-name": (f'{new_name}-LINE.zip'),
@@ -667,8 +778,8 @@ def upload_file_for_sineline_annotation():
                  "expiration-date": expiration_date
             })
 
-            mongo.db.tarline.create_index("expiration-date", expireAfterSeconds=259200)
-            mongo.db.tarline.insert_one({
+            mongo.db.tarline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
+            mongo.db.tarline_metadata.insert_one({
                  "key": key_security,
                  "line-data": folderLINE,
                  "tar-line-name": (f'{new_name}-LINE.tar.gz'),
@@ -676,7 +787,19 @@ def upload_file_for_sineline_annotation():
                  "expiration-date": expiration_date
             })
 
+            print("Dados registrados")
+            print("")
+
             send_email_complete_annotation(email, key_security)
+            print("Dados enviados para: ", email)
+            print("")
+
+            #Informando as pastas criadas
+            print("Pasta SINE: ", folderSINE)
+            print("Pasta LINE: ", folderLINE)
+            print("Processo de anotação SINE e LINE finalizada")
+            print("")
+
             return render_template("index.html")        
     return render_template("index.html")
 
@@ -685,6 +808,11 @@ def upload_file_for_sineline_annotation():
 def results(key_security):
     # Consulte o banco de dados usando a chave para obter informações relevantes
     user_info = mongo.db.users.find_one({"key": key_security})    
+
+    gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
+    gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
+    gridfs_zipline = GridFS(mongo.db, collection='zipline')
+    gridfs_tarline = GridFS(mongo.db, collection='tarline')
     
     # Verifique se a chave é válida (se o usuário existe no banco de dados)
     if user_info is None:
@@ -728,29 +856,60 @@ def results(key_security):
         bin_file = filecsv.get("file-csv")
         file_csv = base64.b64encode(bin_file).decode('utf-8')
 
-    zipsine_info = mongo.db.zipsine.find_one({"key": key_security})
+    # ---- arquivos compactados ---
+    zipsine_info = mongo.db.zipsine_metadata.find_one({"key": key_security})
     if zipsine_info is None:
         zip_sine_file = ""
     else:
-        zip_sine_file = base64.b64encode(zipsine_info.get("zip-sine-file")).decode('utf-8')
+        # Recupere o ObjectId do arquivo no GridFS
+        file_zipsine_id = zipsine_info.get("zip-sine-file")
 
-    zipline_info = mongo.db.zipline.find_one({"key": key_security})
+        # Certifique-se de que 'file_zipsine_id' é um ObjectId
+        if isinstance(file_zipsine_id, ObjectId):
+            file_data_zipsine = gridfs_zipsine.get(file_zipsine_id).read()
+            zip_sine_file = base64.b64encode(file_data_zipsine).decode('utf-8')
+        else:
+            zip_sine_file = ""
+
+    # -----------------------
+    zipline_info = mongo.db.zipline_metadata.find_one({"key": key_security})
     if zipline_info is None:
         zip_line_file = ""
     else:
-        zip_line_file = base64.b64encode(zipline_info.get("zip-line-file")).decode('utf-8')
+        file_zipline_id = zipline_info.get("zip-line-file")
 
-    tarsine_info = mongo.db.tarsine.find_one({"key": key_security})
+        if isinstance(file_zipline_id, ObjectId):
+            file_data_zipline = gridfs_zipline.get(file_zipline_id).read()
+
+            zip_line_file = base64.b64encode(file_data_zipline).decode('utf-8')
+        else:
+            zip_line_file = ""
+
+    # -----------------------
+    tarsine_info = mongo.db.tarsine_metadata.find_one({"key": key_security})
     if tarsine_info is None:
         tar_sine_file = ""
     else:
-        tar_sine_file = base64.b64encode(tarsine_info.get("tar-sine-file")).decode('utf-8')
+        file_tarsine_id = tarsine_info.get("tar-sine-file")
 
-    tarline_info = mongo.db.tarline.find_one({"key": key_security})
+        if isinstance(file_tarsine_id, ObjectId):
+            file_data_tarsine = gridfs_tarsine.get(file_tarsine_id).read()
+            tar_sine_file = base64.b64encode(file_data_tarsine).decode('utf-8')
+        else:
+            tar_sine_file = ""
+
+    # -----------------------
+    tarline_info = mongo.db.tarline_metadata.find_one({"key": key_security})
     if tarline_info is None:
         tar_line_file = ""
     else:
-        tar_line_file = base64.b64encode(tarline_info.get("tar-line-file")).decode('utf-8')
+        file_tarline_id = tarline_info.get("tar-line-file")
+
+        if isinstance(file_tarline_id, ObjectId):
+            file_data_tarline = gridfs_tarline.get(file_tarline_id).read()
+            tar_line_file = base64.b64encode(file_data_tarline).decode('utf-8')
+        else:
+            tar_line_file = ""
 
     
 
