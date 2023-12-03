@@ -14,7 +14,22 @@ font-family: 'Roboto', sans-serif;
 	  opacity: 1;
 	  transform: translateY(0);
 	}
-  }
+}
+
+@keyframes sidadebarAnimation {
+	to{
+		transform: unset;
+		opacity: 1;
+	}
+}
+
+@keyframes showElementAnimation {
+	to{
+		transform: translate(0,0);
+		opacity: 1;
+	}
+}
+
 
 :root{
 	--write:	#F5F5F5;
@@ -25,11 +40,13 @@ font-family: 'Roboto', sans-serif;
 	--green-02: #00875F;
 	--green-03: #23693B;
 	--green-04: #015F43;
+	--green-05: #2d8b6f80;
 	--purple-01:#8D6FC5;
     --purple-02:#3B2369;
 	--blue: 	#81D8F7;
 	--orange:   #FBA94C;
 	--black:    #29292E;
+	
 }
 
 *{
@@ -39,21 +56,23 @@ font-family: 'Roboto', sans-serif;
 	text-decoration: none;
 }
 
-html{
-	height: 100%;
-}
 
 body{
+	font-size: 1.6rem;
 	display: flex;
 	flex-direction: row;
 
-	height: 100%;
+	width: 100%;
+	height: 100vh;
 	overflow: hidden;
+}
+
+.menuMobile{
+	display: none;
 }
 
 aside{
 	width: 6rem;
-	border-right: 0.25rem solid var(--purple-02);
 	background-image: linear-gradient(to top, 
 	#46CE75, 
 	#2E7948,
@@ -66,6 +85,58 @@ aside{
 	transition: 0.5s;
 }
 
+.aside{
+	left: 0;
+	transform: translateX(-100%);
+	height: 100%;
+	z-index: 2;
+
+	border: 0;
+	padding: 1rem;
+
+	opacity: 0;
+	width: 7.4rem;
+	overflow: hidden;
+	transition: all .3s ease;
+
+	animation: sidadebarAnimation .5s ease-in-out .3s forwards;
+}
+
+.aside:hover{
+	width: 18rem;
+}
+
+.aside:hover .txt-link{
+	opacity: 1;
+	visibility: visible;
+}
+
+.txt-link{
+	opacity: 0;
+	visibility: hidden;
+	font-weight: bold;
+}
+
+#menu{
+	margin-top: 0.5rem;
+}
+
+#menu .logoAnnotep{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 2rem !important;
+}
+
+#menu .logoAnnotep a{
+	display: flex;
+}
+
+#menu .logoAnnotep img{
+	margin: 0;
+	width: 3.3rem;
+	height: 3.3rem;
+}
+
 aside li{
 	display: flex;
 	flex-direction: row;
@@ -75,14 +146,59 @@ aside li{
 	height: 4rem;
 
 	font-family: 'Outfit', sans-serif;
-	font-size: 1rem;
+	font-size: 1.2rem;
 	font-weight: 400;
 
-	transition: .5s;
+	transition: all .3s ease;
 	color: var(--write);
 }
 
-aside spam{
+#menu li{
+	gap: 2.5rem;
+	width: 100%;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	border-radius: 1rem;
+}
+
+#menu li:not(:last-child){
+	margin-bottom: .5rem;
+}
+
+#menu li img{
+	width: 2rem;
+	height: 2rem;
+	margin: 0;
+	margin-left: 1.5rem;
+}
+
+#menu li span{
+	margin: 0;
+}
+
+#menu li:hover{
+	background-color: var(--green-05);
+}
+
+#menu li.open{
+	background-color: var(--green-02);
+}
+
+.aside .menu-side{
+	visibility: hidden;
+}
+
+.txt-link{
+	display: flex;
+	opacity: 1;
+}
+
+.showAside{
+	transform: translateX(0);
+}
+
+aside span{
 	opacity: 0;
 	transition: .3s;
 }
@@ -93,17 +209,11 @@ aside.expandir li{
 }
 
 aside.expandir spam{
-	opacity: 2;
+	opacity: 1;
 }
 
 aside .menu-side{
 	margin: 2.5rem 0 2rem 0; /* Margens: superior direita inferior esquerda */
-}
-
-aside img{
-	width: 1.5rem;
-	height: 1.5rem;
-	margin-left: 2.25rem
 }
 
 aside .btn-expand:hover{
@@ -125,10 +235,16 @@ li.open{
 }
 
 main{
+	width: 100%;
+
 	font-family: 'Roboto', sans-serif;
 	transition: .4s;
 
 	overflow: auto;
+}
+
+.main{
+	width: 100%;
 }
 
 /*main.expandir{
@@ -139,6 +255,12 @@ main{
 header{
 	width: auto;
 	border-bottom: 0.125rem solid var(--green-02);
+
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out .8s forwards;
 }
 
 header section{
@@ -148,13 +270,59 @@ header section{
 	margin: 0 2rem 0.125rem 2rem;
 }
 
+.header{
+	padding: 0;
+	width: 100%;
+	margin-bottom: 2rem;
+}
+
 .logo{
 	width: 30rem;
 	height: 6rem;
 }
 
+#logoImage{
+	transform: translate(0, -1rem);
+	opacity: 0;
+
+	animation: showElementAnimation .5s ease-in-out .3s forwards;
+}
+
+.cloudImageWrapper{
+	background-color: #FFF;
+	border: 1px solid var(--green-01);
+	position: absolute;
+	bottom: 1vh;
+	left: 1vw;
+	border-radius: 50%;
+	padding: .8rem;
+	width: 4.5rem;
+	height: 4.5rem;
+	z-index: 2;
+
+	opacity: 0;
+	animation: showElementAnimation .4s ease-in-out 1s forwards;
+}
+
+.cloudImageWrapper img{
+	width: 100%;
+}
+
+
 .container-main{
 	color: var(--grey-03);
+
+	width: min(100%, 120rem);
+	margin: auto;
+}
+
+.description-screen{
+	line-height: 1.6rem;
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 1s forwards;
 }
 
 .replace{
@@ -180,6 +348,34 @@ article span{
 
 	margin: 2.5rem 5.5rem 2.5rem 5.5rem;
 }
+
+.container-explicative b,
+.container-explicative .box-explicative a{
+	text-shadow: none;
+}
+
+.container-explicative .box-explicative{
+	margin: 0;
+	width: 100%;
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 1.2s forwards;
+}
+
+.container-explicative .box-explicative span{
+	font-size: 1.5rem;
+}
+
+.rectangle-green{
+	margin: 0;
+	width: 100%;
+	opacity: 0;
+
+	animation: showElementAnimation .5s ease-in-out 1.4s forwards;
+}
+
 
 .box-explicative{
 	width: 20rem;
@@ -234,12 +430,13 @@ article span{
 }
 
 .img-email{
-	width: 3rem;
-	height: 4rem;
+	width: 4rem;
+	height: 5rem;
 }
 
 .container-data-input{
 	margin:0 2rem 0 2rem;
+	padding-top: 0;
 }
 
 .container-data-input section{
@@ -251,6 +448,8 @@ article span{
 	align-items: center;
 	align-content: center;
 	justify-content: center;
+
+	margin: 0 5rem 0 5rem;
 }
 
 .rectangle-green{
@@ -268,6 +467,11 @@ article span{
 	
 	text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
 	border-bottom: 0.125rem solid var(--green-02);
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 1.6s forwards;
 }
 
 .icon-help{
@@ -297,15 +501,50 @@ article span{
 	border-radius: 0.3125rem;
 	padding-left: 1rem;
 	border: 0.0625rem solid var(--grey-03);
-	
+	opacity: 0.7;
 	background: var(--write);
-	color: var(--grey-03);
+	color: var(--grey-02);
 }
 
 .email:focus {
 	border: 0.0625rem solid var(--grey-02);
 	color: var(--grey-03);
 	outline: none; 
+}
+
+.container-email,
+.container-genome{
+	width: 100%;
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 1.8s forwards;
+}
+
+.container-action .session-title{
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 2s forwards;
+}
+
+
+.container-action .box-checkboxs .container-checkbox{
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 2.4s forwards;
+}
+
+.container-submit{
+	margin-top: 1rem;
+	width: min(100%, 20rem);
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+
+	animation: showElementAnimation .5s ease-in-out 3.2s forwards;
 }
 
 .input-text{
@@ -362,7 +601,8 @@ input[type="file"]{
 	flex-direction: row;
 	gap: 2rem;
 
-	color: var(--darkgrey);
+	color: var(--grey-03);
+	font-size: 1rem;
 }
 
 .checkbox{
@@ -416,6 +656,12 @@ footer{
 
 	font-size: 1rem;
 	font-weight: 400;
+
+	transform: translate(0, -1rem);
+
+	opacity: 0;
+
+	animation: showElementAnimation .5s ease-in-out 3.9s forwards;
 }
 
 .cite-us{
@@ -543,3 +789,406 @@ footer.dark-theme a{
 	font-size: 1.125rem;
 	color: var(--grey-03);
   }
+
+.Download,
+.Help,
+.About,
+.Contact{
+	border: 3px solid var(--green-02);
+	width: 100%;
+	height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+
+	display: none;
+
+	font-family: 'Outfit', sans-serif;
+	color: var(--green-01);
+}
+
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.container-explicative .box-explicative span {
+		font-size: 1.2rem;
+	}
+
+	.container-explicative{
+		gap: 4rem;
+		margin: 2rem 4rem 2rem 4rem;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	aside{
+		width: 4rem;
+	}
+	
+	.aside{
+		padding: 0.5rem;
+		width: 6rem;
+
+	}
+	
+	.aside:hover{
+		width: 14rem;
+	}
+	
+	#menu{
+		margin-top: 1.5rem;
+	}
+	
+	#menu .logoAnnotep img{
+		width: 3rem;
+		height: 3rem;
+	}
+	
+	aside li{
+		gap: 2rem;
+		width: 3rem;
+		height: 3.5rem;
+		font-size: 1rem;
+	}
+	
+	#menu li{
+		gap: 1.5rem;
+	}
+	
+	#menu li img{
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+	
+	aside.expandir li{
+		gap: 2rem;
+		width: 8rem;
+	}
+	
+	aside.expandir{
+		width: 8rem;
+	}
+	
+	
+	article{
+		font-size: 1.2rem;
+	}
+
+	.container-explicative .box-explicative span {
+		font-size: 1rem;
+	}
+
+	.container-explicative{
+		gap: 3rem;
+		margin: 2rem 3rem 2rem 3rem;
+	}
+
+	.be3 {
+		font-size: 1rem !important;
+	}
+
+	.img-email{
+		width: 3rem;
+		height: 4rem;
+	}
+
+	.img-dna, .img-phylogeny{
+		width: 5rem;
+		height: 5rem;
+	}
+
+	.cloudImageWrapper{
+		bottom: 1vh;
+		left: 1.5vw;
+		padding: 0.7rem;
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+
+	
+}
+
+@media (min-width: 481px) and (max-width: 767px){
+	.menuMobile{
+		display: flex;
+		position: absolute;
+		top: 5vh;
+		left: 2rem;
+		cursor: pointer;
+		z-index: 3;
+
+		animation: showElementAnimation 1s ease-in-out 1s forwards;
+	}
+	
+	.ph-list{
+		color: var(--green-01);
+		font-size: 2.6rem;
+		transition: all 1.2s ease;
+	}
+	
+	.iconColor{
+		color: #fff;
+		border: 0;
+		background:none;
+	}
+
+	.aside{
+		position: fixed;
+		left: -300px;
+		width: 12rem;
+		height: 100%;
+		z-index: 2;
+
+		padding: 1rem;
+	}
+
+	.aside:hover{
+		width: 12rem;
+	}
+
+	.showAside{
+		transition: 1s;
+		left: 0;
+	}
+
+	.logoAnnotep img{
+		display: none;
+	}
+
+	#menu{
+		margin-top: 5rem;
+	}
+
+	#menu li{
+		gap: 1.5rem;
+		width: 100%;
+	}
+
+	#menu li:not(:last-child){
+		margin-bottom: .5rem;
+	}
+
+	#menu li img{
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.txt-link{
+		opacity: 1;
+		font-size: 1rem;
+		visibility: inherit;
+	}
+
+	article{
+		font-size: 1.2rem;
+	}
+
+	.header .container-header{
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin: 0;
+	}
+
+	#logoImage{
+		width: 20rem;
+	}
+
+	.container-explicative .box-explicative span {
+		font-size: 1rem;
+	}
+
+	.container-explicative{
+		gap: 3rem;
+		margin: 2rem 3rem 2rem 3rem;
+		padding: 0 4rem 0 4rem;
+
+		flex-direction: column;
+		text-align: center;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.img-email{
+		width: 3rem;
+		height: 4rem;
+	}
+
+	.img-dna, .img-phylogeny{
+		width: 5rem;
+		height: 5rem;
+	}
+
+	.cloudImageWrapper{
+		bottom: 1vh;
+		left: 1.5rem;
+		padding: 0.7rem;
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+
+	.email{
+		width: 28rem;
+		height: 2rem;
+	}
+
+	.input-text{
+		width: 22rem;
+		height: 2rem;
+	}
+	
+}
+
+@media (min-width: 200px) and (max-width: 480px){
+	.menuMobile{
+		display: flex;
+		position: absolute;
+		top: 5vh;
+		left: 2rem;
+		cursor: pointer;
+		z-index: 3;
+
+		animation: showElementAnimation 1s ease-in-out 1s forwards;
+	}
+	
+	.ph-list{
+		color: var(--green-01);
+		font-size: 2.6rem;
+		transition: all 1.2s ease;
+	}
+	
+	.iconColor{
+		color: #fff;
+		border: 0;
+		background:none;
+	}
+
+	.aside{
+		position: fixed;
+		left: -300px;
+		width: 12rem;
+		height: 100%;
+		z-index: 2;
+
+		padding: 1rem;
+	}
+
+	.aside:hover{
+		width: 12rem;
+	}
+
+	.showAside{
+		transition: 1s;
+		left: 0;
+	}
+
+	.logoAnnotep img{
+		display: none;
+	}
+
+	#menu{
+		margin-top: 5rem;
+	}
+
+	#menu li{
+		gap: 1.5rem;
+		width: 100%;
+	}
+
+	#menu li:not(:last-child){
+		margin-bottom: .5rem;
+	}
+
+	#menu li img{
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.txt-link{
+		opacity: 1;
+		font-size: 1rem;
+		visibility: inherit;
+	}
+
+	article{
+		font-size: 1.2rem;
+	}
+
+	.header .container-header{
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin: 0;
+	}
+
+	#logoImage{
+		width: 18rem;
+	}
+
+	.container-explicative .box-explicative span {
+		font-size: 1rem;
+	}
+
+	.container-explicative{
+		gap: 3rem;
+		margin: 2rem 3rem 2rem 3rem;
+		padding: 0 4rem 0 4rem;
+
+		flex-direction: column;
+		text-align: center;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.be3 {
+		font-size: 1rem !important;
+	}
+
+	.img-email{
+		width: 3rem;
+		height: 4rem;
+	}
+
+	.img-dna, .img-phylogeny{
+		width: 5rem;
+		height: 5rem;
+	}
+
+	.cloudImageWrapper{
+		bottom: 1vh;
+		left: 1.5rem;
+		padding: 0.7rem;
+		width: 3.5rem;
+		height: 3.5rem;
+	}
+
+	.email{
+		width: 21rem;
+		height: 2rem;
+	}
+
+	.input-text{
+		width: 15rem;
+		height: 2rem;
+	}
+
+	.container-checkbox{
+		margin: 0;
+		padding: 0;
+
+		width: 7.5rem;
+	}
+
+	.box-checkboxs{
+		gap: 0.2rem;
+		font-size: 1rem;
+	}
+
+	footer{
+		font-size: 1rem;
+	}
+
+	
+}

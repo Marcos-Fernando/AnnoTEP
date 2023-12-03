@@ -6,14 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results-page.css') }}" />
-    <title>TEP - Results </title>
+    <title> AnnoTEP - Results </title>
+
+	<script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
+	<div class="menu-side">
+		<!--<img class="btn-expand" id="btn-expand" src="assets/Vector.svg">-->
+		<i class="ph-bold ph-list"></i>
+	</div>
+
 	<aside class="aside">
-		<div class="menu-side">
-			<img class="btn-expand" id="btn-expand" src="../static/assets/Vector.svg">
-		</div>
 		<ul id="menu">
+			<div class="logoAnnotep">
+				<a href="./index.html">
+					<img src="../static/assets/icon.svg" alt="Logo do Annotep">
+				</a>
+			</div>
+
 			<li class="li open" id="Non-LTR">
 				<a href="#Non-LTR-section">
 					<img class="home-icon" src="../static/assets/icon-dna-sl.svg">
@@ -53,11 +63,14 @@
 		</ul>
 	</aside>
 
+	<div class="cloudImageWrapper">
+		<img id="cloudImage" class="replace" src="../static/assets/CloudMoon.svg">
+	</div>
+
 	<main class="main">
 		<header class="header">
 			<section class="container-header">
 				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
-				<img id="cloudImage" class="replace" src="../static/assets/CloudMoon.svg">
 			</section>
 		</header>
 		
@@ -69,8 +82,8 @@
 
 			<section class="container-compact">
 				<section class="box-compact">
-					<p>.zip format</p>
-					<div class="nonLTRdownload">
+					<p class="zipFormatTitle" style="--delay: .9s">.zip format</p>
+					<div class="nonLTRdownload" style="--delay: 1.2s">
 						{% if zip_sine_file %}
 						<a href="data:application/zip;base64,{{ zip_sine_file }}" class="non-ltr-data" download="TES-zip-sine">
 							<img class="box-icon" src="../static/assets/box.svg"/>
@@ -83,7 +96,7 @@
 						</a>
 						{% endif %}
 					</div>
-					<div class="nonLTRdownload">
+					<div class="nonLTRdownload" style="--delay: 1.4s">
 						{% if zip_line_file %}
 							<a href="data:application/zip;base64,{{ zip_line_file }}" class="non-ltr-data" download="TES-zip-line"> 
 								<img class="box-icon" src="../static/assets/box.svg"/>
@@ -98,10 +111,10 @@
 					</div>
 				</section>
 				<section class="box-compact">
-					<p>.tar.gz format</p>
-					<div class="nonLTRdownload">
+					<p class="tarGzFormatTitle" style="--delay: 1.6s">.tar.gz format</p>
+					<div class="nonLTRdownload" style="--delay: 1.9s">
 						{% if tar_sine_file %}
-						<a href="{{ tar_sine_file }}" class="non-ltr-data" download="TES-tar-sine">
+						<a href="data:application/gzip;base64,{{ tar_sine_file }}" class="non-ltr-data" download="TES-tar-sine.tar.gz">
 							<img class="box-icon" src="../static/assets/box.svg"/>
 							SINE Data 
 						</a>
@@ -112,9 +125,9 @@
 						</a>
 						{% endif %}
 					</div>
-					<div class="nonLTRdownload">
+					<div class="nonLTRdownload" style="--delay: 2.1s">
 						{% if tar_line_file %}
-						<a href="data:application/x-tar;base64,{{ tar_line_file }}" class="non-ltr-data" download="TES-tar-line">
+						<a href="data:application/gzip;base64,{{ tar_line_file }}" class="non-ltr-data" download="TES-tar-line.tar.gz">
 							<img class="box-icon" src="../static/assets/box.svg"/>
 							LINE Data 
 						</a>
@@ -130,7 +143,7 @@
 		</section>
 
 		<section class="container-data" id="Report-section">
-			<div class="title-data">
+			<div class="title-data" style="--delay: 2.4s">
 				<p>Report</p>
 				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 			</div>
@@ -162,7 +175,7 @@
 					</table>
 				</div>
 
-				<div class="container-downloaddata">
+				<div class="container-downloaddata" style="--delay: 3s">
 					{% if filecsv %}
 					<a href="data:text/csv;base64,{{ filecsv }}" class="downloaddata" download="TEs-report">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
@@ -179,16 +192,17 @@
 		</section>
 
 		<section class="container-data" id="Landscape-section">
-			<div class="title-data">
-				<p>Landscape Graphs</p>
+			<div class="title-data" style="--delay: 3.3s">
+				<p>Repeat Landscape Graphs</p>
 				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 			</div>
 
 			<section class="container-landscape">
 				{% if svg_landscape %}
-				<img class="Landscape-img" src="data:image/svg+xml;base64,{{ svg_landscape }}"/>
-
-				<div class="container-downloaddata">
+				<figure class="wrapper-landscape-img" style="--delay: 3.6s">
+					<img class="Landscape-img" src="data:image/svg+xml;base64,{{ svg_landscape }}"/>
+				</figure>
+				<div class="container-downloaddata" style="--delay: 3.9s">
 					<a href="data:image/svg+xml;base64,{{ svg_landscape }}" class="downloaddata" download="TEs-landscape-graphs">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download Landscape Graphs 
@@ -206,35 +220,39 @@
 		</section>
 
 		<section class="container-data" id="Ltr-section">
-			<div class="title-data">
-				<p>LTR Family</p>
+			<div class="title-data" style="--delay: 4.2s">
+				<p>LTR Superfamily</p>
 				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 			</div>
 		
 			<section class="container-ltrfamily">
-			{% if svg_copia %}	
+			{% if svg_copia %}
+			<figure class="wrapper-ltr-copia" style="--delay: 4.5s">
 				<img class="ltr-copia" src="data:image/svg+xml;base64,{{ svg_copia }}"/>
+			</figure>	
+			<figure class="wrapper-ltr-gypsy" style="--delay: 4.7s">
 				<img class="ltr-gypsy" src="data:image/svg+xml;base64,{{ svg_gypsy }}"/>
+			</figure>
 
-				<div class="container-downloaddata container-family">
+				<div class="container-downloaddata container-family" style="--delay: 5s">
 					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloaddata" download="TES-family-copia">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Family Copia
+						Download LTR Superfamily Copia
 					</a>
 					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloaddata" download="TES-family-gypsy">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Family Gypsy
+						Download LTR Superfamily Gypsy
 					</a>
 				</div>
 			{% else %}
 				<div class="container-downloaddata container-family">
 					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-copia">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Family Copia not avaliable
+						Download LTR Superfamily Copia not avaliable
 					</a>
 					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-gypsy">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Family Gypsy not avaliable
+						Download LTR Superfamily Gypsy not avaliable
 					</a>
 				</div>
 			{% endif %}
@@ -242,16 +260,18 @@
 		</section>
 
 		<section class="container-data" id="phylogeny-section">
-			<div class="title-data">
+			<div class="title-data" style="--delay: 5.3s">
 				<p>Phylogeny</p>
 				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 			</div>
 
 			<section class="container-phylogeny">
 				{% if svg_tree1 %}
-				<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
-
-				<div class="container-downloaddata">
+				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
+					<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
+				</figure>
+				
+				<div class="container-downloaddata" style="--delay: 5.9s">
 					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="TES-Phylogeny">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download Phylogeny 
@@ -269,16 +289,18 @@
 		</section>
 
 		<section class="container-data" id="density-section">
-			<div class="title-data">
+			<div class="title-data" style="--delay: 6.2s">
 				<p>Density</p>
 				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 			</div>
 
 			<section class="container-density">
 				{% if svg_tree2 %}
-				<img class="ltr-density" src="data:image/svg+xml;base64,{{ svg_tree2 }}"/>
-		
-				<div class="container-downloaddata">
+				<figure class="wrapper-ltr-density" style="--delay: 6.4s">
+					<img class="ltr-density" src="data:image/svg+xml;base64,{{ svg_tree2 }}"/>
+				</figure>
+					
+				<div class="container-downloaddata" style="--delay: 6.6s">
 					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="TES-Density">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download Density

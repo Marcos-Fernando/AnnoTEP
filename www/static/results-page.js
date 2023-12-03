@@ -1,4 +1,4 @@
-//------------------  Script para o aside ---------------//
+/* //------------------  Script para o aside ---------------//
 var btnExpand = document.getElementById('btn-expand');
 var menuSide = document.querySelector('.aside');
 var mainleft = document.querySelector('.main');
@@ -18,7 +18,19 @@ menuItems.forEach(function(item) {
 
     this.classList.add('open');
   });
+}); */
+
+//------------------  Script para o aside (MOBILE) ---------------//
+let menuSide = document.querySelector('.menu-side');
+let menuIcon = document.querySelector('.ph-list');
+let aside = document.querySelector('.aside');
+
+menuSide.addEventListener('click', () => {
+  aside.classList.toggle('showAside');
+  menuIcon.classList.toggle('iconColor');
+  console.log('ok!!!');
 });
+
 
 //----------------- Rolagem menu -----------------------//
 // Captura todos os links âncora no menu
@@ -72,5 +84,15 @@ replaceConst.addEventListener('click', function(){
 
   iconHelps.forEach(function(iconhelp) {
     iconhelp.src = isCloudSun ? '../static/assets/QuestionDiamond-dark.svg' : '../static/assets/QuestionDiamond-light.svg';
+  });
+});
+
+// ==== Função para marcar a seção atual na navbar ====
+const liElements = document.querySelectorAll('li');
+
+liElements.forEach((li) => {
+  li.addEventListener('click', () => {
+    liElements.forEach((liOthers) => {liOthers.classList.remove('open')});
+    li.classList.add('open');
   });
 });

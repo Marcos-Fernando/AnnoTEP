@@ -1,12 +1,12 @@
 //------------------  Script para o aside ---------------//
-var btnExpand = document.getElementById('btn-expand');
+//var btnExpand = document.getElementById('btn-expand');
 var menuSide = document.querySelector('.aside');
 var mainleft = document.querySelector('.main');
 
-btnExpand.addEventListener('click', function(){
+/* btnExpand.addEventListener('click', function(){
   menuSide.classList.toggle('expandir')
   mainleft.classList.toggle('expandir')
-})
+}) */
 
 var menuItems = document.querySelectorAll('li');
 
@@ -19,6 +19,17 @@ menuItems.forEach(function(item) {
     this.classList.add('open');
   });
 });
+
+//------------------  Script para o aside (MOBILE) ---------------//
+let menuMobile = document.querySelector('.menuMobile');
+let menuIcon = document.querySelector('.ph-list');
+
+menuMobile.addEventListener('click', () => {
+  menuSide.classList.toggle('showAside');
+  menuIcon.classList.toggle('iconColor');
+  console.log('ok!!!')
+});
+
 
 //------------------  Script para o placeholder ---------------//
 function clearPlaceholder(input) {
@@ -274,3 +285,51 @@ window.addEventListener("click", function (event) {
     modal.style.display = "none";
   }
 });
+
+// ==== Código para alternar os guias da página ====
+document.getElementById('Home').addEventListener('click', () => {
+  document.querySelector('.main').style.display = 'inline-block';
+
+  document.querySelector('.Download').style.display = 'none';
+  document.querySelector('.Help').style.display = 'none';
+  document.querySelector('.About').style.display = 'none';
+  document.querySelector('.Contact').style.display = 'none';
+});
+
+document.getElementById('Download').addEventListener('click', () => {
+  document.querySelector('.Download').style.display = 'flex';
+
+  document.querySelector('.main').style.display = 'none';
+  document.querySelector('.Help').style.display = 'none';
+  document.querySelector('.About').style.display = 'none';
+  document.querySelector('.Contact').style.display = 'none';
+});
+
+document.getElementById('Help').addEventListener('click', () => {
+  document.querySelector('.Help').style.display = 'flex';
+
+  document.querySelector('.main').style.display = 'none';
+  document.querySelector('.Download').style.display = 'none';
+  document.querySelector('.About').style.display = 'none';
+  document.querySelector('.Contact').style.display = 'none';
+});
+
+document.getElementById('About').addEventListener('click', () => {
+  document.querySelector('.About').style.display = 'flex';
+
+  document.querySelector('.main').style.display = 'none';
+  document.querySelector('.Download').style.display = 'none';
+  document.querySelector('.Help').style.display = 'none';
+  document.querySelector('.Contact').style.display = 'none';
+});
+
+document.getElementById('Contact').addEventListener('click', () => {
+  document.querySelector('.Contact').style.display = 'flex';
+
+  document.querySelector('.main').style.display = 'none';
+  document.querySelector('.Download').style.display = 'none';
+  document.querySelector('.Help').style.display = 'none';
+  document.querySelector('.About').style.display = 'none';
+});
+
+// ==== Função para esconder a sidebar quando houver click fora do elemento ====

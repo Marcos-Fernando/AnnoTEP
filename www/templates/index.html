@@ -6,14 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/assets/icon.svg" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
-    <title>TEP - Home </title>
+    <title> AnnoTEP </title>
+
+	<script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
+	<div class="menuMobile">
+		<i class="ph-bold ph-list"></i>
+	</div>
+
 	<aside class="aside">
+		<!--
 		<div class="menu-side">
-			<img class="btn-expand" id="btn-expand" src="static/assets/Vector.svg">
+			<img class="btn-expand" id="btn-expand" src="assets/Vector.svg">
 		</div>
+		-->
 		<ul id="menu">
+			<div class="logoAnnotep">
+				<a href="index.html">
+					<img src="static/assets/icon.svg" alt="Logo do Annotep">
+				</a>
+			</div>
 			<li class="li open" id="Home">
 				<img class="home-icon" src="static/assets/home.svg">
 				<spam class="txt-link">Home</spam>
@@ -37,11 +50,14 @@
 		</ul>
 	</aside>
 
-	<main class="main">
+	<div class="cloudImageWrapper">
+		<img id="cloudImage" class="replace" src="static/assets/CloudMoon.svg">
+	</div>
+
+	<main class="main sectionsPage">
 		<header class="header">
 			<section class="container-header">
 				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
-				<img id="cloudImage" class="replace" src="static/assets/CloudMoon.svg">
 			</section>
 		</header>
 
@@ -152,6 +168,22 @@
 			</div>
 		</footer>
 	</main>
+
+	<section class="Download">
+		<h1>Download</h1>
+	</section>
+
+	<section class="Help">
+		<h1>Help</h1>
+	</section>
+
+	<section class="About">
+		<h1>About</h1>
+	</section>
+
+	<section class="Contact">
+		<h1>Contact</h1>
+	</section>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
