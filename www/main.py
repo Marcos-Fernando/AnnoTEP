@@ -928,6 +928,10 @@ def results(key_security):
                            list_documents=list_documents,
                            filecsv=file_csv)
 
+@app.route('/results-example', endpoint='result_example')
+def results():
+    return render_template('results-fixo.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
