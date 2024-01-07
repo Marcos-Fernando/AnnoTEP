@@ -93,7 +93,10 @@
 			<section class="container-email">
 				<div class="session-title">
 					<p>Email Adress </p>
-					<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					<div class="session-email-icon">
+						<span class="open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
+						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					</div>
 				</div>
 					<input id="email" class="email" type="email" pattern=".com" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
 			</section>
@@ -101,7 +104,10 @@
 			<section class="container-genome">
 				<div class="session-title">
 					<p>Genome data</p>
-					<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					<div class="session-genome-icon">
+						<span class="open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
+						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					</div>
 				</div>
 				<div class="box-input">
 					<input type="text" id="fileNameInput" class="input-text" readonly disabled>
@@ -116,7 +122,12 @@
 			<section class="container-action">
 				<div class="session-title">
 					<p>Type annotation</p>
-					<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					<div class="session-annotation-icon">
+						<span class="open-tab-annotation"> 
+							The annotation process for SINE and LINE elements involves providing concise, compressed data about the elements. <br>
+							The complete annotation goes further, conducting a thorough analysis. It not only includes compressed data on SINEs and LINEs, but also incorporates graphical representations, phylogenetic trees and descriptive tables, providing a more nuanced understanding of these elements.</span>
+						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					</div>
 				</div>
 				<div class="box-checkboxs">
 					<div class="container-checkbox">
