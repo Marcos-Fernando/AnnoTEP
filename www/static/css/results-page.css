@@ -612,6 +612,10 @@ td.dark-theme{
 	border-bottom: 0.0625rem solid var(--write);
 }
 
+.table-footer.dark-theme{
+	color: var(--write);
+}
+
 
 
 /* Modal */

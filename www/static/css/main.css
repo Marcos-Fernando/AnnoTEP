@@ -478,6 +478,8 @@ article span{
 	width: 0.75rem;
 	height: 0.75rem;
 	filter:drop-shadow(0rem 0 0.5rem #121214);
+
+	cursor: pointer;
 }
 
 .session-title{
@@ -673,6 +675,108 @@ footer{
 	cursor: pointer;
 
 	padding-left: 0.125rem;
+}
+
+.session-annotation-icon{
+    width: 0.75rem;
+    height: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.session-email-icon{
+	width: 0.75rem;
+    height: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.session-genome-icon{
+	width: 0.75rem;
+    height: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.open-tab-annotation {
+	width: 19rem;
+	border: 0.125rem solid var(--green-02);
+    border-radius: 0.5rem;
+    color: var(--grey-03);
+	background: var(--write);
+
+	font-weight: 300;
+    font-size: 1rem;
+    text-align: justify;
+    
+    position: absolute;
+    z-index: 1;
+    padding: 0.5rem 0.5rem;
+    margin-left: 0.8rem;
+    margin-top: -16.5rem;
+
+	visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease; 
+}
+
+.open-tab-email{
+	width: 19rem;
+	border: 0.125rem solid var(--green-02);
+    border-radius: 0.5rem;
+    color: var(--grey-03);
+	background: var(--write);
+
+	font-weight: 300;
+    font-size: 1rem;
+    text-align: justify;
+    
+    position: absolute;
+    z-index: 1;
+    padding: 0.5rem 0.5rem;
+    margin-left: 0.8rem;
+    margin-top: -6.5rem;
+
+	visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease; 
+}
+
+.open-tab-genome{
+	width: 19rem;
+	border: 0.125rem solid var(--green-02);
+    border-radius: 0.5rem;
+    color: var(--grey-03);
+	background: var(--write);
+
+	font-weight: 300;
+    font-size: 1rem;
+    text-align: justify;
+    
+    position: absolute;
+    z-index: 1;
+    padding: 0.5rem 0.5rem;
+    margin-left: 0.8rem;
+    margin-top: -6.5rem;
+
+	visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease; 
+}
+
+.session-annotation-icon:hover .open-tab-annotation{
+	visibility: visible;
+	opacity: 1;
+}
+
+.session-email-icon:hover .open-tab-email{
+	visibility: visible;
+	opacity: 1;
+}
+
+.session-genome-icon:hover .open-tab-genome{
+	visibility: visible;
+	opacity: 1;
 }
 
 /*Dark Theme*/
@@ -1038,6 +1142,21 @@ footer.dark-theme a{
 		width: 22rem;
 		height: 2rem;
 	}
+
+	.open-tab-annotation {
+		width: 14rem;
+		margin-top: -22.5rem;
+	}
+	
+	.open-tab-email{
+		width: 14rem;
+		margin-top: -9.5rem;
+	}
+	
+	.open-tab-genome{
+		width: 14rem;
+		margin-top: -7.5rem;
+	}
 	
 }
 
@@ -1190,5 +1309,4 @@ footer.dark-theme a{
 		font-size: 1rem;
 	}
 
-	
 }
