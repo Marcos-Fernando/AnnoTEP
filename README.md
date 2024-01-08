@@ -20,6 +20,8 @@ O AnnoTEP encontra-se em sua fase de prototipagem e oferecerá uma versão basea
 
 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
 
+[MongoDB Compass](https://www.mongodb.com/docs/compass/current/install/)
+
 ### Bibliotecas
 Abra o terminal e baixe as seguintes bibliotecas:
 ```sh
@@ -172,6 +174,12 @@ export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH";
 export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH";
 ```
 Ao finalizar aperte o botão ESC e digite ":wq" para salva as alterações.
+
+----
+
+<b>Dica para usar o vim:</b> aperte a tecla ``i`` para inserir informações e ir até o final do documento, ``ctrl+shift+v`` para colar,  ``esc`` para sair da edição, digite ``:wq`` e depois clique ``enter``para salvar e sair
+
+----
 
 Voltando ao terminal, execute (apenas uma vez):
 ```sh
@@ -447,19 +455,20 @@ Foi utilizado um arquivo contendo o cromossomo da A. thaliana para facilitar o p
 
 ------
 
-
-
-
-Agora instale o flask:
+## Executando a plataforma web
+Acesse a pasta www para ter acesso aos conteudos da plataforma e crie a variavel de ambiente para se trabalhar com flask e suas aplicações
 ```sh
-pip install flask
+python3 -m venv .venv
+..venv/bin/activate
 ```
 
-Instalando o Flask você poderá configurar variáveis de ambiente para ajudar durante a execução projeto.
-Primeira instale dontenv por meio do comando:
+Instale alguns pacotes pip para funcionamento da aplicação (sendo utilizado somente uma vez):
 ```sh
-pip install python-dotenv
+pip install -r ../required.txt 
 ```
+Dentro do required.txt encontrasse os paoctes fundamenteis como Flask e python-dotenv.
+
+Caso algum pacote apresentar erro, será necessários realizar ainstalação manualmente.
 
 Após esse comando você pode está criando o arquivo <b> .flaskenv </b> e configurando as váriaveis, exemplo:
 ```sh
@@ -467,7 +476,7 @@ FLASK_APP = "main.py"
 FLASK_DEBUG = True
 FLASK_ENV = development
 ```
-
+----
 A primeira,<b>FLASK_APP</b> pode ser deixada vazia e então ele procurará por "app" ou "wsgi" (com ou sem o ".py" no final, ou seja, pode ser um arquivo ou um módulo) mas você pode usar:
 * Um módulo a ser importado, como FLASK_APP=hello.web;
 * Um arquivo/módulo no diretório atual, por exemplo FLASK_APP=src/hello;
@@ -480,5 +489,28 @@ E por último, a variável <b>FLASK_ENV</b> definirá o tipo de ambiente projeto
 
 Outras informações sobre as váriaveis de desenvolvimento poderá ser encontrado no site do [Flask](https://flask.palletsprojects.com/en/2.3.x/cli/#dotenv)
 
+----
 
-<b>Dica para usar o vim:</b> aperte a tecla ``i`` para inserir informações e ir até o final do documento, ``ctrl+shift+v`` para colar,  ``esc`` para sair da edição, digite ``:wq`` e depois clique ``enter``para salvar e sair
+Com o flask configurado. Configure o mongodb compass (também pode optarpor mongodb container)
+
+No MongoDB Compass configure uma nova conexão (New Connection) com o  endereço:
+```sh
+mongodb://localhost:27017
+```
+E aperte conectar (connect)
+
+Agora dentro da pasta www e no ambiente criado, execute:
+```sh
+flask run
+```
+Se todas as configurações estiverem corretas, a mensagem deverá aparecer:
+```sh
+ * Serving Flask app 'main.py' (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 264-075-516
+```
+Click sobre  http://127.0.0.1:5000/ ou copie e cole no navegador e comece a testa a platafroma.
