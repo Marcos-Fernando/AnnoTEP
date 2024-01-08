@@ -189,13 +189,13 @@ No terminal digite:
 ```sh
 vim ~/.bashrc
 ```
-Uma janela com instruções irá abrir, arreste até a ultima linha e aperte a letra "i" para digitar o comando PATH:
+Uma janela com instruções irá abrir, arreste até a ultima linha e aperte a letra ``i`` para digitar o comando PATH:
 ```sh
 export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH";
 export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH";
 export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH";
 ```
-Ao finalizar aperte o botão ESC e digite ":wq" para salva as alterações.
+Ao finalizar aperte o botão ``ESC`` e digite ``:wq`` para salva as alterações.
 
 ----
 
