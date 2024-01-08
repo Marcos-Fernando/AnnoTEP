@@ -68,4 +68,4 @@ export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH"
 export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH"
 ```
 
-<b>Dica para usar o vim: <\b> aperte a tecla ``i`` para inserir informações e ir até o final do documento, ``ctrl+shift+v`` para colar,  ``esc`` para sair da edição, digite ``:wq`` e depois clique ``enter``para salvar e sair
+<b>Dica para usar o vim:</b> aperte a tecla ``i`` para inserir informações e ir até o final do documento, ``ctrl+shift+v`` para colar,  ``esc`` para sair da edição, digite ``:wq`` e depois clique ``enter``para salvar e sair
