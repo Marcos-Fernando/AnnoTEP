@@ -74,19 +74,19 @@ sudo python3 setup.py install
 ```
 Verifique a versão do python existente na máquina para prosseguir com a configuração
 
-*Python 3.6
+* Python 3.6
 ```sh
 # Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.6/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
 ```
 
-*Python 3.7
+* Python 3.7
 ```sh
 # Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.7/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
 ```
 
-*Python 3.10
+* Python 3.10
 ```sh
 # Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
@@ -105,23 +105,22 @@ sudo hmmpress AnnoSINE.hmm
 cd $HOME/TEs 
 ```
 ### Baixando genomas para testes
-Theobrama cacao
+* Theobrama cacao
 ```sh
 wget https://cocoa-genome-hub.southgreen.fr/sites/cocoa-genome-hub.southgreen.fr/files/download/Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 tar xvfz Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 mv Theobroma_cacao_pseudochromosome_v1.0_tot.fna Tcacao.fasta
 ```
 
-Arabidopsis thaliana 
+* Arabidopsis thaliana 
 ```sh
 wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz
 gzip -d TAIR10_chr_all.fas.gz
 cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
 rm TAIR10_chr_all.fas
 ```
-
+* Chromossomo 4 A. thaliana
 ```sh
-# Chromossomo $ A. thaliana
 sudo cp SINE/AnnoSINE/Testing/A.thaliana_Chr4.fasta AtChr4.fasta
 ```
 
