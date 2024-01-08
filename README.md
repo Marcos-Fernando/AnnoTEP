@@ -26,6 +26,17 @@ O pipeline foi testado apenas no Ubuntu 20.04+, em outras sistemas operacionais 
 
 [MongoDB Compass](https://www.mongodb.com/docs/compass/current/install/)
 
+
+## Baixe o repositório
+```sh
+https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
+```
+
+Acesse o local do repositório na máquina:
+```sh
+cd $HOME/TEs
+```
+### Configurando o repositório local
 ### Bibliotecas
 Abra o terminal e baixe as seguintes bibliotecas:
 ```sh
@@ -50,16 +61,7 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("ggtree")
 BiocManager::install("ggtreeExtra")
 ```
-## Baixe o repositório
-```sh
-https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
-```
 
-Acesse o local do repositório na máquina:
-```sh
-cd $HOME/TEs
-```
-### Configurando o repositório local
 Dentro da pasta copia os scripts para local/bin de sua máquina:
 ```sh
 sudo cp Scripts/irf /usr/local/bin
