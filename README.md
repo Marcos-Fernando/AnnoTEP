@@ -14,6 +14,10 @@ O AnnoTEP encontra-se em sua fase de prototipagem e oferecerá uma versão basea
 * Geração de gráficos apresentando a idade dos elementos Gypsy e Copia
 * Geração de gráfico da filogenia e densidade dos TEs
 
+### Sobre
+O pipeline foi testado apenas no Ubuntu 20.04+, em outras sistemas operacionais pode apresentar erros, sendo necessário baixa a imagem docker em: docker pull marcosnando/annotep:web2
+
+
 ## Instalação local
 ## Prerequisitos
 [Python 3.7+](https://www.python.org/)
