@@ -29,7 +29,7 @@ O pipeline foi testado apenas no Ubuntu 20.04+, em outras sistemas operacionais 
 
 ## Baixe o repositório
 ```sh
-https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
+git clone https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
 ```
 
 Acesse o local do repositório na máquina:
