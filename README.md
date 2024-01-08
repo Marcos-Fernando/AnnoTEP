@@ -87,7 +87,7 @@ sudo hmmpress GyDB2.hmm
 sudo hmmpress AnnoSINE.hmm
 cd $HOME/TEs 
 ```
-###Baixando genomas para testes
+### Baixando genomas para testes
 Theobrama cacao
 ```sh
 wget https://cocoa-genome-hub.southgreen.fr/sites/cocoa-genome-hub.southgreen.fr/files/download/Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
