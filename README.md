@@ -67,14 +67,18 @@ Dentro da pasta copia os scripts para local/bin de sua máquina:
 sudo cp Scripts/irf /usr/local/bin
 sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
-Agora configure o TEsorter (recomenda-se verificar a versão de python existente na máquina para continuar a configuração):
+Agora configure o TEsorter
 ```sh
 cd $HOME/TEs/TEsorter
 sudo python3 setup.py install
-
+```
+Verifique a versão do python existente na máquina para prosseguir com a configuração
+```sh
 # Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.6/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
-or
+
+#or
+
 cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/
 
 sudo hmmpress REXdb_v3_TIR.hmm
