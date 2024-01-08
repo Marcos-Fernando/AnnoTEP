@@ -126,14 +126,12 @@ Você pode fazer o teste com a A. thaliana ou T. cacao:
 ```sh
 cd bin
 python3 AnnoSINE.py 3 $HOME/TEs/At.fasta At
-#
+
+cd ..
 ```
 
 Copie o Seed_SINE.fa para o diretório inicial do pipeline:
 ```sh
-#Saia da pasta bin
-cd ..
-
 cp ./Output_Files/Seed_SINE.fa $HOME/TEs/AtCh4-Seed_SINE.fa
 ```
 
@@ -202,7 +200,252 @@ Execute MGEScan-non-LTR
 mgescan nonltr $HOME/TEs/non-LTR/Atch4-LINE --output=$HOME/TEs/non-LTR/Atch4-LINE-results --mpi=4
 ```
 
--------------------
+Processando os resultados MGEScan-não-LTR: removendo falsos positivos com TEsorter e gerando a biblioteca LINE não redundante pré-final mostrando entrada compatível para o pipeline EDTA modificado:
+
+Primeiro, entre na pasta que contém os resultados
+```sh
+cd ..
+
+cd Atch4-LINE-results
+```
+Em seguida, na janela do seu terminal, copie e cole o código abaixo e execute. Isso irá gerar o arquivo LINE-lib.fa não redundante:
+```sh
+cat info/full/*/*.dna > temp.fa
+cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
+bash ver.sh  | sed 's#\t#:#' | sed 's#\t#\.\.#'   > list.txt
+#
+mkdir TMP
+break_fasta.pl < temp.fa TMP/
+cat temp.fa | grep \> | sed 's#>#cat ./TMP/#g' | sed 's#$#.fasta#g' > A.txt
+cat temp.fa | grep \> > list2.txt
+paste list2.txt list.txt | sed 's/>/ sed "s#/g'  | sed 's/\t/#/g' | sed 's/$/#g"/g'   > B.txt
+paste A.txt B.txt  -d"|"  > rename.sh
+bash rename.sh > candidates.fa
+#
+#/usr/local/bin/TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre LINE -p 22 -cov 60 candidates.fa
+/usr/local/bin/TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre LINE -p 22 -cov 80 -eval 0.0001 -rule 80-80-80 candidates.fa
+more LINE.cls.lib  | sed 's/#/__/g'  | sed 's#.fa##g' | cut -f 1 -d" " | sed 's#/#-#g'  > pre1.fa
+mkdir pre1
+break_fasta.pl < pre1.fa pre1
+cat pre1/*LINE.fasta  | sed 's#__#\t#g' | cut -f 1  > pre2.fa
+#/usr/local/bin/TEsorter -db rexdb-line --hmm-database rexdb-line -pre LINE2 -p 22 -cov 60 pre2.fa
+/usr/local/bin/TEsorter -db rexdb-line --hmm-database rexdb-line -pre LINE2 -p 22 -cov 60 -eval 0.0001 -rule 80-80-80 pre2.fa
+more LINE2.cls.lib  | sed 's/#/__/g'  | sed 's#.fa##g' | cut -f 1 -d" " | sed 's#/#-#g'  > pre-final.fa
+mkdir pre-final
+break_fasta.pl < pre-final.fa pre-final
+cat pre-final/*LINE*.fasta  > pre-final2.fa
+cdhit-est -i pre-final2.fa -o clustered -c 0.8 -G 1 -T 22 -d 100 -s 0.6 -aL 0.6 -aS 0.6
+cat clustered | sed 's/__/#/g' | sed 's#-#/#g'  > LINE-lib.fa
+#
+rm -rf pre1/ pre-final/ TMP/
+rm LINE2*
+rm LINE.cls.*
+rm A.txt B.txt clustered.clstr clustered LINE.dom* list2.txt list.txt pre1.fa pre2.fa pre-final2.fa pre-final.fa rename.sh temp.fa ver.sh candidates.fa
+cp LINE-lib.fa $HOME/TEs/Atch4-LINE-lib.fa
+```
+
+Finalize desativando o ambiente de desenvolvimento e retornando ao diretório inicial do pipeline:
+```sh
+deactivate
+cd $HOME/TEs
+```
+
+### Configurando EDTA versão modificada
+Instale e ative o ambiente EDTA conda (necessário apenas executar uma vez)
+```sh
+cd EDTA
+# Re-start the conda enviroment 
+bash
+
+conda env create -f EDTA.yml
+conda activate EDTA
+
+perl EDTA.pl
+```
+
+Agora execute EDTA, utilizaremos AtChr4.fasta
+```sh
+cd ..
+mkdir AtCh4
+cd AtCh4
+```
+
+Com nohup:
+```sh
+# Run EDTA in the backgroup
+nohup $HOME/TEs/EDTA/EDTA.pl --genome ../AtChr4.fasta --species others --step all --line ../Atch4-LINE-lib.fa --sine ../AtCh4-Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+```
+
+Acomapnhe o progresso por:
+```sh
+tail -f EDTA.log
+```
+
+sem nohup (para acompanhar o progresso)
+```sh
+$HOME/TEs/EDTA/EDTA.pl --genome ../AtChr4.fasta --species others --step all --line ../Atch4-LINE-lib.fa --sine ../AtCh4-Seed_SINE.fa --sensitive 1 --anno 1 --threads 10
+```
+
+Lembre-se de configurar as threads de acordo com suas máquina (neste estamos utilizando apenas 10) sua máquina pode conter menos ou mais em comparação ao código apresentado.
+
+###Gerando o relatório completo
+```sh
+cd $HOME/TEs
+cd AtCh4
+mkdir TE-REPORT
+cd TE-REPORT
+ln -s ../AtChr4.fasta.mod.EDTA.anno/AtChr4.fasta.mod.cat.gz .
+
+perl $HOME/TEs/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint AtChr4.fasta.mod.cat.gz
+
+mv AtChr4.fasta.mod.tbl ../TEs-Report-Complete.txt
+```
+Gerando relatório simples
+```sh
+perl $HOME/TEs/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a AtChr4.fasta.mod.cat.gz
+
+mv AtChr4.fasta.mod.tbl ../TEs-Report-lite.txt
+```
+
+### Gráficos de paisagem repetidos
+Os gráficos de paisagem repetidos ilustram a quantidade relativa de cada classe TE associada à distância Kimura no eixo x como um proxy para o tempo. Em contraste, o eixo y fornece a cobertura comparável de cada classe de repetição com base no tamanho do genoma. Portanto, o gráfico de repetição da paisagem é uma inferência razoável das idades relativas de cada elemento identificado em um determinado genoma.
+
+Na janela do seu terminal, execute:
+```sh
+cd $HOME/TEs
+cd AtCh4
+cd TE-REPORT
+
+cat AtChr4.fasta.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#LINE/.\+ #LINE &#g' > tmp.txt
+#
+
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Copia" -A 5 |  grep -v "\-\-"  > align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Gypsy" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "TIR" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LINE" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LARD" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "TRIM" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "Helitron" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "SINE" -A 5 |  grep -v "\-\-"  >> align2.txt
+cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "Unknown" -A 5 |  grep -v "\-\-"  >> align2.txt
+#
+
+perl $HOME/TEs/ProcessRepeats/calcDivergenceFromAlign.pl -s AtChr4.divsum align2.txt
+
+genome_size="`perl $HOME/TEs/EDTA/util/count_base.pl ../AtChr4.fasta.mod | cut -f 2`" 
+perl $HOME/TEs/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div AtChr4.divsum > ../RepeatLandscape.html
+#
+tail -n 72 AtChr4.divsum > divsum.txt
+#
+cat $HOME/TEs/Rscripts/plotKimura.R | sed "s#_SIZE_GEN_#$genome_size#g" > plotKimura.R
+#
+Rscript plotKimura.R
+mv Rplots.pdf ../RepeatLandScape.pdf
+#
+rm align2.txt
+rm tmp.txt
+```
+<img src="https://i.ibb.co/ScrCSqP/Repeat-Land-Scape.jpg" alt="Repeat-Land-Scape" border="0" />
+
+### Plotagem de idade LTR (Gypsy e Copia)
+
+Para traçar as idades dos elementos LTR Gypsy e LTR Copia, usaremos um Rscript ggplot2.
+```sh
+cd $HOME/TEs
+cd AtCh4
+mkdir LTR-AGE
+cd LTR-AGE
+ln -s ../AtChr4.fasta.mod.EDTA.raw/AtChr4.fasta.mod.LTR-AGE.pass.list .
+
+ln -s $HOME/TEs/Rscripts/plot-AGE-Gypsy.R .
+ln -s $HOME/TEs/Rscripts/plot-AGE-Copia.R .
+
+
+cat -n AtChr4.fasta.mod.LTR-AGE.pass.list  | grep Gypsy  | cut -f 1,13 | sed 's# ##g'  | sed 's#^#Cluster_#g' | awk '{if ($2 > 0) print $n}'   > AGE-Gypsy.txt
+cat -n AtChr4.fasta.mod.LTR-AGE.pass.list  | grep Copia  | cut -f 1,13 | sed 's# ##g'  | sed 's#^#Cluster_#g' | awk '{if ($2 > 0) print $n}'   > AGE-Copia.txt
+#
+# Generating the plots
+Rscript plot-AGE-Gypsy.R
+Rscript plot-AGE-Copia.R
+```
+Os arquivos finais são: AGE-Copia.pdf e AGE-Gypsys.pdf
+
+<img src="https://i.ibb.co/s1MNPXT/AGE-Copia.jpg" alt="AGE-Copia" border="0">
+<img src="https://i.ibb.co/b2bjRBx/AGE-Gypsy.jpg" alt="AGE-Gypsy" border="0">
+
+### Plotar elementos LTR Filogenia e Densidade
+Iremos traçar a filogenia dos alinhamentos de todos os domínios do LTR-RT.
+
+```sh
+cd $HOME/TEs
+cd AtCh4
+mkdir TREE
+cd TREE
+
+
+ln -s ../AtChr4.fasta.mod.EDTA.TElib.fa .
+cat AtChr4.fasta.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
+
+mkdir tmp
+break_fasta.pl < tmp.txt ./tmp
+cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
+rm -f tmp.txt ; rm -f At.fasta.mod.EDTA.TElib.fa ; rm -Rf tmp
+
+
+/usr/local/bin/TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta
+
+concatenate_domains.py TE.cls.pep GAG > GAG.aln
+concatenate_domains.py TE.cls.pep PROT > PROT.aln
+concatenate_domains.py TE.cls.pep RH > RH.aln
+concatenate_domains.py TE.cls.pep RT > RT.aln
+concatenate_domains.py TE.cls.pep INT > INT.aln
+#
+cat GAG.aln | cut -f 1 -d" " > GAG.fas
+cat PROT.aln | cut -f 1 -d" " > PROT.fas
+cat RH.aln | cut -f 1 -d" " > RH.fas
+cat RT.aln | cut -f 1 -d" " > RT.fas
+cat INT.aln | cut -f 1 -d" " > INT.fas
+
+
+perl $HOME/TEs/Scripts/catfasta2phyml.pl -c -f *.fas > all.fas
+iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt AUTO 
+
+
+cat TE.cls.tsv | cut -f 1 | sed "s#^#cat ../AtChr4.fasta.mod.EDTA.TEanno.sum | grep -w \"#g"  | sed 's#$#"#g'   > pick-occur.sh
+bash pick-occur.sh  > occur.txt
+
+cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{print $1,$2,$3}' | sed 's# #\t#g' |  sort -k 2 -V  > sort_occur.txt
+cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{print $1,$2,$3}' | sed 's# #\t#g' |  sort -k 3 -V  > sort_size.txt
+
+cat all.fas  | grep \> | sed 's#^>##g'   > ids.txt
+
+cat sort_occur.txt | cut -f 1,2 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > pick.sh
+bash pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > occurrences.tsv
+
+cat sort_size.txt | cut -f 1,3 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > pick.sh
+bash pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > size.tsv
+
+rm -f pick-occur.sh sort_occur.txt sort_size.txt ids.txt pick.sh
+
+ln -s $HOME/TEs/Rscripts/LTR_tree.R .
+ln -s $HOME/TEs/Rscripts/LTR_tree-density.R .
+
+Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
+Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
+```
+Os arquivos finais são: LTR_RT-Tree1.pdf e LTR_RT-Tree2.pdf
+
+<img src="https://i.ibb.co/vVyqRfs/LTR-RT-Tree1.jpg" alt="LTR-RT-Tree1" border="0">
+
+O círculo externo (roxo) representa o comprimento (em bp) ocupado por cada elemento, enquanto o círculo interno (vermelho) representa o número de ocorrências de cada elemento.
+
+<img src="https://i.ibb.co/yfFgLCk/LTR-RT-Tree2.jpg" alt="LTR-RT-Tree2" border="0">
+
+------
+O guia de intslação foi resumido do [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs)
+Foi utilizado um arquivo contendo o cromossomo da A. thaliana para facilitar o processo de instalação e teste. Porém pode se feitos utilizando genomas maiores como A. thaliana completa ou T. cacao
+
+------
 
 
 
