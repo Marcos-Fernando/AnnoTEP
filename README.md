@@ -73,14 +73,26 @@ cd $HOME/TEs/TEsorter
 sudo python3 setup.py install
 ```
 Verifique a versão do python existente na máquina para prosseguir com a configuração
+Python 3.6
 ```sh
 # Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.6/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
+```
 
-#or
+Python 3.7
+```sh
+# Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
+cd /usr/local/lib/python3.7/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
+```
 
-cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/
+Python 3.10
+```sh
+# Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
+cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
+```
+...
 
+```sh
 sudo hmmpress REXdb_v3_TIR.hmm
 sudo hmmpress Yuan_and_Wessler.PNAS.TIR.hmm
 sudo hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm
