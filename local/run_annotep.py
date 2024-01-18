@@ -1,7 +1,7 @@
 import subprocess
 import argparse
 import os
-import shutil
+
 import random
 from argparse import RawTextHelpFormatter
 
@@ -30,12 +30,12 @@ def check_fasta_file(value):
     return value
 
 def run_annotep(file, annotation_type):
-    new_file, _ = os.path.splitext(os.path.basename(file))
+    if not os.path.exists(file):
+        raise Exception(f"The file {file} does not exist.")
     
-    #copiar arquivo para pasta para poder trabalhar com ele
-    destination_path = os.path.join(LOCAL_FOLDER, os.path.basename(new_file) + ".fasta")
-    matches_file = os.path.join(LOCAL_FOLDER, f'{new_file}-matches.fasta')
-    shutil.copy(file, destination_path)
+    new_file, _ = os.path.splitext(os.path.basename(file))
+    print(f'o caminho para o arquivo é {file}')
+    print(f'{new_file}')
 
     #numeros randomicos para não sobreescrever trabalhos
     random_numbers = [str(random.randint(0,9)) for i in range(4)]
@@ -43,47 +43,32 @@ def run_annotep(file, annotation_type):
 
     resultsAddress = os.path.join(RESULTS_FOLDER, storageFolder)
     os.makedirs(resultsAddress)
-
+    
     print(f">>>>>>>>>> Annotation started >>>> Input: {new_file}")
     if annotation_type == 1:
-        annotation_elementSINE(destination_path, resultsAddress)
-        
-        os.remove(destination_path)
-        if os.path.exists(matches_file):
-            os.remove(matches_file)
+        annotation_elementSINE(file, resultsAddress)
         print(f">>>>>>>>>> Process finished >>>> Output: {storageFolder}")
 
     elif annotation_type == 2:
-        annotation_elementLINE(new_file, destination_path, resultsAddress)
-    
-        os.remove(destination_path)
-        if os.path.exists(matches_file):
-            os.remove(matches_file)
+        annotation_elementLINE(new_file, file, resultsAddress)
         print(f">>>>>>>>>> Process finished >>>> Output: {storageFolder}")
 
     elif annotation_type == 3:
-        annotation_elementSINE(destination_path, resultsAddress)
-        annotation_elementLINE(new_file, destination_path, resultsAddress)
-        
-        os.remove(destination_path)
-        if os.path.exists(matches_file):
-            os.remove(matches_file)
+        annotation_elementSINE(file, resultsAddress)
+        annotation_elementLINE(new_file, file, resultsAddress)
         print(f">>>>>>>>>> Process finished >>>> Output: {storageFolder}")
 
     elif annotation_type == 4:
-        annotation_elementSINE(destination_path, resultsAddress)
-        annotation_elementLINE(new_file, destination_path, resultsAddress)
-        complete_Analysis(new_file, destination_path, resultsAddress)
-
-        os.remove(destination_path)
-        if os.path.exists(matches_file):
-            os.remove(matches_file)
+        annotation_elementSINE(file, resultsAddress)
+        annotation_elementLINE(new_file, file, resultsAddress)
+        complete_Analysis(new_file, file, resultsAddress)
         print(f">>>>>>>>>> Process finished >>>> Output: {storageFolder}")
 
     else:
         print("Invalid annotation type. Use 1 - SINE, 2 - LINE, 3 - SINE and LINE or 4 Advanced Analysis.")
+    
 
-def annotation_elementSINE(destination_path, resultsAddress):
+def annotation_elementSINE(file, resultsAddress):
     print("SINE annotation started...")
 
     os.chdir(SINE_FOLDER)
@@ -91,7 +76,7 @@ def annotation_elementSINE(destination_path, resultsAddress):
     . $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE
     export PATH="/home/marcoscosta/miniconda3/envs/AnnoSINE/bin:$PATH"
     
-    python3 AnnoSINE.py 3 {destination_path} {resultsAddress}/SINE
+    python3 AnnoSINE.py 3 {file} {resultsAddress}/SINE
     wait
     cp {resultsAddress}/SINE/Seed_SINE.fa {resultsAddress}/Seed_SINE.fa
     """
@@ -102,7 +87,7 @@ def annotation_elementSINE(destination_path, resultsAddress):
     print("SINE annotation completed")
     print("")
 
-def annotation_elementLINE(new_file, destination_path, resultsAddress):
+def annotation_elementLINE(new_file, file, resultsAddress):
     line_folder = os.path.join(resultsAddress, 'LINE')
     os.makedirs(line_folder, exist_ok=True)
     output_folder = os.path.join(resultsAddress, 'LINE-results')
@@ -116,7 +101,7 @@ def annotation_elementLINE(new_file, destination_path, resultsAddress):
     source mgescan-virtualenv/bin/activate
     
     cd {line_folder}
-    ln -s {destination_path} {new_file}.fasta
+    ln -s {file} {new_file}.fasta
     cd ../..
 
     ulimit -n 8192
@@ -164,7 +149,7 @@ def annotation_elementLINE(new_file, destination_path, resultsAddress):
     print("")
 
 
-def complete_Analysis(new_file, destination_path, resultsAddress):
+def complete_Analysis(new_file, file, resultsAddress):
     completeAnalysis_folder = os.path.join(resultsAddress, 'complete-analysis')
     os.makedirs(completeAnalysis_folder, exist_ok=True)
 
@@ -177,7 +162,7 @@ def complete_Analysis(new_file, destination_path, resultsAddress):
     export PATH="/home/marcoscosta/miniconda3/envs/EDTA/bin/gt:$PATH"
 
     cd {completeAnalysis_folder}
-    nohup {EDTA_FOLDER}/EDTA.pl --genome {destination_path} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+    nohup {EDTA_FOLDER}/EDTA.pl --genome {file} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
     wait
 
     cd {completeAnalysis_folder}
@@ -238,7 +223,7 @@ def complete_Analysis(new_file, destination_path, resultsAddress):
 
     cd ..
     pdf2svg RepeatLandScape.pdf RLandScape.svg
-    python ../../../Scripts/convert-table.py
+    python {os.path.join(UPLOAD_FOLDER ,'Scripts' ,'convert-table.py')}
 
     cd {completeAnalysis_folder}
     mkdir TREE
