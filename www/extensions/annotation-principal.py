@@ -1,6 +1,5 @@
 import subprocess
 import os
-import shutil
 
 #Definindo local dos arquivos
 #ambientes
@@ -9,69 +8,62 @@ CONDA = os.environ['CONDA_PREFIX']
 #principal
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
+#temporárias
+TEMPSL_FOLDER = os.path.join(UPLOAD_FOLDER, 'Temp', 'sine-line')
+TEMPINPUT_FOLDER = os.path.join(UPLOAD_FOLDER, 'Temp', 'input')
+TEMPANNO_FOLDER = os.path.join(UPLOAD_FOLDER, 'Temp', 'annotation')
+
 #processos
 SINE_FOLDER = os.path.join(UPLOAD_FOLDER, 'SINE', 'AnnoSINE', 'bin')
 NONLTR_FOLDER = os.path.join(UPLOAD_FOLDER, 'non-LTR')
 MGESCAN_FOLDER = os.path.join(NONLTR_FOLDER, 'mgescan')
 EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
-
-LOCAL_FOLDER = os.path.join(UPLOAD_FOLDER, 'desktop')
-RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
-
-
-def compact_folder(origin_folder, dest_compact):
-    shutil.make_archive(dest_compact, 'zip', origin_folder)
-    shutil.make_archive(dest_compact, 'gztar', origin_folder)
-
+ 
 #Funções de processo do pipeline
 #Anotação do elemento SINE
-def sine_annotation(new_filename, resultsAddress):
-    print("SINE annotation started...")
+def annotation_elementSINE(new_filename, folderSINE, new_name, seedSINE):
+    print("Anotação SINE iniciada...")
 
     os.chdir(SINE_FOLDER)
     cmds = f"""
     . $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE
     export PATH="/home/marcoscosta/miniconda3/envs/AnnoSINE/bin:$PATH"
-    python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {resultsAddress}/SINE
+
+    python3 AnnoSINE.py 3 {os.path.join(TEMPINPUT_FOLDER, new_filename)} temp/{folderSINE}
     wait
-    cp {resultsAddress}/SINE/Seed_SINE.fa {resultsAddress}/Seed_SINE.fa
+    cp ./temp/{folderSINE}/Seed_SINE.fa {os.path.join(TEMPSL_FOLDER, new_name, seedSINE)}
     """
-    
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
     process.wait()
-    print("SINE annotation completed")
 
-    # ------------ Compactação dos arquivos ----------------
-    origin_folder = os.path.join(resultsAddress, 'SINE')
-    dest_compact = os.path.join(resultsAddress, 'CompactSINE')
-    compact_folder(origin_folder, dest_compact)
+    print("Anotação SINE finalizada")
+    print("")
 
-    #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
-
-
-#Anotação do elemento LINE
-def line_annotation(new_filename, resultsAddress):
-    line_folder = os.path.join(resultsAddress, 'LINE')
-    os.makedirs(line_folder, exist_ok=True)
-    output_folder = os.path.join(resultsAddress, 'LINE-results')
-
-    print("LINE annotation started...")
+#Anotação LINE
+def annotation_elementLINE(new_filename, new_name, folderLINE, resultsLINE, libLINE):
+    print("Anotação LINE iniciada...")
 
     os.chdir(NONLTR_FOLDER)
     commands = f"""
     PATH=$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH
+
     cd {MGESCAN_FOLDER}
     source mgescan-virtualenv/bin/activate
-    
-    cd {line_folder}
-    ln -s {os.path.join(resultsAddress, new_filename)} {new_filename}
+
+    cd {NONLTR_FOLDER}/temp
+    mkdir {folderLINE}
+    cd {folderLINE}
+    ln -s {os.path.join(TEMPINPUT_FOLDER, new_filename)} {new_filename}
     cd ../..
 
     ulimit -n 8192
-    mgescan nonltr {line_folder} --output={output_folder} --mpi=4
-    wait
 
-    cd {output_folder}
+    mgescan nonltr {os.path.join(NONLTR_FOLDER, 'temp', folderLINE)} --output={os.path.join(NONLTR_FOLDER, 'temp', resultsLINE)} --mpi=4
+
+    wait
+    cd {NONLTR_FOLDER}/temp
+    cd {resultsLINE}
+
     cat info/full/*/*.dna > temp.fa
     cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
     bash ver.sh  | sed 's#\t#:#' | sed 's#\t#\.\.#'   > list.txt
@@ -102,25 +94,17 @@ def line_annotation(new_filename, resultsAddress):
     rm LINE2*
     rm LINE.cls.*
     rm A.txt B.txt clustered.clstr clustered LINE.dom* list2.txt list.txt pre1.fa pre2.fa pre-final2.fa pre-final.fa rename.sh temp.fa ver.sh candidates.fa
-    cp LINE-lib.fa {resultsAddress}/LINE-lib.fa
+    cp LINE-lib.fa {os.path.join(TEMPSL_FOLDER, new_name, libLINE)}
     """
 
     process = subprocess.Popen(commands, shell=True, executable='/bin/bash')
     process.wait()
 
-    print("LINE annotation finished")
+    print("Anotação LINE finalizado")
     print("")
-    
-    origin_folder = os.path.join(resultsAddress, 'LINE-results')
-    dest_compact = os.path.join(resultsAddress, 'CompactLINE')
-    compact_folder(origin_folder, dest_compact)
 
-
-def complete_annotation(new_filename, resultsAddress):
-    completeAnalysis_folder = os.path.join(resultsAddress, 'complete-analysis')
-    os.makedirs(completeAnalysis_folder, exist_ok=True)
-
-    print("Deep annotation process started...")
+def merge_SINE_LINE(new_filename, new_name, seedSINE, folderEDTA, libLINE):
+    print("Processo de mesclagem iniciado, análise com pipeline EDTA")
 
     os.chdir(EDTA_FOLDER)
     cmds = f"""
@@ -128,11 +112,15 @@ def complete_annotation(new_filename, resultsAddress):
     export PATH="/home/marcoscosta/miniconda3/envs/EDTA/bin:$PATH"
     export PATH="/home/marcoscosta/miniconda3/envs/EDTA/bin/gt:$PATH"
 
-    cd {completeAnalysis_folder}
-    nohup {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+    cd {TEMPANNO_FOLDER}
+    mkdir {folderEDTA}
+
+    cd {folderEDTA}
+    nohup {EDTA_FOLDER}/EDTA.pl --genome ../../input/{new_filename} --species others --step all --line ../../sine-line/{new_name}/{libLINE} --sine ../../sine-line/{new_name}/{seedSINE} --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+
     wait
 
-    cd {completeAnalysis_folder}
+    #Report
     mkdir TE-REPORT
     cd TE-REPORT
     ln -s ../{new_filename}.mod.EDTA.anno/{new_filename}.mod.cat.gz .
@@ -169,9 +157,10 @@ def complete_annotation(new_filename, resultsAddress):
 
     rm align2.txt
     rm tmp.txt
-
+    
     wait
-    cd {completeAnalysis_folder}
+    cd {TEMPANNO_FOLDER}/{folderEDTA}
+
     mkdir LTR-AGE
     cd LTR-AGE
     ln -s ../{new_filename}.mod.EDTA.raw/{new_filename}.mod.LTR-AGE.pass.list
@@ -190,9 +179,18 @@ def complete_annotation(new_filename, resultsAddress):
 
     cd ..
     pdf2svg RepeatLandScape.pdf RLandScape.svg
-    python {os.path.join(UPLOAD_FOLDER ,'Scripts' ,'convert-table.py')}
+    python ../../../Scripts/convert-table.py
+    """
 
-    cd {completeAnalysis_folder}
+    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
+    process.wait()
+
+def create_phylogeny(new_filename, folderEDTA):
+    print("Criando arvores iniciada...")
+
+    os.chdir(TEMPANNO_FOLDER)
+    commandsTREE = f"""
+    cd {folderEDTA}
     mkdir TREE
     cd TREE
 
@@ -247,8 +245,12 @@ def complete_annotation(new_filename, resultsAddress):
     pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
     """
 
-    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
+    process = subprocess.Popen(commandsTREE, shell=True, executable='/bin/bash')
     process.wait()
 
-    print("Finished annotation")
+    print("Anotação registrada em EDTA.log")
+    print("Processo EDTA finalizado")
     print("")
+
+
+
