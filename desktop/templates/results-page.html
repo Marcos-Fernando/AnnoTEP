@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results-page.css') }}" />
+    <title> AnnoTEP - Results </title>
+
+	<script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+	<div class="menu-side">
+		<!--<img class="btn-expand" id="btn-expand" src="assets/Vector.svg">-->
+		<i class="ph-bold ph-list"></i>
+	</div>
+
+	<aside class="aside">
+		<ul id="menu">
+			<div class="logoAnnotep">
+				<a href="./index.html">
+					<img src="../static/assets/icon.svg" alt="Logo do Annotep">
+				</a>
+			</div>
+
+			<li class="li open" id="Non-LTR">
+				<a href="#Non-LTR-section">
+					<img class="home-icon" src="../static/assets/icon-dna-sl.svg">
+					<span class="txt-link">Non-LTR Data</span>	
+				</a>
+			</li>
+			<li class="li" id="#Report">
+				<a href="#Report-section">
+					<img class="download-icon" src="../static/assets/Table.svg">
+					<span class="txt-link">Report</span>
+				</a>
+			</li>
+			<li class="li" id="Landscape">
+				<a href="#Landscape-section">
+					<img class="help-icon" src="../static/assets/diagram-icon.svg">
+					<span class="txt-link"> Landscape Graphs </span>
+				</a>
+			</li>
+			<li class="li" id="Ltr">
+				<a href="#Ltr-section">
+					<img class="about-icon" src="../static/assets/diagram.svg">
+					<span class="txt-link"> LTR Family </span>
+				</a>
+			</li>
+			<li class="li" id="phylogeny">
+				<a href="#phylogeny-section">
+					<img class="contact-icon" src="../static/assets/phylogeny-icon.svg">
+					<span class="txt-link"> Phylogeny </span>
+				</a>
+			</li>
+			<li class="li" id="density">
+				<a href="#density-section">
+					<img class="contact-icon" src="../static/assets/Bullseye.svg">
+					<span class="txt-link"> Density </span>
+				</a>
+			</li>
+		</ul>
+	</aside>
+
+	<div class="cloudImageWrapper">
+		<img id="cloudImage" class="replace" src="../static/assets/CloudMoon.svg">
+	</div>
+
+	<main class="main">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+		
+		<section class="container-data" id="Non-LTR-section">
+			<div class="title-data">
+				<p>Non-LTR Data</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-compact">
+				<section class="box-compact">
+					<p class="zipFormatTitle" style="--delay: .9s">.zip format</p>
+					<div class="nonLTRdownload" style="--delay: 1.2s">
+						{% if zip_sine_file %}
+						<a href="data:application/zip;base64,{{ zip_sine_file }}" class="non-ltr-data" download="TES-zip-sine">
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							SINE Data 
+						</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data">
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No SINE Data avaliable
+						</a>
+						{% endif %}
+					</div>
+					<div class="nonLTRdownload" style="--delay: 1.4s">
+						{% if zip_line_file %}
+							<a href="data:application/zip;base64,{{ zip_line_file }}" class="non-ltr-data" download="TES-zip-line"> 
+								<img class="box-icon" src="../static/assets/box.svg"/>
+								LINE Data 
+							</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-zip-line"> 
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No LINE Data avaliable
+						</a>
+						{% endif %}
+					</div>
+				</section>
+				<section class="box-compact">
+					<p class="tarGzFormatTitle" style="--delay: 1.6s">.tar.gz format</p>
+					<div class="nonLTRdownload" style="--delay: 1.9s">
+						{% if tar_sine_file %}
+						<a href="data:application/gzip;base64,{{ tar_sine_file }}" class="non-ltr-data" download="TES-tar-sine.tar.gz">
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							SINE Data 
+						</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-tar-sine"> 
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No SINE Data avaliable
+						</a>
+						{% endif %}
+					</div>
+					<div class="nonLTRdownload" style="--delay: 2.1s">
+						{% if tar_line_file %}
+						<a href="data:application/gzip;base64,{{ tar_line_file }}" class="non-ltr-data" download="TES-tar-line.tar.gz">
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							LINE Data 
+						</a>
+						{% else %}
+						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-tar-line"> 
+							<img class="box-icon" src="../static/assets/box.svg"/>
+							No LINE Data avaliable
+						</a>
+						{% endif %}
+					</div>
+				</section>
+			</section>
+		</section>
+
+		<section class="container-data" id="Report-section">
+			<div class="title-data" style="--delay: 2.4s">
+				<p>Report</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-table">
+				<table class="table-top">
+					<tr>
+						<td colspan="4" class="main-td title-td">Report</td>
+					</tr>
+					<tr class="main-tr">
+						<th>Elements</th>
+						<th>Number of Elements</th>
+						<th>Length Occupied (bp)</th>
+						<th>% Sequence</th>
+					</tr>
+				</table>
+				<div class="table-footer">
+					<table>
+						<tbody>
+							{% for document in list_documents %}
+							<tr class="table-row">
+								<td>{{ document.Name }}</td>
+								<td>{{ document["Number of Elements"] }}</td>
+								<td>{{ document.Length }}</td>
+								<td>{{ document.Percentage }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+
+				<div class="container-downloaddata" style="--delay: 3s">
+					{% if filecsv %}
+					<a href="data:text/csv;base64,{{ filecsv }}" class="downloaddata" download="TEs-report">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Table 
+					</a>
+					{% else %}
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-report"> 
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Table not avaliable
+					</a>
+					{% endif %}
+				</div>
+			</section>
+		</section>
+
+		<section class="container-data" id="Landscape-section">
+			<div class="title-data" style="--delay: 3.3s">
+				<p>Repeat Landscape Graphs</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-landscape">
+				{% if svg_landscape %}
+				<figure class="wrapper-landscape-img" style="--delay: 3.6s">
+					<img class="Landscape-img" src="data:image/svg+xml;base64,{{ svg_landscape }}"/>
+				</figure>
+				<div class="container-downloaddata" style="--delay: 3.9s">
+					<a href="data:image/svg+xml;base64,{{ svg_landscape }}" class="downloaddata" download="TEs-landscape-graphs">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Landscape Graphs 
+					</a>
+				</div>
+				{% else %}
+				<div class="container-downloaddata">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-landscape-graphs">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Landscape Graphs not avaliable
+					</a>
+				</div>
+				{% endif %}
+			</section>
+		</section>
+
+		<section class="container-data" id="Ltr-section">
+			<div class="title-data" style="--delay: 4.2s">
+				<p>LTR Superfamily</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+		
+			<section class="container-ltrfamily">
+			{% if svg_copia %}
+			<figure class="wrapper-ltr-copia" style="--delay: 4.5s">
+				<img class="ltr-copia" src="data:image/svg+xml;base64,{{ svg_copia }}"/>
+			</figure>	
+			<figure class="wrapper-ltr-gypsy" style="--delay: 4.7s">
+				<img class="ltr-gypsy" src="data:image/svg+xml;base64,{{ svg_gypsy }}"/>
+			</figure>
+
+				<div class="container-downloaddata container-family" style="--delay: 5s">
+					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloaddata" download="TES-family-copia">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Superfamily Copia
+					</a>
+					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloaddata" download="TES-family-gypsy">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Superfamily Gypsy
+					</a>
+				</div>
+			{% else %}
+				<div class="container-downloaddata container-family">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-copia">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Superfamily Copia not avaliable
+					</a>
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-gypsy">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download LTR Superfamily Gypsy not avaliable
+					</a>
+				</div>
+			{% endif %}
+			</section>
+		</section>
+
+		<section class="container-data" id="phylogeny-section">
+			<div class="title-data" style="--delay: 5.3s">
+				<p>Phylogeny</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-phylogeny">
+				{% if svg_tree1 %}
+				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
+					<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
+				</figure>
+				
+				<div class="container-downloaddata" style="--delay: 5.9s">
+					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="TES-Phylogeny">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Phylogeny 
+					</a>
+				</div>
+				{% else %}
+				<div class="container-downloaddata">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Phylogeny">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Phylogeny not avaliable
+					</a>
+				</div>
+				{% endif %}
+			</section>
+		</section>
+
+		<section class="container-data" id="density-section">
+			<div class="title-data" style="--delay: 6.2s">
+				<p>Density</p>
+				<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
+			</div>
+
+			<section class="container-density">
+				{% if svg_tree2 %}
+				<figure class="wrapper-ltr-density" style="--delay: 6.4s">
+					<img class="ltr-density" src="data:image/svg+xml;base64,{{ svg_tree2 }}"/>
+				</figure>
+					
+				<div class="container-downloaddata" style="--delay: 6.6s">
+					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="TES-Density">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Density
+					</a>
+				</div>
+				{% else %}
+				<div class="container-downloaddata">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Density">
+						<img class="box-icon" src="../static/assets/box.svg"/> 
+						Download Density not avaliable
+					</a>
+				</div>
+				{% endif %}
+			</section>
+		</section>
+
+
+			
+		
+		<!-- Modal -->
+		<section id="myModal" class="modal">
+			<div class="modal-content">
+			  	<span class="close">&times;</span>
+			  	<div class="container-notification">
+					<p class="session-title session-modal">
+				  		Annotation and analysis process
+					</p>
+					<div class="box-information">
+				  		<p>The annotation process has started</p>
+				  		<p>A confirmation email has been sent to your inbox containing further instructions.</p>
+					</div>
+			  	</div>
+			</div>
+		</section>
+		<!-- Modal -->
+
+		<footer class="footer">
+			<div class="cite-us">
+				Results are saved in the database for up to 48 hours. 
+				We recommend users to run a maximum of two jobs at a time. 
+				For private work or work with a large amount of data, 
+				we recommend downloading AnnoTEP. If you have found AnnoTEP 
+				useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
+	</main>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='results-page.js')}}"></script>
+</body>
+</html>

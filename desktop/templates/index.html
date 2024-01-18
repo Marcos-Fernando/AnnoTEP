@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="static/assets/icon.svg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+    <title> AnnoTEP </title>
+
+	<script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+	<div class="menuMobile">
+		<i class="ph-bold ph-list"></i>
+	</div>
+
+	<aside class="aside">
+		<!--
+		<div class="menu-side">
+			<img class="btn-expand" id="btn-expand" src="assets/Vector.svg">
+		</div>
+		-->
+		<ul id="menu">
+			<div class="logoAnnotep">
+				<a href="index.html">
+					<img src="static/assets/icon.svg" alt="Logo do Annotep">
+				</a>
+			</div>
+			<li class="li open" id="Home">
+				<img class="home-icon" src="static/assets/home.svg">
+				<spam class="txt-link">Home</spam>
+			</li>
+			<li class="li" id="Download">
+				<img class="download-icon" src="static/assets/download.svg">
+				<spam class="txt-link">Download</spam>
+			</li>
+			<li class="li" id="Help">
+				<img class="help-icon" src="static/assets/QuestionCircle.svg">
+				<spam class="txt-link"> Help </spam>
+			</li>
+			<li class="li" id="About">
+				<img class="about-icon" src="static/assets/InfoCircle.svg">
+				<spam class="txt-link"> About </spam>
+			</li>
+			<li class="li" id="Contact">
+				<img class="contact-icon" src="static/assets/contact-us.svg">
+				<spam class="txt-link"> Contact </spam>
+			</li>
+		</ul>
+	</aside>
+
+	<div class="cloudImageWrapper">
+		<img id="cloudImage" class="replace" src="static/assets/CloudMoon.svg">
+	</div>
+
+	<main class="main sectionsPage">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+
+		<section class="container-main">
+			<article class="description-screen">
+				<p> AnnoTEP is a platform for annotating transposable elements in plants. Using an input file in <span>fasta</span> format containing the plant genome on a chromosomal scale, it is possible to obtain:</p>
+			</article>
+
+			<section class="container-explicative">
+				<div class="box-explicative">
+					<img class="img-dna" src="static/assets/dna-icon.svg">
+					<span class="be1"><b>Annotation</b> of SINEs and LINEs elements. </span>
+				</div>
+				<div class="box-explicative">
+					<img class="img-phylogeny" src="static/assets/phylogeny.svg">
+					<span class="be2"> <b>Data visualization</b> in graph format and phylogenetic trees. </span>
+				</div>
+				<div class="box-explicative box-email">
+					<img class="img-email" src="static/assets/email-icon-light.svg">
+					<span class="be3">A link with the results is sent directly to your email. </span>
+					<a href="{{ url_for('result_example')}}" class="click-here be3" target="_blank">Click here - Results example</a>	
+				</div>
+			</section>
+			<div class="rectangle">
+				<div class="rectangle-green"></div>
+			</div>
+		</section>
+
+		<section class="container-data-input">
+			<div class="title-input">
+				<p>Data input</p>
+			</div>
+			<section class="container-email">
+				<div class="session-title">
+					<p>Email Adress </p>
+					<div class="session-email-icon">
+						<span class="open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
+						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					</div>
+				</div>
+					<input id="email" class="email" type="email" pattern=".+\.com$" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
+			</section>
+
+			<section class="container-genome">
+				<div class="session-title">
+					<p>Genome data</p>
+					<div class="session-genome-icon">
+						<span class="open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
+						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					</div>
+				</div>
+				<div class="box-input">
+					<input type="text" id="fileNameInput" class="input-text" readonly disabled>
+
+					<label for="inputdata" class="file-input">
+						<p class="name-btn">Browser</p>
+						  <input type="file" class="input-data" accept=".fasta" id="inputdata" onchange="updateFileName()">
+					</label>
+				</div>
+			</section>
+	
+			<section class="container-action">
+				<div class="session-title">
+					<p>Type annotation</p>
+					<div class="session-annotation-icon">
+						<span class="open-tab-annotation"> 
+							The annotation process for SINE and LINE elements involves providing concise, compressed data about the elements. <br>
+							The complete annotation goes further, conducting a thorough analysis. It not only includes compressed data on SINEs and LINEs, but also incorporates graphical representations, phylogenetic trees and descriptive tables, providing a more nuanced understanding of these elements.</span>
+						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					</div>
+				</div>
+				<div class="box-checkboxs">
+					<div class="container-checkbox">
+						<input type="checkbox" id="sine" name="sine" class="checkbox" checked>
+						<label for="sine">SINE annotation</label>
+					</div>
+					<div class="container-checkbox">
+						<input type="checkbox" id="line" name="line" class="checkbox">
+						<label for="line">LINE annotation</label>
+					</div>
+					<div class="container-checkbox">
+						<input type="checkbox" id="complete" name="complete" class="checkbox">
+						<label for="complete">Complete annotation</label>
+					</div>	  
+				</div>	
+			</section>
+	
+			<div class="container-submit">
+				<button type="button" id="uploaddata" class="uploaddata" disabled> Submit </button>
+			</div>
+
+		</section>
+
+			
+		
+
+		<section id="myModal" class="modal">
+			<div class="modal-content">
+			  	<span class="close">&times;</span>
+			  	<div class="container-notification">
+					<p class="session-title session-modal">
+				  		Annotation and analysis process
+					</p>
+					<div class="box-information">
+				  		<p>The annotation process has started</p>
+				  		<p>A confirmation email has been sent to your inbox containing further instructions.</p>
+					</div>
+			  	</div>
+			</div>
+		</section>
+
+		<footer class="footer">
+			<div class="cite-us">
+				Results are saved in the database for up to 48 hours. 
+				We recommend users to run a maximum of two jobs at a time. 
+				For private work or work with a large amount of data, 
+				we recommend downloading AnnoTEP. If you have found AnnoTEP 
+				useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
+	</main>
+
+	<section class="Download">
+		<h1>Download</h1>
+	</section>
+
+	<section class="Help">
+		<h1>Help</h1>
+	</section>
+
+	<section class="About">
+		<h1>About</h1>
+	</section>
+
+	<section class="Contact">
+		<h1>Contact</h1>
+	</section>
+
+	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>
