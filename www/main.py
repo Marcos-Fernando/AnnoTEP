@@ -3,12 +3,11 @@ import random
 
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, flash
-from flask_mail import Mail, Message
-from flask_pymongo import PyMongo
-
-from extensions.annotation import sine_annotation, line_annotation, complete_annotation
-from extensions.database import config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
+from flask import render_template, request, redirect, flash
+from flask_mail import Message
+from app import create_app
+from database.database import config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
+from celery_tasks import process_annotation
 
 
 #Definindo local dos arquivos
@@ -28,20 +27,8 @@ RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
 #Extensões que serão permitidas
 ALLOWED_EXTENSIONS = {'fasta'}
 
-#configurando ambiente flask
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MONGO_URI'] = "mongodb://localhost:27017/annotepdb"
-mongo = PyMongo(app)
+app, mongo, mail, celery = create_app()
 
-#ambiente para envio de email
-app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT'))
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS') == 'True'
-app.config['MAIL_USE_SSL'] = os.environ.get('MAIL_USE_SSL') == 'True'
-mail = Mail(app)
 
 @app.route("/")
 def index():
@@ -120,48 +107,38 @@ def upload_file():
 
             expiration_period = timedelta(hours=72)
             expiration_date = datetime.utcnow() + expiration_period
-
+            
             config_user(mongo, key_security, expiration_date, email, filename, new_generated_name)
             #------------------------------------------------
-
+ 
         if 'annotation_type' in request.form:
                 annotation_type = int(request.form.get('annotation_type'))
+                result_process = process_annotation.delay(new_filename, annotation_type, resultsAddress)              
+                try:
+                    result_process.get()
+                except Exception as e:
+                    print(f"Erro ao aguardar a conclusão da tarefa: {e}")
+                
+
                 if annotation_type == 1:
-                    sine_annotation(new_filename, resultsAddress)
                     binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    
-                    print(f'Análise armazenada na pasta: {storageFolder}')
                     send_email_complete_annotation(email, key_security)
-
+                    print(f'Análise armazenada na pasta: {storageFolder}')
                 elif annotation_type == 2:
-                    line_annotation(new_filename, resultsAddress)
                     binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    
-                    print(f'Análise armazenada na pasta: {storageFolder}')
                     send_email_complete_annotation(email, key_security)
-                
+                    print(f'Análise armazenada na pasta: {storageFolder}')
                 elif annotation_type == 3:
-                    sine_annotation(new_filename, resultsAddress)
                     binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                   
-                    line_annotation(new_filename, resultsAddress)
                     binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
-
-                    print(f'Análise armazenada na pasta: {storageFolder}')
                     send_email_complete_annotation(email, key_security)
-                
+                    print(f'Análise armazenada na pasta: {storageFolder}')
                 elif annotation_type == 4:
-                    sine_annotation(new_filename, resultsAddress)
                     binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
-
-                    line_annotation(new_filename, resultsAddress)
                     binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    
-                    complete_annotation(new_filename, resultsAddress)
                     binary_image_files(mongo, key_security, expiration_date, resultsAddress)
-                    
-                    print(f'Análise armazenada na pasta: {storageFolder}')
                     send_email_complete_annotation(email, key_security)
+                    print(f'Análise armazenada na pasta: {storageFolder}')
 
     return render_template("index.html")
 
