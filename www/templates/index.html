@@ -23,9 +23,7 @@
 		-->
 		<ul id="menu">
 			<div class="logoAnnotep">
-				<a href="index.html">
 					<img src="static/assets/icon.svg" alt="Logo do Annotep">
-				</a>
 			</div>
 			<li class="li open" id="Home">
 				<img class="home-icon" src="static/assets/home.svg">
@@ -151,9 +149,6 @@
 
 		</section>
 
-			
-		
-
 		<section id="myModal" class="modal">
 			<div class="modal-content">
 			  	<span class="close">&times;</span>
@@ -180,21 +175,63 @@
 		</footer>
 	</main>
 
-	<section class="Download">
-		<h1>Download</h1>
-	</section>
+	<main class="Download">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
 
-	<section class="Help">
+		<section class="container-data-input">
+			<div class="title-input title-download">
+				<p>Local Server</p>
+			</div>
+
+			<section class="box-download">
+				<div class="item-download">
+					<img class="doc-icon" src="../static/assets/doc.svg">
+					Annotep_local_server_v1.sh
+				</div>
+				<button class="icon-download">
+					<img src="../static/assets/icon-download.svg">
+				</button>
+			</section>
+			
+			<div class="title-input title-download">
+				<p>Local Terminal</p>
+			</div>
+
+			<section class="box-download">
+				<div class="item-download">
+					<img class="doc-icon" src="../static/assets/doc.svg">
+					Annotep_local_terminal_v1.sh
+				</div>
+				<button class="icon-download">
+					<img src="../static/assets/icon-download.svg">
+				</button>
+			</section>
+
+			<div class="description-download">
+				<h3>Note: </h3>
+				<p>
+					To install the local version of AnnoTEP, you must have the <a href="https://docs.docker.com/engine/install/" target="_blank"> docker tool installed </a> on your machine. <br>
+					Access the <span> Help </span> tab to obtain more information about the installation, operation and usability of the local AnnoTEP.
+				</p>
+			</div>
+		</secz>
+	</main> 	
+
+	<main class="Help">
 		<h1>Help</h1>
-	</section>
+	</main>
 
-	<section class="About">
+	<main class="About">
 		<h1>About</h1>
-	</section>
+	</main>
 
-	<section class="Contact">
+	<main class="Contact">
 		<h1>Contact</h1>
-	</section>
+	</main>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/main.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/style.js') }}"></script>
