@@ -91,8 +91,8 @@
 			<section class="container-email">
 				<div class="session-title">
 					<p>Email Adress </p>
-					<div class="session-email-icon">
-						<span class="open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
+					<div class="session-icon session-email-icon">
+						<span class="open-tab open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
 						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
@@ -102,8 +102,8 @@
 			<section class="container-genome">
 				<div class="session-title">
 					<p>Genome data</p>
-					<div class="session-genome-icon">
-						<span class="open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
+					<div class="session-icon session-genome-icon">
+						<span class="open-tab open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
 						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
@@ -120,8 +120,8 @@
 			<section class="container-action">
 				<div class="session-title">
 					<p>Type annotation</p>
-					<div class="session-annotation-icon">
-						<span class="open-tab-annotation"> 
+					<div class="session-icon session-annotation-icon">
+						<span class="open-tab open-tab-annotation"> 
 							The annotation process for SINE and LINE elements involves providing concise, compressed data about the elements. <br>
 							The complete annotation goes further, conducting a thorough analysis. It not only includes compressed data on SINEs and LINEs, but also incorporates graphical representations, phylogenetic trees and descriptive tables, providing a more nuanced understanding of these elements.</span>
 						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
@@ -186,28 +186,26 @@
 			<div class="title-input title-download">
 				<p>Local Server</p>
 			</div>
-
 			<section class="box-download">
 				<div class="item-download">
 					<img class="doc-icon" src="../static/assets/doc.svg">
-					Annotep_local_server_v1.sh
+					<p> Annotep_local_server_v1.sh </p>
 				</div>
 				<button class="icon-download">
-					<img src="../static/assets/icon-download.svg">
+					<img class="sh-download" src="../static/assets/icon-download.svg">
 				</button>
 			</section>
 			
 			<div class="title-input title-download">
 				<p>Local Terminal</p>
 			</div>
-
 			<section class="box-download">
 				<div class="item-download">
 					<img class="doc-icon" src="../static/assets/doc.svg">
-					Annotep_local_terminal_v1.sh
+					<p>Annotep_local_terminal_v1.sh</p>
 				</div>
 				<button class="icon-download">
-					<img src="../static/assets/icon-download.svg">
+					<img class="sh-download" src="../static/assets/icon-download.svg">
 				</button>
 			</section>
 
@@ -215,15 +213,38 @@
 				<h3>Note: </h3>
 				<p>
 					To install the local version of AnnoTEP, you must have the <a href="https://docs.docker.com/engine/install/" target="_blank"> docker tool installed </a> on your machine. <br>
-					Access the <span> Help </span> tab to obtain more information about the installation, operation and usability of the local AnnoTEP.
+					Access the <img class="help-apresentation" src="static/assets/QuestionCircle-1.svg"> <span>Help</span> tab to obtain more information about the installation, operation and usability of the local AnnoTEP.
 				</p>
 			</div>
 		</secz>
 	</main> 	
 
 	<main class="Help">
-		<h1>Help</h1>
-	</main>
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+		<section class="documentation-annotep">
+			<h3> AnnoTEP documentation - <b>Anno</b>tation <b>T</b>ransposable <b>E</b>lements for <b>P</b>lants </h3>
+			<p class="documentation-introducion">
+				Welcome to the AnnoTEP documentation 
+				<br>
+				The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to 
+				the scientific community involved in research centered on these elements.
+				<br>
+				Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. 
+				Also referred to as "jumping genes", mobile genetic elements (MGEs) or insertion elements (ISs), they constitute a category of genetic sequences that 
+				play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated 
+				retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using 
+				the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity.
+				<br>
+				The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees. 
+				It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences.
+				<br>
+			</p>
+		</section>
+	</main>	
 
 	<main class="About">
 		<h1>About</h1>

@@ -677,103 +677,50 @@ footer{
 	padding-left: 0.125rem;
 }
 
-.session-annotation-icon{
-    width: 0.75rem;
-    height: 0.8rem;
-    display: flex;
-    align-items: center;
-}
-
-.session-email-icon{
+.session-icon{
 	width: 0.75rem;
     height: 0.8rem;
     display: flex;
     align-items: center;
 }
 
-.session-genome-icon{
-	width: 0.75rem;
-    height: 0.8rem;
-    display: flex;
-    align-items: center;
+.open-tab{
+	width: 19rem;
+	border: 0.125rem solid var(--green-02);
+    border-radius: 0.5rem;
+    color: var(--grey-03);
+	background: var(--write);
+
+	font-weight: 300;
+    font-size: 1rem;
+    text-align: justify;
+    
+    position: absolute;
+    z-index: 1;
+    padding: 0.5rem 0.5rem;
+
+	visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .open-tab-annotation {
-	width: 19rem;
-	border: 0.125rem solid var(--green-02);
-    border-radius: 0.5rem;
-    color: var(--grey-03);
-	background: var(--write);
-
-	font-weight: 300;
-    font-size: 1rem;
-    text-align: justify;
-    
-    position: absolute;
-    z-index: 1;
-    padding: 0.5rem 0.5rem;
     margin-left: 0.8rem;
     margin-top: -16.5rem;
-
-	visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease; 
 }
 
 .open-tab-email{
-	width: 19rem;
-	border: 0.125rem solid var(--green-02);
-    border-radius: 0.5rem;
-    color: var(--grey-03);
-	background: var(--write);
-
-	font-weight: 300;
-    font-size: 1rem;
-    text-align: justify;
-    
-    position: absolute;
-    z-index: 1;
-    padding: 0.5rem 0.5rem;
     margin-left: 0.8rem;
     margin-top: -6.5rem;
-
-	visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease; 
 }
 
 .open-tab-genome{
-	width: 19rem;
-	border: 0.125rem solid var(--green-02);
-    border-radius: 0.5rem;
-    color: var(--grey-03);
-	background: var(--write);
-
-	font-weight: 300;
-    font-size: 1rem;
-    text-align: justify;
-    
-    position: absolute;
-    z-index: 1;
-    padding: 0.5rem 0.5rem;
     margin-left: 0.8rem;
     margin-top: -6.5rem;
-
-	visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease; 
 }
 
-.session-annotation-icon:hover .open-tab-annotation{
-	visibility: visible;
-	opacity: 1;
-}
-
-.session-email-icon:hover .open-tab-email{
-	visibility: visible;
-	opacity: 1;
-}
-
+.session-annotation-icon:hover .open-tab-annotation,
+.session-email-icon:hover .open-tab-email,
 .session-genome-icon:hover .open-tab-genome{
 	visibility: visible;
 	opacity: 1;
@@ -785,7 +732,6 @@ footer{
 .Help,
 .About,
 .Contact{
-	display: flex;
 	flex-direction: column;
 	display: none;
 	font-family: 'Roboto', sans-serif;
@@ -859,7 +805,8 @@ footer{
 	height: 1.5rem;
 }
 
-.icon-download:hover{
+.icon-download:hover,
+.icon-download.dark-theme:hover{
 	cursor: pointer;
 	background: var(--green-01);
 }
@@ -871,9 +818,6 @@ footer{
     transform: translate(0, -1rem);
     animation: showElementAnimation .5s ease-in-out 2s forwards;
 }
-
-
-
 
 /* =========== Dark Theme ============= */
 .container-main.dark-theme{
@@ -932,6 +876,22 @@ footer.dark-theme a{
 .uploaddata.dark-theme{
 	background: var(--green-01);
 	border: 0.0625rem solid var(--green-01);
+}
+
+.item-download.dark-theme p{
+	color: var(--grey-02);
+}
+
+.icon-download.dark-theme{
+	background-color: var(--black);
+}
+
+.description-download.dark-theme h3{
+	color: var(--purple-01);
+}
+
+.description-download.dark-theme p{
+	color: var(--grey-02);
 }
 
 
