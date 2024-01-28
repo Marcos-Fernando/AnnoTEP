@@ -1,65 +1,26 @@
 import os
-import random
 
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, flash
-from flask_mail import Message
 from app import create_app
-from database.database import config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
+from database.database import generate_unique_name, config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
 from celery_tasks import process_annotation
+from extensions.sendemail import send_email_complete_annotation, send_email_checking
 
-
-#Definindo local dos arquivos
-#ambientes
-CONDA = os.environ['CONDA_PREFIX']
+# ======= AMBIENTES =======
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
-
-#processos
-SINE_FOLDER = os.path.join(UPLOAD_FOLDER, 'SINE', 'AnnoSINE', 'bin')
-NONLTR_FOLDER = os.path.join(UPLOAD_FOLDER, 'non-LTR')
-MGESCAN_FOLDER = os.path.join(NONLTR_FOLDER, 'mgescan')
-EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
-
 LOCAL_FOLDER = os.path.join(UPLOAD_FOLDER, 'www')
 RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
 
 #Extensões que serão permitidas
 ALLOWED_EXTENSIONS = {'fasta'}
 
-app, mongo, mail, celery = create_app()
-
+app, mongo, _, _ = create_app()
 
 @app.route("/")
 def index():
     return render_template("index.html")
-
-def send_email_checking(email):
-    msg_title = "Email de verificação"
-    sender = "noreply@app.com"
-    msg = Message(msg_title, sender=sender, recipients=[email])
-    msg.body = "Obrigado por escolher a AnnoTEP, a sua ferramenta confiável para anotar elementos transponíveis em genomas de plantas. Estamos empolgados por fazer parte da sua jornada de pesquisa! Lembre-se de mencionar nosso trabalho em suas pesquisas para ajudar a promover o avanço da nossa pesquisa. Se tiver alguma dúvida ou precisar de assistência, não hesite em entrar em contato conosco. Boa sorte em seus estudos!"
-
-    mail.send(msg)
-
-def send_email_complete_annotation(email, key_security):
-    msg_title = "Anotação completa"
-    sender = "noreply@app.com"
-    msg = Message(msg_title, sender=sender, recipients=[email])
-    result_url = f'http://127.0.0.1:5000/results/{key_security}'
-    msg.body = f"Sua anotação foi concluída! Para visualizar os dados obtidos clique no link: {result_url} . Esperamos que essas informações sejam úteis em sua pesquisa"
-
-    mail.send(msg)
-
-
-def generate_unique_name(filename, existing_names):
-    while True:
-        random_numbers = [str(random.randint(0,9)) for i in range(4)]
-        generated_name = f'{filename[:2]}_{"".join(random_numbers)}'
-
-        #Verificando no bd
-        if generated_name not in existing_names:
-            return generated_name
 
 #Verifica se a extensão é válida e depois redireciona o usuário para a URL
 def allowed_file(filename):
@@ -113,13 +74,12 @@ def upload_file():
  
         if 'annotation_type' in request.form:
                 annotation_type = int(request.form.get('annotation_type'))
-                result_process = process_annotation.delay(new_filename, annotation_type, resultsAddress)              
+                result_process = process_annotation.delay(email, new_filename, annotation_type, resultsAddress)              
                 try:
                     result_process.get()
                 except Exception as e:
                     print(f"Erro ao aguardar a conclusão da tarefa: {e}")
                 
-
                 if annotation_type == 1:
                     binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
                     send_email_complete_annotation(email, key_security)
@@ -150,6 +110,10 @@ def results_page(key_security):
 @app.route('/results-example', endpoint='result_example')
 def result_example():
     return render_template('results-fixo.html')
+
+# @app.route('/results-fixo.html')
+# def results_fixo():
+#     return render_template('results-fixo.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

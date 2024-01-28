@@ -389,6 +389,14 @@ article span{
 	gap: 0.5rem;
 }
 
+.be4{
+	font-size: 1.2rem;
+}
+
+.img-file-results{
+	height: 5rem;
+}
+
 .box-explicative .be1{
 	animation: fadeInDown 0.6s ease-in-out;
 }
@@ -399,6 +407,10 @@ article span{
 
 .box-explicative .be3{
 	animation: fadeInDown 0.8s ease-in-out;
+}
+
+.box-explicative .be4{
+	animation: fadeInDown 0.9s ease-in-out;
 }
 
 .box-explicative .img-dna{
@@ -503,7 +515,7 @@ article span{
 	border-radius: 0.3125rem;
 	padding-left: 1rem;
 	border: 0.0625rem solid var(--grey-03);
-	opacity: 0.7;
+	
 	background: var(--write);
 	color: var(--grey-02);
 }

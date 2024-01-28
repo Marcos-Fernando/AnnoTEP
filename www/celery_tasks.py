@@ -1,7 +1,7 @@
 from celery import Celery
-from extensions.annotation import sine_annotation, line_annotation, complete_annotation
 from flask import Flask
 from app import create_app
+from extensions.annotation import sine_annotation, line_annotation, complete_annotation
 
 def make_celery(app):
     celery = Celery(
@@ -17,7 +17,7 @@ app, _, _, _ = create_app()
 celery = make_celery(app)
 
 @celery.task
-def process_annotation(new_filename, annotation_type, resultsAddress):
+def process_annotation(email, new_filename, annotation_type, resultsAddress):
     # Coloque o código do seu bloco 'if annotation_type' aqui
     if annotation_type == 1:
         sine_annotation(new_filename, resultsAddress)       

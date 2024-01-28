@@ -15,9 +15,6 @@ NONLTR_FOLDER = os.path.join(UPLOAD_FOLDER, 'non-LTR')
 MGESCAN_FOLDER = os.path.join(NONLTR_FOLDER, 'mgescan')
 EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 
-LOCAL_FOLDER = os.path.join(UPLOAD_FOLDER, 'desktop')
-RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
-
 
 def compact_folder(origin_folder, dest_compact):
     shutil.make_archive(dest_compact, 'zip', origin_folder)

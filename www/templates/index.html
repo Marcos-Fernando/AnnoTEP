@@ -75,9 +75,16 @@
 				</div>
 				<div class="box-explicative box-email">
 					<img class="img-email" src="static/assets/email-icon-light.svg">
-					<span class="be3">A link with the results is sent directly to your email. </span>
-					<a href="{{ url_for('result_example')}}" class="click-here be3" target="_blank">Click here - Results example</a>	
+					<span class="be3">A link with the results is sent <br> directly to your email. </span>
 				</div>
+				<div class="box-explicative box-file-results">
+					<img class="img-file-results" src="static/assets/file-results.svg">
+					<span class="be4">  
+						Representative example of complete annotation.
+						<a href="{{ url_for('result_example')}}" class="click-here be3" target="_blank"> Click here </a>
+					</span>	
+				</div>
+				
 			</section>
 			<div class="rectangle">
 				<div class="rectangle-green"></div>
@@ -226,23 +233,64 @@
 			</section>
 		</header>
 		<section class="documentation-annotep">
-			<h3> AnnoTEP documentation - <b>Anno</b>tation <b>T</b>ransposable <b>E</b>lements for <b>P</b>lants </h3>
+			<h3> AnnoTEP documentation - <span>Anno</span>tation <span>T</span>ransposaspanle <span>E</span>lements for <span>P</span>lants </h3>
+			<br>
 			<p class="documentation-introducion">
-				Welcome to the AnnoTEP documentation 
+				Welcome to the AnnoTEP documentation. <br>
 				<br>
 				The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to 
-				the scientific community involved in research centered on these elements.
+				the scientific community involved in research centered on these elements. <br>
 				<br>
 				Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. 
 				Also referred to as "jumping genes", mobile genetic elements (MGEs) or insertion elements (ISs), they constitute a category of genetic sequences that 
 				play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated 
 				retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using 
-				the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity.
+				the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. <br>
 				<br>
 				The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees. 
-				It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences.
+				It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences. <br>
 				<br>
 			</p>
+
+			<h3> Como utilizar a plataforma</h3>
+			<br>
+			<section class="documentation-session-user">
+				<p>
+					Esta seção apresenta de forma detalhada as etapas necessárias para submeter dados à anotação de elementos transponíveis no servidor web. <br>
+				</p>
+
+				<h4>Mantendo-se informado sobre o processo de anotação </h4>
+				<p>
+					Para iniciar o processo de anotação e obter informações sobre o andamento do seu trabalho, é necessário fornecer seu endereço de e-mail no painel 
+					correspondente. 
+				</p>
+				<img src="../static/assets-fixo/email.png" alt="box-email">
+				<p>
+					Após a submissão, você receberá um e-mail de confirmação e, posteriormente, um segundo e-mail será enviado assim que o processo de anotação for 
+					concluído, este e-mail iŕa conter um link para a saídas dos dados analisados. Caso ocorra algum erro durante a análise, você também receberá um 
+					e-mail contendo explicações sobre o ocorrido.
+
+					É importante observar que, ao receber o segundo e-mail com o link para seu trabalho anotado, você terá um prazo de 48 horas para acessar e revisar 
+					os resultados, após esse prazo esses dados são excluidos do banco de dados. <br>
+				</p>
+
+				<h4>Inserindo os dados de entrada </h4>
+				<p>
+					A entrada de dados ideal e aceita pela plataforma AnnoTEP é são arquivos no formato FASTA contendo os cromossomos dos genomas de plantas.
+					O painel "Genome Data" permite a você selecionar o arquivo em sua máquina.
+				</p>
+				<img src="../static/assets-fixo/genome.png" alt="box-email">
+				<br>
+
+				<h4> Sistemas de anotações </h4>
+				<p>
+					Antes de submeter suas anotações é necessário escolher que tipo de anotação você deseja realizar, por padrão a anotação SINE já vem selecionada, então
+					confirar as marcações antes de enviar seus dados.
+				</p>
+				<img src="../static/assets-fixo/anotação.png" alt="box-email">
+				<p> O sistemas de anotação é divido em quatro tipos de anotações diferentes ... </p>
+
+			</section>
 		</section>
 	</main>	
 

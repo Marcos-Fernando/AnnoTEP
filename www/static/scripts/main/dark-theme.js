@@ -5,6 +5,7 @@ var iconHelps = document.querySelectorAll('.icon-help');
 var cloudImg = document.getElementById('cloudImage');
 var logoImgs = document.querySelectorAll('.logo');
 var dnaImg = document.querySelector('.img-dna');
+var imgFile = document.querySelector('.img-file-results');
 var phylogenyImg = document.querySelector('.img-phylogeny');
 var emailImg = document.querySelector('.img-email');
 var shdownloads = document.querySelectorAll('.sh-download');
@@ -23,6 +24,7 @@ replaceConst.addEventListener('click', function(){
   dnaImg.src = isCloudSun ? 'static/assets/dna-icon-dark.svg' : 'static/assets/dna-icon.svg';
   phylogenyImg.src = isCloudSun ? 'static/assets/phylogeny-dark.svg' : 'static/assets/phylogeny.svg';
   emailImg.src = isCloudSun ? 'static/assets/email-icon-dark.svg' : 'static/assets/email-icon-light.svg';
+  imgFile.src = isCloudSun ? 'static/assets/file-results-dark.svg' : 'static/assets/file-results.svg';
 
   iconHelps.forEach(function(iconhelp) {
     iconhelp.src = isCloudSun ? 'static/assets/QuestionDiamond-dark.svg' : 'static/assets/QuestionDiamond-light.svg';

@@ -1,10 +1,20 @@
 import os
 import csv
 import base64
+import random
 
 from flask import render_template
 from gridfs import GridFS
 from bson import ObjectId
+
+def generate_unique_name(filename, existing_names):
+    while True:
+        random_numbers = [str(random.randint(0,9)) for i in range(4)]
+        generated_name = f'{filename[:2]}_{"".join(random_numbers)}'
+
+        #Verificando no bd
+        if generated_name not in existing_names:
+            return generated_name
 
 def config_user(mongo, key_security, expiration_date, email, filename, new_generated_name):
     print("Enviando dados do usuário para o banco de dados... ")
