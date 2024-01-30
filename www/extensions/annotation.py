@@ -17,8 +17,11 @@ EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 
 
 def compact_folder(origin_folder, dest_compact):
-    shutil.make_archive(dest_compact, 'zip', origin_folder)
-    shutil.make_archive(dest_compact, 'gztar', origin_folder)
+    # shutil.make_archive(dest_compact, 'zip', origin_folder)
+    # shutil.make_archive(dest_compact, 'gztar', origin_folder)
+
+    shutil.make_archive(dest_compact, 'zip',os.path.dirname(origin_folder), os.path.basename(origin_folder))
+    shutil.make_archive(dest_compact, 'gztar',os.path.dirname(origin_folder), os.path.basename(origin_folder))
 
 #Funções de processo do pipeline
 #Anotação do elemento SINE
@@ -39,8 +42,8 @@ def sine_annotation(new_filename, resultsAddress):
     print("SINE annotation completed")
 
     # ------------ Compactação dos arquivos ----------------
-    origin_folder = os.path.join(resultsAddress, 'SINE')
-    dest_compact = os.path.join(resultsAddress, 'CompactSINE')
+    origin_folder = os.path.join(resultsAddress, 'Seed_SINE.fa')
+    dest_compact = os.path.join(resultsAddress, 'SINEslibrary')
     compact_folder(origin_folder, dest_compact)
 
     #Tranformando os arquivos em binário, aqui utilizo open com modo "rb" (read binary)
@@ -108,8 +111,8 @@ def line_annotation(new_filename, resultsAddress):
     print("LINE annotation finished")
     print("")
     
-    origin_folder = os.path.join(resultsAddress, 'LINE-results')
-    dest_compact = os.path.join(resultsAddress, 'CompactLINE')
+    origin_folder = os.path.join(resultsAddress, 'LINE-lib.fa')
+    dest_compact = os.path.join(resultsAddress, 'LINEslibrary')
     compact_folder(origin_folder, dest_compact)
 
 

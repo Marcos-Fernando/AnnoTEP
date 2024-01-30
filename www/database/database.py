@@ -37,10 +37,10 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
     gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
 
     print("Conversão de arquivos compactos em binário iniciada...")
-    with open(os.path.join(resultsAddress, 'CompactSINE.zip'), "rb") as zip_file_SINE:
-        zip_dataSINE = gridfs_zipsine.put(zip_file_SINE, filename='CompactSINE.zip')
-    with open(os.path.join(resultsAddress, 'CompactSINE.zip'), "rb") as tar_file_SINE:
-        tar_dataSINE = gridfs_tarsine.put(tar_file_SINE, filename='CompactSINE.tar.gz')
+    with open(os.path.join(resultsAddress, 'SINEslibrary.zip'), "rb") as zip_file_SINE:
+        zip_dataSINE = gridfs_zipsine.put(zip_file_SINE, filename='SINEslibrary.zip')
+    with open(os.path.join(resultsAddress, 'SINEslibrary.zip'), "rb") as tar_file_SINE:
+        tar_dataSINE = gridfs_tarsine.put(tar_file_SINE, filename='SINEslibrary.tar.gz')
     print("Conversão concluída!")
     print("")
 
@@ -49,7 +49,7 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
     mongo.db.zipsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.zipsine_metadata.insert_one({
         "key": key_security,
-        "zip-sine-name": ('CompactSINE.zip'),
+        "zip-sine-name": ('SINEslibrary.zip'),
         "zip-sine-file": zip_dataSINE,
         "expiration-date": expiration_date
     })
@@ -57,7 +57,7 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
     mongo.db.tarsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.tarsine_metadata.insert_one({
         "key": key_security,
-        "tar-sine-name": ('CompactSINE.tar.gz'),
+        "tar-sine-name": ('SINEslibrary.tar.gz'),
         "tar-sine-file": tar_dataSINE,
         "expiration-date": expiration_date
     })
@@ -72,10 +72,10 @@ def binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress):
     gridfs_tarline = GridFS(mongo.db, collection='tarline')
 
     print("Conversão de arquivos compactos em binário iniciada...")
-    with open(os.path.join(resultsAddress, 'CompactLINE.zip'), "rb") as zip_file_SINE:
-        zip_dataLINE = gridfs_zipline.put(zip_file_SINE, filename='CompactLINE.zip')
-    with open(os.path.join(resultsAddress, 'CompactLINE.tar.gz'), "rb") as tar_file_LINE:
-        tar_dataLINE = gridfs_tarline.put(tar_file_LINE, filename='CompactLINE.tar.gz')
+    with open(os.path.join(resultsAddress, 'LINEslibrary.zip'), "rb") as zip_file_SINE:
+        zip_dataLINE = gridfs_zipline.put(zip_file_SINE, filename='LINEslibrary.zip')
+    with open(os.path.join(resultsAddress, 'LINEslibrary.tar.gz'), "rb") as tar_file_LINE:
+        tar_dataLINE = gridfs_tarline.put(tar_file_LINE, filename='LINEslibrary.tar.gz')
     print("Conversão concluída!")
     print("")
 
@@ -84,7 +84,7 @@ def binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress):
     mongo.db.zipline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.zipline_metadata.insert_one({
         "key": key_security,
-        "zip-line-name": ('CompactLINE.zip'),
+        "zip-line-name": ('LINEslibrary.zip'),
         "zip-line-file": zip_dataLINE,
         "expiration-date": expiration_date
     })
@@ -92,7 +92,7 @@ def binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress):
     mongo.db.tarline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.tarline_metadata.insert_one({
         "key": key_security,
-        "tar-line-name": ('CompactLINE.tar.gz'),
+        "tar-line-name": ('LINEslibrary.tar.gz'),
         "tar-line-file": tar_dataLINE,
         "expiration-date": expiration_date
     })
