@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="static/assets/icon.svg" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+    <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/main.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/modal.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/dark-theme.css') }}" />
     <title> AnnoTEP </title>
 
 	<script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -173,11 +175,7 @@
 
 		<footer class="footer">
 			<div class="cite-us">
-				Results are saved in the database for up to 48 hours. 
-				We recommend users to run a maximum of two jobs at a time. 
-				For private work or work with a large amount of data, 
-				we recommend downloading AnnoTEP. If you have found AnnoTEP 
-				useful, please <a href=""> cite us </a>
+				Results are saved in the database for up to 48 hours. We recommend users to run a maximum of two jobs at a time. For private work or work with a large amount of data, we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> cite us </a>
 			</div>
 		</footer>
 	</main>
@@ -185,121 +183,235 @@
 	<main class="Download">
 		<header class="header">
 			<section class="container-header">
-				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
 			</section>
 		</header>
 
-		<section class="container-data-input">
+		<section class="container-download">
+			<p> To ensure an efficient installation, we want to inform you that you need to have <a class="docker" href="https://docs.docker.com/engine/install/" target="_blank">Docker</a>  installed on your local machine. </p>
+			<p> The Annotep platform has two local versions, the user-interface version and the version that works only via the machine's command terminal.</p>
+
 			<div class="title-input title-download">
-				<p>Local Server</p>
+				<p>Local Interface</p>
 			</div>
-			<section class="box-download">
-				<div class="item-download">
-					<img class="doc-icon" src="../static/assets/doc.svg">
-					<p> Annotep_local_server_v1.sh </p>
-				</div>
-				<button class="icon-download">
-					<img class="sh-download" src="../static/assets/icon-download.svg">
-				</button>
-			</section>
-			
+
+			<p>It has a similar interface to the web platform, but the difference lies in the delivery of the results, here they are saved in a local directory. In addition, this version relies on the internet to report the start and end of the annotation, or errors, via email.</p>
+			<b>Installation guide</b>
+			<ol class="installation-guide">
+				<li>Download the latest annotep image</li>
+				<span class="code-docker">docker pull annotep-local-interface:v1</span class="code-docker">
+				<li>Run the following command</li>
+				<span class="code-docker command-docker">sudo docker run --network mynetwork --name flask-container -dp 0.0.0.0:5000:5000  annotep-local-interface:v1</span>
+			</ol>
+
+			<p>You can also download the .bash file and run it on your machine to automate the installation: </p>
+			<a class="item-download">
+				<p> annotep-local-interface-v1.sh </p>
+				<img class="sh-download" src="../static/assets/icon-download.svg">
+			</a>
+			<p>To access the platform, open a browser and type in the address: <span>127.0.0.1:5000</span> </p>
+
 			<div class="title-input title-download">
 				<p>Local Terminal</p>
 			</div>
-			<section class="box-download">
-				<div class="item-download">
-					<img class="doc-icon" src="../static/assets/doc.svg">
-					<p>Annotep_local_terminal_v1.sh</p>
-				</div>
-				<button class="icon-download">
-					<img class="sh-download" src="../static/assets/icon-download.svg">
-				</button>
-			</section>
 
-			<div class="description-download">
-				<h3>Note: </h3>
-				<p>
-					To install the local version of AnnoTEP, you must have the <a href="https://docs.docker.com/engine/install/" target="_blank"> docker tool installed </a> on your machine. <br>
-					Access the <img class="help-apresentation" src="static/assets/QuestionCircle-1.svg"> <span>Help</span> tab to obtain more information about the installation, operation and usability of the local AnnoTEP.
-				</p>
+			<p>The focus of this version is direct use in the machine's command terminal without the need for an interface. It does not use the internet to run. In this version, the user must pay attention to the end of the annotation.</p>
+			<b>Installation guide</b>
+			<ol class="installation-guide">
+				<li>Download the latest annotep image</li>
+				<span class="code-docker">docker pull annotep-local-terminal:v1</span>
+				<li>Run the following command</li>
+				<span class="code-docker command-docker"> 
+					docker run -it -v  $HOME/results:/root/TEs/local/results -v $HOME/TEs:/{full path of the folder containing the genome} 
+					annotep-local-terminal:v1 python run_annotep.py --file {full folder path + genome name} --type 2
+				</span>
+			</ol>
+
+		</section>
+
+		<footer class="footer">
+			<div class="cite-us">
+				For private work or work with a large amount of data, we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> cite us </a>
 			</div>
-		</secz>
 	</main> 	
 
 	<main class="Help">
 		<header class="header">
 			<section class="container-header">
-				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
 			</section>
 		</header>
 		<section class="documentation-annotep">
-			<h3> AnnoTEP documentation - <span>Anno</span>tation <span>T</span>ransposaspanle <span>E</span>lements for <span>P</span>lants </h3>
-			<br>
-			<p class="documentation-introducion">
-				Welcome to the AnnoTEP documentation. <br>
-				<br>
-				The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to 
-				the scientific community involved in research centered on these elements. <br>
-				<br>
-				Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. 
-				Also referred to as "jumping genes", mobile genetic elements (MGEs) or insertion elements (ISs), they constitute a category of genetic sequences that 
-				play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated 
-				retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using 
-				the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. <br>
-				<br>
-				The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees. 
-				It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences. <br>
-				<br>
-			</p>
+			<h3> AnnoTEP documentation - <span>Anno</span>tation <span>T</span>ransposable <span>E</span>lements for <span>P</span>lants </h3>
+			
+			<p> Welcome to the AnnoTEP documentation. </p>
+			<p> The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to the scientific community involved in research centered on these elements. </p>
+			<p> Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. Also referred to as "jumping genes", mobile genetic elements (MGEs) or insertion elements (ISs), they constitute a category of genetic sequences that play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. </p>		
+			<p> The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees.  It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences. </p>
+				
+			<h3> How to use the platform - web server </h3>
+			<p> This section details the steps required to submit data for annotation of traversable elements on the web server. </p>
 
-			<h3> Como utilizar a plataforma</h3>
-			<br>
-			<section class="documentation-session-user">
-				<p>
-					Esta seção apresenta de forma detalhada as etapas necessárias para submeter dados à anotação de elementos transponíveis no servidor web. <br>
-				</p>
+			<h4> Staying informed about the annotation process </h4>
+			<p> To start the annotation process and obtain information on the progress of your work, you need to provide your e-mail address in the panel. </p>
+			<div class="screenshot-example"> <img src="../static/screenshot/email.png" alt="box-email"> </div>
+			<p> After submission, you will receive a confirmation email and then a second email will be sent as soon as the annotation process is complete, this email will contain a link to the outputs of the analyzed data. If any errors occur during the analysis, you will also receive an email explaining what happened. </p>
+			<p> It is important to note that when you receive the second email with the link to your annotated work, you will have 48 hours to access and review the results. the results, after which time the data will be deleted from the database.</p>
 
-				<h4>Mantendo-se informado sobre o processo de anotação </h4>
-				<p>
-					Para iniciar o processo de anotação e obter informações sobre o andamento do seu trabalho, é necessário fornecer seu endereço de e-mail no painel 
-					correspondente. 
-				</p>
-				<img src="../static/assets-fixo/email.png" alt="box-email">
-				<p>
-					Após a submissão, você receberá um e-mail de confirmação e, posteriormente, um segundo e-mail será enviado assim que o processo de anotação for 
-					concluído, este e-mail iŕa conter um link para a saídas dos dados analisados. Caso ocorra algum erro durante a análise, você também receberá um 
-					e-mail contendo explicações sobre o ocorrido.
+			<h4>Entering input data </h4>
+			<p> The ideal data input accepted by the AnnoTEP platform is FASTA format files containing the chromosomes of plant genomes. The "Genome Data" panel allows you to select the file on your machine.</p>	
+			<div class="screenshot-example"> <img src="../static/screenshot/genome.png" alt="box-genome"> </div>
 
-					É importante observar que, ao receber o segundo e-mail com o link para seu trabalho anotado, você terá um prazo de 48 horas para acessar e revisar 
-					os resultados, após esse prazo esses dados são excluidos do banco de dados. <br>
-				</p>
+			<h4> Annotation systems </h4>
+			<p> Before submitting your annotations, you need to choose the type of annotation you want to make, by default the SINE annotation is already selected, so confirm your selections before submitting your data.</p>
+			<div class="screenshot-example"> <img src="../static/screenshot/anotação.png" alt="box-annotation"> </div>
+			<p> The annotation system allows you to make four different types of annotations: </p>
+			
+			<ul>
+				<li><p><b>Selecting SINE Annotation: </b> This option exclusively analyzes the SINE elements present in the plant genome, generating libraries containing specific SINE sequences.</p></li>
+				<li><p><b>Selecting LINE Annotation: </b> This option exclusively analyzes the LINE elements present in the plant genome, generating libraries containing specific LINE sequences.</p></li>
+				<li><p><b>Selecting SINE and LINE Annotation (Together): </b> This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.</p></li>
+				<li><p><b>Selecting Complete Annotation: </b> This option performs a comprehensive analysis of the SINEs and LINEs elements, including an in-depth analysis using libraries of both elements. In addition to the conventional outputs, such as tables of TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy Family and Copia Family elements, age graphs are generated for the Gypsy and Copia families, as well as a phylogenetic tree.</p></li>
+			</ul>
+			
+			<h4> Sending data </h4>
+			<p> Once you have entered all the necessary data, you can click on the "submit" button and send your genome for analysis. When the job is completed without any errors, you will receive an e-mail informing you that the results are available. annotation.</p>
+			<p> <b>Please note: </b> Results from the web platform are stored in the database for up to 48 hours. To ensure the preservation of your data, we advise users to check and save their information before this period expires.</p>
 
-				<h4>Inserindo os dados de entrada </h4>
-				<p>
-					A entrada de dados ideal e aceita pela plataforma AnnoTEP é são arquivos no formato FASTA contendo os cromossomos dos genomas de plantas.
-					O painel "Genome Data" permite a você selecionar o arquivo em sua máquina.
-				</p>
-				<img src="../static/assets-fixo/genome.png" alt="box-email">
-				<br>
+			<h3> Results page - web server </h3>
+			<p> By accessing the link in the second e-mail, or consulting the "exemple of annotation" available on the home page, you will be directed to the results page. </p>
+			<div class="screenshot-results"><img src="../static/screenshot/guia.png" alt="results-page-guide"></div>
+			<p> On the results page, you are initially presented with a sidebar on the left, which will help you navigate between the different sections quickly. The sections are given titles based on the analyses carried out, and each section is accompanied by question mark-shaped icons which provide additional information to help you understand the results presented.</p>
+			
+			<h4> Viewing non-LTR data </h4>
+			<p> In this section, you will have access to the SINEs and/or LINEs libraries, results generated from the SINEs, LINEs and Completa annotations. To download the content, you have two options: .zip or .tar.gz compressed format. </p>
+			<div class="screenshot-results"><img src="../static/screenshot/nonLTR.png" alt="nonLTR-SINE/LINE/Complete-annotation"></div>
+			<p> If you have chosen to annotate only SINE or LINE, you will see a different presentation. In these options, only the library relating to the chosen annotation will be available, while the other content will remain blocked or "not avaliable".</p>
+			<div class="screenshot-results"><img src="../static/screenshot/annotationsine.png" alt="nonLTR-SINE/LINE-annotation"></div>
+			<p> If you choose to annotate SINE and LINE together, all the options in this section will be unlocked, but the other sections will remain empty.</p>
+			<p> To access the data of the other results, you must have opted for the full annotation.</p>
 
-				<h4> Sistemas de anotações </h4>
-				<p>
-					Antes de submeter suas anotações é necessário escolher que tipo de anotação você deseja realizar, por padrão a anotação SINE já vem selecionada, então
-					confirar as marcações antes de enviar seus dados.
-				</p>
-				<img src="../static/assets-fixo/anotação.png" alt="box-email">
-				<p> O sistemas de anotação é divido em quatro tipos de anotações diferentes ... </p>
+			<h4> Viewing the transposable elements report </h4>
+			<p> The "Report" section presents a comprehensive table of the various transposable elements found in the genome, including TRIMs, LARDs, BARE-2, Copia Superfamily, Gypsy Superfamily, and others. In this report, partial elements are identified by the suffix "-like".</p>
+			<p> In the table you can see the name of each element, its quantity, the number of base pairs (bp) and the corresponding percentage in the genomic sequence. When you download this report, you will be downloading a table in CSV format (values separated by commas). </p>
+			<div class="screenshot-results"><img src="../static/screenshot/report.png" alt="TE-report"></div>
 
-			</section>
+			<h4> Checking repeated landscape graphics </h4>
+			<p> In the "repeat landscape graph" section, you are presented with a repeat landscape graph that offers a visual representation of the relative amount of each transposable element class, correlated with the Kimura distance on the x-axis, serving as a time indicator. In contrast, the y-axis displays the comparative coverage of each repeat class, adjusted for genome size. Thus, the repeat landscape graph provides a coherent inference of the relative ages of each element identified in a specific genome.</p>
+			<p> When you download this graph, you will receive a figure in SVG format, ready to be used in your research. </p>
+			<div class="screenshot-results"><img src="../static/screenshot/landscape.png" alt="repeat-landscape-graphis"></div>
+
+			<h4> Looking at the ages of the LTR SuperFamily </h4>
+			<p> The age of transposable elements reflects the evolutionary dynamics of the genome over time, and understanding the ages of the LTR Gypsy and Copia Superfamilies allows us to reconstruct the evolutionary history of these elements.</p>
+			<p> In the "LTR SuperFamily" section you are presented with histograms representing the ages of the Gypsy and Copia LTR Superfamilies. </p>
+			<p>	The dashed vertical lines highlight the median, providing a central measure, while the horizontal line represents the average in millions of years (Mya).</p>
+			<div class="screenshot-results"><img src="../static/screenshot/ltrsuperfamily.png" alt="LTR-SuperFamily"></div>
+
+			<h4>Visualizing phylogenetic trees and their density </h4>
+			<p> Phylogeny makes it possible to reconstruct the evolutionary history of organisms, revealing how different species are related to each other. This provides a temporal perspective that helps to understand how organisms have evolved over time. </p>
+			<p> The "phylogeny" section aligns all the annotated LTR-RT domains of the genome. By exploring this section, you will have the opportunity to visualize the evolutionary relationship between these elements, revealing patterns and connections that help elucidate the evolution of these sequences over generations. </p>
+			<div class="screenshot-results"><img src="../static/screenshot/phylogeny.png" alt="Phyloheny"></div>
+
+			<p>Then, in the next section, we highlight the "density" of each branch identified in the genome. </p>
+			<p> The outer circle, highlighted in purple, offers a visual representation of the length occupied by each element in base pairs (bp), providing a clear perception of the physical extent of each element in the genome. On the other hand, the inner circle, in red, reflects the number of occurrences of each element, providing a view of the distribution and abundance of these elements in the genome. </p>
+			<div class="screenshot-results"><img src="../static/screenshot/density.png" alt="Density"></div>
+
+			<p> <b>Note: </b>During the annotation process, it is recommended that users run a maximum of two jobs simultaneously, due to server limitations. If the intention is to annotate large data sets, we suggest downloading and using the local version of AnnoTEP. This recommendation also extends to private research, in order to optimize efficiency and ensure a more stable experience during data analysis.</p>
 		</section>
+		
+		<footer class="footer">
+			<div class="cite-us">
+				If you have found AnnoTEP useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
 	</main>	
 
 	<main class="About">
-		<h1>About</h1>
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+
+		<section class="description-about">
+			<p> The AnnoTEP platform was created with the aim of diversifying the available options for tools that annotate transposable elements in plant genomes. Our main goal is to facilitate the annotation of TEs in plants, covering a variety of characteristics related to their classes, orders and superfamilies.</p>
+			<p> AnnoTEP is based on the <a href="https://github.com/amvarani/Plant_Annotation_TEs" target="_blank">Plant Genome Annotation pipeline </a>, developed by prof. Dr. Alessandro de Melo Varani, to carry out the process of analyzing plant genomes.</p>
+		
+			<div class="title-input title-about">
+				<p>Contributors</p>
+			</div>
+
+			<section class="table-logos">
+				<div class="logo-info">
+					<img class="capes-logo" src="../static/screenshot/capes.png" alt="CAPES logo">
+					<span>Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - CAPES </span>
+				</div>
+				<div class="logo-info">
+					<img class="ufpa-logo" src="../static/screenshot/ufpa.png" alt="UFPA logo"></div></td>
+					<span>Universidade Federal do Pará - UFPA </span>
+				</div>
+				<div class="logo-info">
+					<img class="unesp-logo" src="../static/screenshot/Logo_Unesp.svg" alt="UNESP logo"></div></td>
+					<span>Universidade Estadual Paulista - UNESP</span>
+				</div>
+				<div class="logo-info">
+					<img class="labiocad-logo" src="../static/screenshot/LaBioCAD.png" alt="LABIOCAD logo"></div></td>
+					<span>Laboratório de Bioinformatica e Computação de Alto desempenho - LaBioCad</span>
+				</div>		
+			</section>
+		</section>	
+
+		<footer class="footer">
+			<div class="cite-us">
+				If you have found AnnoTEP useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
 	</main>
 
 	<main class="Contact">
-		<h1>Contact</h1>
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+
+		<section class="description-contact">
+			<div class="description-contact-text">
+				<span>Contact us with any questions or to report a bug in the platform (web or local)</span>
+			</div>
+
+			<section class="container-email">
+				<div class="session-title-contact">
+					<p>Email Adress </p>
+				</div>
+					<input id="help-email" class="help-email" type="email" pattern=".com" placeholder="enter email" oninput="validateForm()" required/> 
+			</section>
+
+			<section class="container-email">
+				<div class="session-title-contact">
+					<p>Title</p>
+				</div>
+					<input id="help-title" class="help-email" type="email" placeholder="" oninput="validateForm()" required/> 
+			</section>
+
+			<section class="container-email">
+				<div class="session-title-contact">
+					<p>Subject</p>
+				</div>
+					<textarea id="help-subject" class="help-subject" type="text" placeholder="" oninput="validateForm()" required></textarea> 
+			</section>
+
+			<div class="container-submit">
+				<button type="button" id="uploadcontact" class="uploaddata" disabled> Submit </button>
+			</div>
+
+		</section>
+
+		<footer class="footer">
+			<div class="cite-us">
+				If you have found AnnoTEP useful, please <a href=""> cite us </a>
+			</div>
+		</footer>
 	</main>
 
 	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/main.js') }}"></script>

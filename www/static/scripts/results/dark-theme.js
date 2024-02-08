@@ -15,11 +15,11 @@ replaceConst.addEventListener('click', function(){
   //expressão condicional ternária ? : para alternar
   //Se isCloudSun for true, ele usará os valores no lado esquerdo do :; caso contrário, usará os valores no lado direito do :
   isCloudSun = !isCloudSun;
-  cloudImg.src = isCloudSun ? '../static/assets-fixo/CloudSun.svg' : '../static/assets-fixo/CloudMoon.svg';
-  logoImg.src = isCloudSun ? '../static/assets-fixo/Logo2.svg' : '../static/assets-fixo/Logo.svg';
+  cloudImg.src = isCloudSun ? '../static/assets/CloudSun.svg' : '../static/assets/CloudMoon.svg';
+  logoImg.src = isCloudSun ? '../static/assets/Logo2.svg' : '../static/assets/Logo.svg';
 
 
   iconHelps.forEach(function(iconhelp) {
-    iconhelp.src = isCloudSun ? '../static/assets-fixo/QuestionDiamond-dark.svg' : '../static/assets-fixo/QuestionDiamond-light.svg';
+    iconhelp.src = isCloudSun ? '../static/assets/QuestionDiamond-dark.svg' : '../static/assets/QuestionDiamond-light.svg';
   });
 });

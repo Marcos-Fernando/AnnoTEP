@@ -92,6 +92,23 @@ menuMobile.addEventListener('click', () => {
   console.log('ok!!!')
 });
 
+// ---------------- Sistema de envio de email Contact ------ //
+function validateForm() {
+  var emailInput = document.getElementById('help-email');
+  var titleInput = document.getElementById('help-title');
+  var subjectInput = document.getElementById('help-subject');
+  var submitContact = document.getElementById('uploadcontact');
+
+  if (emailInput.value.trim() !== '' && titleInput.value.trim() !== '' && subjectInput.value.trim() !== '') {
+    submitContact.disabled = false;
+  } else {
+    submitContact.disabled = true;
+  }
+}
+
+
+
+
 
 
 
