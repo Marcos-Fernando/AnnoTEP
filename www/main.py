@@ -2,11 +2,11 @@ import os
 
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, session
 from app import create_app
 from database.database import generate_unique_name, config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
-from celery_tasks import process_annotation
-from extensions.sendemail import send_email_complete_annotation, send_email_checking
+from celery_tasks import get_number_of_workers, process_annotation
+from extensions.sendemail import send_email_complete_annotation, send_email_checking, send_email_error_extension, send_email_error_annotation
 
 # ======= AMBIENTES =======
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
@@ -20,12 +20,12 @@ app, mongo, _, _ = create_app()
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    num_workers = get_number_of_workers()
+    return render_template("index.html", num_workers=num_workers)
 
 #Verifica se a extensão é válida e depois redireciona o usuário para a URL
 def allowed_file(filename):
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/annotation-process', methods=['GET','POST'])
 def upload_file():
@@ -61,7 +61,6 @@ def upload_file():
             os.makedirs(resultsAddress)
             file.save(os.path.join(RESULTS_FOLDER, storageFolder, new_filename))
 
-
             #------ Configurando o banco de dados ----------
             secret_key = os.urandom(24)
             key_security = secret_key.hex()
@@ -70,37 +69,45 @@ def upload_file():
             expiration_date = datetime.utcnow() + expiration_period
             
             config_user(mongo, key_security, expiration_date, email, filename, new_generated_name)
-            #------------------------------------------------
- 
-        if 'annotation_type' in request.form:
-                annotation_type = int(request.form.get('annotation_type'))
-                result_process = process_annotation.delay(email, new_filename, annotation_type, resultsAddress)              
-                try:
-                    result_process.get()
-                except Exception as e:
-                    print(f"Erro ao aguardar a conclusão da tarefa: {e}")
-                
-                if annotation_type == 1:
-                    binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    send_email_complete_annotation(email, key_security)
-                    print(f'Análise armazenada na pasta: {storageFolder}')
-                elif annotation_type == 2:
-                    binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    send_email_complete_annotation(email, key_security)
-                    print(f'Análise armazenada na pasta: {storageFolder}')
-                elif annotation_type == 3:
-                    binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    send_email_complete_annotation(email, key_security)
-                    print(f'Análise armazenada na pasta: {storageFolder}')
-                elif annotation_type == 4:
-                    binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
-                    binary_image_files(mongo, key_security, expiration_date, resultsAddress)
-                    send_email_complete_annotation(email, key_security)
-                    print(f'Análise armazenada na pasta: {storageFolder}')
+        else:
+            send_email_error_extension(email)
 
-    return render_template("index.html")
+        num_workers = get_number_of_workers()
+        print(f"Número de processos Celery em execução: {num_workers}")
+        
+        if 'annotation_type' in request.form:
+            annotation_type = int(request.form.get('annotation_type'))
+            result_process = process_annotation.delay(new_filename, annotation_type, resultsAddress)              
+            try:
+                result_process.get()
+            except Exception as e:
+                print(f"Erro ao aguardar a conclusão da tarefa: {e}")
+                
+            if annotation_type == 1:
+                binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
+                send_email_complete_annotation(email, key_security)
+                print(f'Análise armazenada na pasta: {storageFolder}')
+            elif annotation_type == 2:
+                binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
+                send_email_complete_annotation(email, key_security)
+                print(f'Análise armazenada na pasta: {storageFolder}')
+            elif annotation_type == 3:
+                binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
+                binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
+                send_email_complete_annotation(email, key_security)
+                print(f'Análise armazenada na pasta: {storageFolder}')
+            elif annotation_type == 4:
+                binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress)
+                binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress)
+                binary_image_files(mongo, key_security, expiration_date, resultsAddress)
+                send_email_complete_annotation(email, key_security)
+                print(f'Análise armazenada na pasta: {storageFolder}')
+        
+            num_workers = get_number_of_workers()
+            print(f"Número de processos Celery em execução: {num_workers}")
+
+
+    return render_template("index.html", num_workers=num_workers)
 
 
 @app.route("/results/<key_security>")

@@ -65,6 +65,10 @@ footer.dark-theme{
 }
 
 footer.dark-theme a{
+	color: var(--blue);
+}
+
+footer.dark-theme span{
 	color: var(--orange);
 }
 
@@ -144,4 +148,12 @@ footer.dark-theme a{
 
 .description-contact.dark-theme p{
 	color: var(--purple-01);
+}
+
+.num_work.dark-theme{
+	color: var(--grey-02);
+}
+
+.num_work.dark-theme span{
+	color: var(--orange);
 }

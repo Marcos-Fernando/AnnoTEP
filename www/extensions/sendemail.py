@@ -19,3 +19,19 @@ def send_email_complete_annotation(email, key_security):
     msg.body = f"Sua anotação foi concluída! Para visualizar os dados obtidos clique no link: {result_url} . Esperamos que essas informações sejam úteis em sua pesquisa"
 
     mail.send(msg)
+
+def send_email_error_extension(email):
+    msg_title = "Error na checagem do arquivo"
+    sender = "noreply@app.com"
+    msg = Message(msg_title, sender=sender, recipients=[email])
+    msg.body = f"Sua anotação não pôde ser concluída. O arquivo enviado possui uma extensão diferente da esperada. Certifique-se de que está enviando um arquivo com a extensão correta, formato FASTA, conforme solicitado. Se precisar de assistência adicional, não hesite em entrar em contato."
+
+    mail.send(msg)
+
+def send_email_error_annotation(email):
+    msg_title = "Error no processo de anotação"
+    sender = "noreply@app.com"
+    msg = Message(msg_title, sender=sender, recipients=[email])
+    msg.body = f"Sua anotação não pôde ser concluída devido a um erro durante a análise do arquivo. Por favor, revise o arquivo enviado e tente novamente. Se o problema persistir, entre em contato para obter assistência"
+
+    mail.send(msg)

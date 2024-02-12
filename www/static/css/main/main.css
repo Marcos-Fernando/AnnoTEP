@@ -662,17 +662,19 @@ input[type="file"]{
 
 footer{
 	border-top: 0.125rem solid var(--green-02);
-	margin-top: 3rem;
+	margin-top: 1rem;
 	color: var(--grey-03);
 
 	font-size: 1rem;
 	font-weight: 400;
 
 	transform: translate(0, -1rem);
-
 	opacity: 0;
-
 	animation: showElementAnimation .5s ease-in-out 3.9s forwards;
+}
+
+footer span{
+	color: var(--green-02);
 }
 
 .cite-us{
@@ -680,7 +682,7 @@ footer{
 }
 
 .cite-us a{
-	color: var(--green-02);
+	color: var(--green-01);
 	cursor: pointer;
 
 	padding-left: 0.125rem;
@@ -733,6 +735,19 @@ footer{
 .session-genome-icon:hover .open-tab-genome{
 	visibility: visible;
 	opacity: 1;
+}
+
+.num_work{
+	font-size: 1rem;
+	margin-top: 2rem;
+
+	transform: translate(0, -1rem);
+	opacity: 0;
+	animation: showElementAnimation .5s ease-in-out 3.6s forwards;
+}
+
+.num_work span{
+	color: var(--green-02);
 }
 
 
