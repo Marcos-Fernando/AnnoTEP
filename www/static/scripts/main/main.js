@@ -74,3 +74,46 @@ uploaddate.addEventListener('click', function () {
  
 });
 
+// --------- Envio de formulário contendo email ----------
+function submitForm() {
+  // Obter valores dos campos
+  var userEmail = document.getElementById("help-email").value;
+  var title = document.getElementById("help-title").value;
+  var subject = document.getElementById("help-subject").value;
+
+  // Criar um objeto com os dados
+  var formData = {
+      from: userEmail,  // Renomeie para 'from' para corresponder ao Flask
+      title: title,
+      subject: subject
+  };
+
+  console.log(formData)
+
+  // Enviar uma solicitação POST para o Flask
+  fetch('/send_email', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+  })
+  .then(response => response.json())
+  .then(data => {
+      // Lidar com a resposta do servidor, se necessário
+      console.log(data);
+  })
+  .catch((error) => {
+      console.error('Erro ao enviar dados para o Flask:', error);
+  });
+
+  clearForm();
+}
+
+
+function clearForm() {
+  document.getElementById("help-email").value = "";
+  document.getElementById("help-title").value = "";
+  document.getElementById("help-subject").value = "";
+}
+

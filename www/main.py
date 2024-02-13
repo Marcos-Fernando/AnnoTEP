@@ -6,7 +6,7 @@ from flask import render_template, request, redirect, flash, session
 from app import create_app
 from database.database import generate_unique_name, config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
 from celery_tasks import get_number_of_workers, process_annotation
-from extensions.sendemail import send_email_complete_annotation, send_email_checking, send_email_error_extension, send_email_error_annotation
+from extensions.sendemail import send_email_complete_annotation, send_email_checking, send_email_error_extension, send_email_error_annotation, submit_form
 
 # ======= AMBIENTES =======
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
@@ -102,6 +102,9 @@ def upload_file():
 
     return render_template("index.html")
 
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    return submit_form()
 
 @app.route("/results/<key_security>")
 def results_page(key_security):
