@@ -16,10 +16,11 @@ celery.conf.update(app.config)
 #Definindo a quantidade de tarefas a serem executadas
 celery.conf.worker_concurrency = 2
 
-
 @celery.task
 def process_annotation(new_filename, annotation_type, resultsAddress):
     # Coloque o código do seu bloco 'if annotation_type' aqui
+    get_number_of_workers()
+
     if annotation_type == 1:
         sine_annotation(new_filename, resultsAddress)       
     elif annotation_type == 2:
@@ -44,3 +45,9 @@ def get_number_of_workers():
         return sum(len(worker) for worker in active_workers.values())
     else:
         return 0
+
+    # if active_workers:
+    #     count = sum(len(worker) for worker in active_workers.values()) + 1
+    #     return count - 1 if count > 2 else count
+    # else:
+    #     return 0

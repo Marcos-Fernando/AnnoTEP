@@ -32,7 +32,6 @@ def upload_file():
     if request.method == 'POST':
         if 'email' in request.form:
             email = request.form.get('email')
-            send_email_checking(email)
 
         #Verificando se a solicitação de postagem tem a parte do arquivo
         if 'file' not in request.files:
@@ -69,12 +68,10 @@ def upload_file():
             expiration_date = datetime.utcnow() + expiration_period
             
             config_user(mongo, key_security, expiration_date, email, filename, new_generated_name)
+            send_email_checking(email)
         else:
             send_email_error_extension(email)
 
-        num_workers = get_number_of_workers()
-        print(f"Número de processos Celery em execução: {num_workers}")
-        
         if 'annotation_type' in request.form:
             annotation_type = int(request.form.get('annotation_type'))
             result_process = process_annotation.delay(new_filename, annotation_type, resultsAddress)              
@@ -102,12 +99,8 @@ def upload_file():
                 binary_image_files(mongo, key_security, expiration_date, resultsAddress)
                 send_email_complete_annotation(email, key_security)
                 print(f'Análise armazenada na pasta: {storageFolder}')
-        
-            num_workers = get_number_of_workers()
-            print(f"Número de processos Celery em execução: {num_workers}")
 
-
-    return render_template("index.html", num_workers=num_workers)
+    return render_template("index.html")
 
 
 @app.route("/results/<key_security>")
