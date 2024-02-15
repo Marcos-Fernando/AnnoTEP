@@ -1,19 +1,34 @@
 import os
+import smtplib
 from flask import Flask, jsonify, request
 from flask_mail import Message
 from app import create_app
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 _, _, mail, _ = create_app()
 
-send_email = Flask(__name__)
+def send_email_checking(email, mail_password):
 
-def send_email_checking(email):
+    mail = smtplib.SMTP('smtp.gmail.com', 587)
+    mail.starttls()
+    mail.ehlo()
+    mail.login('annoteps@gmail.com', mail_password)
+
     msg_title = "Verification email"
     sender = "noreply@app.com"
-    msg = Message(msg_title, sender=sender, recipients=[email])
-    msg.body = "Thank you for choosing AnnoTEP, your trusted tool for annotating transposable elements in plant genomes. We are excited to be part of your research journey! Remember to mention our work in your research to help advance our research. If you have any questions or need assistance, don't hesitate to contact us. Good luck with your studies!"
 
-    mail.send(msg)
+    msg = MIMEMultipart()
+    msg.attach(MIMEText("Thank you for choosing AnnoTEP, your trusted tool for annotating transposable elements in plant genomes. We are excited to be part of your research journey! Remember to mention our work in your research to help advance our research. If you have any questions or need assistance, don't hesitate to contact us. Good luck with your studies!", 'plain'))
+
+    msg['From'] = sender
+    msg['To'] = email
+    msg['Subject'] = msg_title
+
+    mail.sendmail(sender, [email], msg.as_string())
+    mail.quit()
 
 def send_email_complete_annotation(email, key_security):
     msg_title = "Complete annotation"

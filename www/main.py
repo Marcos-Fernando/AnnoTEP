@@ -1,6 +1,7 @@
 import os
 
 from datetime import datetime, timedelta
+import shutil
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, flash, session
 from app import create_app
@@ -68,14 +69,16 @@ def upload_file():
             expiration_date = datetime.utcnow() + expiration_period
             
             config_user(mongo, key_security, expiration_date, email, filename, new_generated_name)
-            send_email_checking(email)
+           
         else:
             send_email_error_extension(email)
 
         if 'annotation_type' in request.form:
             annotation_type = int(request.form.get('annotation_type'))
-            result_process = process_annotation.delay(new_filename, annotation_type, resultsAddress)              
+            mail_password = os.environ.get('MAIL_PASSWORD')
+            result_process = process_annotation.delay(new_filename, annotation_type, resultsAddress, email, mail_password)              
             try:
+                #send_email_checking(email)
                 result_process.get()
             except Exception as e:
                 print(f"Erro ao aguardar a conclusão da tarefa: {e}")
@@ -99,6 +102,12 @@ def upload_file():
                 binary_image_files(mongo, key_security, expiration_date, resultsAddress)
                 send_email_complete_annotation(email, key_security)
                 print(f'Análise armazenada na pasta: {storageFolder}')
+
+            if os.path.exists(resultsAddress):
+                shutil.rmtree(resultsAddress)
+                print(f"A pasta {resultsAddress} foi excluída com sucesso.")
+            else:
+                print(f"A pasta {resultsAddress} não existe.")
 
     return render_template("index.html")
 

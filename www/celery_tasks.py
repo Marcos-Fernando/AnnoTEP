@@ -1,4 +1,5 @@
 from celery import Celery
+from extensions.sendemail import send_email_checking
 from flask import Flask
 from app import create_app
 from extensions.annotation import sine_annotation, line_annotation, complete_annotation
@@ -14,12 +15,12 @@ celery.conf.update(app.config)
 
 
 #Definindo a quantidade de tarefas a serem executadas
-celery.conf.worker_concurrency = 2
+celery.conf.worker_concurrency = 10
 
 @celery.task
-def process_annotation(new_filename, annotation_type, resultsAddress):
-    # Coloque o código do seu bloco 'if annotation_type' aqui
+def process_annotation(new_filename, annotation_type, resultsAddress, email, mail_password):
     get_number_of_workers()
+    send_email_checking(email, mail_password)
 
     if annotation_type == 1:
         sine_annotation(new_filename, resultsAddress)       
