@@ -1,67 +1,27 @@
 import os
 import random
-import subprocess
+import shutil
 
+from app import create_app, allowed_file
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request, redirect, flash, Response
-from flask_mail import Mail, Message
+from flask import render_template, request, redirect, flash
+from extensions.sendemail import send_email_checking, send_email_complete_annotation
 from extensions.annotation import sine_annotation, line_annotation, complete_annotation
 
-#Definindo local dos arquivos
-#ambientes
+app, _ = create_app()
+
+# ===================== Ambientes ======================
 CONDA = os.environ['CONDA_PREFIX']
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
-#processos
-SINE_FOLDER = os.path.join(UPLOAD_FOLDER, 'SINE', 'AnnoSINE', 'bin')
-NONLTR_FOLDER = os.path.join(UPLOAD_FOLDER, 'non-LTR')
-MGESCAN_FOLDER = os.path.join(NONLTR_FOLDER, 'mgescan')
-EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
-
+# ================= Locais dos arquivos ================
 LOCAL_FOLDER = os.path.join(UPLOAD_FOLDER, 'desktop')
 RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
 
-#Extensões que serão permitidas
-ALLOWED_EXTENSIONS = {'fasta'}
-
-#configurando ambiente flask
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-#ambiente para envio de email
-app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT'))
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS') == 'True'
-app.config['MAIL_USE_SSL'] = os.environ.get('MAIL_USE_SSL') == 'True'
-mail = Mail(app)
 
 @app.route("/")
 def index():
     return render_template("index.html")
-
-def send_email_checking(email):
-    msg_title = "Email de verificação"
-    sender = "noreply@app.com"
-    msg = Message(msg_title, sender=sender, recipients=[email])
-    msg.body = "Obrigado por escolher a AnnoTEP, a sua ferramenta confiável para anotar elementos transponíveis em genomas de plantas. Estamos empolgados por fazer parte da sua jornada de pesquisa! Lembre-se de mencionar nosso trabalho em suas pesquisas para ajudar a promover o avanço da nossa pesquisa. Se tiver alguma dúvida ou precisar de assistência, não hesite em entrar em contato conosco. Boa sorte em seus estudos!"
-
-    mail.send(msg)
-
-def send_email_complete_annotation(email):
-    msg_title = "Anotação completa"
-    sender = "noreply@app.com"
-    msg = Message(msg_title, sender=sender, recipients=[email])
-    msg.body = f"Sua anotação foi concluída! Para visualizar acesse a pasta 'results'. Esperamos que essas informações sejam úteis em sua pesquisa"
-
-    mail.send(msg)
-
-
-#Verifica se a extensão é válida e depois redireciona o usuário para a URL
-def allowed_file(filename):
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/annotation-process', methods=['GET','POST'])
 def upload_file():
@@ -114,12 +74,23 @@ def upload_file():
                     complete_annotation(new_filename, resultsAddress)
                     send_email_complete_annotation(email)
 
-    return render_template("index.html")
+                if os.path.exists(resultsAddress):
+                    # Excluir a pasta "LINE" e seu conteúdo
+                    line_folder = os.path.join(resultsAddress, "LINE")
+                    if os.path.exists(line_folder):
+                        shutil.rmtree(line_folder)
 
-@app.route('/result_example')
-def result_example():
-    # Adicione lógica para processar o resultado aqui
-    return render_template('result_example.html')
+                    # Excluir arquivos com extensões ".fasta" e ".fa"
+                    for file in os.listdir(resultsAddress):
+                        if file.endswith((".fasta", ".fa")):
+                            file_path = os.path.join(resultsAddress, file)
+                            os.remove(file_path)
+
+                    print(f"A limpeza em {resultsAddress} foi concluída com sucesso.")
+                else:
+                    print(f"A pasta {resultsAddress} não existe.")
+
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

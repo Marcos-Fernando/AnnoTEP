@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="static/assets/icon.svg" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/main.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/modal.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/dark-theme.css') }}" />
     <title> AnnoTEP </title>
-
-	<script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
 	<div class="menuMobile">
@@ -16,24 +16,13 @@
 	</div>
 
 	<aside class="aside">
-		<!--
-		<div class="menu-side">
-			<img class="btn-expand" id="btn-expand" src="assets/Vector.svg">
-		</div>
-		-->
 		<ul id="menu">
 			<div class="logoAnnotep">
-				<a href="index.html">
-					<img src="static/assets/icon.svg" alt="Logo do Annotep">
-				</a>
+				<img src="static/assets/icon.svg" alt="Logo do Annotep">
 			</div>
 			<li class="li open" id="Home">
 				<img class="home-icon" src="static/assets/home.svg">
 				<spam class="txt-link">Home</spam>
-			</li>
-			<li class="li" id="Download">
-				<img class="download-icon" src="static/assets/download.svg">
-				<spam class="txt-link">Download</spam>
 			</li>
 			<li class="li" id="Help">
 				<img class="help-icon" src="static/assets/QuestionCircle.svg">
@@ -42,10 +31,6 @@
 			<li class="li" id="About">
 				<img class="about-icon" src="static/assets/InfoCircle.svg">
 				<spam class="txt-link"> About </spam>
-			</li>
-			<li class="li" id="Contact">
-				<img class="contact-icon" src="static/assets/contact-us.svg">
-				<spam class="txt-link"> Contact </spam>
 			</li>
 		</ul>
 	</aside>
@@ -63,7 +48,7 @@
 
 		<section class="container-main">
 			<article class="description-screen">
-				<p> AnnoTEP is a platform for annotating transposable elements in plants. Using an input file in <span>fasta</span> format containing the plant genome on a chromosomal scale, it is possible to obtain:</p>
+				<p>AnnoTEP Local Server with Interface seeks to bring a familiar environment to the web platform. In this version, the performance of annotating transposable elements in plants varies depending on your machine, so don't turn off your machine during this process.</p>
 			</article>
 
 			<section class="container-explicative">
@@ -77,13 +62,9 @@
 				</div>
 				<div class="box-explicative box-email">
 					<img class="img-email" src="static/assets/email-icon-light.svg">
-					<span class="be3">A link with the results is sent directly to your email. </span>
-					<a href="{{ url_for('result_example')}}" class="click-here be3" target="_blank">Click here - Results example</a>	
+					<span class="be3">A link with the results is sent <br> directly to your email. </span>
 				</div>
 			</section>
-			<div class="rectangle">
-				<div class="rectangle-green"></div>
-			</div>
 		</section>
 
 		<section class="container-data-input">
@@ -93,19 +74,19 @@
 			<section class="container-email">
 				<div class="session-title">
 					<p>Email Adress </p>
-					<div class="session-email-icon">
-						<span class="open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
+					<div class="session-icon session-email-icon">
+						<span class="open-tab open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
 						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
-					<input id="email" class="email" type="email" pattern=".+\.com$" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
+					<input id="email" class="email" type="email" pattern=".com" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
 			</section>
 
 			<section class="container-genome">
 				<div class="session-title">
 					<p>Genome data</p>
-					<div class="session-genome-icon">
-						<span class="open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
+					<div class="session-icon session-genome-icon">
+						<span class="open-tab open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
 						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
@@ -122,8 +103,8 @@
 			<section class="container-action">
 				<div class="session-title">
 					<p>Type annotation</p>
-					<div class="session-annotation-icon">
-						<span class="open-tab-annotation"> 
+					<div class="session-icon session-annotation-icon">
+						<span class="open-tab open-tab-annotation"> 
 							The annotation process for SINE and LINE elements involves providing concise, compressed data about the elements. <br>
 							The complete annotation goes further, conducting a thorough analysis. It not only includes compressed data on SINEs and LINEs, but also incorporates graphical representations, phylogenetic trees and descriptive tables, providing a more nuanced understanding of these elements.</span>
 						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
@@ -163,7 +144,7 @@
 					</p>
 					<div class="box-information">
 				  		<p>The annotation process has started</p>
-				  		<p>A confirmation email has been sent to your inbox containing further instructions.</p>
+				  		<p>Do not turn off the machine. At the end of the annotation, an email will be sent informing you that it has been completed and where you can find the data on your machine.</p>
 					</div>
 			  	</div>
 			</div>
@@ -171,31 +152,116 @@
 
 		<footer class="footer">
 			<div class="cite-us">
-				Results are saved in the database for up to 48 hours. 
-				We recommend users to run a maximum of two jobs at a time. 
-				For private work or work with a large amount of data, 
-				we recommend downloading AnnoTEP. If you have found AnnoTEP 
-				useful, please <a href=""> cite us </a>
+				Thank you for downloading and using AnnoTEP, please <a href=""> cite us </a>
 			</div>
 		</footer>
 	</main>
 
-	<section class="Download">
-		<h1>Download</h1>
-	</section>
+	<main class="Help">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+		<section class="documentation-annotep">
+			<h3> AnnoTEP documentation - <span>Anno</span>tation <span>T</span>ransposable <span>E</span>lements for <span>P</span>lants </h3>
+			
+			<p> Welcome to the AnnoTEP documentation. </p>
+			<p> The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to the scientific community involved in research centered on these elements. </p>
+			<p> Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. Also referred to as "jumping genes", mobile genetic elements (MGEs) or insertion elements (ISs), they constitute a category of genetic sequences that play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. </p>		
+			<p> The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees.  It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences. </p>
+				
+			<h3> How to use the platform - local server with interface</h3>
+			<p> This section details the steps required to send data for annotation of transposable elements on the local server. Similar to the web server, here you will also enter your data in order to be informed of the annotation's progress. </p>
 
-	<section class="Help">
-		<h1>Help</h1>
-	</section>
+			<h4> Staying informed about the annotation process </h4>
+			<p> To start the annotation process and obtain information on the progress of your work, you need to provide your e-mail address in the panel. </p>
+			<div class="screenshot-example"> <img src="../static/screenshot/email.png" alt="box-email"> </div>
+			
+			<h4>Entering input data </h4>
+			<p> The ideal data input accepted by the AnnoTEP platform is FASTA format files containing the chromosomes of plant genomes. The "Genome Data" panel allows you to select the file on your machine.</p>	
+			<div class="screenshot-example"> <img src="../static/screenshot/genome.png" alt="box-genome"> </div>
 
-	<section class="About">
-		<h1>About</h1>
-	</section>
+			<h4> Annotation systems </h4>
+			<p> Before submitting your annotations, you need to choose the type of annotation you want to make, by default the SINE annotation is already selected, so confirm your selections before submitting your data.</p>
+			<div class="screenshot-example"> <img src="../static/screenshot/anotação.png" alt="box-annotation"> </div>
+			<p> The annotation system allows you to make four different types of annotations: </p>
+			
+			<ul>
+				<li><p><b>Selecting SINE Annotation: </b> This option exclusively analyzes the SINE elements present in the plant genome, generating libraries containing specific SINE sequences.</p></li>
+				<li><p><b>Selecting LINE Annotation: </b> This option exclusively analyzes the LINE elements present in the plant genome, generating libraries containing specific LINE sequences.</p></li>
+				<li><p><b>Selecting SINE and LINE Annotation (Together): </b> This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.</p></li>
+				<li><p><b>Selecting Complete Annotation: </b> This option performs a comprehensive analysis of the SINEs and LINEs elements, including an in-depth analysis using libraries of both elements. In addition to the conventional outputs, such as tables of TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy Family and Copia Family elements, age graphs are generated for the Gypsy and Copia families, as well as a phylogenetic tree.</p></li>
+			</ul>
+			
+			<h4> Sending data </h4>
+			<p> Once you have entered all the necessary data, you can click on the "submit" button to start analyzing your genome. After submitting, you will receive a confirmation email and when the work is completed without any errors, you will receive a second email informing you that the annotation has been completed.</p>
 
-	<section class="Contact">
-		<h1>Contact</h1>
-	</section>
+			<h3> Results </h3>
+			<p> At the end of the annotation, the results will be available in your Home folder, in the "results" folder.</p>
+			<p> Inside the results folder you will find the following files: </p>
+			<ul>
+				<li><p><b> SINE folder - </b> contains the data generated from the SINE annotation or full annotation.</p></li>
+				<li><p><b> LINE-results folder - </b> contains the data generated through LINE annotation or complete annotation. </p></li>
+				<li><p><b> Complete-analysis folder - </b> obtained through the complete annotation, in this folder, in addition to the graphs, trees and tables generated, it brings elements masked by means of $genome-Softmasked.fa and the new structural annotations SINEs and LINEs, available in the folder $genome.EDTA.raw. ($genome = name of the genome worked on). Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3, plus a final analysis of LINEs elements available in $genome.TElib.fa.lask  </p></li>
+			</ul>
+			
+		</section>
+		
+		<footer class="footer">
+			<div class="cite-us">
+				
+			</div>
+		</footer>
+	</main>	
 
-	<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+	<main class="About">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+
+		<section class="description-about">
+			<p> The AnnoTEP platform was created with the aim of diversifying the available options for tools that annotate transposable elements in plant genomes. Our main goal is to facilitate the annotation of TEs in plants, covering a variety of characteristics related to their classes, orders and superfamilies.</p>
+			<p> AnnoTEP is based on the <a href="https://github.com/amvarani/Plant_Annotation_TEs" target="_blank">Plant Genome Annotation pipeline </a>, developed by prof. Dr. Alessandro de Melo Varani, to carry out the process of analyzing plant genomes.</p>
+		
+			<div class="title-input title-about">
+				<p>Contributors</p>
+			</div>
+
+			<section class="table-logos">
+				<div class="logo-info">
+					<img class="capes-logo" src="../static/screenshot/capes.png" alt="CAPES logo">
+					<span>Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - CAPES </span>
+				</div>
+				<div class="logo-info">
+					<img class="ufpa-logo" src="../static/screenshot/ufpa.png" alt="UFPA logo"></div></td>
+					<span>Universidade Federal do Pará - UFPA </span>
+				</div>
+				<div class="logo-info">
+					<img class="unesp-logo" src="../static/screenshot/Logo_Unesp.svg" alt="UNESP logo"></div></td>
+					<span>Universidade Estadual Paulista - UNESP</span>
+				</div>
+				<div class="logo-info">
+					<img class="labiocad-logo" src="../static/screenshot/LaBioCAD.png" alt="LABIOCAD logo"></div></td>
+					<span>Laboratório de Bioinformatica e Computação de Alto desempenho - LaBioCad</span>
+				</div>		
+			</section>
+		</section>	
+
+		<footer class="footer">
+			<div class="cite-us">
+				
+			</div>
+		</footer>
+	</main>
+
+	<script src="https://unpkg.com/@phosphor-icons/web"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/main.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/style.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/dark-theme.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/modal.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/pages.js') }}"></script>
 </body>
 </html>
