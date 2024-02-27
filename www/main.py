@@ -1,13 +1,13 @@
+#import shutil
 import os
 
-from datetime import datetime, timedelta
-import shutil
-from werkzeug.utils import secure_filename
-from flask import render_template, request, redirect, flash, session
 from app import create_app
-from database.database import generate_unique_name, config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
+from datetime import datetime, timedelta
+from werkzeug.utils import secure_filename
+from flask import render_template, request, redirect, flash
 from celery_tasks import get_number_of_workers, process_annotation
-from extensions.sendemail import send_email_complete_annotation, send_email_checking, send_email_error_extension, send_email_error_annotation, submit_form
+from extensions.sendemail import send_email_complete_annotation, send_email_error_extension, submit_form
+from database.database import generate_unique_name, config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results
 
 # ======= AMBIENTES =======
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
@@ -103,11 +103,11 @@ def upload_file():
                 send_email_complete_annotation(email, key_security)
                 print(f'Análise armazenada na pasta: {storageFolder}')
 
-            if os.path.exists(resultsAddress):
-                shutil.rmtree(resultsAddress)
-                print(f"A pasta {resultsAddress} foi excluída com sucesso.")
-            else:
-                print(f"A pasta {resultsAddress} não existe.")
+            #if os.path.exists(resultsAddress):
+            #    shutil.rmtree(resultsAddress)
+            #    print(f"A pasta {resultsAddress} foi excluída com sucesso.")
+            #else:
+            #    print(f"A pasta {resultsAddress} não existe.")
 
     return render_template("index.html")
 
