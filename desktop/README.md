@@ -36,7 +36,7 @@ That's it! You should now be able to access Annotep's local interface.
 **Staying informed about the annotation process**
 To start the annotation process and obtain information on the progress of your work, you need to provide your e-mail address in the panel.
 <div class="screenshot-example"> 
-    <img src="../static/screenshot/email.png" alt="box-email"> 
+    <img src="../www/static/screenshot/email.png" alt="box-email"> 
 </div>
 
 After submitting, you will receive a confirmation e-mail and then a second e-mail will be sent as soon as the annotation process is complete.
@@ -45,13 +45,13 @@ After submitting, you will receive a confirmation e-mail and then a second e-mai
 The ideal data input accepted by the AnnoTEP platform is FASTA format files containing the chromosomes of plant genomes. The "Genome Data" panel allows you to select the file on your machine.
 
 <div class="screenshot-example"> 
-    <img src="../static/screenshot/genome.png" alt="box-genome"> 
+    <img src="../www/static/screenshot/genome.png" alt="box-genome"> 
 </div>
 
 **Annotation systems**
 Before submitting your annotations, you need to choose the type of annotation you want to make, by default the SINE annotation is already selected, so confirm your selections before submitting your data.
 <div class="screenshot-example"> 
-    <img src="../static/screenshot/anotação.png" alt="box-annotation"> 
+    <img src="../www/static/screenshot/anotação.png" alt="box-annotation"> 
 </div>
 
 The annotation system allows you to make four different types of annotations:
