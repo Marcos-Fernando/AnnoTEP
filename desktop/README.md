@@ -37,7 +37,7 @@ That's it! You should now be able to access Annotep's local interface.
 To start the annotation process and obtain information on the progress of your work, you need to provide your e-mail address in the panel.
 <div align="center"> 
     <img src="../www/static/screenshot/email.png" alt="box-email"> 
-</div>
+</div><br>
 
 After submitting, you will receive a confirmation e-mail and then a second e-mail will be sent as soon as the annotation process is complete.
 
@@ -46,13 +46,13 @@ The ideal data input accepted by the AnnoTEP platform is FASTA format files cont
 
 <div align="center"> 
     <img src="../www/static/screenshot/genome.png" alt="box-genome"> 
-</div>
+</div><br>
 
 ## Annotation systems
 Before submitting your annotations, you need to choose the type of annotation you want to make, by default the SINE annotation is already selected, so confirm your selections before submitting your data.
 <div align="center"> 
     <img src="../www/static/screenshot/anotação.png" alt="box-annotation"> 
-</div>
+</div><br>
 
 The annotation system allows you to make four different types of annotations:
 - **Selecting SINE Annotation:** This option exclusively analyzes the SINE elements present in the plant genome, generating libraries containing specific SINE sequences.
@@ -63,7 +63,7 @@ The annotation system allows you to make four different types of annotations:
 
 - **Selecting Complete Annotation:** This option performs a comprehensive analysis of the SINEs and LINEs elements, including an in-depth analysis using libraries of both elements. In addition to the conventional outputs, such as tables of TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy Family and Copia Family elements, age graphs are generated for the Gypsy and Copia families, as well as a phylogenetic tree.
 
-### Sending data
+## Sending data
 Once you have entered all the necessary data, you can click on the "submit" button and send your genome for analysis. When the job is completed without any errors, you will receive an e-mail informing you that the results are available.
 
 ## Results
