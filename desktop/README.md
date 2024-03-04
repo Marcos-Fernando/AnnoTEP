@@ -23,10 +23,28 @@ Now run the container using the following command:
    sudo docker run -it -v $HOME/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 marcosnando/annotep-local-interface:v1
 ```
 
+#### Description:
 - ``-v $HOME/results:/root/TEs/www/results``: This creates a volume between the host and the container to store data. You can replace ``-v $HOME/results`` with any path on your machine. This is where your result data will be saved.
 - ``--name local-interface``: Sets the name of the container to "local-interface".
 - ``-dp 0.0.0.0:5000:5000``: Maps the container's port 5000 to the host's port 5000.
 - ``marcosnando/annotep-local-interface``: Specifies the image to be used.
+
+## Important
+If you use the aarch64 architecture and need to run binaries from another architecture, such as amd64, in an aarch64 environment, follow the steps below:
+
+**Step 1:** Download a Docker image that supports running binaries of different architectures:
+
+```sh
+    sudo docker run --privileged --rm tonistiigi/binfmt --install amd64
+```
+
+- Using ``--privileged`` provides necessary privileges to manipulate kernel configurations.
+
+**Step 2:** After installation, it is suggested to add the ``--platform=linux/amd64`` setting when running your Docker images. This tells Docker that the image should run on the amd64 platform, even if the host is using the aarch64 architecture. Example:
+```sh
+   sudo docker run --platform=linux/amd64 -it -v $HOME/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 marcosnando/annotep-local-interface:v1
+```
+These steps ensure proper execution in aarch64 environments by allowing the use of binaries from different architectures.
 
 ### Step 3: Accessing the Local Interface
 Access Annotep's local interface by typing http://127.0.0.1:5000 into your web browser.
