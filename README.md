@@ -1,5 +1,5 @@
 <div align="center"> 
-    <img src="www/static/assets/Logo2.svg" alt="Logo2">
+    <img src="desktop/static/assets/Logo2.svg" alt="Logo2">
 </div><br>
 
 ![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange)
@@ -25,22 +25,25 @@ Atualmente, o AnnoTEP está disponível em três formatos: Web Server, Home Serv
 
 [Installation with Docker](#installation-with-docker)
 
-[Example](#example-of-results)
+[Installation with github](#installation-with-github)
 
-[Git Install](#git-intall)
+[Results](#results)
 
 
 # Installation with Docker
 AnnoTEP pode ser instalado na máquina de diferentes forma, e uma delas é utilizando o Docker. A ferramenta está disponível em dois formatos: com interface gráfica e sem interface (modo terminal). Para seguir com as etapas abaixo, é necessário ter o Docker instalado na sua máquina. Você pode baixá-lo diretamente do site oficial do [Docker](https://docs.docker.com/engine/install/)
 
+
 ## Home server with interface
+- Importante: para essa versão sua máquina precisar ter acesso a rede de internet
+
 Abra o terminal e execute os seguintes comandos:
-1. Baixe a imagem do AnnoTEP:
+Etapa 1. Baixe a imagem do AnnoTEP:
 ```sh
     docker pull annotep-local-interface:v1
 ```
 
-2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação:
+Etapa 2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação:
 ```sh
      docker run -it -v /caminho/diretorio/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
 ```
@@ -56,31 +59,30 @@ Exemplo diretorio de resultados:
 - ``-dp 0.0.0.0:5000:5000``: Maps the container's port 5000 to the host's port 5000.
 - ``annotep-local-interface:v1``: Specifies the image to be used.
 
-3. Depois de executar o contêiner com o comando anterior, acesse a interface do AnnoTEP digitando o seguinte endereço no seu navegador web: 
+Etapa 3. Depois de executar o contêiner com o comando anterior, acesse a interface do AnnoTEP digitando o seguinte endereço no seu navegador web: 
 ``127.0.0.1:5000``
 
-4. Ao acessar 127.0.0.1:5000 você irá visualizar uma versão da plataforma AnnoTEP similar a versão WEB. 
+Etapa 4. Ao acessar 127.0.0.1:5000 você irá visualizar uma versão da plataforma AnnoTEP similar a versão WEB. 
 
-Se você deseja acessar o contêiner enquanto ele está em execução para fins de depuração ou configuração, você pode usar o seguinte comando Docker:
-```sh
-    docker run --name flask-container -it -p 0.0.0.0:5000:5000 "nome-da-image" /bin/bash
-```
-Substitua ``nome-da-image`` pelo nome da imagem do AnnoTEP que você está usando. Este comando executará um novo contêiner Docker com uma shell interativa /bin/bash, permitindo que você acesse o interior do contêiner enquanto ele está em execução.
+Etapa 5. Dentro da interface você poderá está inserindo seus dados como: email, genoma e tipo de anotação e enviando para a análise. Quando o trabalho for concluído sem nenhum erro, você receberá um e-mail informando que os resultados estão disponíveis no diretório informando em ``caminho/diretorio/results``.
 
+- [Sobre o tipo de anotação](#type-annotation)
+
+- Importante2: não desligue a máquina enquanto realizar o processo de anotação, você poderá está desligando após recebimento do email informando o fim da anotação.
 
 ## Home server in terminal
-1. Baixe a imagem do AnnoTEP:
+Etapa 1. Baixe a imagem do AnnoTEP:
 ```sh
     docker pull annotep-local-terminal:v1
 ```
 
-2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação, e ``caminho/diretorio/genome`` pelo diretório onde está localizado seu genoma:
+Etapa 2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação, e ``caminho/diretorio/genome`` pelo diretório onde está localizado seu genoma:
 ```sh
     sudo docker run -it -v /caminho/diretorio/results:/root/TEs/local/results -v /home/user/TEs:/caminho/diretorio/genome "nome_da_imagem" python run_annotep.py --file {/caminho/diretorio/genome/genome.fasta} --type {type-annotation}
 ```
 
-No parâmetro ``--file``, você precisa adicionar o mesmo diretório do genoma seguido pelo nome do genoma a ser utilizado no formato .fasta.
-No parâmetro ``--type``, você deve adicionar o número correspondente ao tipo de anotação que deseja realizar: 
+No parâmetro ``--file``, adicione o mesmo diretório do genoma seguido pelo nome do genoma a ser utilizado no formato .fasta.
+No parâmetro ``--type``, coloque o número correspondente ao tipo de anotação que deseja realizar: 
 [1] SINE Annotation 
 [2] LINE Annotation
 [3] SINE and LINE annotation
@@ -91,48 +93,43 @@ Exemplo:
     sudo docker run -it -v $HOME/results:/root/TEs/local/results -v $HOME/TEs:$HOME/TEs annotep-local-terminal:v1 python run_annotep.py --file $HOME/TEs/Athaliana.fasta --type 2
 ```
 
-3. Agora aguarde a finalização na anotação do genoma
+Etapa 3. Agora aguarde a finalização na anotação do genoma acompanhando a análise pelo terminal
  
 
-
-
-
-# Instalação com github
-Important: This pipeline was tested only on Ubuntu 20.20 and 22.04
+# Installation with github
 
 ## Prerequisitos
-[Python 3.7+](https://www.python.org/)
+- [Python 3.7+](https://www.python.org/)
 
-[Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
+- [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
 
-[MongoDB Compass](https://www.mongodb.com/docs/compass/current/install/)
-
+- System Ubuntu
 
 ## Baixe o repositório
+Etapa 1. No terminal rode:
 ```sh
 git clone https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
 ```
 
-Acesse o local do repositório na máquina:
+Etapa 2. Acesse o local do repositório na máquina:
 ```sh
 cd $HOME/TEs
 ```
-### Configurando o repositório local
+### Configurando o repositório
 ### Bibliotecas
-Abra o terminal e baixe as seguintes bibliotecas:
+Etapa 1. No terminal baixe as seguintes bibliotecas:
 ```sh
 sudo apt-get install lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk
 sudo apt-get install hmmer emboss python3-virtualenv python2 python2-setuptools-whl python2-pip-whl cd-hit iqtree
 sudo apt-get install python2-dev build-essential linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl
+sudo apt-get install pdf2svg
 
 # R dependencies
 sudo apt-get install r-cran-ggplot2 r-cran-tidyr r-cran-reshape2 r-cran-reshape rs r-cran-viridis r-cran-tidyverse r-cran-gridextra r-cran-gdtools r-cran-phangorn r-cran-phytools r-cran-ggrepel
-
 ```
 Acesse o programa R pelo teminal e instale bibliotecas por dentro dele:
 
 ```sh
-#program acess
 R
 
 install.packages("hrbrthemes")
@@ -143,33 +140,25 @@ BiocManager::install("ggtree")
 BiocManager::install("ggtreeExtra")
 ```
 
-Dentro da pasta copia os scripts para local/bin de sua máquina:
+Etapa 2. Após instalar as bibliotecas, copia os scripts ``irf`` e ``break_fasta.pl`` para local/bin de sua máquina:
 ```sh
 sudo cp Scripts/irf /usr/local/bin
 sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
-Agora configure o TEsorter
+
+Etapa 3. Em seguida configure o TEsorter:
 ```sh
 cd $HOME/TEs/TEsorter
 sudo python3 setup.py install
 ```
 Verifique a versão do python existente na máquina para prosseguir com a configuração
-
-* Python 3.6
-```sh
-# Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
-cd /usr/local/lib/python3.6/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
-```
-
 * Python 3.7
 ```sh
-# Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.7/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
 ```
 
 * Python 3.10
 ```sh
-# Hmmpress the databases (The path may be different depending on the python version - see the two examples below)
 cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
 ```
 ...
@@ -186,28 +175,25 @@ sudo hmmpress AnnoSINE.hmm
 cd $HOME/TEs 
 ```
 ### Baixando genomas para testes
-* Theobrama cacao
+Nesta etapa poderá esta optando em utilizar seus dados ou realizar o download de alguns exemplos para testes:
+* _Theobrama cacao_
 ```sh
 wget https://cocoa-genome-hub.southgreen.fr/sites/cocoa-genome-hub.southgreen.fr/files/download/Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 tar xvfz Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 mv Theobroma_cacao_pseudochromosome_v1.0_tot.fna Tcacao.fasta
 ```
 
-* Arabidopsis thaliana 
+* _Arabidopsis thaliana_ 
 ```sh
 wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz
 gzip -d TAIR10_chr_all.fas.gz
 cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
 rm TAIR10_chr_all.fas
 ```
-* Chromossomo 4 A. thaliana
-```sh
-sudo cp SINE/AnnoSINE/Testing/A.thaliana_Chr4.fasta AtChr4.fasta
-```
 
 ## Organizando o ambiente
-### Configurando AnnoSINE versão modificada
-Crie e ative o ambiente conda AnnoSINE:
+### Configurando AnnoSINE modificado
+Etapa 1. Crie e ative o ambiente conda AnnoSINE:
 ```sh
 cd SINE/AnnoSINE/
 conda env create -f AnnoSINE.conda.yaml
@@ -216,37 +202,28 @@ cd bin
 conda activate AnnoSINE
 ```
 
-Execute os dados de teste ( cromossomo 4 de A. thaliana ) para verificar a instalação:
+Etapa 2. Execute os dados de teste ( cromossomo 4 de A. thaliana ) para verificar a instalação:
 ```sh
 python3 AnnoSINE.py 3 ../Testing/A.thaliana_Chr4.fasta ../Output_Files
 ```
+- Um arquivo 'Seed_SINE.fa' será criado em '../Output_Files'. Este arquivo contém todos os elementos SINE previstos e será usado posteriormente nas próximas etapas.
 
-Dentro da pasta www crie o ambiente de desenvolvimento:
-```sh
-python3 -m venv .venv
-```
-Um arquivo 'Seed_SINE.fa' será criado em '../Output_Files'. Este arquivo contém todos os elementos SINE previstos e será usado posteriormente nas próximas etapas.
+Agora estamos prontos para anotar os elementos SINE do arquivo do seu projeto genoma.
 
-Você pode fazer o teste com a A. thaliana ou T. cacao:
+Etapa 3. Neste exemplo iremos executar o genoma de _A. thaliana_ pré-carregado ou seus dados
 ```sh
 cd bin
 python3 AnnoSINE.py 3 $HOME/TEs/At.fasta At
-
-cd ..
+cp ./Output_Files/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
 ```
 
-Copie o Seed_SINE.fa para o diretório inicial do pipeline:
-```sh
-cp ./Output_Files/Seed_SINE.fa $HOME/TEs/AtCh4-Seed_SINE.fa
-```
-
-Desative o ambiente
+- Desative o ambiente
 ```sh
 conda deactivate
 cd $HOME/TEs
 ```
 ### Configurando MGEScan-non-LTR e validação primária com TEsorter
-Entre na pasta Non-LTR e crie um ambinete virtual
+Etapa 1. Entre na pasta Non-LTR e crie um ambiente virtual
 ```sh
 cd non-LTR/mgescan/
 
@@ -266,25 +243,20 @@ Agora o mgescan está instalado e pronto para funcionar. Teste a instalação:
 mgescan --help
 ```
 ### Configurando variáveis de ambiente:
-No terminal digite:
+Etapa 1: Tenha vim instalado em sua máquina, o terminal digite:
 ```sh
 vim ~/.bashrc
 ```
-Uma janela com instruções irá abrir, arreste até a ultima linha e aperte a letra ``i`` para digitar o comando PATH:
+Uma janela com instruções irá abrir, arraste até a ultima linha do documento e aperte a letra ``i`` para ativar o modo edição e digitar o comando PATH:
 ```sh
 export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH";
 export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH";
 export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH";
 ```
-Ao finalizar aperte o botão ``ESC`` e digite ``:wq`` para salva as alterações.
+Ao finalizar aperte o botão ``ESC`` para finalizar o modo edição, digite ``:wq`` e aperter ``ENTER`` para salvar as alterações e fechar o documento.
 
-----
 
-<b>Dica para usar o vim:</b> aperte a tecla ``i`` para inserir informações e ir até o final do documento, ``ctrl+shift+v`` para colar,  ``esc`` para sair da edição, digite ``:wq`` e depois clique ``enter``para salvar e sair
-
-----
-
-Voltando ao terminal, execute (apenas uma vez):
+Etapa 2: No terminal, execute (apenas uma vez):
 ```sh
 cd ..
 cd hmmer-3.2
@@ -295,10 +267,8 @@ make -j
 Agora podemos executar o MGEScan-non-LTR, no terminal configure os diretórios:
 ```sh
 cd $HOME/TEs/non-LTR
-
-# Create a project dir and link your genome file to this folder
-mkdir Atch4-LINE
-cd Atch4-LINE
+mkdir At-LINE
+cd At-LINE
 ln -s $HOME/TEs/At.fasta At.fasta
 cd ..
 
@@ -306,20 +276,18 @@ cd ..
 ulimit -n 8192
 ```
 
-Execute MGEScan-non-LTR
+Etapa 3: Execute MGEScan-non-LTR
 ```sh
-mgescan nonltr $HOME/TEs/non-LTR/Atch4-LINE --output=$HOME/TEs/non-LTR/Atch4-LINE-results --mpi=4
+mgescan nonltr $HOME/TEs/non-LTR/At-LINE --output=$HOME/TEs/non-LTR/At-LINE-results --mpi=4
 ```
 
-Processando os resultados MGEScan-não-LTR: removendo falsos positivos com TEsorter e gerando a biblioteca LINE não redundante pré-final mostrando entrada compatível para o pipeline EDTA modificado:
+Etapa 4: Removendo os falsos positivos com TEsorter e gerando a biblioteca LINE não redundante pré-final mostrando entrada compatível para o pipeline EDTA modificado:
 
-Primeiro, entre na pasta que contém os resultados
 ```sh
-cd ..
-
-cd Atch4-LINE-results
+cd At-LINE-results
 ```
-Em seguida, na janela do seu terminal, copie e cole o código abaixo e execute. Isso irá gerar o arquivo LINE-lib.fa não redundante:
+
+Etapa 5: Execute o coamndo a seguir para gerar o arquivo LINE-lib.fa não redundante:
 ```sh
 cat info/full/*/*.dna > temp.fa
 cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
@@ -352,20 +320,19 @@ rm -rf pre1/ pre-final/ TMP/
 rm LINE2*
 rm LINE.cls.*
 rm A.txt B.txt clustered.clstr clustered LINE.dom* list2.txt list.txt pre1.fa pre2.fa pre-final2.fa pre-final.fa rename.sh temp.fa ver.sh candidates.fa
-cp LINE-lib.fa $HOME/TEs/Atch4-LINE-lib.fa
+cp LINE-lib.fa $HOME/TEs/At-LINE-lib.fa 
 ```
 
-Finalize desativando o ambiente de desenvolvimento e retornando ao diretório inicial do pipeline:
+- Desative o ambiente e retorne a tela inicial do pipeline:
 ```sh
 deactivate
 cd $HOME/TEs
 ```
 
-### Configurando EDTA versão modificada
-Instale e ative o ambiente EDTA conda (necessário apenas executar uma vez)
+### Configurando EDTA modificado
+Etapa 1. Instale e ative o ambiente EDTA conda:
 ```sh
 cd EDTA
-# Re-start the conda enviroment 
 bash
 
 conda env create -f EDTA.yml
@@ -373,61 +340,74 @@ conda activate EDTA
 
 perl EDTA.pl
 ```
-
-Agora execute EDTA, utilizaremos AtChr4.fasta
+Etapa 2. Agora vamos utilizar os arquivos ``At-LINE-lib.fa`` e  ``At-Seed_SINE.fa`` gerados nas etapas anteriores
 ```sh
 cd ..
-mkdir AtCh4
-cd AtCh4
-```
+mkdir Athaliana
+cd Athaliana
 
-Com nohup:
-```sh
 # Run EDTA in the backgroup
-nohup $HOME/TEs/EDTA/EDTA.pl --genome ../AtChr4.fasta --species others --step all --line ../Atch4-LINE-lib.fa --sine ../AtCh4-Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+nohup $HOME/TEs/EDTA/EDTA.pl --genome ../At.fasta --species others --step all --line ../At-LINE-lib.fa --sine ../At-Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
 ```
 
-Acomapnhe o progresso por:
+Etapa 3. Acompanhe o progresso por:
 ```sh
 tail -f EDTA.log
 ```
 
-sem nohup (para acompanhar o progresso)
-```sh
-$HOME/TEs/EDTA/EDTA.pl --genome ../AtChr4.fasta --species others --step all --line ../Atch4-LINE-lib.fa --sine ../AtCh4-Seed_SINE.fa --sensitive 1 --anno 1 --threads 10
-```
+Notas:
+1. Defina o número de threads disponíveis em seu computador ou servidor. Defina o máximo disponível. No nosso código está definida para 10.
 
-Lembre-se de configurar as threads de acordo com suas máquina (neste estamos utilizando apenas 10) sua máquina pode conter menos ou mais em comparação ao código apresentado.
+2. Para uma detecção e anotação de TE mais precisas, ative o sinalizador "sensível". Isso ativará o RepeatModeler para identificar TEs restantes e outras repetições. A etapa RepeatModeler também gerará a classificação TE de Superfamília e Linhagens e poderá capturar outros elementos LINEs e repetições desconhecidas. Nosso pipeline EDTA modificado fará isso automaticamente. Esta etapa é fortemente recomendada.
 
-###Gerando o relatório completo
+3. As anotações estruturais SINE e LINE estão disponíveis na pasta $genome.EDTA.raw. Procure SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa e LINE.intact.gff3
+
+4. A biblioteca LINE final está incorporada no arquivo TElib.fa. Portanto, se você deseja recuperar todos os LINEs, utilize este arquivo.
+
+### Mascaramento suave
+Geralmente, elementos não autônomos podem transportar genes passageiros (por exemplo, LARDs e Helitrons não autônomos). Portanto, para uma anotação adequada do genoma, esses elementos devem ser parcialmente mascarados. O pipeline de EDTA modificado cuidará disso automaticamente e gerará uma sequência do genoma adequadamente mascarada para anotação estrutural do gene. A sequência do genoma da máscara suave está disponível na pasta EDTA, com o nome $genome-Softmasked.fa .
+
+
+# Resultados
+## Gerando relatórios
+Ainda dentro do ambiente EDTA execute:
 ```sh
 cd $HOME/TEs
-cd AtCh4
+cd Athaliana
 mkdir TE-REPORT
 cd TE-REPORT
-ln -s ../AtChr4.fasta.mod.EDTA.anno/AtChr4.fasta.mod.cat.gz .
+ln -s ../At.fasta.mod.EDTA.anno/At.fasta.mod.cat.gz .
 
-perl $HOME/TEs/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint AtChr4.fasta.mod.cat.gz
+perl $HOME/TEs/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint At.fasta.mod.cat.gz
+mv At.fasta.mod.tbl ../TEs-Report-Complete.txt
 
-mv AtChr4.fasta.mod.tbl ../TEs-Report-Complete.txt
+cd ..
+python $HOME/TEs/Scripts/convert-table.py
 ```
-Gerando relatório simples
+
+Os resultado obtidos são: ``TEs-Report-Complete.csv`` e ``TEs-Report-Complete.txt``
+
+<img src="desktop/static/screenshot/TE-complete-table.png" alt="TE-complete-table" border="0">
+
+- Neste relatório, os elementos parciais serão nomeados com o sufixo "-like" (por exemplo, Angela-like)
+
+Para gerar um relatório mais simples, repita o processo acima usando o script ProcessRepeats-lite.pl, o resultado será o ``TEs-Report-lite.txt``
 ```sh
-perl $HOME/TEs/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a AtChr4.fasta.mod.cat.gz
+perl $HOME/TEs/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a At.fasta.mod.cat.gz
 
-mv AtChr4.fasta.mod.tbl ../TEs-Report-lite.txt
+mv At.fasta.mod.tbl ../TEs-Report-lite.txt
 ```
 
-### Gráficos de paisagem repetidos
-Os gráficos de paisagem repetidos ilustram a quantidade relativa de cada classe TE associada à distância Kimura no eixo x como um proxy para o tempo. Em contraste, o eixo y fornece a cobertura comparável de cada classe de repetição com base no tamanho do genoma. Portanto, o gráfico de repetição da paisagem é uma inferência razoável das idades relativas de cada elemento identificado em um determinado genoma.
+## Gráficos de paisagem repetidos
+O gráfico de repetição da paisagem é uma inferência razoável das idades relativas de cada elemento identificado em um determinado genoma.
 
-Na janela do seu terminal, execute:
+No terminal, execute:
 ```sh
 cd $HOME/TEs
-cd AtCh4
+cd Athaliana
 cd TE-REPORT
 
-cat AtChr4.fasta.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#LINE/.\+ #LINE &#g' > tmp.txt
+cat At.fasta.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#LINE/.\+ #LINE &#g' > tmp.txt
 #
 
 cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Copia" -A 5 |  grep -v "\-\-"  > align2.txt
@@ -441,67 +421,74 @@ cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "SINE" -A 5 |  grep
 cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "Unknown" -A 5 |  grep -v "\-\-"  >> align2.txt
 #
 
-perl $HOME/TEs/ProcessRepeats/calcDivergenceFromAlign.pl -s AtChr4.divsum align2.txt
+perl $HOME/TEs/ProcessRepeats/calcDivergenceFromAlign.pl -s At.divsum align2.txt
 
-genome_size="`perl $HOME/TEs/EDTA/util/count_base.pl ../AtChr4.fasta.mod | cut -f 2`" 
-perl $HOME/TEs/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div AtChr4.divsum > ../RepeatLandscape.html
-#
-tail -n 72 AtChr4.divsum > divsum.txt
-#
+genome_size="`perl $HOME/TEs/EDTA/util/count_base.pl ../At.fasta.mod | cut -f 2`" 
+perl $HOME/TEs/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > ../RepeatLandscape.html
+
+tail -n 72 At.divsum > divsum.txt
+
 cat $HOME/TEs/Rscripts/plotKimura.R | sed "s#_SIZE_GEN_#$genome_size#g" > plotKimura.R
-#
+
 Rscript plotKimura.R
 mv Rplots.pdf ../RepeatLandScape.pdf
-#
+
 rm align2.txt
 rm tmp.txt
+
+cd ..
+pdf2svg RepeatLandScape.pdf RLandScape.svg
 ```
-<img src="https://i.ibb.co/ScrCSqP/Repeat-Land-Scape.jpg" alt="Repeat-Land-Scape" border="0" />
+
+Os gŕaficos obtidos serão: ``RepeatLandScape.pdf`` e ``RLandScape.svg``
+
+<img src="desktop/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" />
 
 ### Plotagem de idade LTR (Gypsy e Copia)
-
 Para traçar as idades dos elementos LTR Gypsy e LTR Copia, usaremos um Rscript ggplot2.
+
 ```sh
 cd $HOME/TEs
-cd AtCh4
+cd Athaliana
 mkdir LTR-AGE
 cd LTR-AGE
-ln -s ../AtChr4.fasta.mod.EDTA.raw/AtChr4.fasta.mod.LTR-AGE.pass.list .
+ln -s ../At.fasta.mod.EDTA.raw/At.fasta.mod.LTR-AGE.pass.list .
 
 ln -s $HOME/TEs/Rscripts/plot-AGE-Gypsy.R .
 ln -s $HOME/TEs/Rscripts/plot-AGE-Copia.R .
 
 
-cat -n AtChr4.fasta.mod.LTR-AGE.pass.list  | grep Gypsy  | cut -f 1,13 | sed 's# ##g'  | sed 's#^#Cluster_#g' | awk '{if ($2 > 0) print $n}'   > AGE-Gypsy.txt
-cat -n AtChr4.fasta.mod.LTR-AGE.pass.list  | grep Copia  | cut -f 1,13 | sed 's# ##g'  | sed 's#^#Cluster_#g' | awk '{if ($2 > 0) print $n}'   > AGE-Copia.txt
+cat -n At.fasta.mod.LTR-AGE.pass.list  | grep Gypsy  | cut -f 1,13 | sed 's# ##g'  | sed 's#^#Cluster_#g' | awk '{if ($2 > 0) print $n}'   > AGE-Gypsy.txt
+cat -n At.fasta.mod.LTR-AGE.pass.list  | grep Copia  | cut -f 1,13 | sed 's# ##g'  | sed 's#^#Cluster_#g' | awk '{if ($2 > 0) print $n}'   > AGE-Copia.txt
 #
 # Generating the plots
 Rscript plot-AGE-Gypsy.R
 Rscript plot-AGE-Copia.R
-```
-Os arquivos finais são: AGE-Copia.pdf e AGE-Gypsys.pdf
 
-<img src="https://i.ibb.co/s1MNPXT/AGE-Copia.jpg" alt="AGE-Copia" border="0">
-<img src="https://i.ibb.co/b2bjRBx/AGE-Gypsy.jpg" alt="AGE-Gypsy" border="0">
+pdf2svg AGE-Copia.pdf AGE-Copia.svg
+pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
+```
+Os arquivos finais são: ``AGE-Copia.pdf``, ``AGE-Gypsys.pdf``, ``AGE-Copia.svg`` and ``AGE-Gypsy.svg``
+
+<img src="desktop/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0">
+<img src="desktop/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0">
 
 ### Plotar elementos LTR Filogenia e Densidade
-Iremos traçar a filogenia dos alinhamentos de todos os domínios do LTR-RT.
+Traçando a filogenia dos alinhamentos de todos os domínios do LTR-RT.
 
 ```sh
 cd $HOME/TEs
-cd AtCh4
+cd Athaliana
 mkdir TREE
 cd TREE
 
-
-ln -s ../AtChr4.fasta.mod.EDTA.TElib.fa .
-cat AtChr4.fasta.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
+ln -s ../At.fasta.mod.EDTA.TElib.fa .
+cat At.fasta.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
 
 mkdir tmp
 break_fasta.pl < tmp.txt ./tmp
 cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
 rm -f tmp.txt ; rm -f At.fasta.mod.EDTA.TElib.fa ; rm -Rf tmp
-
 
 /usr/local/bin/TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta
 
@@ -510,24 +497,21 @@ concatenate_domains.py TE.cls.pep PROT > PROT.aln
 concatenate_domains.py TE.cls.pep RH > RH.aln
 concatenate_domains.py TE.cls.pep RT > RT.aln
 concatenate_domains.py TE.cls.pep INT > INT.aln
-#
+
 cat GAG.aln | cut -f 1 -d" " > GAG.fas
 cat PROT.aln | cut -f 1 -d" " > PROT.fas
 cat RH.aln | cut -f 1 -d" " > RH.fas
 cat RT.aln | cut -f 1 -d" " > RT.fas
 cat INT.aln | cut -f 1 -d" " > INT.fas
 
-
 perl $HOME/TEs/Scripts/catfasta2phyml.pl -c -f *.fas > all.fas
 iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt AUTO 
 
-
-cat TE.cls.tsv | cut -f 1 | sed "s#^#cat ../AtChr4.fasta.mod.EDTA.TEanno.sum | grep -w \"#g"  | sed 's#$#"#g'   > pick-occur.sh
+cat TE.cls.tsv | cut -f 1 | sed "s#^#cat ../At.fasta.mod.EDTA.TEanno.sum | grep -w \"#g"  | sed 's#$#"#g'   > pick-occur.sh
 bash pick-occur.sh  > occur.txt
 
 cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{print $1,$2,$3}' | sed 's# #\t#g' |  sort -k 2 -V  > sort_occur.txt
 cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{print $1,$2,$3}' | sed 's# #\t#g' |  sort -k 3 -V  > sort_size.txt
-
 cat all.fas  | grep \> | sed 's#^>##g'   > ids.txt
 
 cat sort_occur.txt | cut -f 1,2 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > pick.sh
@@ -543,70 +527,44 @@ ln -s $HOME/TEs/Rscripts/LTR_tree-density.R .
 
 Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
 Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
+
+pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
+pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
 ```
-Os arquivos finais são: LTR_RT-Tree1.pdf e LTR_RT-Tree2.pdf
+Os arquivos gerados serão: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree1.svg`` and ``LTR_RT-Tree2.svg``
 
-<img src="https://i.ibb.co/vVyqRfs/LTR-RT-Tree1.jpg" alt="LTR-RT-Tree1" border="0">
+<img src="desktop/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0">
+<img src="desktop/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0">
 
-O círculo externo (roxo) representa o comprimento (em bp) ocupado por cada elemento, enquanto o círculo interno (vermelho) representa o número de ocorrências de cada elemento.
-
-<img src="https://i.ibb.co/yfFgLCk/LTR-RT-Tree2.jpg" alt="LTR-RT-Tree2" border="0">
+- O círculo externo (roxo) representa o comprimento (em bp) ocupado por cada elemento, enquanto o círculo interno (vermelho) representa o número de ocorrências de cada elemento.
 
 ------
-O guia de intslação foi resumido do [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs)
-Foi utilizado um arquivo contendo o cromossomo da A. thaliana para facilitar o processo de instalação e teste. Porém pode se feitos utilizando genomas maiores como A. thaliana completa ou T. cacao
+- O guia de instalação apresentado foi adaptado de [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs)
 
 ------
 
-## Executando a plataforma web
-Acesse a pasta www para ter acesso aos conteudos da plataforma e crie a variavel de ambiente para se trabalhar com flask e suas aplicações
+<br>
+
+# Executando a plataforma com interface home server via github
+Etapa 1: Acesse a pasta "desktop" e crie um ambiente virtual Python executando os seguintes comandos no seu terminal:
 ```sh
+cd $HOME/TEs/desktop
 python3 -m venv .venv
-..venv/bin/activate
+
+. .venv/bin/activate
 ```
 
-Instale alguns pacotes pip para funcionamento da aplicação (sendo utilizado somente uma vez):
+Etapa 2: Instale os pacotes necessários para a aplicação executando o seguinte comando (isso só precisa ser feito uma vez):
 ```sh
 pip install -r ../required.txt 
 ```
-Dentro do required.txt encontrasse os paoctes fundamenteis como Flask e python-dotenv.
+- Dentro do arquivo ``required.txt``, você encontrará as bibliotecas fundamentais, como Flask e python-dotenv. Se algum pacote apresentar erro, você precisará instalá-lo manualmente.
 
-Caso algum pacote apresentar erro, será necessários realizar ainstalação manualmente.
-
-Após esse comando você pode está criando o arquivo <b> .flaskenv </b> e configurando as váriaveis, exemplo:
-```sh
-FLASK_APP = "main.py"
-FLASK_DEBUG = True
-FLASK_ENV = development
-```
-----
-A primeira,<b>FLASK_APP</b> pode ser deixada vazia e então ele procurará por "app" ou "wsgi" (com ou sem o ".py" no final, ou seja, pode ser um arquivo ou um módulo) mas você pode usar:
-* Um módulo a ser importado, como FLASK_APP=hello.web;
-* Um arquivo/módulo no diretório atual, por exemplo FLASK_APP=src/hello;
-* Uma instância específica dentro do módulo, algo como FLASK_APP=hello:app2 ou
-* Executar diretamente a factory create_app() e até com passagem de parâmetros, tipo FLASK_APP=hello:create_app('dev')".
-* 
-A váriavel <b>FLASK_DEBUG</b> ativá a depuração do código
-
-E por último, a variável <b>FLASK_ENV</b> definirá o tipo de ambiente projeto, os valores reconhecidos são dois, "production" e "development", se nenhum valor for definido "production" é utilizado por padrão.
-
-Outras informações sobre as váriaveis de desenvolvimento poderá ser encontrado no site do [Flask](https://flask.palletsprojects.com/en/2.3.x/cli/#dotenv)
-
-----
-
-Com o flask configurado. Configure o mongodb compass (também pode optarpor mongodb container)
-
-No MongoDB Compass configure uma nova conexão (New Connection) com o  endereço:
-```sh
-mongodb://localhost:27017
-```
-E aperte conectar (connect)
-
-Agora dentro da pasta www e no ambiente criado, execute:
+Etapa 3: Agora, estando dentro da pasta "desktop" e com o ambiente virtual ativado, execute o seguinte comando para iniciar a aplicação:
 ```sh
 flask run
 ```
-Se todas as configurações estiverem corretas, a mensagem deverá aparecer:
+Se todas as configurações estiverem corretas, você verá uma mensagem similar a esta:
 ```sh
  * Serving Flask app 'main.py' (lazy loading)
  * Environment: development
@@ -616,4 +574,16 @@ Se todas as configurações estiverem corretas, a mensagem deverá aparecer:
  * Debugger is active!
  * Debugger PIN: 264-075-516
 ```
-Click sobre  http://127.0.0.1:5000/ ou copie e cole no navegador e comece a testa a platafroma.
+
+Etapa 4: Clique no link http://127.0.0.1:5000/ ou copie e cole no seu navegador para acessar a plataforma e começar a testá-la.
+
+
+# Type Annotation
+The annotation system allows you to make four different types of annotations:
+- **Selecting SINE Annotation:** This option exclusively analyzes the SINE elements present in the plant genome, generating libraries containing specific SINE sequences.
+
+- **Selecting LINE Annotation:** This option exclusively analyzes the LINE elements present in the plant genome, generating libraries containing specific LINE sequences.
+
+- **Selecting SINE and LINE Annotation (Together):** This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.
+
+- **Selecting Complete Annotation:** This option performs a comprehensive analysis of the SINEs and LINEs elements, including an in-depth analysis using libraries of both elements. In addition to the conventional outputs, such as tables of TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy Family and Copia Family elements, age graphs are generated for the Gypsy and Copia families, as well as a phylogenetic tree.
