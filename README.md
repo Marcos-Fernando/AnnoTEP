@@ -1,4 +1,6 @@
-<img src="www/static/assets/Logo2.svg" alt="Logo2">
+<div align="center"> 
+    <img src="www/static/assets/Logo2.svg" alt="Logo2">
+</div>
 
 ![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange)
 
@@ -6,12 +8,17 @@
 # AnnoTEP
 AnnoTEP é uma plataforma dedicada à anotação de elementos transponíveis (TEs) em genomas de plantas. Construída com base no pipeline [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), combina ferramentas de anotação sofisticadas integrada com recursos HTML para oferecer uma experiência aprimorada aos pesquisadores durante o processo de anotação. Ao integrar essas ferramentas com uma interface amigável, AnnoTEP visa facilitar e otimizar o trabalho de anotação de TEs, fornecendo uma solução eficaz para a análise genômica de plantas.
 
-## Funções
+Atualmente, o AnnoTEP está disponível em três formatos: Web Server, Home Server com Interface e Home Server Terminal. Clicando em cada formato abaixo, você será direcionado para o sistema de acesso ou instalação da plataforma:
+- [Web Server](http://150.230.81.111:5000/) 
+- [Home server with interface](#annotep-home-server_-_interface)
+- [Home server terminal](#annotep-home-server_-_terminal)
+
+## Funções da ferramenta
 * Identificação, validação e anotação dos elementos SINE e LINE
 * Mascaramento dos genomas (mode home server)
 * Geração de relatório sobre TEs
 * Geração de gráficos ilustrando os elementos repetidos
-* Geração de gráficos apresentando a idade dos elementos Gypsy e Copia
+* Geração de gráficos de idade dos elementos Gypsy e Copia
 * Geração de gráfico da filogenia e densidade dos TEs
 
 # Conteúdo
@@ -26,7 +33,7 @@ AnnoTEP é uma plataforma dedicada à anotação de elementos transponíveis (TE
 # Installation with Docker
 AnnoTEP pode ser instalado na máquina de diferentes forma, e uma delas é utilizando o Docker. A ferramenta está disponível em dois formatos: com interface gráfica e sem interface (modo terminal). Para seguir com as etapas abaixo, é necessário ter o Docker instalado na sua máquina. Você pode baixá-lo diretamente do site oficial do [Docker](https://docs.docker.com/engine/install/)
 
-## AnnoTEP versão com interface (mode home server)
+## AnnoTEP home server - interface
 Abra o terminal e execute os seguintes comandos:
 1. Baixe a imagem do AnnoTEP:
 ```sh
@@ -35,12 +42,12 @@ Abra o terminal e execute os seguintes comandos:
 
 2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação:
 ```sh
-    sudo docker run -it -v /caminho/diretorio/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
+     docker run -it -v /caminho/diretorio/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
 ```
 
 Exemplo diretorio de resultados:
 ```sh
-    sudo docker run -it -v $HOME/Documents/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
+     docker run -it -v $HOME/Documents/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
 ```
 
 #### Description:
@@ -56,15 +63,15 @@ Exemplo diretorio de resultados:
 
 Se você deseja acessar o contêiner enquanto ele está em execução para fins de depuração ou configuração, você pode usar o seguinte comando Docker:
 ```sh
-sudo docker run --name flask-container -it -p 0.0.0.0:5000:5000 "nome-da-image" /bin/bash
+    docker run --name flask-container -it -p 0.0.0.0:5000:5000 "nome-da-image" /bin/bash
 ```
 Substitua ``nome-da-image`` pelo nome da imagem do AnnoTEP que você está usando. Este comando executará um novo contêiner Docker com uma shell interativa /bin/bash, permitindo que você acesse o interior do contêiner enquanto ele está em execução.
 
 
-## AnnoTEP versão terminal (mode home server)
+## AnnoTEP home server - terminal
 1. Baixe a imagem do AnnoTEP:
 ```sh
-    docker docker pull annotep-local-terminal:v1
+    docker pull annotep-local-terminal:v1
 ```
 
 2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação, e ``caminho/diretorio/genome`` pelo diretório onde está localizado seu genoma:
