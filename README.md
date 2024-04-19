@@ -1,4 +1,4 @@
-<img src="https://i.im.ge/2024/04/19/Z2V6e9.Logo2.png" alt="Logo2">
+<img src="www/static/assets/Logo2.svg" alt="Logo2">
 
 ![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange)
 
