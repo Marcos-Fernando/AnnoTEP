@@ -1,24 +1,98 @@
-# AnnoTEP - Annotation Transposable Element for Plant
-<i> Plataforma destinada a anotação de elementos transponíveis em genomas de plantas </i>
+<img src="https://i.im.ge/2024/04/19/Z2V6e9.Logo2.png" alt="Logo2">
 
-## Introdução 
-AnnoTEP é uma plataforma destinada a anotação de elementos transponíveis em genomas de plantas. A plataforma tem como base o pipeline [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) e abrange diferentes características relacionadas ás classes dos TES, como: SINE, LINE, TRIM, LARD, TR_GAG, BARE-2, MITES, Gelitron, Familía Gypsy e Familia Copia.
-  
-O AnnoTEP encontra-se em sua fase de prototipagem e oferecerá uma versão baseado na web, contando com uma interface simples de fácil utilização, para auxiliar pesquisadores, com diferentes níveis de conhecimentos, a estarem conduzido suas anotações de forma eficiente, apresentando diferentes relatórios e gráficos como resultado. Assim como, contará com uma versão local, voltada para pesquisadores que desejam trabalhar com a plataforma em suas proprias máquinas, podendo escolher utilizar interfcae ou trabalhar com linhas de comando.
+![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange)
+
+
+# AnnoTEP
+AnnoTEP é uma plataforma dedicada à anotação de elementos transponíveis (TEs) em genomas de plantas. Construída com base no pipeline [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), combina ferramentas de anotação sofisticadas integrada com recursos HTML para oferecer uma experiência aprimorada aos pesquisadores durante o processo de anotação. Ao integrar essas ferramentas com uma interface amigável, AnnoTEP visa facilitar e otimizar o trabalho de anotação de TEs, fornecendo uma solução eficaz para a análise genômica de plantas.
 
 ## Funções
 * Identificação, validação e anotação dos elementos SINE e LINE
-* Mascaramento dos genomas
+* Mascaramento dos genomas (mode home server)
 * Geração de relatório sobre TEs
 * Geração de gráficos ilustrando os elementos repetidos
 * Geração de gráficos apresentando a idade dos elementos Gypsy e Copia
 * Geração de gráfico da filogenia e densidade dos TEs
 
-### Sobre
-O pipeline foi testado apenas no Ubuntu 20.04+, em outras sistemas operacionais pode apresentar erros, sendo necessário baixa a imagem docker em: docker pull marcosnando/annotep:web2
+# Conteúdo
+
+[Installation with Docker](#installation-with-docker)
+
+[Example](#example-of-results)
+
+[Git Install](#git-intall)
 
 
-## Instalação local
+# Installation with Docker
+AnnoTEP pode ser instalado na máquina de diferentes forma, e uma delas é utilizando o Docker. A ferramenta está disponível em dois formatos: com interface gráfica e sem interface (modo terminal). Para seguir com as etapas abaixo, é necessário ter o Docker instalado na sua máquina. Você pode baixá-lo diretamente do site oficial do [Docker](https://docs.docker.com/engine/install/)
+
+## AnnoTEP versão com interface (mode home server)
+Abra o terminal e execute os seguintes comandos:
+1. Baixe a imagem do AnnoTEP:
+```sh
+    docker pull annotep-local-interface:v1
+```
+
+2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação:
+```sh
+    sudo docker run -it -v /caminho/diretorio/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
+```
+
+Exemplo diretorio de resultados:
+```sh
+    sudo docker run -it -v $HOME/Documents/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 annotep-local-interface:v1
+```
+
+#### Description:
+- ``-v $HOME/Documents/results:/root/TEs/www/results``: This creates a volume between the host and the container to store data. You can replace ``-v $HOME/results`` with any path on your machine. This is where your result data will be saved.
+- ``--name local-interface``: Sets the name of the container to "local-interface".
+- ``-dp 0.0.0.0:5000:5000``: Maps the container's port 5000 to the host's port 5000.
+- ``annotep-local-interface:v1``: Specifies the image to be used.
+
+3. Depois de executar o contêiner com o comando anterior, acesse a interface do AnnoTEP digitando o seguinte endereço no seu navegador web: 
+``127.0.0.1:5000``
+
+4. Ao acessar 127.0.0.1:5000 você irá visualizar uma versão da plataforma AnnoTEP similar a versão WEB. 
+
+Se você deseja acessar o contêiner enquanto ele está em execução para fins de depuração ou configuração, você pode usar o seguinte comando Docker:
+```sh
+sudo docker run --name flask-container -it -p 0.0.0.0:5000:5000 "nome-da-image" /bin/bash
+```
+Substitua ``nome-da-image`` pelo nome da imagem do AnnoTEP que você está usando. Este comando executará um novo contêiner Docker com uma shell interativa /bin/bash, permitindo que você acesse o interior do contêiner enquanto ele está em execução.
+
+
+## AnnoTEP versão terminal (mode home server)
+1. Baixe a imagem do AnnoTEP:
+```sh
+    docker docker pull annotep-local-terminal:v1
+```
+
+2. Em seguida, execute o contêiner com o comando abaixo, substituindo ``caminho/diretorio/results`` pelo diretório onde você deseja armazenar os resultados gerados pela anotação, e ``caminho/diretorio/genome`` pelo diretório onde está localizado seu genoma:
+```sh
+    sudo docker run -it -v /caminho/diretorio/results:/root/TEs/local/results -v /home/user/TEs:/caminho/diretorio/genome "nome_da_imagem" python run_annotep.py --file {/caminho/diretorio/genome/genome.fasta} --type {type-annotation}
+```
+
+No parâmetro ``--file``, você precisa adicionar o mesmo diretório do genoma seguido pelo nome do genoma a ser utilizado no formato .fasta.
+No parâmetro ``--type``, você deve adicionar o número correspondente ao tipo de anotação que deseja realizar: 
+[1] SINE Annotation 
+[2] LINE Annotation
+[3] SINE and LINE annotation
+[4] Complete Annotation.
+
+Exemplo:
+```sh
+    sudo docker run -it -v $HOME/results:/root/TEs/local/results -v $HOME/TEs:$HOME/TEs annotep-local-terminal:v1 python run_annotep.py --file $HOME/TEs/Athaliana.fasta --type 2
+```
+
+3. Agora aguarde a finalização na anotação do genoma
+ 
+
+
+
+
+# Instalação com github
+Important: This pipeline was tested only on Ubuntu 20.20 and 22.04
+
 ## Prerequisitos
 [Python 3.7+](https://www.python.org/)
 
