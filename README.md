@@ -577,6 +577,38 @@ Se todas as configurações estiverem corretas, você verá uma mensagem similar
 
 Etapa 4: Clique no link http://127.0.0.1:5000/ ou copie e cole no seu navegador para acessar a plataforma e começar a testá-la.
 
+<br>
+
+# Executando a plataforma sem interface home server via github
+- Este modo é totalmente baseado em linha de comando, não sendo necessário criar um ambiente de desenvolvimento. Certifique-se de ter realizado a [configuração do ambiente](#organizando-o-ambiente) antes de prosseguir.
+
+Etapa 1: Acesse a pasta "local" e execute o script ``run_annotep.py`` digitando o seguinte comando
+```sh
+    python run_annotep.py --h
+```
+
+- O parâmetro ``-h`` exibe um guia de uso que descreve como utilizar o script:
+```sh
+usage: run_annotep.py [-h] --file FILE --type {1,2,3,4}
+
+Run annotep with specified parameters.
+
+optional arguments:
+  -h, --help        show this help message and exit
+  --file FILE       Genome file name (.fasta)
+  --type {1,2,3,4}  Type annotation:
+                     [1] SINE Annotation 
+                     [2] LINE Annotation
+                     [3] SINE and LINE annotation
+                     [4] Complete Annotation
+```
+
+Etapa 2: Execute o comando adicionando o caminho completo do diretório que contém o genoma e o tipo de anotação desejada
+```sh
+python run_annotep.py --file $HOME/TEs/At.fasta --type 2
+```
+
+<br>
 
 # Type Annotation
 The annotation system allows you to make four different types of annotations:
