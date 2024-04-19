@@ -10,8 +10,8 @@ AnnoTEP é uma plataforma dedicada à anotação de elementos transponíveis (TE
 
 Atualmente, o AnnoTEP está disponível em três formatos: Web Server, Home Server com Interface e Home Server Terminal. Clicando em cada formato abaixo, você será direcionado para o sistema de acesso ou instalação da plataforma:
 - [Web Server](http://150.230.81.111:5000/) 
-- [Home server with interface](#home-server-interface)
-- [Home server in terminal](#home-server-terminal)
+- [Home server with interface](#home-server-with-interface)
+- [Home server in terminal](#home-server-in-terminal)
 
 ## Funções da ferramenta
 * Identificação, validação e anotação dos elementos SINE e LINE
