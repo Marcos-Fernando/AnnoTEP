@@ -1,6 +1,6 @@
 <div align="center"> 
     <img src="www/static/assets/Logo2.svg" alt="Logo2">
-</div>
+</div><br>
 
 ![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange)
 
@@ -10,8 +10,8 @@ AnnoTEP é uma plataforma dedicada à anotação de elementos transponíveis (TE
 
 Atualmente, o AnnoTEP está disponível em três formatos: Web Server, Home Server com Interface e Home Server Terminal. Clicando em cada formato abaixo, você será direcionado para o sistema de acesso ou instalação da plataforma:
 - [Web Server](http://150.230.81.111:5000/) 
-- [Home server with interface](#annotep-home-server_-_interface)
-- [Home server terminal](#annotep-home-server_-_terminal)
+- [Home server with interface](##annotep-home-server-(interface))
+- [Home server in terminal](##annotep-home-server-(terminal))
 
 ## Funções da ferramenta
 * Identificação, validação e anotação dos elementos SINE e LINE
@@ -33,7 +33,7 @@ Atualmente, o AnnoTEP está disponível em três formatos: Web Server, Home Serv
 # Installation with Docker
 AnnoTEP pode ser instalado na máquina de diferentes forma, e uma delas é utilizando o Docker. A ferramenta está disponível em dois formatos: com interface gráfica e sem interface (modo terminal). Para seguir com as etapas abaixo, é necessário ter o Docker instalado na sua máquina. Você pode baixá-lo diretamente do site oficial do [Docker](https://docs.docker.com/engine/install/)
 
-## AnnoTEP home server - interface
+## Home server with interface
 Abra o terminal e execute os seguintes comandos:
 1. Baixe a imagem do AnnoTEP:
 ```sh
@@ -68,7 +68,7 @@ Se você deseja acessar o contêiner enquanto ele está em execução para fins 
 Substitua ``nome-da-image`` pelo nome da imagem do AnnoTEP que você está usando. Este comando executará um novo contêiner Docker com uma shell interativa /bin/bash, permitindo que você acesse o interior do contêiner enquanto ele está em execução.
 
 
-## AnnoTEP home server - terminal
+## Home server in terminal
 1. Baixe a imagem do AnnoTEP:
 ```sh
     docker pull annotep-local-terminal:v1
