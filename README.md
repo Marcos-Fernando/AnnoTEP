@@ -1,8 +1,9 @@
 <div align="center"> 
     <img src="desktop/static/assets/Logo2.svg" alt="Logo2">
-</div><br>
+    <br>
 
 ![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange) ![Python](https://img.shields.io/badge/Language-Python-blue)
+</div>
 
 
 # AnnoTEP
