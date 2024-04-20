@@ -354,7 +354,7 @@ conda activate EDTA
 perl EDTA.pl
 ```
 
-**Step 2.** Now let's use the ``At-LINE-lib.fa`` and ``At-Seed_SINE.fa`` files generated in the previous steps
+**Step 2.** Now let's use the ``At-LINE-lib.fa`` and ``At-Seed_SINE.fa`` files generated in the previous steps:
 ```sh
 cd ..
 mkdir Athaliana
@@ -368,14 +368,14 @@ nohup $HOME/TEs/EDTA/EDTA.pl --genome ../At.fasta --species others --step all --
 tail -f EDTA.log
 ```
 
-Notes:
-1. Set the number of threads available on your computer or server. Set the maximum available. In our code it is set to 10.
+**Notes:**
+**1.** Set the number of threads available on your computer or server. Set the maximum available. In our code it is set to 10.
 
-2. For more accurate TE detection and annotation, activate the "sensitive" flag. This will activate the RepeatModeler to identify remaining TEs and other repeats. The RepeatModeler step will also generate the Superfamily and Lineage TE classification and can capture other unknown LINEs and repeats. Our modified EDTA pipeline will do this automatically. This step is strongly recommended.
+**2.** For more accurate TE detection and annotation, activate the "sensitive" flag. This will activate the RepeatModeler to identify remaining TEs and other repeats. The RepeatModeler step will also generate the Superfamily and Lineage TE classification and can capture other unknown LINEs and repeats. Our modified EDTA pipeline will do this automatically. This step is strongly recommended.
 
-3. The SINE and LINE structural annotations are available in the $genome.EDTA.raw folder. Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3
+**3.** The SINE and LINE structural annotations are available in the $genome.EDTA.raw folder. Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3
 
-4. The final LINE library is embedded in the TElib.fa file. So if you want to recover all the LINEs, use this file.
+**4.** The final LINE library is embedded in the TElib.fa file. So if you want to recover all the LINEs, use this file.
 
 ---
 ### Smooth masking
@@ -406,7 +406,7 @@ The results obtained are: ``TEs-Report-Complete.csv`` and ``TEs-Report-Complete.
 
 - In this report, the partial elements will be named with the suffix "-like" (e.g. Angela-like)
 
-To generate a simpler report, repeat the above process using the ProcessRepeats-lite.pl script, the result will be ``TEs-Report-lite.txt``.
+To generate a simpler report, repeat the above process using the ProcessRepeats-lite.pl script, the result will be ``TEs-Report-lite.txt``:
 ```sh
 perl $HOME/TEs/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a At.fasta.mod.cat.gz
 
@@ -591,7 +591,7 @@ If all the settings are correct, you will see a message similar to this one:
 # Running the platform without a home server interface via github
 - This mode is entirely command-line based, so there's no need to create a development environment. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 
-**Step 1.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command
+**Step 1.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
 ```sh
     python run_annotep.py --h
 ```
@@ -612,7 +612,7 @@ optional arguments:
                      [4] Complete Annotation
 ```
 
-**Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want
+**Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
 ```sh
 python run_annotep.py --file $HOME/TEs/At.fasta --type 2
 ```
