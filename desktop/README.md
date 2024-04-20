@@ -1,56 +1,4 @@
-# AnnoTEP Local Interface
-## _Guide to installing and using Annotep Local version with Interface (via Docker)_
-
-In order to facilitate the user experience on different Linux distributions, we avoided the need to install several libraries locally. We chose to create a Docker image that includes the AnnoTEP platform.
-
-With this approach, you'll have access to an interface similar to the web version, as well as an integrated email notification system. This simplifies configuration and allows for a smoother experience, regardless of the Linux distribution used.
-
-It's worth noting that this version requires internet access to work properly.
-
-## Prerequisites:
-- Make sure you have Docker installed on your machine. You can download and install Docker from the [official Docker website](https://docs.docker.com/desktop/install/linux-install/).
-
-## Installation:
-### Step 1: Download the Docker Image
-Run the following command to download the Docker Hub image:
-```sh
-   docker pull marcosnando/annotep-local-interface
-```
-
-### Step 2: Run the Container
-Now run the container using the following command:
-```sh
-   sudo docker run -it -v $HOME/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 marcosnando/annotep-local-interface:v1
-```
-
-#### Description:
-- ``-v $HOME/results:/root/TEs/www/results``: This creates a volume between the host and the container to store data. You can replace ``-v $HOME/results`` with any path on your machine. This is where your result data will be saved.
-- ``--name local-interface``: Sets the name of the container to "local-interface".
-- ``-dp 0.0.0.0:5000:5000``: Maps the container's port 5000 to the host's port 5000.
-- ``marcosnando/annotep-local-interface``: Specifies the image to be used.
-
-## Important
-If you use the aarch64 architecture and need to run binaries from another architecture, such as amd64, in an aarch64 environment, follow the steps below:
-
-**Step 1:** Download a Docker image that supports running binaries of different architectures:
-
-```sh
-    sudo docker run --privileged --rm tonistiigi/binfmt --install amd64
-```
-
-- Using ``--privileged`` provides necessary privileges to manipulate kernel configurations.
-
-**Step 2:** After installation, it is suggested to add the ``--platform=linux/amd64`` setting when running your Docker images. This tells Docker that the image should run on the amd64 platform, even if the host is using the aarch64 architecture. Example:
-```sh
-   sudo docker run --platform=linux/amd64 -it -v $HOME/results:/root/TEs/www/results --name local-interface -dp 0.0.0.0:5000:5000 marcosnando/annotep-local-interface:v1
-```
-These steps ensure proper execution in aarch64 environments by allowing the use of binaries from different architectures.
-
-### Step 3: Accessing the Local Interface
-Access Annotep's local interface by typing http://127.0.0.1:5000 into your web browser.
-That's it! You should now be able to access Annotep's local interface.
-
-## Using the platform
+# Using AnnoTEP Home server with interface
 ### Staying informed about the annotation process
 To start the annotation process and obtain information on the progress of your work, you need to provide your e-mail address in the panel.
 <div align="center"> 
@@ -93,10 +41,3 @@ Inside the results folder you will find the following files:
 - **LINE-results folder -** contains the data generated through LINE annotation or complete annotation. 
 
 - **Complete-analysis folder -** obtained through the complete annotation, in this folder, in addition to the graphs, trees and tables generated, it brings elements masked by means of $genome-Softmasked.fa and the new structural annotations SINEs and LINEs, available in the folder $genome.EDTA.raw. ($genome = name of the genome worked on). Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3, plus a final analysis of LINEs elements available in $genome.TElib.fa.lask 
-
-## Important
-
-- Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
-
-- Bear in mind that the speed of the annotation will depend on the performance of your local machine.
-
