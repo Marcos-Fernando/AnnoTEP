@@ -15,7 +15,6 @@ AnnoTEP is currently available in three formats: Web Server, Home Server with In
 - [Web Server](http://150.230.81.111:5000/) 
 - [Home server with interface](#home-server-with-interface)
 - [Home server in terminal](#home-server-in-terminal)
-<br>
 
 ## Tool functions
 * Identification, validation and annotation of SINE and LINE elements
@@ -30,7 +29,7 @@ AnnoTEP is currently available in three formats: Web Server, Home Server with In
 * [Installation with Docker](#installation-with-docker)
     * [Home server with interface](#home-server-with-interface)
     * [Home server in terminal](#home-server-in-terminal)
-* [Installation with github](#installation-with-github)
+* [Installation with Github](#installation-with-github)
     * [Organizing the environment](#organizing-the-environment)
     * [Results](#results)
     * [Running the platform with home server interface via github](#running-the-platform-with-home-server-interface-via-github)
@@ -113,9 +112,9 @@ Example:
 ```
 
 **Step 3.** Now wait for the genome annotation to be completed by following the analysis through the terminal
- 
+<br>
 
-# Installation with github
+# Installation with Github
  * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
  * **Plant Genome Annotation** uses modified code from the [AnnoSINE](https://github.com/baozg/AnnoSINE), [MGEScan-non-LTR](https://github.com/MGEScan), [TEsorter](https://github.com/zhangrengang/TEsorter) and [EDTA](https://github.com/oushujun/EDTA) pipelines.
 
@@ -136,6 +135,7 @@ git clone https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
 ```sh
 cd $HOME/TEs
 ```
+
 ## Configuring the repository
 ### Libraries
 **Step 1.** In the terminal download the following libraries:
@@ -148,7 +148,6 @@ sudo apt-get install pdf2svg
 # R dependencies
 sudo apt-get install r-cran-ggplot2 r-cran-tidyr r-cran-reshape2 r-cran-reshape rs r-cran-viridis r-cran-tidyverse r-cran-gridextra r-cran-gdtools r-cran-phangorn r-cran-phytools r-cran-ggrepel
 ```
-
 Access the R program from the terminal and install libraries from within it:
 ```sh
 R
@@ -383,12 +382,14 @@ tail -f EDTA.log
 **3.** The SINE and LINE structural annotations are available in the $genome.EDTA.raw folder. Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3
 
 **4.** The final LINE library is embedded in the TElib.fa file. So if you want to recover all the LINEs, use this file.
+<br>
 
 ---
 ### Smooth masking
 Generally, non-autonomous elements can carry passenger genes (for example, non-autonomous LARDs and Helitrons). Therefore, for proper annotation of the genome, these elements must be partially masked. The modified EDTA pipeline will take care of this automatically and generate a suitably masked genome sequence for structural gene annotation. The softmasked genome sequence is available in the EDTA folder, with the name $genome-Softmasked.fa .
 
 ---
+<br>
 
 # Results
 ## Generating reports
