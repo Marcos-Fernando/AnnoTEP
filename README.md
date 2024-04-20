@@ -369,6 +369,7 @@ tail -f EDTA.log
 ```
 
 **Notes:**
+
 **1.** Set the number of threads available on your computer or server. Set the maximum available. In our code it is set to 10.
 
 **2.** For more accurate TE detection and annotation, activate the "sensitive" flag. This will activate the RepeatModeler to identify remaining TEs and other repeats. The RepeatModeler step will also generate the Superfamily and Lineage TE classification and can capture other unknown LINEs and repeats. Our modified EDTA pipeline will do this automatically. This step is strongly recommended.
