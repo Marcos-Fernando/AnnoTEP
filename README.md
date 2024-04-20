@@ -4,7 +4,7 @@
 
 <div align="center">
 
-![Linux version](https://img.shields.io/badge/Platform-Linux_64-orange) ![Python](https://img.shields.io/badge/Language-Python-blue)
+![Linux version](https://img.shields.io/badge/PLATFORM-Linux_64-orange) ![Python](https://img.shields.io/badge/LANGUAGE-Python-blue) ![Install](https://img.shields.io/badge/Container-Docker-4682B4) ![License](https://img.shields.io/badge/LICENSE-GPL_v3.0-D3D3D3)
 </div>
 
 
@@ -15,6 +15,7 @@ AnnoTEP is currently available in three formats: Web Server, Home Server with In
 - [Web Server](http://150.230.81.111:5000/) 
 - [Home server with interface](#home-server-with-interface)
 - [Home server in terminal](#home-server-in-terminal)
+<br>
 
 ## Tool functions
 * Identification, validation and annotation of SINE and LINE elements
@@ -23,15 +24,18 @@ AnnoTEP is currently available in three formats: Web Server, Home Server with In
 * Generation of graphs illustrating repeated elements
 * Generation of age graphs for Gypsy and Copia elements
 * Generation of phylogeny and TE density graphs
+<br>
 
-# Content
-
-[Installation with Docker](#installation-with-docker)
-
-[Installation with github](#installation-with-github)
-
-[Results](#results)
-
+# Table of contents
+* [Installation with Docker](#installation-with-docker)
+    * [Home server with interface](#home-server-with-interface)
+    * [Home server in terminal](#home-server-in-terminal)
+* [Installation with github](#installation-with-github)
+    * [Organizing the environment](#organizing-the-environment)
+    * [Results](#results)
+    * [Running the platform with home server interface via github](#running-the-platform-with-home-server-interface-via-github)
+    * [Running the platform without a home server interface via github](#running-the-platform-without-a-home-server-interface-via-github)
+<br>
 
 # Installation with Docker
 AnnoTEP can be installed on the machine in different ways, one of which is using Docker. The tool is available in two formats: with a graphical interface and without an interface (terminal mode). To follow the steps below, you need to have Docker installed on your machine. You can download it directly from the official [Docker website](https://docs.docker.com/engine/install/)
@@ -112,6 +116,8 @@ Example:
  
 
 # Installation with github
+ * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
+ * **Plant Genome Annotation** uses modified code from the [AnnoSINE](https://github.com/baozg/AnnoSINE), [MGEScan-non-LTR](https://github.com/MGEScan), [TEsorter](https://github.com/zhangrengang/TEsorter) and [EDTA](https://github.com/oushujun/EDTA) pipelines.
 
 ## Prerequisites
 - [Python 3.7+](https://www.python.org/)
@@ -550,13 +556,10 @@ The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_R
 
 - The outer circle (purple) represents the length (in bp) occupied by each element, while the inner circle (red) represents the number of occurrences of each element.
 
-------
-- The installation guide presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs)
-------
 <br>
 
 # Running the platform with home server interface via github
-**Step 1.** Access the "desktop" folder and create a Python virtual environment by running the following commands in your terminal:
+**Step 1.** Access the "desktop" folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 ```sh
 cd $HOME/TEs/desktop
 python3 -m venv .venv
