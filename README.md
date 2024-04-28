@@ -424,7 +424,7 @@ python $HOME/TEs/Scripts/convert-table.py
 
 The results obtained are: ``TEs-Report-Complete.csv`` and ``TEs-Report-Complete.txt``.
 
-<img src="desktop/static/screenshot/TE-complete-table.png" alt="TE-complete-table" border="0">
+<img src="homeserverinterface/static/screenshot/TE-complete-table.png" alt="TE-complete-table" border="0">
 
 - In this report, the partial elements will be named with the suffix "-like" (e.g. Angela-like)
 
@@ -479,7 +479,7 @@ pdf2svg RepeatLandScape.pdf RLandScape.svg
 
 The graphics obtained will be: ``RepeatLandScape.pdf`` and ``RLandScape.svg``.
 
-<img src="desktop/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" />
+<img src="homeserverinterface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" />
 
 ### LTR age plot (Gypsy and Copia)
 To plot the ages of the LTR Gypsy and LTR Copia elements, we will use a ggplot2 Rscript.
@@ -504,8 +504,8 @@ pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
 ```
 The final files are: ``AGE-Copia.pdf``, ``AGE-Gypsys.pdf``, ``AGE-Copia.svg`` and ``AGE-Gypsy.svg``.
 
-<img src="desktop/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0">
-<img src="desktop/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0">
+<img src="homeserverinterface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0">
+<img src="homeserverinterface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0">
 
 ### Plotting LTR elements Phylogeny and Density
 Plotting the phylogeny of the alignments of all the LTR-RT domains.
@@ -566,8 +566,8 @@ pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
 ```
 The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree1.svg`` and ``LTR_RT-Tree2.svg``.
 
-<img src="desktop/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0">
-<img src="desktop/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0">
+<img src="homeserverinterface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0">
+<img src="homeserverinterface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0">
 
 - The outer circle (purple) represents the length (in bp) occupied by each element, while the inner circle (red) represents the number of occurrences of each element.
 
