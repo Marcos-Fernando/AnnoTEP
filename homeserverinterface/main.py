@@ -86,9 +86,9 @@ def upload_file():
                             file_path = os.path.join(resultsAddress, file)
                             os.remove(file_path)
 
-                    print(f"A limpeza em {resultsAddress} foi concluída com sucesso.")
+                    #print(f"A limpeza em {resultsAddress} foi concluída com sucesso.")
                 else:
-                    print(f"A pasta {resultsAddress} não existe.")
+                    print(f"The folder {resultsAddress} does not exist.")
 
     return render_template("index.html")
 
