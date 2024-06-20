@@ -1,0 +1,23 @@
+services:
+  annotep-graphic-interface:
+    image: annotep/graphic-interface:v1
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${HOME}/results-annotep:/root/TEs/www/results
+    working_dir: /root/TEs/www
+    container_name: graphic-interface
+    stdin_open: true
+    tty: true
+    entrypoint: ["/bin/bash", "-c", ". /root/miniconda3/bin/activate && . .venv/bin/activate && export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && flask run --host=0.0.0.0"]
+    
+  annotep-bash-interface:
+    image: annotep/bash-interface:v0
+    volumes:
+      - ${HOME}/results-annotep:/root/TEs/local/results
+      - ${HOME}/TEs:${HOME}/TEs
+    working_dir: /root/TEs/local
+    container_name: bash-interface
+    stdin_open: true
+    tty: true
+    entrypoint: ["python", "run_annotep.py"]

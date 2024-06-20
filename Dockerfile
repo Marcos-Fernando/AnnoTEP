@@ -7,7 +7,6 @@ RUN apt-get update -y \
     linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl \
     libgdal-dev
 
-
 # Install R
 RUN apt-get update -y \
     && apt-get upgrade -y\
@@ -24,18 +23,19 @@ RUN apt-get update \
     && R -e "BiocManager::install('ggtree', dependencies = TRUE, ask = FALSE)" \
     && R -e "BiocManager::install('ggtreeExtra', dependencies = TRUE, ask = FALSE)"
 
-
 # Config MGEScan root
 ENV OMPI_ALLOW_RUN_AS_ROOT=1
 ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
+# Copying folder contents
 COPY . /root/TEs/
-
 COPY Scripts/break_fasta.pl /usr/local/bin/
 COPY Scripts/irf /usr/local/bin/ 
 
+# Setting environment variables
 ENV PATH="/root/TEs/non-LTR/hmmer-3.2/src/:$PATH"
 
+# Install MGEScan
 RUN cd /root/TEs/non-LTR/mgescan \
     && virtualenv -p /usr/bin/python2 mgescan-virtualenv \
     && . mgescan-virtualenv/bin/activate \
@@ -70,8 +70,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh
 
-COPY Scripts/RunCmdsMP.py /root/miniconda3/envs/EDTA/lib/python3.6/site-packages/
-
+# Setting environment variables
 ENV CONDA_PREFIX=/root/miniconda3
 ENV PATH="/root/miniconda3/bin:$PATH" 
 ENV PATH="/root/miniconda3/envs/AnnoSINE/bin:$PATH"
@@ -87,6 +86,9 @@ RUN cd /root/TEs/SINE/AnnoSINE/ \
 RUN cd /root/TEs/EDTA \
     && conda env create -f EDTA.yml
 
+# EDTA can't install RunCmdsMP correctly, so we have to copy it to the folder (pay attention to the python version)
+COPY Scripts/RunCmdsMP.py /root/miniconda3/envs/EDTA/lib/python3.6/site-packages/
+
 # Config UTF-8 for Flask
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
@@ -94,19 +96,20 @@ ENV LANG=C.UTF-8
 # Port Flask
 EXPOSE 5000
 
+# Installing the platform's development environment and adding the requirements
 RUN cd /root/TEs/homeserverinterface \
     && python3 -m venv .venv \
     && . .venv/bin/activate \
     && pip install --upgrade pip \
     && pip install -r requirements.txt
 
-#Diretório de trabalho
+# Work directory
 WORKDIR /root/TEs/homeserverinterface
 
-# Cria um volume chamado "results" e define como o ponto de montagem do contêiner
+# Create a volume called “results” and set it as the container's mount point
 VOLUME /root/TEs/homeserverinterface/results
 
-# Comando para iniciar o Flask e sincronizar a pasta
+# Command to start Flask and synchronize the folder
 CMD ["/bin/bash", "-c", "source /root/miniconda3/bin/activate && source .venv/bin/activate && export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && flask run --host=0.0.0.0"]
 
 
