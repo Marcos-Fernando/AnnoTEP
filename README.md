@@ -148,7 +148,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HO
 ## Download the repository
 **Step 1.** In the terminal run:
 ```sh
-git clone https://github.com/Marcos-Fernando/TEP.git $HOME/TEs
+git clone https://github.com/Marcos-Fernando/AnnoTEP.git $HOME/TEs
 ```
 
 **Step 2.** Access the repository location on the machine:
