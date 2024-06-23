@@ -200,7 +200,7 @@ cd /usr/local/lib/python3.7/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/data
 
 * Python 3.10
 ```sh
-cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
+cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/
 ```
 ...
 
@@ -222,6 +222,7 @@ At this stage you can choose to use your data or download some examples for test
 wget https://cocoa-genome-hub.southgreen.fr/sites/cocoa-genome-hub.southgreen.fr/files/download/Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 tar xvfz Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 mv Theobroma_cacao_pseudochromosome_v1.0_tot.fna Tcacao.fasta
+rm Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
 ```
 
 * _Arabidopsis thaliana_ 
@@ -253,7 +254,6 @@ We are now ready to annotate the SINE elements of your genome project file.
 
 **Step 3.** In this example we will run the preloaded _A. thaliana_ genome or its data
 ```sh
-cd bin
 python3 AnnoSINE.py 3 $HOME/TEs/At.fasta At
 cp ./Output_Files/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
 ```
@@ -295,6 +295,8 @@ export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH";
 export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH";
 ```
 When finished, press the ``ESC`` button to end the editing mode, type ``:wq`` and press ``ENTER`` to save the changes and close the document.
+
+After making the changes, restart the terminal (or close the terminal and open it again)
 
 **Step 2.** In the terminal, run (only once):
 ```sh
@@ -372,7 +374,9 @@ cd $HOME/TEs
 ```sh
 cd EDTA
 bash
+```
 
+```sh
 conda env create -f EDTA.yml
 conda activate EDTA
 
