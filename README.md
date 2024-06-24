@@ -145,6 +145,12 @@ docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HO
 
 - System Ubuntu
 
+#### MiniConda install
+After downloading miniconda from the link above, run it in the terminal window:
+```sh
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+
 ## Download the repository
 **Step 1.** In the terminal run:
 ```sh
@@ -382,6 +388,14 @@ conda activate EDTA
 
 perl EDTA.pl
 ```
+
+#### Add RunCmdsMP.py
+In some cases it may happen that the RunCmdsMP.py package is not added inside EDTA, so to avoid future errors, it is recommended to manually add the file inside the development environment folder:
+```sh
+sudo cp $HOME/TEs/Scripts/RunCmdsMP.py $HOME/envs/EDTA/lib/python3.6/site-packages/
+```
+**Note:** check which version of python is installed on your machine, in the example above it is python3.6
+<br>
 
 **Step 2.** Now let's use the ``At-LINE-lib.fa`` and ``At-Seed_SINE.fa`` files generated in the previous steps:
 ```sh

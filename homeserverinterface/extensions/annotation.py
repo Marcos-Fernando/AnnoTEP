@@ -14,8 +14,8 @@ NONLTR_FOLDER = os.path.join(UPLOAD_FOLDER, 'non-LTR')
 MGESCAN_FOLDER = os.path.join(NONLTR_FOLDER, 'mgescan')
 EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 
-LOCAL_FOLDER = os.path.join(UPLOAD_FOLDER, 'desktop')
-RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
+RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'homeserverinterface', 'results')
+
  
 #Funções de processo do pipeline
 #Anotação do elemento SINE
@@ -24,9 +24,8 @@ def sine_annotation(new_filename, resultsAddress):
 
     os.chdir(SINE_FOLDER)
     cmds = f"""
-    . $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE
-    export PATH="/home/marcoscosta/miniconda3/envs/AnnoSINE/bin:$PATH"
-    
+    source $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE &&
+    export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH" &&
     python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {resultsAddress}/SINE
     wait
     cp {resultsAddress}/SINE/Seed_SINE.fa {resultsAddress}/Seed_SINE.fa
@@ -108,9 +107,10 @@ def complete_annotation(new_filename, resultsAddress):
 
     os.chdir(EDTA_FOLDER)
     cmds = f"""
-    . $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate EDTA
-    export PATH="/home/marcoscosta/miniconda3/envs/EDTA/bin:$PATH"
-    export PATH="/home/marcoscosta/miniconda3/envs/EDTA/bin/gt:$PATH"
+    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA &&
+    export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH" &&
+    export PATH="$HOME/TEs/EDTA/util:$PATH" &&
+    export PATH="$HOME/miniconda3/envs/EDTA/bin/gt:$PATH" &&
 
     cd {completeAnalysis_folder}
     nohup {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
