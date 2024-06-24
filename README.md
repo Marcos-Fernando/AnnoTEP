@@ -387,9 +387,11 @@ perl EDTA.pl
 ```
 
 - In some cases it may happen that the RunCmdsMP.py package is not added inside EDTA, so to avoid future errors, it is recommended to manually add the file inside the development environment folder:
+
     ```sh
     sudo cp $HOME/TEs/Scripts/RunCmdsMP.py $HOME/envs/EDTA/lib/python3.6/site-packages/
     ```
+    
 - Check which version of python is installed on your machine, in the example it is python3.6
 <br><br>
 
