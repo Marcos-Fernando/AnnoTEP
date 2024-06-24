@@ -139,9 +139,11 @@ docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HO
  * **Plant Genome Annotation** uses modified code from the [AnnoSINE](https://github.com/baozg/AnnoSINE), [MGEScan-non-LTR](https://github.com/MGEScan), [TEsorter](https://github.com/zhangrengang/TEsorter) and [EDTA](https://github.com/oushujun/EDTA) pipelines.
 
 ## Prerequisites
-- [Python 3.7+](https://www.python.org/)
+- [Python 3.6+](https://www.python.org/)
 
 - [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
+
+- [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)
 
 - System Ubuntu
 
