@@ -391,7 +391,7 @@ perl EDTA.pl
     ```sh
     sudo cp $HOME/TEs/Scripts/RunCmdsMP.py $HOME/envs/EDTA/lib/python3.6/site-packages/
     ```
-    
+
 - Check which version of python is installed on your machine, in the example it is python3.6
 <br><br>
 
@@ -459,7 +459,7 @@ mv At.fasta.mod.tbl ../TEs-Report-lite.txt
 ```
 
 ## Repeated landscape graphs
-The landscape repeat graph is a reasonable inference of the relative ages of each element identified in a given genome.
+The landscape repeat graph is a reasonable inference of the relative ages of each element identified in a given genome. To create it we will use the file with the ``.align`` extension created after using ``ProcessRepeats-lite.pl``
 
 In the terminal, run:
 ```sh
