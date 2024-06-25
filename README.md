@@ -1,5 +1,5 @@
 <div align="center"> 
-    <img src="homeserverinterface/static/assets/Logo2.svg" alt="Logo2">
+    <img src="graphic-interface/static/assets/Logo2.svg" alt="Logo2">
 </div><br>
 
 <div align="center">
@@ -11,14 +11,14 @@
 # AnnoTEP
 AnnoTEP is a platform dedicated to the annotation of transposable elements (TEs) in plant genomes. Built on the [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) pipeline, it combines sophisticated annotation tools integrated with HTML resources to offer researchers an enhanced experience during the annotation process. By integrating these tools with a user-friendly interface, AnnoTEP aims to facilitate and optimize the work of TE annotation, providing an effective solution for plant genomic analysis.
 
-AnnoTEP is currently available in three formats: Web Server, Home Server with Interface and Home Server Terminal. Clicking on each format below will take you to the system where you can access or install the platform:
+AnnoTEP is currently available in three formats: web server, container with graphic interface and  container with bash interface. Clicking on each format below will take you to the system where you can access or install the platform:
 - [Web Server](http://150.230.81.111:5000/) 
-- [Home server with interface](#home-server-with-interface)
-- [Home server in terminal](#home-server-in-terminal)
+- [Graphic Interface](#graphic-interface)
+- [Bash Interface](#bash-interface)
 
 ## Tool functions
 * Identification, validation and annotation of SINE and LINE elements
-* Genome masking (home server mode)
+* Genome masking (local mode)
 * Report generation on TEs
 * Generation of graphs illustrating repeated elements
 * Generation of age graphs for Gypsy and Copia elements
@@ -26,21 +26,21 @@ AnnoTEP is currently available in three formats: Web Server, Home Server with In
 <br>
 
 # Table of contents
-* [Installation with Docker](#installation-with-docker)
-    * [Home server with interface](#home-server-with-interface)
-    * [Home server in terminal](#home-server-in-terminal)
+* [Installation with Container](#installation-with-container)
+    * [Graphic Interface](#graphic-interface)
+    * [Bash Interface](#bash-interface)
 * [Installation with Github](#installation-with-github)
     * [Organizing the environment](#organizing-the-environment)
     * [Results](#results)
-    * [Running the platform with home server interface via github](#running-the-platform-with-home-server-interface-via-github)
-    * [Running the platform without a home server interface via github](#running-the-platform-without-a-home-server-interface-via-github)
+    * [Running the platform with a graphical interface via github](#running-the-platform-with-a-graphical-interface-via-github)
+    * [Running the platform with bash interface via github](#running-the-platform-with-bash-interface-via-github)
 <br>
 
-# Installation with Docker
+# Installation with Container
 AnnoTEP can be installed on the machine in different ways, one of which is using Docker. The tool is available in two formats: with a graphical interface and without an interface (terminal mode). To follow the steps below, you need to have Docker installed on your machine. You can download it directly from the official [Docker website](https://docs.docker.com/engine/install/)
 
 
-## Home server with interface
+## Graphic Interface
 **Important**: for this version your machine must have access to the internet network
 
 Open the terminal and run the following commands:
@@ -87,7 +87,7 @@ Inside the directory you will find the following files:
 
 **Important3**: Bear in mind that the speed of the annotation will depend on the performance of your local machine.
 
-## Home server in terminal
+## Bash Interface
 **Step 1.** Download the AnnoTEP image:
 ```sh
 docker pull annotep/bash-interface:v1
@@ -446,7 +446,7 @@ python $HOME/TEs/Scripts/convert-table.py
 
 The results obtained are: ``TEs-Report-Complete.csv`` and ``TEs-Report-Complete.txt``.
 
-<img src="homeserverinterface/static/screenshot/TE-complete-table.png" alt="TE-complete-table" border="0">
+<img src="graphic-interface/static/screenshot/TE-complete-table.png" alt="TE-complete-table" border="0">
 
 - In this report, the partial elements will be named with the suffix "-like" (e.g. Angela-like)
 
@@ -501,7 +501,7 @@ pdf2svg RepeatLandScape.pdf RLandScape.svg
 
 The graphics obtained will be: ``RepeatLandScape.pdf`` and ``RLandScape.svg``.
 
-<img src="homeserverinterface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" />
+<img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" />
 
 ### LTR age plot (Gypsy and Copia)
 To plot the ages of the LTR Gypsy and LTR Copia elements, we will use a ggplot2 Rscript.
@@ -526,8 +526,8 @@ pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
 ```
 The final files are: ``AGE-Copia.pdf``, ``AGE-Gypsys.pdf``, ``AGE-Copia.svg`` and ``AGE-Gypsy.svg``.
 
-<img src="homeserverinterface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0">
-<img src="homeserverinterface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0">
+<img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0">
+<img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0">
 
 ### Plotting LTR elements Phylogeny and Density
 Plotting the phylogeny of the alignments of all the LTR-RT domains.
@@ -588,17 +588,17 @@ pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
 ```
 The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree1.svg`` and ``LTR_RT-Tree2.svg``.
 
-<img src="homeserverinterface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0">
-<img src="homeserverinterface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0">
 
 - The outer circle (purple) represents the length (in bp) occupied by each element, while the inner circle (red) represents the number of occurrences of each element.
 
 <br>
 
-# Running the platform with home server interface via github
-**Step 1.** Access the "desktop" folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
+
+# Running the platform with a graphical interface via github
+**Step 1.** Access the ``graphic-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 ```sh
-cd $HOME/TEs/desktop
 python3 -m venv .venv
 
 . .venv/bin/activate
@@ -610,7 +610,7 @@ pip install -r ../required.txt
 ```
 - Inside the ``required.txt`` file, you'll find the fundamental libraries, such as Flask and python-dotenv. If any package shows an error, you'll need to install it manually.
 
-**Step 3:** Now, inside the "desktop" folder and with the virtual environment activated, run the following command to start the application:
+**Step 3:** Now, inside the "graphic-interface" folder and with the virtual environment activated, run the following command to start the application:
 ```sh
 flask run
 ```
@@ -629,8 +629,9 @@ If all the settings are correct, you will see a message similar to this one:
 **Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
 <br>
 
-# Running the platform without a home server interface via github
+# Running the platform with bash interface via github
 - This mode is entirely command-line based, so there's no need to create a development environment. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
+- Go to the ``bash-interface`` folder
 
 **Step 1.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
 ```sh

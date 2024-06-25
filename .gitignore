@@ -1,0 +1,14 @@
+At*.fasta
+Tcacao.fasta
+__pycache__
+
+/www/.www
+/www/.flaskenv
+/www/__pycache__
+
+/SINE
+/non-LTR
+/ProcessRepeats
+/RScripts
+/TEsorter
+

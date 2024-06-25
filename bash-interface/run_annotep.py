@@ -4,7 +4,7 @@ import os
 import random
 from argparse import RawTextHelpFormatter
 
-from annotation import RESULTS_FOLDER,annotation_elementLINE, annotation_elementSINE, complete_Analysis
+from annotation import RESULTS_FOLDER, annotation_elementLINE, annotation_elementSINE, complete_Analysis
 
 #verifica se o arquivo é do tipo fasta
 def check_fasta_file(value):

@@ -15,7 +15,7 @@ CONDA = os.environ['CONDA_PREFIX']
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
 # ================= Locais dos arquivos ================
-RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'homeserverinterface', 'results')
+RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'graphic-interface', 'results')
 
 @app.route("/")
 def index():

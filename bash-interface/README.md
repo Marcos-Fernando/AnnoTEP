@@ -1,12 +1,12 @@
-# Using AnnoTEP Home server in terminal
+# Using AnnoTEP Bash interface
 ### Run the Container
 ```sh 
-docker run -it -v $HOME/results:/root/TEs/local/results -v $HOME/TEs:/{full path of the folder containing the genome} annotep-local-terminal:v1 python run_annotep.py --file {full folder path + genome name} --type 2
+docker run -it -v {folder-results}:/root/TEs/local/results -v /home/user/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation}
 ```
 
 #### Exemplo:
 ```sh 
-sudo docker run -it -v $HOME/results:/root/TEs/local/results -v $HOME/TEs:$HOME/TEs annotep-local-terminal:v1  python run_annotep.py --file $HOME/TEs/At.fasta --type 2
+docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 2
 ```
 
 #### Description:
@@ -17,7 +17,7 @@ sudo docker run -it -v $HOME/results:/root/TEs/local/results -v $HOME/TEs:$HOME/
 - ``-v $HOME/TEs:$HOME/TEs``: Establishes a second volume called ``$HOME/TEs`` on your computer and links it to the ``$HOME/TEs`` folder on container. An inversion occurs here, as ``$HOME/TEs`` on the host (local machine) contains the genome. These volumes are used to allow the container to access and manipulate data present on the host.
 
 **Docker Image**:
-- ``annotep-local-terminal:v1``: Specifies the Docker image used to create the container. An image is like a "template" that contains all the elements needed for your app to work.
+- ``annotep/bash-interface:v1``: Specifies the Docker image used to create the container. An image is like a "template" that contains all the elements needed for your app to work.
 
 **Execution Command**:
 - `python run_annotep.py --file $HOME/TEs/At.fasta --type 2``: This is the command executed inside the container. In this case, it runs a Python script called run_annotep.py with some arguments.

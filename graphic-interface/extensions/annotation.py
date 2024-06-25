@@ -14,17 +14,19 @@ NONLTR_FOLDER = os.path.join(UPLOAD_FOLDER, 'non-LTR')
 MGESCAN_FOLDER = os.path.join(NONLTR_FOLDER, 'mgescan')
 EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 
-#folders local
-RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'homeserverterminal', 'results')
+RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'graphic-interface', 'results')
 
-def annotation_elementSINE(file, resultsAddress):
+ 
+#Funções de processo do pipeline
+#Anotação do elemento SINE
+def sine_annotation(new_filename, resultsAddress):
     print("SINE annotation started...")
 
     os.chdir(SINE_FOLDER)
     cmds = f"""
     source $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE &&
     export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH" &&
-    python3 AnnoSINE.py 3 {file} {resultsAddress}/SINE
+    python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {resultsAddress}/SINE
     wait
     cp {resultsAddress}/SINE/Seed_SINE.fa {resultsAddress}/Seed_SINE.fa
     """
@@ -35,7 +37,7 @@ def annotation_elementSINE(file, resultsAddress):
     print("SINE annotation completed")
     print("")
 
-def annotation_elementLINE(new_file, file, resultsAddress):
+def line_annotation(new_filename, resultsAddress):
     line_folder = os.path.join(resultsAddress, 'LINE')
     os.makedirs(line_folder, exist_ok=True)
     output_folder = os.path.join(resultsAddress, 'LINE-results')
@@ -49,7 +51,7 @@ def annotation_elementLINE(new_file, file, resultsAddress):
     source mgescan-virtualenv/bin/activate
     
     cd {line_folder}
-    ln -s {file} {new_file}.fasta
+    ln -s {os.path.join(resultsAddress, new_filename)} {new_filename}
     cd ../..
 
     ulimit -n 8192
@@ -95,9 +97,9 @@ def annotation_elementLINE(new_file, file, resultsAddress):
 
     print("LINE annotation finished")
     print("")
+    
 
-
-def complete_Analysis(new_file, file, resultsAddress):
+def complete_annotation(new_filename, resultsAddress):
     completeAnalysis_folder = os.path.join(resultsAddress, 'complete-analysis')
     os.makedirs(completeAnalysis_folder, exist_ok=True)
 
@@ -111,22 +113,22 @@ def complete_Analysis(new_file, file, resultsAddress):
     export PATH="$HOME/miniconda3/envs/EDTA/bin/gt:$PATH" &&
 
     cd {completeAnalysis_folder}
-    nohup {EDTA_FOLDER}/EDTA.pl --genome {file} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+    nohup {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
     wait
 
     cd {completeAnalysis_folder}
     mkdir TE-REPORT
     cd TE-REPORT
-    ln -s ../{new_file}.fasta.mod.EDTA.anno/{new_file}.fasta.mod.cat.gz .
+    ln -s ../{new_filename}.mod.EDTA.anno/{new_filename}.mod.cat.gz .
 
-    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint {new_file}.fasta.mod.cat.gz
-    mv {new_file}.fasta.mod.tbl ../TEs-Report-Complete.txt
+    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint {new_filename}.mod.cat.gz
+    mv {new_filename}.mod.tbl ../TEs-Report-Complete.txt
 
-    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a {new_file}.fasta.mod.cat.gz
-    mv {new_file}.fasta.mod.tbl ../TEs-Report-lite.txt
+    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a {new_filename}.mod.cat.gz
+    mv {new_filename}.mod.tbl ../TEs-Report-lite.txt
 
     #Plot
-    cat {new_file}.fasta.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#LINE/.\+ #LINE &#g' > tmp.txt
+    cat {new_filename}.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#LINE/.\+ #LINE &#g' > tmp.txt
 
     cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Copia" -A 5 |  grep -v "\-\-"  > align2.txt
     cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Gypsy" -A 5 |  grep -v "\-\-"  >> align2.txt
@@ -140,7 +142,7 @@ def complete_Analysis(new_file, file, resultsAddress):
 
     perl {UPLOAD_FOLDER}/ProcessRepeats/calcDivergenceFromAlign.pl -s At.divsum align2.txt
 
-    genome_size="`perl {UPLOAD_FOLDER}/EDTA/util/count_base.pl ../{new_file}.fasta.mod | cut -f 2`"
+    genome_size="`perl {UPLOAD_FOLDER}/EDTA/util/count_base.pl ../{new_filename}.mod | cut -f 2`"
     perl {UPLOAD_FOLDER}/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > ../RepeatLandscape.html
 
     tail -n 72 At.divsum > divsum.txt
@@ -156,13 +158,13 @@ def complete_Analysis(new_file, file, resultsAddress):
     cd {completeAnalysis_folder}
     mkdir LTR-AGE
     cd LTR-AGE
-    ln -s ../{new_file}.fasta.mod.EDTA.raw/{new_file}.fasta.mod.LTR-AGE.pass.list
+    ln -s ../{new_filename}.mod.EDTA.raw/{new_filename}.mod.LTR-AGE.pass.list
 
     ln -s {UPLOAD_FOLDER}/Rscripts/plot-AGE-Gypsy.R
     ln -s {UPLOAD_FOLDER}/Rscripts/plot-AGE-Copia.R
 
-    cat -n {new_file}.fasta.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
-    cat -n {new_file}.fasta.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
+    cat -n {new_filename}.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
+    cat -n {new_filename}.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
 
     Rscript plot-AGE-Gypsy.R
     Rscript plot-AGE-Copia.R
@@ -172,15 +174,15 @@ def complete_Analysis(new_file, file, resultsAddress):
 
     cd ..
     pdf2svg RepeatLandScape.pdf RLandScape.svg
-    python {os.path.join(UPLOAD_FOLDER ,'Scripts' ,'convert-table.py')}
+    python ../../../Scripts/convert-table.py
 
     cd {completeAnalysis_folder}
     mkdir TREE
     cd TREE
 
-    ln -s ../{new_file}.fasta.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
+    ln -s ../{new_filename}.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
 
-    cat ../{new_file}.fasta.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
+    cat ../{new_filename}.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
     mkdir tmp
     break_fasta.pl < tmp.txt ./tmp
     cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
