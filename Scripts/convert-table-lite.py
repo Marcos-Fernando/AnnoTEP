@@ -2,7 +2,7 @@ import re
 import csv
 
 # Ler o conteúdo do arquivo report.txt
-with open('TEs-Report-Complete.txt', 'r') as file:
+with open('TEs-Report-lite.txt', 'r') as file:
     content = file.read()
 
 # Remover as aspas, espaços em branco e linhas em branco
@@ -30,7 +30,7 @@ for match in matches:
     data.append([name, num_elements, length, percentage])
 
 # Agora, você pode salvar os dados em um arquivo CSV
-csv_file = 'TEs-Report-Complete.csv'
+csv_file = 'TEs-Report-lite.csv'
 with open(csv_file, 'w', newline='') as csvfile:
     csv_writer = csv.writer(csvfile)
     csv_writer.writerow(['Name', 'Number of Elements', 'Length', 'Percentage (%)'])  # Escreve o cabeçalho
