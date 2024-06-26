@@ -77,4 +77,4 @@ p = p + theme(plot.margin=margin(0,0,0,0)) +
 	theme(legend.text=element_text(size=16), legend.title=element_text(size=18))
 
 
-ggsave(outfig, p, width=13.5, height=8.4, dpi=300, units="in")
+ggsave(outfig, p, width=13.5, height=8.4, dpi=350, units="in")
