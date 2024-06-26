@@ -173,10 +173,8 @@ if (branch_color == 'Clade') {
 
 }
 position = c(1.35,0.9)
-p = p + theme(plot.margin=margin(0,0,0,0)) +
-	theme(legend.position=position, legend.justification=position) +
-	theme(legend.background=element_blank(), legend.key=element_blank()) +
-	theme(legend.text=element_text(size=12), legend.title=element_text(size=14))
-
+p = p + theme(legend.position.inside = position) +
+    theme(legend.justification = position) +
+    theme(legend.text = element_text(size = 10), legend.title = element_text(size = 16))
 
 ggsave(outfig, p, width=13.5, height=8.4, dpi=350, units="in")

@@ -70,11 +70,10 @@ if (branch_color == 'Clade') {
 	  guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2))
 
 }
-position = c(1.35,0.9)
-p = p + theme(plot.margin=margin(0,0,0,0)) +
-	theme(legend.position=position, legend.justification=position) +
-	theme(legend.background=element_blank(), legend.key=element_blank()) +
-	theme(legend.text=element_text(size=16), legend.title=element_text(size=18))
 
+position = c(0.05, 0.95)
+p = p + theme(legend.position.inside = position) +
+    theme(legend.justification = position) +
+    theme(legend.text = element_text(size = 10), legend.title = element_text(size = 16))
 
-ggsave(outfig, p, width=13.5, height=8.4, dpi=350, units="in")
+ggsave(outfig, p, width=13, height=8.5, dpi=350, units="in")

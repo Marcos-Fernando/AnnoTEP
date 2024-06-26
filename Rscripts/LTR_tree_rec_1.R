@@ -46,14 +46,13 @@ if (branch_color == 'Clade') {
     p = ggtree(tree3 , aes(color=Clade) , branch.length='none', layout='rectangular' ) + 
         geom_tree(size=1) +  # Ajuste a espessura dos galhos
         geom_rootedge(rootedge = 1) +  # Ajuste o tamanho da linha inicial
-        geom_tiplab(size=2) +  # Aumente o tamanho do texto das labels
+        geom_tiplab(size=1.5) +  # Aumente o tamanho do texto das labels
         geom_rootpoint() + 
-        theme(legend.position="right") +  # Mover a legenda para o canto superior esquerdo
+        theme(legend.position="left") +  # Mover a legenda para o canto superior esquerdo
         scale_fill_manual(values=c('#f9c00c','#00b9f1','#7200da','#f9320c','#980000','#00ffff','#0000ff','#ff0000','#4a86e8','#ff9900','#ffff00','#00ff00','#9900ff','#ff00ff','#20124d','#274e13','#000000','#cccccc','#7f6000','#a64d79','#6aa84f','#fff2cc','#47a952','#3ea6b6','#a5b805','#8f9276','#ca8d7c')) + 
         scale_colour_discrete(limits=clades, labels=clades) +
-        guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2)) +
-        theme(legend.text=element_text(size=12), legend.title=element_text(size=14)) +
-        theme(plot.margin = unit(c(1, 1, 1, 3), "cm"))  # Aumenta as margens para evitar corte
+        guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2))
+        
 
 } else {    # branch_color == 'Taxon'
     taxa = sort(unique(map$Taxon))
@@ -68,21 +67,21 @@ if (branch_color == 'Clade') {
     p = ggtree(tree3 , aes(color=Taxon) , branch.length='none', layout='rectangular' ) %<+% map3 + 
         geom_tree(size=1) +  # Ajuste a espessura dos galhos
         geom_rootedge(rootedge = 1) +  # Ajuste o tamanho da linha inicial
-        geom_tiplab(size=2) +  # Aumente o tamanho do texto das labels
+        geom_tiplab(size=1.5) +  # Aumente o tamanho do texto das labels
         geom_rootpoint() + 
-        theme(legend.position="right") +  # Mover a legenda para o canto superior esquerdo
+        theme(legend.position="left") +  # Mover a legenda para o canto superior esquerdo
         scale_colour_manual(values=c('#f9c00c','#00b9f1','#7200da','#f9320c','#980000','#00ffff','#0000ff','#ff0000','#4a86e8','#ff9900','#ffff00','#00ff00','#9900ff','#ff00ff','#20124d','#274e13','#000000','#cccccc','#7f6000','#a64d79','#6aa84f','#fff2cc','#47a952','#3ea6b6','#a5b805','#8f9276','#ca8d7c'),limits=taxa, labels=taxa) +
         geom_tippoint(aes(fill=Clade), pch=21, stroke=0, size=1.2, color='#00000000') +
         scale_fill_hue(l=35) +
-        guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2)) +
-        theme(legend.text=element_text(size=12), legend.title=element_text(size=14)) +
-        theme(plot.margin = unit(c(1, 1, 1, 3), "cm"))  # Aumenta as margens para evitar corte
+        guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2))
 
 }
 
-p = p + theme(plot.margin=margin(0,0,0,0)) +
-    theme(legend.background=element_blank(), legend.key=element_blank()) +
-    theme(legend.text=element_text(size=16), legend.title=element_text(size=18))
+position = c(1, 0.9)
+p = p + theme(legend.position.inside = position) +
+    theme(legend.justification = position) +
+    theme(legend.text = element_text(size = 14), legend.title = element_text(size = 12)) +
+    theme(plot.margin = unit(c(1, 1, 1, 3), "cm"))  # Aumenta as margens para evitar corte
 
 # Diminuir a dimensão da imagem para metade
-ggsave(outfig, p, width=32, height=18, dpi=350, units="in")
+ggsave(outfig, p, width=24, height=12, dpi=350, units="in")
