@@ -84,4 +84,10 @@ p = p + theme(legend.position.inside = position) +
     theme(plot.margin = unit(c(1, 1, 1, 3), "cm"))  # Aumenta as margens para evitar corte
 
 # Diminuir a dimensão da imagem para metade
-ggsave(outfig, p, width=24, height=12, dpi=350, units="in")
+ggsave(outfig, p, width=24, height=18, dpi=350, units="in")
+
+
+
+
+
+

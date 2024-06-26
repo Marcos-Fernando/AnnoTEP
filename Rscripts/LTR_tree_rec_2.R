@@ -83,4 +83,9 @@ p = p + theme(legend.position.inside = position) +
     theme(legend.text = element_text(size = 14), legend.title = element_text(size = 12)) +
     theme(plot.margin = unit(c(1, 1, 1, 3), "cm"))  # Aumenta as margens para evitar corte
 
-ggsave(outfig, p, width=14, height=7, dpi=350, units="in")
+ggsave(outfig, p, width=22, height=28, dpi=350, units="in")
+
+
+
+
+
