@@ -12,6 +12,7 @@ celery = Celery(
     broker=app.config['CELERY_BROKER_URL']
 )
 celery.conf.update(app.config)
+celery.conf.broker_connection_retry_on_startup = True
 
 
 #Definindo a quantidade de tarefas a serem executadas

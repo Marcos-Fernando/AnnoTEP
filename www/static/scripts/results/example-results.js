@@ -1,6 +1,6 @@
 // ---- TRABALHANDO COM JSON  ---- //
-function addRow(name, numElements, length, percentage) {
-  var table = document.getElementById("TEs-Report-Complete");
+function addRow(tableId, name, numElements, length, percentage) {
+  var table = document.getElementById(tableId);
   var row = table.insertRow(-1);
 
   var cell1 = row.insertCell(0);
@@ -15,7 +15,7 @@ function addRow(name, numElements, length, percentage) {
 }
 
 // Função para ler e processar o arquivo JSON
-function readJsonFile(file) {
+function readJsonFile(file, tableId) {
   var filejson = new XMLHttpRequest();
   filejson.overrideMimeType("application/json");
   filejson.open("GET", file, true);
@@ -32,9 +32,9 @@ function readJsonFile(file) {
 
               try {
                   var data = JSON.parse(jsonLine);
-                  addRow(data.Name, data["Number of Elements"], data.Length, data.Percentage);
+                  addRow(tableId, data.Name, data["Number of Elements"], data.Length, data.Percentage);
               } catch (e) {
-                  console.error("Erro ao analisar JSON:", e);
+                  console.error("Erro:", e);
               }
           });
       }
@@ -43,4 +43,5 @@ function readJsonFile(file) {
 }
 
 // Ler o arquivo JSON
-readJsonFile("static/TEs-Report-Complete.json");
+readJsonFile("static/TEs-Report-Complete.json", "TEs-Report-Complete");
+// readJsonFile("static/TEs-Report-lite.json", "TEs-Report-lite");

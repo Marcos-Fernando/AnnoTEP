@@ -28,5 +28,5 @@ def create_app():
     app.config["result_backend"] = "redis://localhost:6379/1"
     celery = Celery(app.name, broker=app.config["CELERY_BROKER_URL"])
     celery.conf.update(app.config)
-
+    
     return app, mongo, mail, celery

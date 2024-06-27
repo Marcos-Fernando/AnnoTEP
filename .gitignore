@@ -5,6 +5,7 @@ __pycache__
 /www/.www
 /www/.flaskenv
 /www/__pycache__
+/www/results
 
 /SINE
 /non-LTR

@@ -80,7 +80,7 @@ if (branch_color == 'Clade') {
 position = c(1, 0.9)
 p = p + theme(legend.position.inside = position) +
     theme(legend.justification = position) +
-    theme(legend.text = element_text(size = 14), legend.title = element_text(size = 12)) +
+    theme(legend.text = element_text(size = 32), legend.title = element_text(size = 36)) +
     theme(plot.margin = unit(c(1, 1, 1, 3), "cm"))  # Aumenta as margens para evitar corte
 
 # Diminuir a dimensão da imagem para metade

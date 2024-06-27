@@ -122,6 +122,8 @@ def complete_annotation(new_filename, resultsAddress):
 
     print("Deep annotation process started...")
 
+    #nohup {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+
     os.chdir(EDTA_FOLDER)
     cmds = f"""
     source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA &&
@@ -130,7 +132,7 @@ def complete_annotation(new_filename, resultsAddress):
     export PATH="$HOME/miniconda3/envs/EDTA/bin/gt:$PATH" &&
 
     cd {completeAnalysis_folder}
-    nohup {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+    {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10
     wait
 
     cd {completeAnalysis_folder}
@@ -192,6 +194,7 @@ def complete_annotation(new_filename, resultsAddress):
     cd ..
     pdf2svg RepeatLandScape.pdf RLandScape.svg
     python {os.path.join(UPLOAD_FOLDER ,'Scripts' ,'convert-table.py')}
+    python {os.path.join(UPLOAD_FOLDER ,'Scripts' ,'convert-table-lite.py')}
 
     cd {completeAnalysis_folder}
     mkdir TREE
@@ -240,12 +243,18 @@ def complete_annotation(new_filename, resultsAddress):
     
     ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree.R
     ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree-density.R
+    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree_rec_1.R
+    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree_rec_2.R
 
     Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
     Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
+    Rscript LTR_tree_rec_1.R all.fas.contree TE.cls.tsv LTR_RT-Tree3.pdf
+    Rscript LTR_tree_rec_2.R all.fas.contree TE.cls.tsv LTR_RT-Tree4.pdf
 
     pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
     pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
+    pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
+    pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
     """
 
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')

@@ -9,7 +9,7 @@ from bson import ObjectId
 
 def generate_unique_name(filename, existing_names):
     while True:
-        random_numbers = [str(random.randint(0,9)) for i in range(4)]
+        random_numbers = [str(random.randint(0,9)) for i in range(6)]
         generated_name = f'{filename[:2]}_{"".join(random_numbers)}'
 
         #Verificando no bd
@@ -17,7 +17,7 @@ def generate_unique_name(filename, existing_names):
             return generated_name
 
 def config_user(mongo, key_security, expiration_date, email, filename, new_generated_name):
-    print("Enviando dados do usuário para o banco de dados... ")
+    print("Sending user data to the database... ")
     mongo.db.users.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.users.insert_one({
         "key": key_security,
@@ -27,7 +27,7 @@ def config_user(mongo, key_security, expiration_date, email, filename, new_gener
         "expiration-date": expiration_date
     })
 
-    print("Dados registrados")
+    print("Data recorded")
     print("")
 
 
@@ -36,7 +36,7 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
     gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
     gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
 
-    print("Conversão de arquivos compactos em binário iniciada...")
+    print("Converting compact files into binaries started...")
     with open(os.path.join(resultsAddress, 'SINEslibrary.zip'), "rb") as zip_file_SINE:
         zip_dataSINE = gridfs_zipsine.put(zip_file_SINE, filename='SINEslibrary.zip')
     with open(os.path.join(resultsAddress, 'SINEslibrary.zip'), "rb") as tar_file_SINE:
@@ -45,7 +45,7 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
     print("")
 
     #--------------------Trabalhando com BD -----------------------------
-    print("Enviando binários para o banco de dados")
+    print("Sending binaries to the database")
     mongo.db.zipsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.zipsine_metadata.insert_one({
         "key": key_security,
@@ -62,7 +62,7 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
         "expiration-date": expiration_date
     })
 
-    print("Dados registrados")
+    print("Data recorded")
     print("")
 
 
@@ -97,37 +97,46 @@ def binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress):
         "expiration-date": expiration_date
     })
 
-    print("Dados registrados")
+    print("Data recorded")
     print("")
 
 def binary_image_files(mongo, key_security, expiration_date, resultsAddress):
     completeAnalysis_folder = os.path.join(resultsAddress, 'complete-analysis')
-    print("Convertendo imagens TREE em binários...")
+    print("Converting TREE images into binaries...")
     with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree1.svg'), "rb") as file_tree1:
         svg_tree1 = file_tree1.read()
     with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree2.svg'), "rb") as file_tree2:
         svg_tree2 = file_tree2.read()
+    with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree3.svg'), "rb") as file_tree3:
+        svg_tree3 = file_tree3.read()
+    with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree4.svg'), "rb") as file_tree4:
+        svg_tree4 = file_tree4.read()    
             
-    print("Convertendo imagens LTR-AGE em binários...")
+
+    print("Converting LTR-AGE images to binaries...")
     with open(os.path.join(completeAnalysis_folder, 'LTR-AGE', 'AGE-Copia.svg'), "rb") as file_copia:
         svg_copia = file_copia.read()
     with open(os.path.join(completeAnalysis_folder, 'LTR-AGE', 'AGE-Gypsy.svg'), "rb") as file_gypsy:
         svg_gypsy = file_gypsy.read()
 
-    print("Convertendo imagens LandScape em binários...")
+
+    print("Converting LandScape images to binaries...")
     with open(os.path.join(completeAnalysis_folder, 'RLandScape.svg'), "rb") as file_landscape:
         svg_landscape = file_landscape.read()
 
-    print("Convertendo planilha Report-Complete em binários...")
+
+    print("Converting Report spreadsheets to binaries...")
     with open(os.path.join(completeAnalysis_folder, 'TEs-Report-Complete.csv'), 'rb') as csv_file:
         binary_data = csv_file.read()
+    with open(os.path.join(completeAnalysis_folder, 'TEs-Report-lite.csv'), 'rb') as csv_file_lite:
+        binary_data_lite = csv_file_lite.read()
 
-    print("Conervsões finalizadas!")
+    print("Conervations finalised!")
     print("")
 
     #--------------------Trabalhando com BD -----------------------------
     # ---- Dados CSV -----
-    print("Enviando dados csv para o banco de dados")
+    print("Sending csv data to the database")
     mongo.db.report.create_index("expiration-date", expireAfterSeconds=259200)
     with open(os.path.join(completeAnalysis_folder, 'TEs-Report-Complete.csv'), 'r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
@@ -137,7 +146,7 @@ def binary_image_files(mongo, key_security, expiration_date, resultsAddress):
                 "Name": row['Name'],
                 "Number of Elements": int(row['Number of Elements']),
                 "Length": int(row['Length']),
-                "Percentage": row['Percentage'],
+                "Percentage": row['Percentage (%)'],
                 "expiration-date": expiration_date
             }
 
@@ -150,10 +159,33 @@ def binary_image_files(mongo, key_security, expiration_date, resultsAddress):
         "expiration-date": expiration_date
     })
 
-    print("Dados registrados")
+    # ----- report lite -------
+    mongo.db.reportlite.create_index("expiration-date", expireAfterSeconds=259200)
+    with open(os.path.join(completeAnalysis_folder, 'TEs-Report-lite.csv'), 'r') as csv_file_lite:
+        csv_reader_lite = csv.DictReader(csv_file_lite)
+        for row_lite in csv_reader_lite:
+            document = {
+                "key": key_security,
+                "Name": row_lite['Name'],
+                "Number of Elements": int(row_lite['Number of Elements']),
+                "Length": int(row_lite['Length']),
+                "Percentage": row_lite['Percentage (%)'],
+                "expiration-date": expiration_date
+            }
+
+            mongo.db.reportlite.insert_one(document)
+
+    mongo.db.csv_lite.create_index("expiration-date", expireAfterSeconds=259200)
+    mongo.db.csv_lite.insert_one({
+        "key": key_security,
+        "file-csv": binary_data_lite,
+        "expiration-date": expiration_date
+    })
+
+    print("Data recorded")
 
         ### ---- Dados LTR AGEs ----
-    print("Enviando dados LTR-AGEs para o banco de dados")
+    print("Sending LTR-AGEs data to the database")
     mongo.db.family.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.family.insert_one({
         "key": key_security,
@@ -162,10 +194,10 @@ def binary_image_files(mongo, key_security, expiration_date, resultsAddress):
         "expiration-date": expiration_date
     })
 
-    print("Dados registrados")
+    print("Data recorded")
 
         ### --- Dados Landscape ---
-    print("Enviando dados landscape para o banco de dados")
+    print("Sending landscape data to the database")
     mongo.db.landscape.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.landscape.insert_one({
         "key": key_security,
@@ -173,15 +205,17 @@ def binary_image_files(mongo, key_security, expiration_date, resultsAddress):
         "expiration-date": expiration_date
     })
             
-    print("Dados registrados")
+    print("Data recorded")
 
     ### --- Dados das árvores filogenéticas ---
-    print("Enviando dados TREE para o banco de dados")
+    print("Sending TREE data to the database")
     mongo.db.fileTree.create_index("expiration-date", expireAfterSeconds=259200)
     mongo.db.fileTree.insert_one({
         "key": key_security,
         "file-Tree-1": svg_tree1,
         "file-Tree-2": svg_tree2,
+        "file-Tree-3": svg_tree3,
+        "file-Tree-4": svg_tree4,
         "expiration-date": expiration_date
     })
 
@@ -196,7 +230,7 @@ def analysis_results(key_security, mongo):
     
     # Verifique se a chave é válida (se o usuário existe no banco de dados)
     if user_info is None:
-        return "Chave inválida. O usuário não foi encontrado."
+        return "Invalid key. The user was not found"
 
     # Recupere informações relevantes do usuário
     email = user_info["email"]
@@ -204,9 +238,13 @@ def analysis_results(key_security, mongo):
     if fileTree is None:
         svg_tree1 = ""
         svg_tree2 = ""
+        svg_tree3 = ""
+        svg_tree4 = ""
     else:
         svg_tree1 = base64.b64encode(fileTree.get("file-Tree-1")).decode('utf-8')
         svg_tree2 = base64.b64encode(fileTree.get("file-Tree-2")).decode('utf-8')
+        svg_tree3 = base64.b64encode(fileTree.get("file-Tree-3")).decode('utf-8')
+        svg_tree4 = base64.b64encode(fileTree.get("file-Tree-4")).decode('utf-8')
 
     fileLandscape = mongo.db.landscape.find_one({"key": key_security})
     if fileLandscape is None:
@@ -235,6 +273,21 @@ def analysis_results(key_security, mongo):
     else:
         bin_file = filecsv.get("file-csv")
         file_csv = base64.b64encode(bin_file).decode('utf-8')
+
+    # report-lite
+    documents_lite = list(mongo.db.reportlite.find({"key": key_security}))
+    if not documents_lite:
+        # Se for vazio, defina list_documents_lite como uma lista vazia
+        list_documents_lite = []
+    else:
+        list_documents_lite = documents_lite
+
+    filecsv_lite = mongo.db.csv_lite.find_one({"key": key_security})
+    if filecsv_lite is None:
+        file_csv_lite = ""
+    else:
+        bin_file = filecsv_lite.get("file-csv")
+        file_csv_lite = base64.b64encode(bin_file).decode('utf-8')
 
     # ---- arquivos compactados ---
     zipsine_info = mongo.db.zipsine_metadata.find_one({"key": key_security})
@@ -300,8 +353,12 @@ def analysis_results(key_security, mongo):
                            tar_line_file=tar_line_file,
                            svg_tree1=svg_tree1, 
                            svg_tree2=svg_tree2,
+                           svg_tree3=svg_tree3, 
+                           svg_tree4=svg_tree4,
                            svg_copia=svg_copia,
                            svg_gypsy=svg_gypsy,
                            svg_landscape=svg_landscape,
                            list_documents=list_documents,
-                           filecsv=file_csv)
+                           list_documents_lite=list_documents_lite,
+                           filecsv=file_csv,
+                           filecsv_lite=file_csv_lite)

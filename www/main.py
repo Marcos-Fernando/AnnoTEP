@@ -11,8 +11,7 @@ from database.database import generate_unique_name, config_user, binary_SINEs_fi
 
 # ======= AMBIENTES =======
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
-LOCAL_FOLDER = os.path.join(UPLOAD_FOLDER, 'www')
-RESULTS_FOLDER = os.path.join(LOCAL_FOLDER, 'results')
+RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'www', 'results')
 
 #Extensões que serão permitidas
 ALLOWED_EXTENSIONS = {'fasta'}
