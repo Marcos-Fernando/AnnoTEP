@@ -1,3 +1,6 @@
+.vscode
+.docker-compose.yml
+
 At*.fasta
 Tcacao.fasta
 __pycache__
