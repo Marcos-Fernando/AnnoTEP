@@ -452,15 +452,17 @@ python $HOME/TEs/Scripts/convert-table.py
 
 The results obtained are: ``TEs-Report-Complete.csv`` and ``TEs-Report-Complete.txt``.
 
-<img src="graphic-interface/static/screenshot/TE-complete-table.png" alt="TE-complete-table" border="0">
-
 - In this report, the partial elements will be named with the suffix "-like" (e.g. Angela-like)
 
 To generate a simpler report, repeat the above process using the ProcessRepeats-lite.pl script, the result will be ``TEs-Report-lite.txt``:
 ```sh
+cd TE-REPORT
 perl $HOME/TEs/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a At.fasta.mod.cat.gz
 
 mv At.fasta.mod.tbl ../TEs-Report-lite.txt
+
+cd ..
+python $HOME/TEs/Scripts/convert-table-lite.py
 ```
 
 ## Repeated landscape graphs
@@ -507,7 +509,7 @@ pdf2svg RepeatLandScape.pdf RLandScape.svg
 
 The graphics obtained will be: ``RepeatLandScape.pdf`` and ``RLandScape.svg``.
 
-<img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" />
+<img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="850px" />
 
 ### LTR age plot (Gypsy and Copia)
 To plot the ages of the LTR Gypsy and LTR Copia elements, we will use a ggplot2 Rscript.
@@ -532,8 +534,8 @@ pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
 ```
 The final files are: ``AGE-Copia.pdf``, ``AGE-Gypsys.pdf``, ``AGE-Copia.svg`` and ``AGE-Gypsy.svg``.
 
-<img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0">
-<img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0">
+<img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="750px">
+<img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="750px">
 
 ### Plotting LTR elements Phylogeny and Density
 Plotting the phylogeny of the alignments of all the LTR-RT domains.
@@ -585,17 +587,25 @@ rm -f pick-occur.sh sort_occur.txt sort_size.txt ids.txt pick.sh
 
 ln -s $HOME/TEs/Rscripts/LTR_tree.R .
 ln -s $HOME/TEs/Rscripts/LTR_tree-density.R .
+ln -s $HOME/TEs/Rscripts/LTR_tree_rec_1.R .
+ln -s $HOME/TEs/Rscripts/LTR_tree_rec_2.R .
 
 Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
 Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
+Rscript LTR_tree_rec_1.R all.fas.contree TE.cls.tsv LTR_RT-Tree3.pdf
+Rscript LTR_tree_rec_2.R all.fas.contree TE.cls.tsv LTR_RT-Tree4.pdf
 
 pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
 pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
+pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
+pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
 ```
 The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree1.svg`` and ``LTR_RT-Tree2.svg``.
 
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="950px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0" width="950px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="950px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="950px">
 
 - The outer circle (purple) represents the length (in bp) occupied by each element, while the inner circle (red) represents the number of occurrences of each element.
 
