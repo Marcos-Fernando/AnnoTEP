@@ -509,7 +509,7 @@ pdf2svg RepeatLandScape.pdf RLandScape.svg
 
 The graphics obtained will be: ``RepeatLandScape.pdf`` and ``RLandScape.svg``.
 
-<img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="850px" />
+<img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="750px" />
 
 ### LTR age plot (Gypsy and Copia)
 To plot the ages of the LTR Gypsy and LTR Copia elements, we will use a ggplot2 Rscript.
@@ -600,12 +600,12 @@ pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
 pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
 pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
 ```
-The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree1.svg`` and ``LTR_RT-Tree2.svg``.
+The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree3.pdf``, ``LTR_RT-Tree4.pdf``, ``LTR_RT-Tree1.svg``, ``LTR_RT-Tree2.svg``, ``LTR_RT-Tree3.svg`` and ``LTR_RT-Tree2.svg``.
 
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="950px">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0" width="950px">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="950px">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="950px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="850px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="850px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="850px">
+<img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0" width="850px">
 
 - The outer circle (purple) represents the length (in bp) occupied by each element, while the inner circle (red) represents the number of occurrences of each element.
 
