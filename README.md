@@ -52,18 +52,17 @@ docker pull annotep/graphic-interface:v1
 
 **Step 2.** Next, run the container with the command below, specifying a folder to store the annotation results on your machine:
 ```sh
-docker run -it -v {folder-results}:/root/TEs/www/results --name graphic-interface -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1
+docker run -it -v {folder-results}:/root/TEs/www/results -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1
 ```
 
 ### Description:
 - ``-v {folder-results}:/root/TEs/www/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the path of the directory folder, you don't need to change it.
-- ``--name graphic-interface``: Sets the name of the container to "graphic-interface".
 - ``-dp 0.0.0.0:5000:5000``: Maps the container's port 5000 to the host's port 5000.
 - ``annotep/graphic-interface:v1``: Specifies the image to be used.
 
 #### Example:
 ```sh
-docker run -it -v $HOME/Documents/results-annotep:/root/TEs/www/results --name graphic-interface -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1
+docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1
 ```
 
 **Step 3.** After running the container with the previous command, access the AnnoTEP interface by typing the following address into your web browser: 
@@ -112,23 +111,30 @@ optional arguments:
                      [2] LINE Annotation
                      [3] SINE and LINE annotation
                      [4] Complete Annotation
+ --threads THREADS  Number of threads to use (default: 4)
 ```
 
 **Step 3.** To simplify this step, we recommend creating a folder where you can insert your genomic data in FASTA format. After creating the folder, run the container using the command below. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the folder containing the genomes:
 
 ```sh
-docker run -it -v {folder-results}:/root/TEs/local/results -v /home/user/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation}
+docker run -it -v {folder-results}:/root/TEs/results -v /home/user/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
 ```
 
 ### Description:
-- ``-v {folder-results}:/root/TEs/local/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
+- ``-v {folder-results}:/root/TEs/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
 - ``-v /home/user/TEs:{folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{folder-genomes}``.
 - ``--file {folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
 - ``--type {type-annotation}``: Type of annotation shown in step 2
+- ``--threads {optional}``: optional parameter for full annotation (type 4), define the number of threads that the full annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
-#### Example:
+#### Example 1:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 2
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 2
+```
+
+#### Example 2:
+```sh
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 4 --threads 12
 ```
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
