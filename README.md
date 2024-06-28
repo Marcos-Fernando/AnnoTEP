@@ -661,18 +661,25 @@ usage: run_annotep.py [-h] --file FILE --type {1,2,3,4}
 Run annotep with specified parameters.
 
 optional arguments:
-  -h, --help        show this help message and exit
-  --file FILE       Genome file name (.fasta)
-  --type {1,2,3,4}  Type annotation:
+     -h, --help        show this help message and exit
+    --file FILE       Genome file name (.fasta)
+    --type {1,2,3,4}  Type annotation:
                      [1] SINE Annotation 
                      [2] LINE Annotation
                      [3] SINE and LINE annotation
                      [4] Complete Annotation
+    --threads THREADS  Number of threads to use (default: 4)
 ```
 
 **Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
 ```sh
 python run_annotep.py --file $HOME/TEs/At.fasta --type 2
+```
+
+or
+
+```sh
+python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
 ```
 
 <br>
