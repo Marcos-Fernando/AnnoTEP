@@ -194,7 +194,7 @@ BiocManager::install("ggtree")
 BiocManager::install("ggtreeExtra")
 ```
 
-In the event of an error with BiocManager or the ggtree and ggtreeExtra packages, you can use another method:
+- In the event of an error with BiocManager or the ggtree and ggtreeExtra packages, you can use another method:
 ```sh
 if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
