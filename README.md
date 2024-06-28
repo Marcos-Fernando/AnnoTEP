@@ -194,6 +194,15 @@ BiocManager::install("ggtree")
 BiocManager::install("ggtreeExtra")
 ```
 
+In the event of an error with BiocManager or the ggtree and ggtreeExtra packages, you can use another method:
+```sh
+if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
+devtools::install_github("YuLab-SMU/ggtree")
+devtools::install_github("YuLab-SMU/ggtreeExtra")
+
+```
+
 **Step 2.** After installing the libraries, copy the ``irf`` and ``break_fasta.pl`` scripts to local/bin on your machine:
 ```sh
 sudo cp Scripts/irf /usr/local/bin
