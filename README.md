@@ -125,7 +125,7 @@ docker run -it -v {folder-results}:/root/TEs/results -v /home/user/TEs:{folder-g
 - ``-v /home/user/TEs:{folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{folder-genomes}``.
 - ``--file {folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
 - ``--type {type-annotation}``: Type of annotation shown in step 2
-- ``--threads {optional}``: optional parameter for full annotation (type 4), define the number of threads that the full annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
+- ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
 #### Example 1:
 ```sh

@@ -1,12 +1,17 @@
 # Using AnnoTEP Bash interface
 ### Run the Container
 ```sh 
-docker run -it -v {folder-results}:/root/TEs/local/results -v /home/user/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation}
+docker run -it -v {folder-results}:/root/TEs/results -v /home/user/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
 ```
 
-#### Exemplo:
+#### Example 1:
 ```sh 
-docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 2
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 2
+```
+
+#### Example 2:
+```sh 
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 4 --threads 12
 ```
 
 #### Description:
@@ -29,3 +34,5 @@ docker run -it -v $HOME/results-annotep:/root/TEs/local/results -v $HOME/TEs:$HO
 - --type 2: LINE Annotation
 - --type 3: SINE and LINE annotation
 - --type 4: Complete Annotation
+
+- ``--threads 12``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
