@@ -2,9 +2,6 @@ import subprocess
 import os
 
 #Definindo local dos arquivos
-#ambientes
-CONDA = os.environ['CONDA_PREFIX']
-
 #principal
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
@@ -24,7 +21,7 @@ def sine_annotation(new_filename, resultsAddress):
 
     os.chdir(SINE_FOLDER)
     cmds = f"""
-    source $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE &&
+    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate AnnoSINE &&
     export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH" &&
     python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {resultsAddress}/SINE
     wait

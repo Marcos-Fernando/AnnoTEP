@@ -1,6 +1,6 @@
 import os
-import random
 import shutil
+from datetime import datetime
 
 from app import create_app, allowed_file
 from werkzeug.utils import secure_filename
@@ -11,7 +11,6 @@ from extensions.annotation import sine_annotation, line_annotation, complete_ann
 app, _ = create_app()
 
 # ===================== Ambientes ======================
-CONDA = os.environ['CONDA_PREFIX']
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
 # ================= Locais dos arquivos ================
@@ -45,8 +44,10 @@ def upload_file():
             filename, extension = os.path.splitext(file.filename)
            
             #-------------- Processo de nomeação dos dados -------------------
-            random_numbers = [str(random.randint(0,9)) for i in range(4)]
-            storageFolder = f'results-{filename}_{"".join(random_numbers)}'
+            #Obtendo e formatando data e hora
+            now = datetime.now()
+            formatted_date = now.strftime("%Y%m%d-%H%M%S")
+            storageFolder = f'{filename}_{"".join(formatted_date)}'
 
             resultsAddress = os.path.join(RESULTS_FOLDER, storageFolder)
             os.makedirs(resultsAddress)
@@ -58,19 +59,19 @@ def upload_file():
                 annotation_type = int(request.form.get('annotation_type'))
                 if annotation_type == 1:
                     sine_annotation(new_filename, resultsAddress)
-                    send_email_complete_annotation(email)
+                    send_email_complete_annotation(email, storageFolder)
                 elif annotation_type == 2:
                     line_annotation(new_filename, resultsAddress)
-                    send_email_complete_annotation(email)
+                    send_email_complete_annotation(email, storageFolder)
                 elif annotation_type == 3:
                     sine_annotation(new_filename, resultsAddress)
                     line_annotation(new_filename, resultsAddress)
-                    send_email_complete_annotation(email)
+                    send_email_complete_annotation(email, storageFolder)
                 elif annotation_type == 4:
                     sine_annotation(new_filename, resultsAddress)
                     line_annotation(new_filename, resultsAddress)
                     complete_annotation(new_filename, resultsAddress)
-                    send_email_complete_annotation(email)
+                    send_email_complete_annotation(email, storageFolder)
 
                 if os.path.exists(resultsAddress):
                     # Excluir a pasta "LINE" e seu conteúdo
@@ -84,7 +85,6 @@ def upload_file():
                             file_path = os.path.join(resultsAddress, file)
                             os.remove(file_path)
 
-                    #print(f"A limpeza em {resultsAddress} foi concluída com sucesso.")
                 else:
                     print(f"The folder {resultsAddress} does not exist.")
 

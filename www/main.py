@@ -53,7 +53,7 @@ def upload_file():
             existing_names = [doc["genome-output"] for doc in mongo.db.users.find({}, {"genome-output": 1})]
             new_generated_name = generate_unique_name(filename, existing_names)
         
-            storageFolder = f'results-{new_generated_name}'
+            storageFolder = f'{new_generated_name}'
             new_filename = f'{new_generated_name}{extension}'
 
             resultsAddress = os.path.join(RESULTS_FOLDER, storageFolder)

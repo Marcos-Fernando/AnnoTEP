@@ -99,19 +99,23 @@ docker run annotep/bash-interface:v1 python run_annotep.py -h
 ```
 - You will be introduced to:
 ```sh
-usage: run_annotep.py [-h] --file FILE --type {1,2,3,4}
+usage: run_annotep.py [-h] --file FILE --type {1,2,3,4} [--threads THREADS]
 
 Run annotep with specified parameters.
 
 optional arguments:
-  -h, --help        show this help message and exit
-  --file FILE       Genome file name (.fasta)
-  --type {1,2,3,4}  Type annotation:
-                     [1] SINE Annotation 
-                     [2] LINE Annotation
-                     [3] SINE and LINE annotation
-                     [4] Complete Annotation
- --threads THREADS  Number of threads to use (default: 4)
+  -h, --help         show this help message and exit
+  --threads THREADS  Number of threads used to complete annotation (default threads: 4).
+                     This parameter does not need to be set for the other annotation types [1, 2, 3].
+
+Required arguments:
+  --file FILE        Genome file name (.fasta)
+  --type {1,2,3,4}   Type annotation:
+                      [1] SINE Annotation 
+                      [2] LINE Annotation
+                      [3] SINE and LINE annotation
+                      [4] Complete Annotation
+
 ```
 
 **Step 3.** To simplify this step, we recommend creating a folder where you can insert your genomic data in FASTA format. After creating the folder, run the container using the command below. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the folder containing the genomes:
@@ -665,19 +669,23 @@ python run_annotep.py -h
 
 - The ``-h`` parameter displays a user guide describing how to use the script:
 ```sh
-usage: run_annotep.py [-h] --file FILE --type {1,2,3,4}
+usage: run_annotep.py [-h] --file FILE --type {1,2,3,4} [--threads THREADS]
 
 Run annotep with specified parameters.
 
 optional arguments:
-     -h, --help        show this help message and exit
-    --file FILE       Genome file name (.fasta)
-    --type {1,2,3,4}  Type annotation:
-                     [1] SINE Annotation 
-                     [2] LINE Annotation
-                     [3] SINE and LINE annotation
-                     [4] Complete Annotation
-    --threads THREADS  Number of threads to use (default: 4)
+  -h, --help         show this help message and exit
+  --threads THREADS  Number of threads used to complete annotation (default threads: 4).
+                     This parameter does not need to be set for the other annotation types [1, 2, 3].
+
+required arguments:
+  --file FILE        Genome file name (.fasta)
+  --type {1,2,3,4}   Type annotation:
+                      [1] SINE Annotation 
+                      [2] LINE Annotation
+                      [3] SINE and LINE annotation
+                      [4] Complete Annotation
+
 ```
 
 **Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
