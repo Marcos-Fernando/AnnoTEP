@@ -16,7 +16,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs
 
 #### Description:
 **Volume for Results**:
-- ``-v $HOME/results:/root/TEs/local/results``: Creates a "volume" called ``/root/TEs/local/results`` inside the container and connects it to the ``$HOME folder /results`` on your computer. This makes it possible to share data between your computer and the container.
+- ``-v $HOME/results:/root/TEs/results``: Creates a "volume" called ``/root/TEs/results`` inside the container and connects it to the ``$HOME folder/results`` on your computer. This makes it possible to share data between your computer and the container.
 
 **Volume for Genome**:
 - ``-v $HOME/TEs:$HOME/TEs``: Establishes a second volume called ``$HOME/TEs`` on your computer and links it to the ``$HOME/TEs`` folder on container. An inversion occurs here, as ``$HOME/TEs`` on the host (local machine) contains the genome. These volumes are used to allow the container to access and manipulate data present on the host.
