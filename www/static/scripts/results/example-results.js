@@ -45,3 +45,8 @@ function readJsonFile(file, tableId) {
 // Ler o arquivo JSON
 readJsonFile("static/TEs-Report-Complete.json", "TEs-Report-Complete");
 // readJsonFile("static/TEs-Report-lite.json", "TEs-Report-lite");
+
+
+document.getElementById("logoLink").onclick = function() {
+    window.location.href = "/";
+};

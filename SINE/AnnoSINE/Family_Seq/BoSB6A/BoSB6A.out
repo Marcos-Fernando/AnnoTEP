@@ -4,7 +4,7 @@
 # Freely distributed under the BSD open source license.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query file:                      ../Family_Seq/BoSB6A/BoSB6A.hmm
-# target sequence database:        /home/marcos/TEs/AtChr4.fasta
+# target sequence database:        /home/marcos/TEs/www/results/A._20240713-183533/A._20240713-183533.fasta
 # output directed to file:         ../Family_Seq/BoSB6A/BoSB6A.out
 # number of worker threads:        12
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -242,7 +242,7 @@ Residues passing bias filter:        2140959  (0.0576); expected (0.02)
 Residues passing Vit filter:           39523  (0.00106); expected (0.003)
 Residues passing Fwd filter:            8643  (0.000233); expected (3e-05)
 Total number of hits:                      8  (4.5e-05)
-# CPU time: 1.95u 0.04s 00:00:01.99 Elapsed: 00:00:00.18
-# Mc/sec: 53379.10
+# CPU time: 1.83u 0.03s 00:00:01.86 Elapsed: 00:00:00.18
+# Mc/sec: 52961.83
 //
 [ok]

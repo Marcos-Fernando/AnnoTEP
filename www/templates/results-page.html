@@ -85,7 +85,6 @@
 
 			<section class="container-compact">
 				<section class="box-compact">
-					<p class="zipFormatTitle" style="--delay: .9s">.zip format</p>
 					<div class="nonLTRdownload" style="--delay: 1.2s">
 						{% if zip_sine_file %}
 						<a href="data:application/zip;base64,{{ zip_sine_file }}" class="non-ltr-data" download="TES-zip-sine">
@@ -107,35 +106,6 @@
 							</a>
 						{% else %}
 						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-zip-line"> 
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							No LINE Data avaliable
-						</a>
-						{% endif %}
-					</div>
-				</section>
-				<section class="box-compact">
-					<p class="tarGzFormatTitle" style="--delay: 1.6s">.tar.gz format</p>
-					<div class="nonLTRdownload" style="--delay: 1.9s">
-						{% if tar_sine_file %}
-						<a href="data:application/gzip;base64,{{ tar_sine_file }}" class="non-ltr-data" download="TES-tar-sine.tar.gz">
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							SINE Data 
-						</a>
-						{% else %}
-						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-tar-sine"> 
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							No SINE Data avaliable
-						</a>
-						{% endif %}
-					</div>
-					<div class="nonLTRdownload" style="--delay: 2.1s">
-						{% if tar_line_file %}
-						<a href="data:application/gzip;base64,{{ tar_line_file }}" class="non-ltr-data" download="TES-tar-line.tar.gz">
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							LINE Data 
-						</a>
-						{% else %}
-						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-tar-line"> 
 							<img class="box-icon" src="../static/assets/box.svg"/>
 							No LINE Data avaliable
 						</a>
@@ -297,7 +267,7 @@
 
 		<section class="container-data" id="phylogeny-section">
 			<div class="title-data" style="--delay: 5.3s">
-				<p>Phylogeny</p>
+				<p>LTR Phylogeny</p>
 				<div class="session-phylogeny-icon">
 					<span class="open-tab-phylogeny"> 
 						In this section, the phylogeny of the alignments of all the LTR-RT domains is elaborated, 
@@ -314,14 +284,14 @@
 				</figure>
 				
 				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="TES-Phylogenetic-tree-circular">
+					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="LTR-Phylogenetic-tree-circular">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Phylogenetic tree - circular 
+						Download LTR-Phylogenetic tree - circular 
 					</a>
 				</div>
 				{% else %}
 				<div class="container-downloaddata">
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Phylogenetic-tree-circular">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="LTR-Phylogenetic-tree-circular">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download not avaliable
 					</a>
@@ -336,14 +306,14 @@
 				</figure>
 				
 				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree3 }}" class="downloaddata" download="TES-Phylogenetic-tree-rectangularA">
+					<a href="data:image/svg+xml;base64,{{ svg_tree3 }}" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularA">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Phylogenetic tree - rectangular A 
+						Download LTR-Phylogenetic tree - rectangular A 
 					</a>
 				</div>
 				{% else %}
 				<div class="container-downloaddata">
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Phylogenetic-tree-rectangularA">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularA">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download not avaliable
 					</a>
@@ -358,14 +328,14 @@
 				</figure>
 				
 				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree4 }}" class="downloaddata" download="TES-Phylogenetic-tree-rectangularB">
+					<a href="data:image/svg+xml;base64,{{ svg_tree4 }}" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularB">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Phylogenetic tree - rectangular B 
+						Download LTR-Phylogenetic tree - rectangular B 
 					</a>
 				</div>
 				{% else %}
 				<div class="container-downloaddata">
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Phylogenetic-tree-rectangularB">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularB">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
 						Download not avaliable
 					</a>
@@ -376,7 +346,7 @@
 
 		<section class="container-data" id="density-section">
 			<div class="title-data" style="--delay: 6.2s">
-				<p>Phylogenetic tree - Density</p>
+				<p>LTR Phylogenetic tree - Density</p>
 				<div class="session-density-icon">
 					<span class="open-tab-density"> 
 						In this section, the densities of the elements are displayed, with the outer circle (purple) representing the length occupied by each element in base pairs (bp), 
@@ -394,9 +364,9 @@
 				</figure>
 					
 				<div class="container-downloaddata" style="--delay: 6.6s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="TES-Density">
+					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="LTR-Phylogenetic-Density">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Phylogenetic tree - Density
+						Download LTR-Phylogenetic tree - Density
 					</a>
 				</div>
 				{% else %}

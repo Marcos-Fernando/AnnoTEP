@@ -73,21 +73,6 @@ def upload_file():
                     complete_annotation(new_filename, resultsAddress)
                     send_email_complete_annotation(email, storageFolder)
 
-                if os.path.exists(resultsAddress):
-                    # Excluir a pasta "LINE" e seu conteúdo
-                    line_folder = os.path.join(resultsAddress, "LINE")
-                    if os.path.exists(line_folder):
-                        shutil.rmtree(line_folder)
-
-                    # Excluir arquivos com extensões ".fasta" e ".fa"
-                    for file in os.listdir(resultsAddress):
-                        if file.endswith((".fasta", ".fa")):
-                            file_path = os.path.join(resultsAddress, file)
-                            os.remove(file_path)
-
-                else:
-                    print(f"The folder {resultsAddress} does not exist.")
-
     return render_template("index.html")
 
 if __name__ == "__main__":

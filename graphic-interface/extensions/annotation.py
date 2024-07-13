@@ -17,13 +17,15 @@ RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'graphic-interface', 'results')
 #Funções de processo do pipeline
 #Anotação do elemento SINE
 def sine_annotation(new_filename, resultsAddress):
+    sine_folder = os.path.join(resultsAddress, 'SINE')
+    os.makedirs(sine_folder, exist_ok=True)
     print("SINE annotation started...")
 
     os.chdir(SINE_FOLDER)
     cmds = f"""
     source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate AnnoSINE &&
     export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH" &&
-    python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {resultsAddress}/SINE
+    python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {sine_folder}
     wait
     cp {resultsAddress}/SINE/Seed_SINE.fa {resultsAddress}/Seed_SINE.fa
     """
@@ -37,7 +39,6 @@ def sine_annotation(new_filename, resultsAddress):
 def line_annotation(new_filename, resultsAddress):
     line_folder = os.path.join(resultsAddress, 'LINE')
     os.makedirs(line_folder, exist_ok=True)
-    output_folder = os.path.join(resultsAddress, 'LINE-results')
 
     print("LINE annotation started...")
 
@@ -52,10 +53,10 @@ def line_annotation(new_filename, resultsAddress):
     cd ../..
 
     ulimit -n 8192
-    mgescan nonltr {line_folder} --output={output_folder} --mpi=4
+    mgescan nonltr {line_folder} --output={line_folder} --mpi=4
     wait
 
-    cd {output_folder}
+    cd {line_folder}
     cat info/full/*/*.dna > temp.fa
     cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
     bash ver.sh  | sed 's#\t#:#' | sed 's#\t#\.\.#'   > list.txt

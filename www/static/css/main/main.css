@@ -344,7 +344,7 @@ article span{
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	gap: 5rem;
+	gap: 3rem;
 
 	margin: 2.5rem 5.5rem 2.5rem 5.5rem;
 }
@@ -366,6 +366,7 @@ article span{
 
 .container-explicative .box-explicative span{
 	font-size: 1.5rem;
+	
 }
 
 .rectangle-green{
@@ -386,7 +387,7 @@ article span{
 	text-align: center;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
+	gap: 1rem;
 }
 
 .be4{

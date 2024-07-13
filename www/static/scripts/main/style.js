@@ -70,6 +70,7 @@ lineCheckbox.addEventListener('click', function() {
 var menuSide = document.querySelector('.aside');
 var mainleft = document.querySelector('.main');
 var menuItems = document.querySelectorAll('li');
+var logo = document.querySelector('.logoAnnotep');
 
 menuItems.forEach(function(item) {
   item.addEventListener('click', function() {
@@ -80,6 +81,16 @@ menuItems.forEach(function(item) {
     this.classList.add('open');
   });
 });
+
+logo.addEventListener('click', function() {
+  menuItems.forEach(function(item) {
+    item.classList.remove('open');
+  });
+
+  document.querySelector('li#Home').classList.add('open');
+});
+
+
 
 
 //------------------  Aside formato MOBILE ---------------//

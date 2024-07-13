@@ -36,13 +36,10 @@ def config_user(mongo, key_security, expiration_date, email, filename, new_gener
 def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
 
     gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
-    gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
 
     print("Converting compact files into binaries started...")
     with open(os.path.join(resultsAddress, 'SINEslibrary.zip'), "rb") as zip_file_SINE:
         zip_dataSINE = gridfs_zipsine.put(zip_file_SINE, filename='SINEslibrary.zip')
-    with open(os.path.join(resultsAddress, 'SINEslibrary.zip'), "rb") as tar_file_SINE:
-        tar_dataSINE = gridfs_tarsine.put(tar_file_SINE, filename='SINEslibrary.tar.gz')
     print("Conversão concluída!")
     print("")
 
@@ -55,15 +52,6 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
         "zip-sine-file": zip_dataSINE,
         "expiration-date": expiration_date
     })
-
-    mongo.db.tarsine_metadata.create_index("expiration-date", expireAfterSeconds=259200)
-    mongo.db.tarsine_metadata.insert_one({
-        "key": key_security,
-        "tar-sine-name": ('SINEslibrary.tar.gz'),
-        "tar-sine-file": tar_dataSINE,
-        "expiration-date": expiration_date
-    })
-
     print("Data recorded")
     print("")
 
@@ -71,13 +59,10 @@ def binary_SINEs_files(mongo, key_security, expiration_date, resultsAddress):
 def binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress):
 
     gridfs_zipline = GridFS(mongo.db, collection='zipline')
-    gridfs_tarline = GridFS(mongo.db, collection='tarline')
 
     print("Conversão de arquivos compactos em binário iniciada...")
     with open(os.path.join(resultsAddress, 'LINEslibrary.zip'), "rb") as zip_file_SINE:
         zip_dataLINE = gridfs_zipline.put(zip_file_SINE, filename='LINEslibrary.zip')
-    with open(os.path.join(resultsAddress, 'LINEslibrary.tar.gz'), "rb") as tar_file_LINE:
-        tar_dataLINE = gridfs_tarline.put(tar_file_LINE, filename='LINEslibrary.tar.gz')
     print("Conversão concluída!")
     print("")
 
@@ -88,14 +73,6 @@ def binary_LINEs_files(mongo, key_security, expiration_date, resultsAddress):
         "key": key_security,
         "zip-line-name": ('LINEslibrary.zip'),
         "zip-line-file": zip_dataLINE,
-        "expiration-date": expiration_date
-    })
-
-    mongo.db.tarline_metadata.create_index("expiration-date", expireAfterSeconds=259200)
-    mongo.db.tarline_metadata.insert_one({
-        "key": key_security,
-        "tar-line-name": ('LINEslibrary.tar.gz'),
-        "tar-line-file": tar_dataLINE,
         "expiration-date": expiration_date
     })
 
@@ -226,9 +203,7 @@ def analysis_results(key_security, mongo):
     user_info = mongo.db.users.find_one({"key": key_security})    
 
     gridfs_zipsine = GridFS(mongo.db, collection='zipsine')
-    gridfs_tarsine = GridFS(mongo.db, collection='tarsine')
     gridfs_zipline = GridFS(mongo.db, collection='zipline')
-    gridfs_tarline = GridFS(mongo.db, collection='tarline')
     
     # Verifique se a chave é válida (se o usuário existe no banco de dados)
     if user_info is None:
@@ -320,39 +295,13 @@ def analysis_results(key_security, mongo):
         else:
             zip_line_file = ""
 
-    # -----------------------
-    tarsine_info = mongo.db.tarsine_metadata.find_one({"key": key_security})
-    if tarsine_info is None:
-        tar_sine_file = ""
-    else:
-        file_tarsine_id = tarsine_info.get("tar-sine-file")
 
-        if isinstance(file_tarsine_id, ObjectId):
-            file_data_tarsine = gridfs_tarsine.get(file_tarsine_id).read()
-            tar_sine_file = base64.b64encode(file_data_tarsine).decode('utf-8')
-        else:
-            tar_sine_file = ""
-
-    # -----------------------
-    tarline_info = mongo.db.tarline_metadata.find_one({"key": key_security})
-    if tarline_info is None:
-        tar_line_file = ""
-    else:
-        file_tarline_id = tarline_info.get("tar-line-file")
-
-        if isinstance(file_tarline_id, ObjectId):
-            file_data_tarline = gridfs_tarline.get(file_tarline_id).read()
-            tar_line_file = base64.b64encode(file_data_tarline).decode('utf-8')
-        else:
-            tar_line_file = ""
 
     # Renderize o template HTML passando as informações relevantes
     return render_template("results-page.html", 
                            email=email, 
                            zip_sine_file=zip_sine_file, 
                            zip_line_file=zip_line_file,
-                           tar_sine_file=tar_sine_file,
-                           tar_line_file=tar_line_file,
                            svg_tree1=svg_tree1, 
                            svg_tree2=svg_tree2,
                            svg_tree3=svg_tree3, 

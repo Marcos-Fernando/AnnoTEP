@@ -4,9 +4,6 @@ import shutil
 
 #Definindo local dos arquivos
 #ambientes
-CONDA = os.environ['CONDA_PREFIX']
-
-#principal
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 
 #processos
@@ -17,22 +14,20 @@ EDTA_FOLDER = os.path.join(UPLOAD_FOLDER, 'EDTA')
 
 
 def compact_folder(origin_folder, dest_compact):
-    # shutil.make_archive(dest_compact, 'zip', origin_folder)
-    # shutil.make_archive(dest_compact, 'gztar', origin_folder)
-
     shutil.make_archive(dest_compact, 'zip',os.path.dirname(origin_folder), os.path.basename(origin_folder))
-    shutil.make_archive(dest_compact, 'gztar',os.path.dirname(origin_folder), os.path.basename(origin_folder))
 
 #Funções de processo do pipeline
 #Anotação do elemento SINE
 def sine_annotation(new_filename, resultsAddress):
+    sine_folder = os.path.join(resultsAddress, 'SINE')
+    os.makedirs(sine_folder, exist_ok=True)
     print("SINE annotation started...")
 
     os.chdir(SINE_FOLDER)
     cmds = f"""
-    source $CONDA_PREFIX/etc/profile.d/conda.sh && conda activate AnnoSINE &&
+    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate AnnoSINE &&
     export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH" &&
-    python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {resultsAddress}/SINE
+    python3 AnnoSINE.py 3 {os.path.join(resultsAddress, new_filename)} {sine_folder}
     wait
     cp {resultsAddress}/SINE/Seed_SINE.fa {resultsAddress}/Seed_SINE.fa
     """
@@ -42,7 +37,7 @@ def sine_annotation(new_filename, resultsAddress):
     print("SINE annotation completed")
 
     # ------------ Compactação dos arquivos ----------------
-    origin_folder = os.path.join(resultsAddress, 'Seed_SINE.fa')
+    origin_folder = sine_folder
     dest_compact = os.path.join(resultsAddress, 'SINEslibrary')
     compact_folder(origin_folder, dest_compact)
 
@@ -53,8 +48,6 @@ def sine_annotation(new_filename, resultsAddress):
 def line_annotation(new_filename, resultsAddress):
     line_folder = os.path.join(resultsAddress, 'LINE')
     os.makedirs(line_folder, exist_ok=True)
-    output_folder = os.path.join(resultsAddress, 'LINE-results')
-
     print("LINE annotation started...")
 
     os.chdir(NONLTR_FOLDER)
@@ -68,10 +61,10 @@ def line_annotation(new_filename, resultsAddress):
     cd ../..
 
     ulimit -n 8192
-    mgescan nonltr {line_folder} --output={output_folder} --mpi=4
+    mgescan nonltr {line_folder} --output={line_folder} --mpi=4
     wait
 
-    cd {output_folder}
+    cd {line_folder}
     cat info/full/*/*.dna > temp.fa
     cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
     bash ver.sh  | sed 's#\t#:#' | sed 's#\t#\.\.#'   > list.txt
@@ -111,7 +104,7 @@ def line_annotation(new_filename, resultsAddress):
     print("LINE annotation finished")
     print("")
     
-    origin_folder = os.path.join(resultsAddress, 'LINE-lib.fa')
+    origin_folder = line_folder
     dest_compact = os.path.join(resultsAddress, 'LINEslibrary')
     compact_folder(origin_folder, dest_compact)
 
