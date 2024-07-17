@@ -70,6 +70,8 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 4.** When you access 127.0.0.1:5000 you will see a version of the AnnoTEP platform similar to the WEB version. 
 
+* If you want to carry out tests, you can download the file `AtChr4.fasta`.
+
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
 
 Inside the directory you will find the following files:
@@ -121,24 +123,27 @@ Required arguments:
 **Step 3.** To simplify this step, we recommend creating a folder where you can insert your genomic data in FASTA format. After creating the folder, run the container using the command below. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the folder containing the genomes:
 
 ```sh
-docker run -it -v {folder-results}:/root/TEs/results -v /home/user/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
+docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
 ```
 
 ### Description:
 - ``-v {folder-results}:/root/TEs/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
-- ``-v /home/user/TEs:{folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{folder-genomes}``.
+- ``-v $HOME/TEs:{folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{folder-genomes}``.
 - ``--file {folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
 - ``--type {type-annotation}``: Type of annotation shown in step 2
 - ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
+* If you want to carry out tests, you can download the file `AtChr4.fasta`.
+
 #### Example 1:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 2
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/AtChr4.fasta --type 2
+
 ```
 
 #### Example 2:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs/genomes annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/genomes/Arabidopsis_thaliana.fasta --type 4 --threads 12
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/AtChr4.fasta --type 4 --threads 12
 ```
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
@@ -260,6 +265,9 @@ cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
 rm TAIR10_chr_all.fas
 ```
 
+* If you can't download _Arabidopsis thaliana_ automatically, you can download it directly from [tair](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files), by clicking on `TAIR10_chr_all.fas.gz` and following the steps in the command above from the second line onwards.
+
+
 ## Organizing the environment
 ### Configuring the modified AnnoSINE
 **Step 1.** Create and activate the AnnoSINE conda environment:
@@ -273,7 +281,7 @@ conda activate AnnoSINE
 
 **Step 2.** Run the test data (chromosome 4 of A. thaliana) to verify the installation:
 ```sh
-python3 AnnoSINE.py 3 ../Testing/A.thaliana_Chr4.fasta ../Output_Files
+python3 AnnoSINE.py 3 ../AtChr4.fasta ../Output_Files
 ```
 - A file 'Seed_SINE.fa' will be created in '../Output_Files'. This file contains all the planned SINE elements and will be used later in the next steps.
 

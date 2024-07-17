@@ -1,7 +1,8 @@
 .vscode
 docker-compose.ym
 
-At*.fasta
+At.fasta
+*-matches.fasta
 Tcacao.fasta
 __pycache__
 
