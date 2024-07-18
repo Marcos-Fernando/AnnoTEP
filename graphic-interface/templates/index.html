@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="static/assets/icon.svg" type="image/x-icon" />
+    <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/main.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/modal.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/dark-theme.css') }}" />
@@ -18,31 +18,27 @@
 	<aside class="aside">
 		<ul id="menu">
 			<div class="logoAnnotep">
-				<img src="static/assets/icon.svg" alt="Logo do Annotep">
+				<img src="../static/assets/icon.svg" alt="Logo do Annotep">
 			</div>
 			<li class="li open" id="Home">
-				<img class="home-icon" src="static/assets/home.svg">
+				<img class="home-icon" src="../static/assets/home.svg">
 				<spam class="txt-link">Home</spam>
 			</li>
 			<li class="li" id="Help">
-				<img class="help-icon" src="static/assets/QuestionCircle.svg">
+				<img class="help-icon" src="../static/assets/QuestionCircle.svg">
 				<spam class="txt-link"> Help </spam>
-			</li>
-			<li class="li" id="About">
-				<img class="about-icon" src="static/assets/InfoCircle.svg">
-				<spam class="txt-link"> About </spam>
 			</li>
 		</ul>
 	</aside>
 
 	<div class="cloudImageWrapper">
-		<img id="cloudImage" class="replace" src="static/assets/CloudMoon.svg">
+		<img id="cloudImage" class="replace" src="../static/assets/CloudMoon.svg">
 	</div>
 
 	<main class="main sectionsPage">
 		<header class="header">
 			<section class="container-header">
-				<img id="logoImage" class="logo" src="static/assets/Logo.svg" alt="Logo TEP"/>
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
 			</section>
 		</header>
 
@@ -53,15 +49,15 @@
 
 			<section class="container-explicative">
 				<div class="box-explicative">
-					<img class="img-dna" src="static/assets/dna-icon.svg">
-					<span class="be1"><b>Annotation</b> of SINEs and LINEs elements. </span>
+					<img class="img-dna" src="../static/assets/dna-icon.svg">
+					<span class="be1"><b>Annotation</b> of all Class I and Class II elements </span>
 				</div>
 				<div class="box-explicative">
-					<img class="img-phylogeny" src="static/assets/phylogeny.svg">
+					<img class="img-phylogeny" src="../static/assets/phylogeny.svg">
 					<span class="be2"> <b>Data visualization</b> in graph format and phylogenetic trees. </span>
 				</div>
 				<div class="box-explicative box-email">
-					<img class="img-email" src="static/assets/email-icon-light.svg">
+					<img class="img-email" src="../static/assets/email-icon-light.svg">
 					<span class="be3">A link with the results is sent <br> directly to your email. </span>
 				</div>
 			</section>
@@ -76,7 +72,7 @@
 					<p>Email Adress </p>
 					<div class="session-icon session-email-icon">
 						<span class="open-tab open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+						<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
 					<input id="email" class="email" type="email" pattern=".com" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
@@ -87,7 +83,7 @@
 					<p>Genome data</p>
 					<div class="session-icon session-genome-icon">
 						<span class="open-tab open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+						<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
 				<div class="box-input">
@@ -107,7 +103,7 @@
 						<span class="open-tab open-tab-annotation"> 
 							The annotation process for SINE and LINE elements involves providing concise, compressed data about the elements. <br>
 							The complete annotation goes further, conducting a thorough analysis. It not only includes compressed data on SINEs and LINEs, but also incorporates graphical representations, phylogenetic trees and descriptive tables, providing a more nuanced understanding of these elements.</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+						<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 					</div>
 				</div>
 				<div class="box-checkboxs">
@@ -121,10 +117,14 @@
 					</div>
 					<div class="container-checkbox">
 						<input type="checkbox" id="complete" name="complete" class="checkbox">
-						<label for="complete">Complete annotation</label>
-					</div>	  
-				</div>	
+						<label for="complete">Complete annotation (SINE, LINE, TIR, ...) </label>
+                    </div>
+                </div>
 			</section>
+			<div class="container-threads">
+				<p>Threads to be used in complete annotation </p>
+				<input type="number" id="threads" name="threads" min="4" value="4" step="1" required disabled>
+			</div>
 	
 			<div class="container-submit">
 				<button type="button" id="uploaddata" class="uploaddata" disabled> Submit </button>
@@ -168,7 +168,7 @@
 			
 			<p> Welcome to the AnnoTEP documentation. </p>
 			<p> The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to the scientific community involved in research centered on these elements. </p>
-			<p> Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. Also referred to as "jumping genes", mobile genetic elements (MGEs) or insertion elements (ISs), they constitute a category of genetic sequences that play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. </p>		
+			<p> Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. Also referred to as "jumping genes", mobile genetic elements (MGEs), they constitute a category of genetic sequences that play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. </p>		
 			<p> The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees.  It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences. </p>
 				
 			<h3> How to use the platform - local server with interface</h3>
@@ -208,13 +208,6 @@
 			
 		</section>
 		
-		<footer class="footer">
-			<div class="cite-us">
-				
-			</div>
-		</footer>
-	</main>	
-
 		<footer class="footer">
 			<div class="cite-us">
 				

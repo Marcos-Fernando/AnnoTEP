@@ -7,35 +7,38 @@ function getFileAndEmail() {
 }
 
 // Função para ativar apenas a anotação dos elementos SINE
-function execute_annotation(annotation_type) {
+function execute_annotation(annotation_type, threadsValue) {
   const { filegenome, email } = getFileAndEmail();
 
- 	var data = new FormData();
- 	data.append('file', filegenome);
- 	data.append('email', email);
-  data.append('annotation_type', annotation_type)
-  
-  console.log(filegenome);
-  console.log(email);
-  console.log(annotation_type);
+        var data = new FormData();
+        data.append('file', filegenome);
+        data.append('email', email);
+        data.append('annotation_type', annotation_type);
+        data.append('thread', threadsValue);
 
-	fetch('/annotation-process', {
-		method: 'POST',
-		body: data
-	}).then(response => {
-		console.log("Resposta do Flask recebida");
-	}).catch(error => {
-		console.error(error);
-	});
+  //console.log(filegenome);
+  //console.log(email);
+  //console.log(annotation_type);
+  console.log(threadsValue);
+
+        fetch('/annotation-process', {
+                method: 'POST',
+                body: data
+        }).then(response => {
+                console.log("Resposta do Flask recebida");
+        }).catch(error => {
+                console.error(error);
+        });
 
   console.log('Dados enviado');
 
   const inputfile = document.getElementById('inputdata');
-	const fileName = document.getElementById('fileNameInput');
-	inputfile.value = '';
-	fileName.value = '';
-	emailInput.value = '';
+        const fileName = document.getElementById('fileNameInput');
+        inputfile.value = '';
+        fileName.value = '';
+        emailInput.value = '';
 }
+
 
 const uploaddate = document.getElementById('uploaddata');
 const sineCheck = document.getElementById('sine');
@@ -49,9 +52,11 @@ uploaddate.addEventListener('click', function () {
   const isSineChecked = sineCheck.checked;
   const isLineChecked = lineCheck.checked;
   const isCompleteChecked = completeCheck.checked;
+  const threadsInput = document.getElementById('threads');
 
   // Lógica para determinar quais funções chamar com base nas condições
   var annotation_type;
+  var threadsValue;
 
   if (isSineChecked && !isLineChecked && !isCompleteChecked) {
     annotation_type = 1;
@@ -65,14 +70,27 @@ uploaddate.addEventListener('click', function () {
     console.error('Condição inválida');
   }
 
-  execute_annotation(annotation_type);
+  // Adicionar evento ao campo de input de threads para garantir que o valor seja no mínimo 4
+  threadsInput.addEventListener('input', function() {
+    if (threadsInput.value < 4) {
+      threadsValue = 4;
+    }
+    threadsValue = threadsInput.value;
+
+    execute_annotation(annotation_type, threadsValue);
+  });
+
+        // Dispara um evento input artificial para garantir que execute_annotation seja chamada imediatamente
+  const event = new Event('input');
+  threadsInput.dispatchEvent(event);
 
   sineCheck.checked = true;
   lineCheck.checked = false;
   completeCheck.checked = false;
   uploaddate.setAttribute("disabled", "disabled");
- 
+
 });
+
 
 // --------- Envio de formulário contendo email ----------
 function submitForm() {
@@ -116,4 +134,3 @@ function clearForm() {
   document.getElementById("help-title").value = "";
   document.getElementById("help-subject").value = "";
 }
-

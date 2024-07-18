@@ -12,6 +12,9 @@ __pycache__
 /www/results
 /www/Front-end
 
+/bash-interface/results
+/graphic-interface/results
+
 /SINE
 /non-LTR
 /ProcessRepeats
