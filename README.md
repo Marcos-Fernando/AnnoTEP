@@ -473,12 +473,15 @@ mv At.fasta.mod.tbl TEs-Report-Lite.txt
 
 The results obtained are: ``TEs-Report-Completo.txt`` and ``TEs-Report-Lite.txt``.
 - ``TEs-Report-Complete.txt`` presents a table containing the classifications of the transposable elements, the partial elements named with the suffix “-like” (e.g. Angela-like);
-
-<img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
+<div align="center">
+    <img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
+</div>
 
 - ``TEs-Report-Lite.txt`` generates a report similar to Report-Complete, but simpler.
 
-<img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px" />
+<div align="center">
+    <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
+</div>
 
 Continuing in the TE-REPORT folder, we will generate the graphs, using ``TEs-Report-Lite.txt`` as a base.
 
@@ -565,12 +568,12 @@ pdf2svg TE-Report2-bubble.pdf TE-Report2-bubble.svg
 ```
 
 The data obtained will be:
-
-<img src="graphic-interface/static/screenshot/TE-Report1.svg" alt="TE-Report1" border="0" width="650px" />
-<img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="650px" />
-<img src="graphic-interface/static/screenshot/TE-Report2.svg" alt="TE-Report2" border="0" width="650px" />
-<img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="650px" />
-
+<div align="center">
+    <img src="graphic-interface/static/screenshot/TE-Report1.svg" alt="TE-Report1" border="0" width="650px" />
+    <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="650px" />
+    <img src="graphic-interface/static/screenshot/TE-Report2.svg" alt="TE-Report2" border="0" width="650px" />
+    <img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="650px" />
+</div>
 
 
 ## Repeated landscape graphs
@@ -613,8 +616,9 @@ rm tmp.txt
 ```
 
 The graphics obtained will be: ``RepeatLandScape.pdf`` and ``RLandScape.svg``.
-
-<img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="750px" />
+<div align="center">
+    <img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
+</div>
 
 ### LTR age plot (Gypsy and Copia)
 To plot the ages of the LTR Gypsy and LTR Copia elements, we will use a ggplot2 Rscript.
@@ -639,8 +643,10 @@ pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
 ```
 The final files are: ``AGE-Copia.pdf``, ``AGE-Gypsys.pdf``, ``AGE-Copia.svg`` and ``AGE-Gypsy.svg``.
 
-<img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="750px">
-<img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="750px">
+<div align="center">
+    <img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
+    <img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
+</div>
 
 ### Plotting LTR elements Phylogeny and Density
 Plotting the phylogeny of the alignments of all the LTR-RT domains.
@@ -707,15 +713,16 @@ pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
 ```
 The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_RT-Tree3.pdf``, ``LTR_RT-Tree4.pdf``, ``LTR_RT-Tree1.svg``, ``LTR_RT-Tree2.svg``, ``LTR_RT-Tree3.svg`` and ``LTR_RT-Tree2.svg``.
 
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="850px">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="850px">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="850px">
-<img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0" width="850px">
+<div align="center">
+    <img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="750px">
+    <img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="750px">
+    <img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="750px">
+    <img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0" width="750px">
+</div>
 
 - The outer circle (purple) represents the length (in bp) occupied by each element, while the inner circle (red) represents the number of occurrences of each element.
 
 <br>
-
 
 # Running the platform with a graphical interface via github
 **Step 1.** Access the ``graphic-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
