@@ -151,7 +151,7 @@ def complete_annotation(new_filename, resultsAddress, threads):
     pdf2svg RepeatLandScape.pdf RLandScape.svg
 
     rm align2.txt
-    rm tmp.txt
+    rm tmp.txtcd 
 
     # ========= Plotting ==============
     cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{{print $1}}' > count.txt
