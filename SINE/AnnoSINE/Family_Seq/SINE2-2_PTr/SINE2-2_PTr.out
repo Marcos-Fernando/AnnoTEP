@@ -4,7 +4,7 @@
 # Freely distributed under the BSD open source license.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query file:                      ../Family_Seq/SINE2-2_PTr/SINE2-2_PTr.hmm
-# target sequence database:        /home/marcoscosta/TEs/AtChr4.fasta
+# target sequence database:        /home/marcoscosta/TEs/graphic-interface/results/A.thaliana_Chr4_20240718-115812/A.thaliana_Chr4.fasta
 # output directed to file:         ../Family_Seq/SINE2-2_PTr/SINE2-2_PTr.out
 # number of worker threads:        12
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -169,7 +169,7 @@ Residues passing bias filter:        3530320  (0.095); expected (0.02)
 Residues passing Vit filter:          301941  (0.00812); expected (0.003)
 Residues passing Fwd filter:           26670  (0.000718); expected (3e-05)
 Total number of hits:                      7  (2.16e-05)
-# CPU time: 2.16u 0.02s 00:00:02.18 Elapsed: 00:00:00.20
-# Mc/sec: 38269.85
+# CPU time: 2.21u 0.01s 00:00:02.21 Elapsed: 00:00:00.20
+# Mc/sec: 38363.74
 //
 [ok]

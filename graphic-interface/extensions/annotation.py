@@ -97,7 +97,7 @@ def line_annotation(new_filename, resultsAddress):
     print("")
     
 
-def complete_annotation(new_filename, resultsAddress):
+def complete_annotation(new_filename, resultsAddress, threads):
     completeAnalysis_folder = os.path.join(resultsAddress, 'complete-analysis')
     os.makedirs(completeAnalysis_folder, exist_ok=True)
 
@@ -111,7 +111,7 @@ def complete_annotation(new_filename, resultsAddress):
     export PATH="$HOME/miniconda3/envs/EDTA/bin/gt:$PATH" &&
 
     cd {completeAnalysis_folder}
-    nohup {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+    {EDTA_FOLDER}/EDTA.pl --genome {os.path.join(resultsAddress, new_filename)} --species others --step all --line {resultsAddress}/LINE-lib.fa  --sine {resultsAddress}/Seed_SINE.fa --sensitive 1 --anno 1 --threads {threads}
     wait
 
     cd {completeAnalysis_folder}

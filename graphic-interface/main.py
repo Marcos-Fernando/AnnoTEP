@@ -26,6 +26,9 @@ def upload_file():
         if 'email' in request.form:
             email = request.form.get('email')
             send_email_checking(email)
+        
+        if 'thread' in request.form:
+            threads = int(request.form.get('thread'))
 
         #Verificando se a solicitação de postagem tem a parte do arquivo
         if 'file' not in request.files:
@@ -70,7 +73,7 @@ def upload_file():
                 elif annotation_type == 4:
                     sine_annotation(new_filename, resultsAddress)
                     line_annotation(new_filename, resultsAddress)
-                    complete_annotation(new_filename, resultsAddress)
+                    complete_annotation(new_filename, resultsAddress, threads)
                     send_email_complete_annotation(email, storageFolder)
 
     return render_template("index.html")
