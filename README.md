@@ -477,6 +477,15 @@ The results obtained are: ``TEs-Report-Completo.txt`` and ``TEs-Report-Lite.txt`
 
 Continuing in the TE-REPORT folder, we will generate the graphs, using ``TEs-Report-Lite.txt`` as a base.
 
+* TEs-Report-Complete.txt
+
+<img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="350px" />
+
+* TEs-Report-Lite.txt
+
+<img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="350px" />
+
+
 ```sh
 cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{print $1}' > count.txt
 cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{print $2}' > bp.txt
@@ -560,12 +569,6 @@ pdf2svg TE-Report2-bubble.pdf TE-Report2-bubble.svg
 ```
 
 The data obtained will be:
-* Tables: 
-
-<img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="450px" />
-<img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="450px" />
-
-* Graphics:
 
 <img src="graphic-interface/static/screenshot/TE-Report1.svg" alt="TE-Report1" border="0" width="650px" />
 <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="650px" />
