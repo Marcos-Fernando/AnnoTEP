@@ -4,7 +4,7 @@
 # Freely distributed under the BSD open source license.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query file:                      ../Family_Seq/BoSB7A/BoSB7A.hmm
-# target sequence database:        /home/marcos/TEs/graphic-interface/results/A.thaliana_Chr4_20240717-221230/A.thaliana_Chr4.fasta
+# target sequence database:        /home/marcos/TEs/graphic-interface/results/A.thaliana_Chr4_20240717-232148/A.thaliana_Chr4.fasta
 # output directed to file:         ../Family_Seq/BoSB7A/BoSB7A.out
 # number of worker threads:        12
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -388,7 +388,7 @@ Residues passing bias filter:        2494517  (0.0671); expected (0.02)
 Residues passing Vit filter:           76125  (0.00205); expected (0.003)
 Residues passing Fwd filter:           10090  (0.000271); expected (3e-05)
 Total number of hits:                     15  (7.66e-05)
-# CPU time: 3.60u 0.01s 00:00:03.61 Elapsed: 00:00:00.38
-# Mc/sec: 34155.22
+# CPU time: 4.11u 0.04s 00:00:04.15 Elapsed: 00:00:00.38
+# Mc/sec: 33795.97
 //
 [ok]

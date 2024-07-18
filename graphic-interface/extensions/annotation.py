@@ -123,7 +123,7 @@ def complete_annotation(new_filename, resultsAddress):
     mv {new_filename}.mod.tbl TEs-Report-Complete.txt
 
     perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a {new_filename}.mod.cat.gz
-    mv {new_filename}.mod.tbl TEs-Report-lite.txt
+    mv {new_filename}.mod.tbl TEs-Report-Lite.txt
 
     #Plot
     cat {new_filename}.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#LINE/.\+ #LINE &#g' > tmp.txt
