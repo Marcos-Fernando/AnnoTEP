@@ -473,18 +473,14 @@ mv At.fasta.mod.tbl TEs-Report-Lite.txt
 
 The results obtained are: ``TEs-Report-Completo.txt`` and ``TEs-Report-Lite.txt``.
 - ``TEs-Report-Complete.txt`` presents a table containing the classifications of the transposable elements, the partial elements named with the suffix “-like” (e.g. Angela-like);
+
+<img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
+
 - ``TEs-Report-Lite.txt`` generates a report similar to Report-Complete, but simpler.
 
+<img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px" />
+
 Continuing in the TE-REPORT folder, we will generate the graphs, using ``TEs-Report-Lite.txt`` as a base.
-
-* TEs-Report-Complete.txt
-
-<img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="350px" />
-
-* TEs-Report-Lite.txt
-
-<img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="350px" />
-
 
 ```sh
 cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{print $1}' > count.txt
