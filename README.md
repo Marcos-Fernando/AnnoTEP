@@ -759,20 +759,9 @@ If all the settings are correct, you will see a message similar to this one:
 
 # Running the platform with bash interface via github
 - This mode is entirely command-line based, so there's no need to create a development environment. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
+- Go to the ``bash-interface`` folder
 
-**Step 1.** Access the ``bash-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal.
-```sh
-python -m venv .venv
-
-. .venv/bin/activate
-```
-
-**Step 2:** Install the packages needed for the application by running the following command (this only needs to be done once):
-```sh
-pip install -r ../required.txt 
-```
-
-**Step 3.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
+**Step 1.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
 ```sh
 python run_annotep.py -h
 ```
@@ -798,7 +787,7 @@ required arguments:
 
 ```
 
-**Step 4:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
+**Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
 ```sh
 python run_annotep.py --file $HOME/TEs/At.fasta --type 2
 ```
