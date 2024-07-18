@@ -73,7 +73,7 @@ LIBS           =
 COMPRESS = gzip
 AR       = /usr/bin/ar
 RANLIB   = ranlib
-INSTALL  = /usr/bin/install -c
+INSTALL  = /home/marcoscosta/miniconda3/envs/EDTA/bin/install -c
 
 
 

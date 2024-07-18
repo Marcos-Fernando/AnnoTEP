@@ -439,7 +439,7 @@ gives unlimited permission to copy, distribute and modify it."
 
 ac_pwd='/home/marcoscosta/TEs/non-LTR/hmmer-3.2'
 srcdir='.'
-INSTALL='/usr/bin/install -c'
+INSTALL='/home/marcoscosta/miniconda3/envs/EDTA/bin/install -c'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
 ac_need_defaults=:

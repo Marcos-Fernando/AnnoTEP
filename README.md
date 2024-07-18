@@ -290,7 +290,7 @@ We are now ready to annotate the SINE elements of your genome project file.
 **Step 3.** In this example we will run the preloaded _A. thaliana_ genome or its data
 ```sh
 python3 AnnoSINE.py 3 $HOME/TEs/At.fasta At
-cp ./Output_Files/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
+cp ./At/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
 ```
 
 - Deactivate the environment

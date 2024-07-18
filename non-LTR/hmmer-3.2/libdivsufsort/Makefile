@@ -18,7 +18,7 @@ CPPFLAGS  =
 MPILIBS   = 
 AR        = /usr/bin/ar rc
 RANLIB    = ranlib
-INSTALL   = /usr/bin/install -c
+INSTALL   = /home/marcoscosta/miniconda3/envs/EDTA/bin/install -c
 
 #CC					= gcc 
 #CFLAGS  	 		= -g -O3 -fomit-frame-pointer -fstrict-aliasing 

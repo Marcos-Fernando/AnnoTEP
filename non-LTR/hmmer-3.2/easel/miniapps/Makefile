@@ -29,7 +29,7 @@ mandir      = ${datarootdir}/man
 man1dir     = ${mandir}/man1
 man1ext     = .1
 
-INSTALL     = /usr/bin/install -c
+INSTALL     = /home/marcoscosta/miniconda3/envs/EDTA/bin/install -c
 
 ## your compiler and compiler flags.
 #

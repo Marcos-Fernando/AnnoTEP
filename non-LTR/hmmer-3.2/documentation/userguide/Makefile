@@ -22,7 +22,7 @@ HMMER_VERSION   =  3.2
 HMMER_DATE      = "June 2018"
 HMMER_COPYRIGHT = "Copyright (C) 2018 Howard Hughes Medical Institute."
 
-INSTALL       = /usr/bin/install -c
+INSTALL       = /home/marcoscosta/miniconda3/envs/EDTA/bin/install -c
 RMAN          = rman
 RMANPROCESS   = ${top_srcdir}/easel/devkit/rmanprocess.py
 
