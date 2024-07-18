@@ -299,12 +299,18 @@ def complete_annotation(new_filename, resultsAddress):
     
     ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree.R
     ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree-density.R
+    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree_rec_1.R
+    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree_rec_2.R
 
     Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
     Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
+    Rscript LTR_tree_rec_1.R all.fas.contree TE.cls.tsv LTR_RT-Tree3.pdf
+    Rscript LTR_tree_rec_2.R all.fas.contree TE.cls.tsv LTR_RT-Tree4.pdf
 
     pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
     pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
+    pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
+    pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
     """
 
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
