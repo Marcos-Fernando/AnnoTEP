@@ -82,7 +82,7 @@ Inside the directory you will find the following files:
 
 - **Complete-analysis folder -** obtained through the complete annotation, in this folder, in addition to the graphs, trees and tables generated, it brings elements masked by means of $genome-Softmasked.fa and the new structural annotations SINEs and LINEs, available in the folder $genome.EDTA.raw. ($genome = name of the genome worked on). Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3, plus a final analysis of LINEs elements available in $genome.TElib.fa.lask 
 
-[About the type of annotation](#type-annotation)
+ [About the type of annotation](#type-annotation)
 
 **Important2**: Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
 
@@ -811,3 +811,5 @@ The annotation system allows you to make four different types of annotations:
 - **Selecting SINE and LINE Annotation (Together):** This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.
 
 - **Selecting Complete Annotation:** This option performs an exhaustive analysis of the elements belonging to class I and II, which are: SINEs, LINEs, TIRs, TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy SuperFamily and Copia SuperFamily.
+
+Return to [Table of contents](#table-of-contents)
