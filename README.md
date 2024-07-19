@@ -120,7 +120,7 @@ Required arguments:
 
 ```
 
-**Step 3.** To simplify this step, we recommend creating a folder where you can insert your genomic data in FASTA format. After creating the folder, run the container using the command below. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the folder containing the genomes:
+**Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
 docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
