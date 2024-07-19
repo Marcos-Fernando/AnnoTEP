@@ -170,9 +170,11 @@ def complete_annotation(new_filename, resultsAddress, threads):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "Unclassified"  >> plot.txt
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
+    
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
 	mv TE-Report.pdf TE-Report1.pdf
     pdf2svg TE-Report1.pdf TE-Report1.svg
+
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report1-bubble.pdf
     pdf2svg TE-Report1-bubble.pdf TE-Report1-bubble.svg

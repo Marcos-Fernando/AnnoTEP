@@ -100,7 +100,6 @@ def annotation_elementSINE(file, resultsAddress):
 def annotation_elementLINE(new_file, file, resultsAddress):
     line_folder = os.path.join(resultsAddress, 'LINE')
     os.makedirs(line_folder, exist_ok=True)
-    output_folder = os.path.join(resultsAddress, 'LINE-results')
 
     print("LINE annotation started...")
 
@@ -115,10 +114,10 @@ def annotation_elementLINE(new_file, file, resultsAddress):
     cd ../..
 
     ulimit -n 8192
-    mgescan nonltr {line_folder} --output={output_folder} --mpi=4
+    mgescan nonltr {line_folder} --output={line_folder} --mpi=4
     wait
 
-    cd {output_folder}
+    cd {line_folder}
     cat info/full/*/*.dna > temp.fa
     cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
     bash ver.sh  | sed 's#\t#:#' | sed 's#\t#\.\.#'   > list.txt
@@ -201,7 +200,7 @@ def complete_Analysis(new_file, file, resultsAddress, adjusted_threads):
     perl {UPLOAD_FOLDER}/ProcessRepeats/calcDivergenceFromAlign.pl -s At.divsum align2.txt
 
     genome_size="`perl {UPLOAD_FOLDER}/EDTA/util/count_base.pl ../{new_file}.fasta.mod | cut -f 2`"
-    perl {UPLOAD_FOLDER}/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > ../RepeatLandscape.html
+    perl {UPLOAD_FOLDER}/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > RepeatLandscape.html
 
     tail -n 72 At.divsum > divsum.txt
 
