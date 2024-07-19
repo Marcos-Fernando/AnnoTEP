@@ -230,10 +230,14 @@ def complete_Analysis(new_file, file, resultsAddress, adjusted_threads):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "Unclassified"  >> plot.txt
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
+    
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
 	mv TE-Report.pdf TE-Report1.pdf
+    pdf2svg TE-Report1.pdf TE-Report1.svg
+
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report1-bubble.pdf
+    pdf2svg TE-Report1-bubble.pdf TE-Report1-bubble.svg
 
     paste names.txt count.txt bp.txt percentage.txt | grep -w SINEs > plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w LINEs >> plot.txt
@@ -286,8 +290,11 @@ def complete_Analysis(new_file, file, resultsAddress, adjusted_threads):
 	cat header.txt plot.txt > plot1.txt
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
 	mv TE-Report.pdf TE-Report2.pdf
+    pdf2svg TE-Report2.pdf TE-Report2.svg
+
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report2-bubble.pdf
+    pdf2svg TE-Report2-bubble.pdf TE-Report2-bubble.svg
 
     wait
     cd {completeAnalysis_folder}
