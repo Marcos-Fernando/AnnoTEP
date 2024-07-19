@@ -120,6 +120,8 @@ Required arguments:
 
 ```
 
+[About the type of annotation](#type-annotation)
+
 **Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
@@ -808,4 +810,4 @@ The annotation system allows you to make four different types of annotations:
 
 - **Selecting SINE and LINE Annotation (Together):** This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.
 
-- **Selecting Complete Annotation:** This option performs a comprehensive analysis of the SINEs and LINEs elements, including an in-depth analysis using libraries of both elements. In addition to the conventional outputs, such as tables of TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy Family and Copia Family elements, age graphs are generated for the Gypsy and Copia families, as well as a phylogenetic tree.
+- **Selecting Complete Annotation:** This option performs an exhaustive analysis of the elements belonging to class I and II, which are: SINEs, LINEs, TIRs, TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy SuperFamily and Copia SuperFamily.
