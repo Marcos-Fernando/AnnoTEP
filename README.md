@@ -71,7 +71,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 4.** When you access 127.0.0.1:5000 you will see a version of the AnnoTEP platform similar to the WEB version. 
 
-* If you want to run tests, you can download the file `AtChr4.fasta` from the repository.
+* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository.
 
 * The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
@@ -139,7 +139,7 @@ docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genome
 - ``--type {type-annotation}``: Type of annotation shown in step 2
 - ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
-* If you want to run tests, you can download the file `AtChr4.fasta` from the repository.
+* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository.
 
 #### Example 1:
 ```sh
