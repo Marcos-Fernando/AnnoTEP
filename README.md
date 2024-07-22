@@ -29,6 +29,7 @@ AnnoTEP is currently available in three formats: web server, container with grap
 * [Installation with Container](#installation-with-container)
     * [Graphic Interface](#graphic-interface)
     * [Bash Interface](#bash-interface)
+    * [Results Container](#results-container)
 * [Installation with Github](#installation-with-github)
     * [Organizing the environment](#organizing-the-environment)
     * [Results](#results)
@@ -74,15 +75,9 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
 
-Inside the directory you will find the following files:
-
-- **SINE folder -** contains the data generated from the SINE annotation or full annotation.
-
-- **LINE-results folder -** contains the data generated through LINE annotation or complete annotation. 
-
-- **Complete-analysis folder -** obtained through the complete annotation, in this folder, in addition to the graphs, trees and tables generated, it brings elements masked by means of $genome-Softmasked.fa and the new structural annotations SINEs and LINEs, available in the folder $genome.EDTA.raw. ($genome = name of the genome worked on). Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3, plus a final analysis of LINEs elements available in $genome.TElib.fa.lask 
-
  [About the type of annotation](#type-annotation)
+
+ [Results Container](#results-container)
 
 **Important2**: Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
 
@@ -150,6 +145,40 @@ docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
 <br>
+
+## Results Container
+Each annotation parameter triggers different results:
+
+ **1. SINE annotation:** Generates a folder named “SINE”, containing files in .fa format and alignment images.
+
+ **2. LINE Annotation:** Creates a folder named “LINE”, containing files in .fa and .gff3 formats.
+
+ **3. Complete Annotation:** Covers the generation of data for SINEs, LINEs, TIRs, Helitrons, among others. When performing this annotation, a folder called “complete-analysis” is created, containing several subfolders and files in .fa and .gff3 formats. Some of the subfolders include:
+    
+   *  **{genome}.fasta.mod.EDTA.raw:** Contains refined files from the SINE and LINE annotations, as well as the LTR, TIR and Helitrons annotations.
+   *  **TE-REPORT:** Provides a general summary of the elements present in the genome and presents quantitative data on them, example:
+        * Analysis: ``TEs-Report-Completo.txt`` and ``TEs-Report-Lite.txt``.
+<div align="center">
+    <img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="350px"/>
+    <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="350px"/>
+</div>
+        * Bubble chart and Column chart
+<div align="center">
+    <img src="graphic-interface/static/screenshot/TE-Report1.svg" alt="TE-Report1" border="0" width="450px" />
+    <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="450px" />
+    <img src="graphic-interface/static/screenshot/TE-Report2.svg" alt="TE-Report2" border="0" width="450px" />
+    <img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="450px" />
+</div>
+        * Repeated landscape graphs 
+<div align="center">
+    <img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="450px" />
+</div>
+
+   *  **LTR-AGE:** Analyzes the ages of the Gypsy and Copia superfamilies, example:
+   *  **TREE:** Displays the phylogenetic trees of the LTR elements, example:
+
+
+
 
 # Installation with Github
  * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
