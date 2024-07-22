@@ -73,11 +73,9 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 * If you want to run tests, you can download the file `AtChr4.fasta` from the repository.
 
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
-
-<br>
-
-**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -119,7 +117,7 @@ Required arguments:
 
 <br>
 
-**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -780,7 +778,7 @@ If all the settings are correct, you will see a message similar to this one:
 **Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
 <br>
 
-**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -827,6 +825,6 @@ python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
 
 <br>
 
-**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 Return to [Table of contents](#table-of-contents)
