@@ -75,7 +75,11 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
 
-The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+<br>
+
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+
+<br>
 
 **Important2**: Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
 
@@ -113,7 +117,11 @@ Required arguments:
 
 ```
 
-[About the type of annotation](#type-annotation)
+<br>
+
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+
+<br>
 
 **Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
@@ -772,7 +780,7 @@ If all the settings are correct, you will see a message similar to this one:
 **Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
 <br>
 
-The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -819,6 +827,6 @@ python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
 
 <br>
 
-The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 Return to [Table of contents](#table-of-contents)
