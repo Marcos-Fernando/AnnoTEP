@@ -77,7 +77,10 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
 
-<br>
+Step 6: You can follow the progress of the annotation via the Docker logs.
+   * In the terminal, type ``docker ps``.
+   * A list of active containers will appear. Select the ``CONTAINER ID`` of the AnnoTEP image.
+   * With the ID copied, type and paste: ``docker logs {CONTAINER ID}``.
 
 **Important2**: Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
 
