@@ -86,6 +86,8 @@ Step 6: You can follow the progress of the annotation via the Docker logs.
 
 **Important3**: Bear in mind that the speed of the annotation will depend on the performance of your local machine.
 
+Return to [Table of contents](#table-of-contents)
+
 ## Bash Interface
 **Step 1.** Download the AnnoTEP image:
 ```sh
@@ -151,6 +153,8 @@ docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs
 ```
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
+
+Return to [Table of contents](#table-of-contents)
 <br>
 
 ## Results Container
@@ -168,6 +172,8 @@ Each annotation parameter triggers different results:
    *  **TREE:** Displays the phylogenetic trees of the LTR elements.
 
    The [Results](#results) section presents the additional data obtained from the complete annotation.
+
+Return to [Table of contents](#table-of-contents)
 
 # Installation with Github
  * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
@@ -473,6 +479,8 @@ Generally, non-autonomous elements can carry passenger genes (for example, non-a
 
 ---
 <br>
+
+Return to [Table of contents](#table-of-contents)
 
 # Results
 ## Generating reports
