@@ -163,7 +163,7 @@ Each annotation parameter triggers different results:
     <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="350px"/>
 </div>
         * Bubble chart and Column chart
-<div align="center">
+<div>
     <img src="graphic-interface/static/screenshot/TE-Report1.svg" alt="TE-Report1" border="0" width="450px" />
     <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="450px" />
     <img src="graphic-interface/static/screenshot/TE-Report2.svg" alt="TE-Report2" border="0" width="450px" />
