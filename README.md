@@ -77,7 +77,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 <br>
 
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -119,7 +119,7 @@ Required arguments:
 
 <br>
 
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -780,7 +780,7 @@ If all the settings are correct, you will see a message similar to this one:
 **Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
 <br>
 
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
@@ -827,6 +827,6 @@ python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
 
 <br>
 
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+**Tip 1:** The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 Return to [Table of contents](#table-of-contents)
