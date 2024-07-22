@@ -42,6 +42,10 @@ AnnoTEP can be installed on the machine in different ways, one of which is using
 
 
 ## Graphic Interface
+<div align="center"> 
+    <img src="graphic-interface/static/assets/Graphic-interface-logo.svg" alt="Logo3" width="350px">
+</div><br>
+
 **Important**: for this version your machine must have access to the internet network
 
 Open the terminal and run the following commands:
@@ -89,6 +93,10 @@ Step 6: You can follow the progress of the annotation via the Docker logs.
 Return to [Table of contents](#table-of-contents)
 
 ## Bash Interface
+<div align="center"> 
+    <img src="graphic-interface/static/assets/Bash-interface-logo.svg" alt="Logo4" width="350px">
+</div><br>
+
 **Step 1.** Download the AnnoTEP image:
 ```sh
 docker pull annotep/bash-interface:v1
