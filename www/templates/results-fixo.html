@@ -128,6 +128,7 @@
 						<tr></tr>
 					</table>
 				</div>
+				
 				<div class="container-downloaddata" style="--delay: 3s">
 					<button type="button" id="" class="downloaddata">
 						<img class="box-icon" src="../static/assets/box.svg"/> 
@@ -140,30 +141,6 @@
 						Download Table Simplified
 					</button>
 				</div>
-
-			<!--<table class="table-top">
-					<tr>
-						<td colspan="4" class="main-td title-td">Simplified</td>
-					</tr>
-					<tr class="main-tr">
-						<th>Elements</th>
-						<th>Number of Elements</th>
-						<th>Length Occupied (bp)</th>
-						<th>% Sequence</th>
-					</tr>
-				</table>
-
-				<div class="table-footer">
-					<table id="TEs-Report-lite">
-						<tr></tr>
-					</table>
-				</div>
-				<div class="container-downloaddata" style="--delay: 3s">
-					<button type="button" id="" class="downloaddata">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Table Simplified
-					</button>
-				</div> -->
 			</section>
 		</section>
 
@@ -209,12 +186,20 @@
 			</div>
 
 			<section class="container-ltrfamily">
-				<figure class="wrapper-ltr-copia" style="--delay: 4.5s">
-					<img class="ltr-copia" src="../static/screenshot/AGE-Copia.svg"/>
-				</figure>
-				<figure class="wrapper-ltr-gypsy" style="--delay: 4.7s">
-					<img class="ltr-gypsy" src="../static/screenshot/AGE-Gypsy.svg"/>
-				</figure>
+				<div class="slider">
+					<div class="slides">
+						<figure class="slide first">
+							<img class="ltr-copia" src="../static/screenshot/AGE-Copia.svg"/>
+						</figure>
+						<figure class="slide">
+							<img class="ltr-gypsy" src="../static/screenshot/AGE-Gypsy.svg"/>
+						</figure>
+					</div>
+					<button id="prev-slide" class="prev-slide">❮</button>
+        			<button id="next-slide" class="next-slide">❯</button>
+				</div>
+		
+				
 
 				<div class="container-downloaddata container-family" style="--delay: 5s">
 					<a href="" class="downloaddata" download="TES-family-copia">

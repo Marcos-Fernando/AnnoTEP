@@ -517,7 +517,6 @@ article span{
 	padding-left: 1rem;
 	border: 0.0625rem solid var(--grey-03);
 	
-	background: var(--white);
 	color: var(--grey-02);
 }
 
@@ -566,7 +565,6 @@ article span{
 	padding-left: 1rem;
 	border-radius: 0.3125rem 0px 0px 0.3125rem;
 	border: 0.0625rem solid var(--grey-03);
-	background: var(--white);
 }
 
 #fileNameInput{

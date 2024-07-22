@@ -4,7 +4,7 @@ import os
 from app import create_app
 from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, send_from_directory
 from celery_tasks import get_number_of_workers, process_annotation
 from extensions.sendemail import send_email_complete_annotation, send_email_error_extension, submit_form
 from database.database import generate_unique_name, config_user, binary_SINEs_files, binary_LINEs_files, binary_image_files, analysis_results

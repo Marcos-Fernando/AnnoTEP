@@ -416,7 +416,11 @@ table, td, tr, th{
 td, th{
 	width: 20rem;
 	height: 3rem;
-	text-align: center;
+	text-align: justify;
+}
+
+.indent-symbol {
+    color: white; /* Aplica a cor branca aos símbolos */
 }
 
 .main-tr{
@@ -448,11 +452,55 @@ td, th{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	gap: 1rem;
 }
 
-.ltr-copia, .ltr-gypsy{
-	width: 51.75rem;
+.slider {
+    position: relative;
+    width: 62rem;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.slide img {
+    width: 100%;
+	padding: 0 2rem 0 2rem;
+}
+
+.prev-slide, .next-slide {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--green-01);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    z-index: 100;
+	font-size: 2rem;
+}
+
+.prev-slide {
+    left: 0.5rem;
+}
+
+.next-slide {
+    right: 0.5rem;
+}
+
+.slides button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .container-phylogeny{

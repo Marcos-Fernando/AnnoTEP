@@ -1,12 +1,15 @@
 // ==== Código para alternar os guias da página ====
-document.getElementById('Home').addEventListener('click', () => {
-    document.querySelector('.main').style.display = 'inline-block';
-  
-    document.querySelector('.Download').style.display = 'none';
-    document.querySelector('.Help').style.display = 'none';
-    document.querySelector('.About').style.display = 'none';
-    document.querySelector('.Contact').style.display = 'none';
+document.querySelectorAll('.home').forEach(element => {
+  element.addEventListener('click', () => {
+      document.querySelector('.main').style.display = 'inline-block';
+
+      document.querySelector('.Download').style.display = 'none';
+      document.querySelector('.Help').style.display = 'none';
+      document.querySelector('.About').style.display = 'none';
+      document.querySelector('.Contact').style.display = 'none';
   });
+});
+
   
   document.getElementById('Download').addEventListener('click', () => {
     document.querySelector('.Download').style.display = 'flex';
@@ -43,5 +46,3 @@ document.getElementById('Home').addEventListener('click', () => {
     document.querySelector('.Help').style.display = 'none';
     document.querySelector('.About').style.display = 'none';
   });
-  
-  // ==== Função para esconder a sidebar quando houver click fora do elemento ====

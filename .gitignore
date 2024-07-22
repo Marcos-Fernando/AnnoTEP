@@ -6,7 +6,6 @@ At.fasta
 Tcacao.fasta
 __pycache__
 
-/www
 /www/.www
 /www/.flaskenv
 /www/__pycache__
