@@ -22,7 +22,7 @@ AnnoTEP is currently available in three formats: web server, container with grap
 * Report generation on TEs
 * Generation of graphs illustrating repeated elements
 * Generation of age graphs for Gypsy and Copia elements
-* Generation of phylogeny and TE density graphs
+* Generation of LTR phylogeny and density graphs
 <br>
 
 # Table of contents
