@@ -75,9 +75,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
 
- [About the type of annotation](#type-annotation)
-
- [Results Container](#results-container)
+The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 **Important2**: Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
 
@@ -156,29 +154,11 @@ Each annotation parameter triggers different results:
  **3. Complete Annotation:** Covers the generation of data for SINEs, LINEs, TIRs, Helitrons, among others. When performing this annotation, a folder called “complete-analysis” is created, containing several subfolders and files in .fa and .gff3 formats. Some of the subfolders include:
     
    *  **{genome}.fasta.mod.EDTA.raw:** Contains refined files from the SINE and LINE annotations, as well as the LTR, TIR and Helitrons annotations.
-   *  **TE-REPORT:** Provides a general summary of the elements present in the genome and presents quantitative data on them, example:
-        * Analysis: ``TEs-Report-Completo.txt`` and ``TEs-Report-Lite.txt``.
-<div align="center">
-    <img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="350px"/>
-    <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="350px"/>
-</div>
-        * Bubble chart and Column chart
-<div>
-    <img src="graphic-interface/static/screenshot/TE-Report1.svg" alt="TE-Report1" border="0" width="450px" />
-    <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="450px" />
-    <img src="graphic-interface/static/screenshot/TE-Report2.svg" alt="TE-Report2" border="0" width="450px" />
-    <img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="450px" />
-</div>
-        * Repeated landscape graphs 
-<div align="center">
-    <img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="450px" />
-</div>
+   *  **TE-REPORT:** Provides a general summary of the elements present in the genome and presents quantitative data on them.
+   *  **LTR-AGE:** Analyzes the ages of the Gypsy and Copia superfamilies.
+   *  **TREE:** Displays the phylogenetic trees of the LTR elements.
 
-   *  **LTR-AGE:** Analyzes the ages of the Gypsy and Copia superfamilies, example:
-   *  **TREE:** Displays the phylogenetic trees of the LTR elements, example:
-
-
-
+   The [Results](#results) section presents the additional data obtained from the complete annotation.
 
 # Installation with Github
  * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
@@ -755,6 +735,10 @@ The files generated will be: ``LTR_RT-Tree1.pdf``, ``LTR_RT-Tree2.pdf``, ``LTR_R
 
 <br>
 
+Return to [Table of contents](#table-of-contents)
+
+<br>
+
 # Running the platform with a graphical interface via github
 **Step 1.** Access the ``graphic-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 ```sh
@@ -786,6 +770,10 @@ If all the settings are correct, you will see a message similar to this one:
 ```
 
 **Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
+<br>
+
+The type of annotation and the results obtained are explained in section [Results Container](#results-container)
+
 <br>
 
 # Running the platform with bash interface via github
@@ -831,14 +819,6 @@ python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
 
 <br>
 
-# Type Annotation
-The annotation system allows you to make four different types of annotations:
-- **Selecting SINE Annotation:** This option exclusively analyzes the SINE elements present in the plant genome, generating libraries containing specific SINE sequences.
-
-- **Selecting LINE Annotation:** This option exclusively analyzes the LINE elements present in the plant genome, generating libraries containing specific LINE sequences.
-
-- **Selecting SINE and LINE Annotation (Together):** This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.
-
-- **Selecting Complete Annotation:** This option performs an exhaustive analysis of the elements belonging to class I and II, which are: SINEs, LINEs, TIRs, TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy SuperFamily and Copia SuperFamily.
+The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 Return to [Table of contents](#table-of-contents)
