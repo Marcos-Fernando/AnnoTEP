@@ -1,32 +1,32 @@
 //------------------  Placeholder ---------------//
 function clearPlaceholder(input) {
-	input.placeholder = '';
+  input.placeholder = '';
 }
 
 //O arquvio selecionado no input type="file" aparecerá em input type="text"
 function updateFileName() {
-	const fileInput = document.getElementById('inputdata');
-	const fileNameInput = document.getElementById('fileNameInput');
-  
-	if (fileInput.files.length > 0) {
-	  fileNameInput.value = fileInput.files[0].name;
-	} else {
-	  fileNameInput.value = '';
-	}
+  const fileInput = document.getElementById('inputdata');
+  const fileNameInput = document.getElementById('fileNameInput');
+
+  if (fileInput.files.length > 0) {
+    fileNameInput.value = fileInput.files[0].name;
+  } else {
+    fileNameInput.value = '';
+  }
 }
 
 // Função para verificar o formato de email válido
 function isValidEmail(email) {
-  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  return emailRegex.test(email);
+const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+return emailRegex.test(email);
 }
 
 // Função para validar ambos os campos
 function validateInputs() {
-  const isEmailValid = isValidEmail(emailInput.value);
-  const isFileSelected = fileInput.files.length > 0;
+const isEmailValid = isValidEmail(emailInput.value);
+const isFileSelected = fileInput.files.length > 0;
 
-  submitButton.disabled = !(isEmailValid && isFileSelected);
+submitButton.disabled = !(isEmailValid && isFileSelected);
 }
 
 const fileInput = document.getElementById('inputdata');
@@ -70,7 +70,6 @@ lineCheckbox.addEventListener('click', function() {
 var menuSide = document.querySelector('.aside');
 var mainleft = document.querySelector('.main');
 var menuItems = document.querySelectorAll('li');
-var logo = document.querySelector('.logoAnnotep');
 
 menuItems.forEach(function(item) {
   item.addEventListener('click', function() {
@@ -81,16 +80,6 @@ menuItems.forEach(function(item) {
     this.classList.add('open');
   });
 });
-
-logo.addEventListener('click', function() {
-  menuItems.forEach(function(item) {
-    item.classList.remove('open');
-  });
-
-  document.querySelector('li#Home').classList.add('open');
-});
-
-
 
 
 //------------------  Aside formato MOBILE ---------------//
@@ -116,12 +105,3 @@ function validateForm() {
     submitContact.disabled = true;
   }
 }
-
-
-
-
-
-
-
-
-

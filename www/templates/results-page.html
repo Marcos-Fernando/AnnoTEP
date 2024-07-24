@@ -27,7 +27,7 @@
 			<li class="li open" id="Non-LTR">
 				<a href="#Non-LTR-section">
 					<img class="home-icon" src="../static/assets/icon-dna-sl.svg">
-					<span class="txt-link">Non-LTR Data</span>	
+					<span class="txt-link">Annotated data</span>	
 				</a>
 			</li>
 			<li class="li" id="#Report">
@@ -76,42 +76,27 @@
 		
 		<section class="container-data" id="Non-LTR-section">
 			<div class="title-data">
-				<p>Non-LTR Data</p>
+				<p>Annotated data</p>
 				<div class="session-nonltr-icon">
-					<span class="open-tab-nonltr"> In this section, all the elements belonging to SINEs and LINEs are presented in a compact form. </span>
+					<span class="open-tab-nonltr"> This section contains .fa data and overlay images for SINE elements. The LINE annotation includes .fa and .gff3 data. The full annotation includes masked elements, .gff3, .fa, as well as SINE, LINE, TIR, Helitron and LTR data. </span>
 					<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 				</div>
 			</div>
 
 			<section class="container-compact">
-				<section class="box-compact">
-					<div class="nonLTRdownload" style="--delay: 1.2s">
-						{% if zip_sine_file %}
-						<a href="data:application/zip;base64,{{ zip_sine_file }}" class="non-ltr-data" download="TES-zip-sine">
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							SINE Data 
-						</a>
-						{% else %}
-						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data">
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							No SINE Data avaliable
-						</a>
-						{% endif %}
-					</div>
-					<div class="nonLTRdownload" style="--delay: 1.4s">
-						{% if zip_line_file %}
-							<a href="data:application/zip;base64,{{ zip_line_file }}" class="non-ltr-data" download="TES-zip-line"> 
-								<img class="box-icon" src="../static/assets/box.svg"/>
-								LINE Data 
-							</a>
-						{% else %}
-						<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data" download="TES-zip-line"> 
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							No LINE Data avaliable
-						</a>
-						{% endif %}
-					</div>
-				</section>
+				<div class="nonLTRdownload" style="--delay: 1.2s">
+					{% if zip_file %}
+					<a href="data:application/zip;base64,{{ zip_file }}" class="non-ltr-data" download="TEs-zip">
+						<img class="box-icon" src="../static/assets/download.svg"/>
+							Genomic data (.gff3 .fa)
+					</a>
+					{% else %}
+					<a style="pointer-events: none; opacity: 0.5;" class="non-ltr-data">
+						<img class="box-icon" src="../static/assets/download.svg"/>
+							No Data avaliable
+					</a>
+					{% endif %}
+				</div>
 			</section>
 		</section>
 
@@ -132,15 +117,19 @@
 					<tr>
 						<td colspan="4" class="main-td title-td">Report</td>
 					</tr>
-					<tr class="main-tr">
+					<!-- <tr class="main-tr">
 						<th>Elements</th>
 						<th>Number of Elements</th>
 						<th>Length Occupied (bp)</th>
 						<th>% Sequence</th>
-					</tr>
+					</tr> -->
 				</table>
+				
 				<div class="table-footer">
-					<table>
+					<pre class="report_complete">
+						{{ file_complete_table }}
+					</pre>
+					<!-- <table>
 						<tbody>
 							{% for document in list_documents %}
 							<tr class="table-row">
@@ -151,36 +140,84 @@
 							</tr>
 							{% endfor %}
 						</tbody>
-					</table>
+					</table> -->
 				</div>
 
-				<div class="container-downloaddata" style="--delay: 3s">
-					{% if filecsv %}
-					<a href="data:text/csv;base64,{{ filecsv }}" class="downloaddata" download="TEs-report-complete">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Table Complete
+				<div class="container-downloadreport" style="--delay: 3s">
+					{% if file_complete %}
+					<a href="data:text/plain;base64,{{ file_complete }}" class="downloadreport" download="TEs-report-complete.txt">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Complete Report
 					</a>
-					{% else %}
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-report"> 
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download not avaliable
+
+					<a href="data:text/plain;base64,{{ file_lite }}" class="downloadreport" download="TEs-report-lite">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Table Simplified
+					</a>
+				</div>	
+				
+				{% else %}
+				<div class="container-downloadreport">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-report-complete.txt"> 
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Download not available
 					</a>
 					{% endif %}
 				</div>
+			</section>
 
-				<div class="container-downloaddata" style="--delay: 3s">
-					{% if filecsv %}
-					<a href="data:text/csv;base64,{{ filecsv_lite }}" class="downloaddata" download="TEs-report-lite">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Table Simplified
+			<section class="container-report-chart">
+				{% if svg_Report1 %}
+				<div class="slider">
+					<div class="slides">
+						<figure class="wrapper-report-chart slide first" style="--delay: 3.6s">
+							<img class="report-img" src="data:image/svg+xml;base64,{{ svg_Report1 }}"/>
+						</figure>
+						<figure class="wrapper-report-chart slide" style="--delay: 3.6s">
+							<img class="report-img" src="data:image/svg+xml;base64,{{ svg_Report2 }}"/>
+						</figure>
+						<figure class="wrapper-report-chart slide" style="--delay: 3.6s">
+							<img class="report-img" src="data:image/svg+xml;base64,{{ svg_Report1_bubble }}"/>
+						</figure>
+						<figure class="wrapper-report-chart slide" style="--delay: 3.6s">
+							<img class="report-img" src="data:image/svg+xml;base64,{{ svg_Report2_bubble }}"/>
+						</figure>
+					</div>
+
+					<button id="prev-slide" class="prev-slide">❮</button>
+        			<button id="next-slide" class="next-slide">❯</button>
+				</div>
+
+				<div class="container-downloadreport" style="--delay: 3.9s">
+					<a href="data:image/svg+xml;base64,{{ svg_Report1 }}" class="downloadreport" download="Bar-Chart-1">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bar Chart 1
 					</a>
-					{% else %}
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-report"> 
-						<img class="box-icon" src="../static/assets/box.svg"/> 
+				
+					<a href="data:image/svg+xml;base64,{{ svg_Report2 }}" class="downloadreport" download="Bar-Chart-2">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bar Chart 2
+					</a>
+				
+					<a href="data:image/svg+xml;base64,{{ svg_Report1_bubble }}" class="downloadreport" download="Bubble-Chart-1">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bubble Chart 1
+					</a>
+				
+					<a href="data:image/svg+xml;base64,{{ svg_Report2_bubble }}" class="downloadreport" download="Bubble-Chart-2">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bubble Chart 2
+					</a>
+				</div>	
+				
+				{% else %}
+				<div class="container-downloadreport">
+					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
 						Download not avaliable
 					</a>
-					{% endif %}
 				</div>
+				{% endif %}
 			</section>
 		</section>
 
@@ -204,14 +241,14 @@
 				</figure>
 				<div class="container-downloaddata" style="--delay: 3.9s">
 					<a href="data:image/svg+xml;base64,{{ svg_landscape }}" class="downloaddata" download="TEs-landscape-graphs">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Landscape Graphs 
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Landscape Graphs 
 					</a>
 				</div>
 				{% else %}
 				<div class="container-downloaddata">
 					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TEs-landscape-graphs">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
+						<img class="box-icon" src="../static/assets/download.svg"/> 
 						Download not avaliable
 					</a>
 				</div>
@@ -233,31 +270,34 @@
 		
 			<section class="container-ltrfamily">
 			{% if svg_copia %}
-			<figure class="wrapper-ltr-copia" style="--delay: 4.5s">
-				<img class="ltr-copia" src="data:image/svg+xml;base64,{{ svg_copia }}"/>
-			</figure>	
-			<figure class="wrapper-ltr-gypsy" style="--delay: 4.7s">
-				<img class="ltr-gypsy" src="data:image/svg+xml;base64,{{ svg_gypsy }}"/>
-			</figure>
+			<div class="slider-2">
+				<div class="slides-2">
+					<figure class="wrapper-ltr-copia slide-2 first" style="--delay: 4.5s">
+						<img class="ltr-copia" src="data:image/svg+xml;base64,{{ svg_copia }}"/>
+					</figure>	
+					<figure class="wrapper-ltr-gypsy slide-2" style="--delay: 4.7s">
+						<img class="ltr-gypsy" src="data:image/svg+xml;base64,{{ svg_gypsy }}"/>
+					</figure>
+				</div>
 
-				<div class="container-downloaddata container-family" style="--delay: 5s">
-					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloaddata" download="TES-family-copia">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Superfamily Copia
+				<button id="prev-slide-2" class="prev-slide">❮</button>
+        		<button id="next-slide-2" class="next-slide">❯</button>
+			</div>
+
+				<div class="container-family" style="--delay: 5s">
+					<a href="data:image/svg+xml;base64,{{ svg_copia }}" class="downloadfamily" download="TES-family-copia">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR Superfamily Copia
 					</a>
-					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloaddata" download="TES-family-gypsy">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Superfamily Gypsy
+					<a href="data:image/svg+xml;base64,{{ svg_gypsy }}" class="downloadfamily" download="TES-family-gypsy">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR Superfamily Gypsy
 					</a>
 				</div>
 			{% else %}
-				<div class="container-downloaddata container-family">
+				<div class="container-family">
 					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-copia">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download not avaliable
-					</a>
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-family-gypsy">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
+						<img class="box-icon" src="../static/assets/download.svg"/> 
 						Download not avaliable
 					</a>
 				</div>
@@ -279,69 +319,49 @@
 
 			<section class="container-phylogeny">
 				{% if svg_tree1 %}
-				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
-					<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
-				</figure>
+				<div class="slider-3">
+					<div class="slides-3">
+						<figure class="wrapper-ltr-phylogeny slide-3 first" style="--delay: 5.6s">
+							<img class="ltr-phylogeny" src="data:image/svg+xml;base64,{{ svg_tree1 }}"/>
+						</figure>
+						<figure class="wrapper-ltr-phylogeny slide-3" style="--delay: 5.6s">
+							<img class="ltr-tree-rectangular" src="data:image/svg+xml;base64,{{ svg_tree3 }}"/>
+						</figure>
+						<figure class="wrapper-ltr-phylogeny slide-3" style="--delay: 5.6s">
+							<img class="ltr-tree-rectangular" src="data:image/svg+xml;base64,{{ svg_tree4 }}"/>
+						</figure>
+					</div>
+
+					<button id="prev-slide-3" class="prev-slide">❮</button>
+        			<button id="next-slide-3" class="next-slide">❯</button>
+				</div>
 				
-				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloaddata" download="LTR-Phylogenetic-tree-circular">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR-Phylogenetic tree - circular 
+				<div class="container-ltrtree" style="--delay: 5.9s">
+					<a href="data:image/svg+xml;base64,{{ svg_tree1 }}" class="downloadltrtree" download="LTR-Phylogenetic-tree-circular">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - circular 
+					</a>
+				
+					<a href="data:image/svg+xml;base64,{{ svg_tree3 }}" class="downloadltrtree" download="LTR-Phylogenetic-tree-rectangularA">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - rectangular A 
+					</a>
+				
+					<a href="data:image/svg+xml;base64,{{ svg_tree4 }}" class="downloadltrtree" download="LTR-Phylogenetic-tree-rectangularB">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - rectangular B 
 					</a>
 				</div>
 				{% else %}
 				<div class="container-downloaddata">
 					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="LTR-Phylogenetic-tree-circular">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
+						<img class="box-icon" src="../static/assets/download.svg"/> 
 						Download not avaliable
 					</a>
 				</div>
 				{% endif %}
 			</section>
 
-			<section class="container-phylogeny">
-				{% if svg_tree3 %}
-				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
-					<img class="ltr-tree-rectangular" src="data:image/svg+xml;base64,{{ svg_tree3 }}"/>
-				</figure>
-				
-				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree3 }}" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularA">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR-Phylogenetic tree - rectangular A 
-					</a>
-				</div>
-				{% else %}
-				<div class="container-downloaddata">
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularA">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download not avaliable
-					</a>
-				</div>
-				{% endif %}
-			</section>
-
-			<section class="container-phylogeny">
-				{% if svg_tree4 %}
-				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
-					<img class="ltr-tree-rectangular" src="data:image/svg+xml;base64,{{ svg_tree4 }}"/>
-				</figure>
-				
-				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="data:image/svg+xml;base64,{{ svg_tree4 }}" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularB">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR-Phylogenetic tree - rectangular B 
-					</a>
-				</div>
-				{% else %}
-				<div class="container-downloaddata">
-					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="LTR-Phylogenetic-tree-rectangularB">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download not avaliable
-					</a>
-				</div>
-				{% endif %}
-			</section>
 		</section>
 
 		<section class="container-data" id="density-section">
@@ -365,14 +385,14 @@
 					
 				<div class="container-downloaddata" style="--delay: 6.6s">
 					<a href="data:image/svg+xml;base64,{{ svg_tree2 }}" class="downloaddata" download="LTR-Phylogenetic-Density">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR-Phylogenetic tree - Density
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - Density
 					</a>
 				</div>
 				{% else %}
 				<div class="container-downloaddata">
 					<a style="pointer-events: none; opacity: 0.5; width: 30rem;" class="downloaddata" download="TES-Density">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
+						<img class="box-icon" src="../static/assets/download.svg"/> 
 						Download not avaliable
 					</a>
 				</div>

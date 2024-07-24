@@ -4,7 +4,7 @@
 # Freely distributed under the BSD open source license.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query file:                      ../Family_Seq/SINE1R5_OS/SINE1R5_OS.hmm
-# target sequence database:        /home/marcoscosta/TEs/AtChr4.fasta
+# target sequence database:        /home/marcos/TEs/www/results/At_20240724-082620/At_20240724-082620.fasta
 # output directed to file:         ../Family_Seq/SINE1R5_OS/SINE1R5_OS.out
 # number of worker threads:        12
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,7 +41,7 @@ Residues passing bias filter:        2249812  (0.0605); expected (0.02)
 Residues passing Vit filter:          137134  (0.00369); expected (0.003)
 Residues passing Fwd filter:           16427  (0.000442); expected (3e-05)
 Total number of hits:                      1  (1.8e-06)
-# CPU time: 0.95u 0.02s 00:00:00.97 Elapsed: 00:00:00.10
-# Mc/sec: 44376.91
+# CPU time: 1.54u 0.00s 00:00:01.54 Elapsed: 00:00:00.15
+# Mc/sec: 29705.72
 //
 [ok]

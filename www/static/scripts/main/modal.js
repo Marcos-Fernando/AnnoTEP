@@ -2,9 +2,9 @@
 var modal = document.getElementById("myModal");
 
 // Quando o botão "Submit" for clicado, mostra o modal
-// uploaddate.addEventListener("click", function () {
-//   modal.style.display = "block";
-// });
+uploaddate.addEventListener("click", function () {
+  modal.style.display = "block";
+});
 
 // Quando o botão de fechar (x) for clicado, fecha o modal
 var closeButton = document.querySelector(".close");

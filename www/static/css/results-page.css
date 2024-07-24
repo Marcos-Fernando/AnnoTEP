@@ -331,36 +331,28 @@ header section{
 .container-compact{
 	display: flex;
 	flex-direction: row;
-	justify-content: left;
+	justify-content: center;
 	flex-wrap: wrap;
 	gap: 2rem;
 }
 
-.box-compact{
-	display: flex;
-	gap: 1rem;
-
-	font-size: 2rem;
-	font-weight: 700;
-	color: var(--purple-02);
-}
 
 .non-ltr-data{
 	display: flex;
-	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	gap: 0.5rem;
+	gap: 2rem;
 
-	width: 24rem;
-	height: 3rem;
+	width: 42rem;
+	height: 4rem;
+	margin-top: 2rem;
 	
 	border-radius: 0.8rem;
 	background: var(--green-01);
 
 	color: var(--write);
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 	border: 0;
 	transition: all .3s ease;
@@ -382,6 +374,8 @@ header section{
 	border: 0.0625rem solid var(--green-02);
 }
 
+/* =============== Report ================ */
+
 .container-table{
 	display: flex;
 	flex-direction: column;
@@ -395,13 +389,26 @@ table, td, tr, th{
 
 .table-top{
 	margin-top: 2rem;
+	width: 72rem;
 }
 
 .table-footer{
-	max-height: 500px; 
-	overflow-y: scroll;
-
+	width: 72rem;
+	max-height: 31rem; 
+	padding: 0 1rem;
 	margin-bottom: 2rem;
+	overflow-y: scroll;
+	border: 1px solid var(--green-01);
+}
+
+.table-footer span{
+	width: 100%;
+	font-size: 2rem;
+	background-color: var(--green-01);
+}
+
+.report_complete {
+    white-space: pre-wrap;
 }
 
 .title-td{
@@ -432,6 +439,107 @@ td, th{
 	border-bottom: 0.0625rem solid var(--grey-03);
 }
 
+.container-report-chart{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+}
+
+.slider {
+    position: relative;
+    width: 82rem;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.slide img {
+    width: 100%;
+	padding: 0 2rem 0 2rem;
+}
+
+.prev-slide, .next-slide {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--green-01);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    z-index: 100;
+	font-size: 2rem;
+}
+
+.prev-slide {
+    left: 0.5rem;
+}
+
+.next-slide {
+    right: 0.5rem;
+}
+
+.slides button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.container-downloadreport{
+	display: flex;
+	gap: 1rem;
+}
+
+.downloadreport{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 1rem;
+
+	padding: 1rem;
+	width: 16rem;
+	height: 3rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	
+	border-radius: 0.3125rem;
+	background: var(--green-01);
+	border: 0;
+
+	color: var(--write);
+	font-size: 1rem;
+	font-weight: bold;
+
+	cursor: pointer;
+	transition: all .3s ease;
+}
+
+.downloadreport:hover {
+	opacity: 0.8;
+}
+
+.downloadreport[disabled] {
+	cursor: default;
+	opacity: 0.8; 
+}
+  
+.downloadreport[disabled]:hover {
+	color: var(--write);
+	border: 0.0625rem solid var(--green-02);
+}
+
+/* =============== Landscape ================ */
+
 .container-landscape{
 	display: flex;
 	flex-direction: column;
@@ -445,6 +553,7 @@ td, th{
 
 	margin-top: 2rem;
 }
+/* =============== LTRfamily ================ */
 
 .container-ltrfamily{
 	display: flex;
@@ -453,15 +562,74 @@ td, th{
 	gap: 1rem;
 }
 
-.ltr-copia{
-	width: 43.75rem;
-	height: 26.25rem;
+.slider-2 {
+    position: relative;
+    width: 68rem;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
-.ltr-gypsy{
-	width: 43.75rem;
-	height: 26.25rem;
+.slides-2 {
+    display: flex;
+    transition: transform 0.5s ease;
 }
+
+.slide-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.slide-2 img {
+    width: 100%;
+	padding: 0 2rem 0 2rem;
+}
+
+.container-family{
+	display: flex;
+	gap: 1rem;
+}
+
+.downloadfamily{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 1rem;
+
+	padding: 1rem;
+	width: 23rem;
+	height: 3rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	
+	border-radius: 0.3125rem;
+	background: var(--green-01);
+	border: 0;
+
+	color: var(--write);
+	font-size: 1rem;
+	font-weight: bold;
+
+	cursor: pointer;
+	transition: all .3s ease;
+}
+
+.downloadfamily:hover {
+	opacity: 0.8;
+}
+
+.downloadfamily[disabled] {
+	cursor: default;
+	opacity: 0.8; 
+}
+  
+.downloadfamily[disabled]:hover {
+	color: var(--write);
+	border: 0.0625rem solid var(--green-02);
+}
+
+/* =============== TREE ================ */
 
 .container-phylogeny{
 	display: flex;
@@ -470,20 +638,87 @@ td, th{
 	gap: 2rem;
 }
 
-.ltr-phylogeny{
-	width: 85rem;
-	margin-top: 1rem;
-}
-
 .ltr-density{
 	width: 108rem;
 	margin-top: 1rem;
 }
 
-.ltr-tree-rectangular{
-	width: 60rem;
-	margin-top: 1rem;
+.slider-3 {
+    position: relative;
+    width: 90rem;
+    margin: 0 auto;
+    overflow: hidden;
 }
+
+.slides-3 {
+    display: flex;
+	align-items: center;
+    transition: transform 0.5s ease;
+}
+
+/* .slides-3 figure:last-of-type{
+	width: 75rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+} */
+
+.slide-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.slide-3 img {
+    width: 100%;
+	padding: 0 2rem 0 2rem;
+}
+
+.container-ltrtree{
+	display: flex;
+	gap: 1rem;
+}
+
+.downloadltrtree{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 1rem;
+
+	padding: 1rem;
+	width: 23rem;
+	height: 3rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	
+	border-radius: 0.3125rem;
+	background: var(--green-01);
+	border: 0;
+
+	color: var(--write);
+	font-size: 1rem;
+	font-weight: bold;
+
+	cursor: pointer;
+	transition: all .3s ease;
+}
+
+.downloadltrtree:hover {
+	opacity: 0.8;
+}
+
+.downloadltrtree[disabled] {
+	cursor: default;
+	opacity: 0.8; 
+}
+  
+.downloadltrtree[disabled]:hover {
+	color: var(--write);
+	border: 0.0625rem solid var(--green-02);
+}
+
+/* =============== Denisty ================ */
 
 .container-density{
 	display: flex;
@@ -575,7 +810,7 @@ footer{
     z-index: 1;
     padding: 0.5rem 0.5rem;
     margin-left: 0.8rem;
-    margin-top: -5.5rem;
+    margin-top: -8.5rem;
 
 	visibility: hidden;
     opacity: 0;
@@ -901,11 +1136,13 @@ td.dark-theme{
 
 .container-table,
 .container-downloaddata,
+.container-downloadreport,
 .wrapper-landscape-img,
 .wrapper-ltr-phylogeny,
 .wrapper-ltr-density,
 .wrapper-ltr-copia,
-.wrapper-ltr-gypsy{
+.wrapper-ltr-gypsy,
+.wrapper-report-chart{
 	transform: translate(0, -1rem);
 	opacity: 0;
 
