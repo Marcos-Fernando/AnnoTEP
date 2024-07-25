@@ -115,9 +115,10 @@
 					<input type="text" id="fileNameInput" class="input-text" readonly disabled>
 
 					<label for="inputdata" class="file-input">
-						<p class="name-btn">Browser</p>
+						<p class="name-btn">Browser</p> 
 						  <input type="file" class="input-data" accept=".fasta" id="inputdata" onchange="updateFileName()">
 					</label>
+					<span>(Limit 30MB)</span>
 				</div>
 			</section>
 	
@@ -142,7 +143,7 @@
 					</div>
 					<div class="container-checkbox">
 						<input type="checkbox" id="complete" name="complete" class="checkbox">
-						<label for="complete">Complete annotation (SINE, LINE, TIR, ...) <label>
+						<label for="complete">Complete annotation (SINE, LINE, LTR, TIR, Helitron, ...) <label>
 					</div>	  
 				</div>	
 			</section>
@@ -172,7 +173,7 @@
 
 		<footer class="footer">
 			<div class="cite-us">
-				The maximum number of tasks to be run on the platform is <span>10</span>, during which time your task will be put on hold. The results obtained through analysis are saved in the database for up to <span>48 hours</span>. We recommend users to run a maximum of two jobs at a time. For private work or work with a large amount of data, we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> cite us </a>
+				The maximum number of tasks to be run on the platform is <span>3</span>, during which time your task will be put on hold. The results obtained through analysis are saved in the database for up to <span>48 hours</span>. We recommend users to run a maximum of two jobs at a time. For private work or work with a large amount of data, we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> cite us </a>
 			</div>
 		</footer>
 	</main>
@@ -189,7 +190,7 @@
 			<p> The Annotep platform has two local versions, the user-interface version and the version that works only via the machine's command terminal.</p>
 
 			<div class="title-input title-download">
-				<p>Local Interface</p>
+				<p>Graphic Interface</p>
 			</div>
 
 			<p>It has a similar interface to the web platform, but the difference lies in the delivery of the results, here they are saved in a local directory. In addition, this version relies on the internet to report the start and end of the annotation, or errors, via email.</p>
@@ -209,7 +210,7 @@
 			<p>To access the platform, open a browser and type in the address: <span>127.0.0.1:5000</span> </p>
 
 			<div class="title-input title-download">
-				<p>Local Terminal</p>
+				<p>Bash interface</p>
 			</div>
 
 			<p>The focus of this version is direct use in the machine's command terminal without the need for an interface. It does not use the internet to run. In this version, the user must pay attention to the end of the annotation.</p>

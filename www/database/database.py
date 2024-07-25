@@ -55,46 +55,35 @@ def binary_files(mongo, key_security, expiration_date, resultsAddress):
     print("Data recorded")
     print("")
 
+def read_file(file_path, mode='rb'):
+    """Lê o conteúdo de um arquivo e retorna seu conteúdo."""
+    with open(file_path, mode) as file:
+        return file.read()
+
 def binary_image_files(mongo, key_security, expiration_date, resultsAddress):
     completeAnalysis_folder = os.path.join(resultsAddress, 'complete-analysis')
     print("Converting TREE images into binaries...")
-    with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree1.svg'), "rb") as file_tree1:
-        svg_tree1 = file_tree1.read()
-    with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree2.svg'), "rb") as file_tree2:
-        svg_tree2 = file_tree2.read()
-    with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree3.svg'), "rb") as file_tree3:
-        svg_tree3 = file_tree3.read()
-    with open(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree4.svg'), "rb") as file_tree4:
-        svg_tree4 = file_tree4.read()    
-            
+    svg_tree1 = read_file(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree1.svg'))
+    svg_tree2 = read_file(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree2.svg'))
+    svg_tree3 = read_file(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree3.svg'))
+    svg_tree4 = read_file(os.path.join(completeAnalysis_folder, 'TREE', 'LTR_RT-Tree4.svg'))
 
     print("Converting LTR-AGE images to binaries...")
-    with open(os.path.join(completeAnalysis_folder, 'LTR-AGE', 'AGE-Copia.svg'), "rb") as file_copia:
-        svg_copia = file_copia.read()
-    with open(os.path.join(completeAnalysis_folder, 'LTR-AGE', 'AGE-Gypsy.svg'), "rb") as file_gypsy:
-        svg_gypsy = file_gypsy.read()
-
+    svg_copia = read_file(os.path.join(completeAnalysis_folder, 'LTR-AGE', 'AGE-Copia.svg'))
+    svg_gypsy = read_file(os.path.join(completeAnalysis_folder, 'LTR-AGE', 'AGE-Gypsy.svg'))
 
     print("Converting LandScape images to binaries...")
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'RLandScape.svg'), "rb") as file_landscape:
-        svg_landscape = file_landscape.read()
-    
+    svg_landscape = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'RLandScape.svg'))
+
     print("Converting Report Graphic images to binaries...")
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report1.svg'), "rb") as file_Report1:
-        svg_Report1 = file_Report1.read()
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report1-bubble.svg'), "rb") as file_Report1_bubble:
-        svg_Report1_bubble = file_Report1_bubble.read()
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report2.svg'), "rb") as file_Report2:
-        svg_Report2 = file_Report2.read()
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report2-bubble.svg'), "rb") as file_Report2_bubble:
-        svg_Report2_bubble = file_Report2_bubble.read()
+    svg_Report1 = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report1.svg'))
+    svg_Report1_bubble = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report1-bubble.svg'))
+    svg_Report2 = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report2.svg'))
+    svg_Report2_bubble = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TE-Report2-bubble.svg'))
 
     print("Converting Report spreadsheets to binaries...")
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TEs-Report-Complete.txt'), 'r') as file_complete_txt:
-        file_complete = file_complete_txt.read()
-
-    with open(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TEs-Report-Lite.txt'), 'r') as file_lite_txt:
-        file_lite = file_lite_txt.read()
+    file_complete = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TEs-Report-Complete.txt'), mode='r')
+    file_lite = read_file(os.path.join(completeAnalysis_folder, 'TE-REPORT', 'TEs-Report-Lite.txt'), mode='r')
 
 
     # print("Converting Report spreadsheets to binaries...")
@@ -207,6 +196,7 @@ def analysis_results(key_security, mongo):
 
     # Recupere informações relevantes do usuário
     email = user_info["email"]
+
     fileTree = mongo.db.fileTree.find_one({"key": key_security})
     if fileTree is None:
         svg_tree1 = ""
@@ -242,9 +232,8 @@ def analysis_results(key_security, mongo):
         svg_Report1_bubble  = ""
         svg_Report2_bubble  = ""
     else:
-        file_complete = base64.b64encode(filereport.get("file-complete")).decode('utf-8')
-        file_complete_table = filereport.get("file-complete").decode('utf-8')
-        file_lite = base64.b64encode(filereport.get("file-lite")).decode('utf8')
+        file_complete = filereport.get("file-complete", "")
+        file_lite = filereport.get("file-lite", "")
         svg_Report1  = base64.b64encode(filereport.get("file-Report1")).decode('utf-8')
         svg_Report2  = base64.b64encode(filereport.get("file-Report2")).decode('utf-8')
         svg_Report1_bubble  = base64.b64encode(filereport.get("file-Report1-bubble")).decode('utf-8')
@@ -307,7 +296,6 @@ def analysis_results(key_security, mongo):
                            svg_landscape=svg_landscape,
                            file_complete=file_complete,
                            file_lite=file_lite,
-                           file_complete_table=file_complete_table,
                            svg_Report1=svg_Report1,
                            svg_Report2=svg_Report2,
                            svg_Report1_bubble=svg_Report1_bubble,

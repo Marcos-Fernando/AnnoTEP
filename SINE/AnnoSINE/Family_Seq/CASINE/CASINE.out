@@ -4,7 +4,7 @@
 # Freely distributed under the BSD open source license.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query file:                      ../Family_Seq/CASINE/CASINE.hmm
-# target sequence database:        /home/marcos/TEs/www/results/At_20240724-082620/At_20240724-082620.fasta
+# target sequence database:        /home/marcos/TEs/www/results/A._20240724-221502/A._20240724-221502.fasta
 # output directed to file:         ../Family_Seq/CASINE/CASINE.out
 # number of worker threads:        12
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,7 +31,7 @@ Residues passing bias filter:        4609662  (0.124); expected (0.02)
 Residues passing Vit filter:          347429  (0.00935); expected (0.003)
 Residues passing Fwd filter:           23853  (0.000642); expected (3e-05)
 Total number of hits:                      0  (0)
-# CPU time: 1.80u 0.02s 00:00:01.82 Elapsed: 00:00:00.17
-# Mc/sec: 38100.51
+# CPU time: 1.69u 0.01s 00:00:01.70 Elapsed: 00:00:00.16
+# Mc/sec: 39731.71
 //
 [ok]

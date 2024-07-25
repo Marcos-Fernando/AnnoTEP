@@ -73,28 +73,20 @@
 		
 		<section class="container-data" id="Non-LTR-section">
 			<div class="title-data">
-				<p>Non-LTR Data</p>
+				<p>Annotated data</p>
 				<div class="session-nonltr-icon">
-						<span class="open-tab-nonltr"> In this section, all the elements belonging to SINEs and LINEs are presented in a compact form. </span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
+					<span class="open-tab-nonltr"> This section contains .fa data and overlay images for SINE elements. The LINE annotation includes .fa and .gff3 data. The full annotation includes masked elements, .gff3, .fa, as well as SINE, LINE, TIR, Helitron and LTR data. </span>
+					<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
 				</div>
 			</div>
 
 			<section class="container-compact">
-				<section class="box-compact">
-					<div class="nonLTRdownload" style="--delay: 1.2s">
-						<button type="button" id="" class="non-ltr-data"> 
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							SINE Data 
-						</button>
-					</div>
-					<div class="nonLTRdownload" style="--delay: 1.4s">
-						<button type="button" id="" class="non-ltr-data"> 
-							<img class="box-icon" src="../static/assets/box.svg"/>
-							LINE Data 
-						</button>
-					</div>
-				</section>
+				<div class="nonLTRdownload" style="--delay: 1.2s">
+					<a href="..." class="non-ltr-data" download="TEs-zip">
+						<img class="box-icon" src="../static/assets/download.svg"/>
+							Genomic data (.gff3 .fa)
+					</a>
+				</div>
 			</section>
 		</section>
 
@@ -115,32 +107,69 @@
 					<tr>
 						<td colspan="4" class="main-td title-td">TEs Report</td>
 					</tr>
-					<tr class="main-tr">
-						<th>Elements</th>
-						<th>Number of Elements</th>
-						<th>Length Occupied (bp)</th>
-						<th>% Sequence</th>
-					</tr>
 				</table>
 
 				<div class="table-footer">
-					<table id="TEs-Report-Complete">
-						<tr></tr>
-					</table>
+					<div class="container-output">
+						<pre id="output"></pre>
+					</div>
 				</div>
 				
-				<div class="container-downloaddata" style="--delay: 3s">
-					<button type="button" id="" class="downloaddata">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Table Complete
-					</button>
+				<div class="container-downloadreport" style="--delay: 3s">
+					<a href="..." class="downloadreport" download="TEs-report-complete.txt">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Complete Report
+					</a>
+
+					<a href="..." class="downloadreport" download="TEs-report-lite">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Table Simplified
+					</a>
+				</div>	
+			</section>
+
+			<section class="container-report-chart">
+				<div class="slider">
+					<div class="slides">
+						<figure class="wrapper-report-chart slide first" style="--delay: 3.6s">
+							<img class="report-img" src="../static/screenshot/TE-Report1.svg"/>
+						</figure>
+						<figure class="wrapper-report-chart slide" style="--delay: 3.6s">
+							<img class="report-img" src="../static/screenshot/TE-Report2.svg"/>
+						</figure>
+						<figure class="wrapper-report-chart slide" style="--delay: 3.6s">
+							<img class="report-img" src="../static/screenshot/TE-Report1-bubble.svg"/>
+						</figure>
+						<figure class="wrapper-report-chart slide" style="--delay: 3.6s">
+							<img class="report-img" src="../static/screenshot/TE-Report2-bubble.svg"/>
+						</figure>
+					</div>
+
+					<button id="prev-slide" class="prev-slide">❮</button>
+        			<button id="next-slide" class="next-slide">❯</button>
 				</div>
-				<div class="container-downloaddata" style="--delay: 3s">
-					<button type="button" id="" class="downloaddata">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download Table Simplified
-					</button>
-				</div>
+
+				<div class="container-downloadreport" style="--delay: 3.9s">
+					<a href="../static/screenshot/TE-Report1.svg" class="downloadreport" download="Bar-Chart-1">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bar Chart 1
+					</a>
+				
+					<a href="../static/screenshot/TE-Report2.svg" class="downloadreport" download="Bar-Chart-2">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bar Chart 2
+					</a>
+				
+					<a href="./static/screenshot/TE-Report1-bubble.svg" class="downloadreport" download="Bubble-Chart-1">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bubble Chart 1
+					</a>
+				
+					<a href="../static/screenshot/TE-Report2-bubble.svg" class="downloadreport" download="Bubble-Chart-2">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						Bubble Chart 2
+					</a>
+				</div>	
 			</section>
 		</section>
 
@@ -165,7 +194,7 @@
 				<div class="container-downloaddata" style="--delay: 3.9s">
 					<a href="../static/screenshot/RLandScape.svg" download="RLandScape.svg"></a>
 						<button type="button" id="" class="downloaddata">
-							<img class="box-icon" src="../static/assets/box.svg"/> 
+							<img class="box-icon" src="../static/assets/download.svg"/> 
 							Download Landscape Graphs 
 						</button>
 					</a>
@@ -186,29 +215,27 @@
 			</div>
 
 			<section class="container-ltrfamily">
-				<div class="slider">
-					<div class="slides">
-						<figure class="slide first">
+				<div class="slider-2">
+					<div class="slides-2">
+						<figure class="slide-2 first">
 							<img class="ltr-copia" src="../static/screenshot/AGE-Copia.svg"/>
 						</figure>
-						<figure class="slide">
+						<figure class="slide-2">
 							<img class="ltr-gypsy" src="../static/screenshot/AGE-Gypsy.svg"/>
 						</figure>
 					</div>
-					<button id="prev-slide" class="prev-slide">❮</button>
-        			<button id="next-slide" class="next-slide">❯</button>
+					<button id="prev-slide-2" class="prev-slide">❮</button>
+        			<button id="next-slide-2" class="next-slide">❯</button>
 				</div>
 		
-				
-
 				<div class="container-downloaddata container-family" style="--delay: 5s">
 					<a href="" class="downloaddata" download="TES-family-copia">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Superfamily Copia
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR Superfamily Copia
 					</a>
 					<a href="" class="downloaddata" download="TES-family-gypsy">
-						<img class="box-icon" src="../static/assets/box.svg"/> 
-						Download LTR Superfamily Gypsy
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR Superfamily Gypsy
 					</a>
 				</div>
 			</section>
@@ -227,39 +254,37 @@
 			</div>
 
 			<section class="container-phylogeny">
-				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
-					<img class="ltr-phylogeny" src="../static/screenshot/LTR_RT-Tree1.svg"/>
-				</figure>
-				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="../static/screenshot/LTR_RT-Tree1.svg" download="LTR-Phylogenetic_Tree1.svg">
-						<button type="button" id="" class="downloaddata">
-							<img class="box-icon" src="../static/assets/box.svg"/> 
-							Download LTR-Phylogenetic tree - circular
-						</button>
-					</a>
-				</div>
+				<div class="slider-3">
+					<div class="slides-3">
+						<figure class="wrapper-ltr-phylogeny slide-3 first" style="--delay: 5.6s">
+							<img class="ltr-phylogeny" src="../static/screenshot/LTR_RT-Tree1.svg"/>
+						</figure>
+						<figure class="wrapper-ltr-phylogeny slide-3" style="--delay: 5.6s">
+							<img class="ltr-tree-rectangular" src="../static/screenshot/LTR_RT-Tree3.svg"/>
+						</figure>
+						<figure class="wrapper-ltr-phylogeny slide-3" style="--delay: 5.6s">
+							<img class="ltr-tree-rectangular" src="../static/screenshot/LTR_RT-Tree4.svg"/>
+						</figure>
+					</div>
 
-				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
-					<img class="ltr-tree-rectangular" src="../static/screenshot/LTR_RT-Tree3.svg"/>
-				</figure>
-				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="../static/screenshot/LTR_RT-Tree3.svg" download="LTR-Phylogenetic_Tree3.svg">
-						<button type="button" id="" class="downloaddata">
-							<img class="box-icon" src="../static/assets/box.svg"/> 
-							Download LTR-Phylogenetic tree - rectangular A
-						</button>
-					</a>
+					<button id="prev-slide-3" class="prev-slide">❮</button>
+        			<button id="next-slide-3" class="next-slide">❯</button>
 				</div>
-
-				<figure class="wrapper-ltr-phylogeny" style="--delay: 5.6s">
-					<img class="ltr-tree-rectangular" src="../static/screenshot/LTR_RT-Tree4.svg"/>
-				</figure>
-				<div class="container-downloaddata" style="--delay: 5.9s">
-					<a href="../static/screenshot/LTR_RT-Tree4.svg" download="LTR-Phylogenetic_Tree4.svg">
-						<button type="button" id="" class="downloaddata">
-							<img class="box-icon" src="../static/assets/box.svg"/> 
-							Download LTR-Phylogenetic tree - rectangular B
-						</button>
+				
+				<div class="container-ltrtree" style="--delay: 5.9s">
+					<a href="../static/screenshot/LTR_RT-Tree1.svg" class="downloadltrtree" download="LTR-Phylogenetic-tree-circular">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - circular 
+					</a>
+				
+					<a href="../static/screenshot/LTR_RT-Tree3.svg" class="downloadltrtree" download="LTR-Phylogenetic-tree-rectangularA">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - rectangular A 
+					</a>
+				
+					<a href="../static/screenshot/LTR_RT-Tree4.svg" class="downloadltrtree" download="LTR-Phylogenetic-tree-rectangularB">
+						<img class="box-icon" src="../static/assets/download.svg"/> 
+						LTR-Phylogenetic tree - rectangular B 
 					</a>
 				</div>
 			</section>
@@ -284,10 +309,10 @@
 				</figure>
 		
 				<div class="container-downloaddata" style="--delay: 6.6s">
-					<a href="../static/screenshot/LTR_RT-Tree2.svg" download="LTR-Phylogenetic_Tree2.svg">
+					<a href="../static/screenshot/LTR_RT-Tree2.svg" download="LTR-Phylogenetic-Density">
 						<button type="button" id="" class="downloaddata">
-							<img class="box-icon" src="../static/assets/box.svg"/> 
-							Download LTR-Phylogenetic tree - Density
+							<img class="box-icon" src="../static/assets/download.svg"/> 
+							LTR-Phylogenetic tree - Density
 						</button>
 					</a>
 				</div>

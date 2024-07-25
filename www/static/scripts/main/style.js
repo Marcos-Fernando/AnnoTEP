@@ -26,7 +26,21 @@ function validateInputs() {
 const isEmailValid = isValidEmail(emailInput.value);
 const isFileSelected = fileInput.files.length > 0;
 
-submitButton.disabled = !(isEmailValid && isFileSelected);
+const file = fileInput.files[0];
+  const maxSize = 30 * 1024 * 1024; // 30 MB
+
+  // Verifica se o tamanho do arquivo é válido, se houver um arquivo selecionado
+  const isFileSizeValid = file ? file.size <= maxSize : true;
+
+  // Atualiza a mensagem de erro e o botão de envio
+  submitButton.disabled = !(isEmailValid && isFileSelected && isFileSizeValid);
+  
+  // Mensagem de erro para o tamanho do arquivo
+  if (!isFileSizeValid) {
+    alert('O arquivo é muito grande. O tamanho máximo permitido é 30 MB.');
+    fileInput.value = ''; // Limpa o campo de entrada
+    document.getElementById('fileNameInput').value = ''; // Limpa o nome do arquivo
+  }
 }
 
 const fileInput = document.getElementById('inputdata');
@@ -66,10 +80,11 @@ lineCheckbox.addEventListener('click', function() {
   }
 });
 
-//------------------  Aside movimentação ---------------//
+//=============  Aside movimentação da seleção =============//
 var menuSide = document.querySelector('.aside');
 var mainleft = document.querySelector('.main');
 var menuItems = document.querySelectorAll('li');
+var logo = document.querySelector('.logoAnnotep');
 
 menuItems.forEach(function(item) {
   item.addEventListener('click', function() {
@@ -79,6 +94,14 @@ menuItems.forEach(function(item) {
 
     this.classList.add('open');
   });
+});
+
+logo.addEventListener('click', function() {
+  menuItems.forEach(function(item) {
+    item.classList.remove('open');
+  });
+
+  document.querySelector('li#Home').classList.add('open');
 });
 
 

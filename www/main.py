@@ -6,12 +6,13 @@ from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, flash, send_from_directory
 from celery_tasks import get_number_of_workers, process_annotation
-from extensions.sendemail import send_email_complete_annotation, send_email_error_extension, submit_form
+from extensions.sendemail import send_email_complete_annotation, send_email_error_extension, submit_form, send_email_error_size
 from database.database import generate_unique_name, config_user, binary_files, binary_image_files, analysis_results
 
 # ======= AMBIENTES =======
 UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
 RESULTS_FOLDER = os.path.join(UPLOAD_FOLDER, 'www', 'results')
+MAX_CONTENT_LENGTH = 30 * 1024 * 1024  # 30 MB
 
 #Extensões que serão permitidas
 ALLOWED_EXTENSIONS = {'fasta'}
@@ -58,6 +59,13 @@ def upload_file():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
+            # Verifica o tamanho do arquivo
+            if len(file.read()) > MAX_CONTENT_LENGTH:
+                file.seek(0)  # Volta o ponteiro do arquivo para o início
+                send_email_error_size(email, file.filename)
+                flash('File size exceeds the maximum limit of 30 MB.')
+                return redirect(request.url)
+            
             #secure_filename() verificar se um inject foi aplicado, se o arquivo conter ../ será alterado para: " " ou "_"
             filename = secure_filename(file.filename)
             filename, extension = os.path.splitext(file.filename)

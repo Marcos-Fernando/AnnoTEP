@@ -36,7 +36,13 @@ def send_email_complete_annotation(email, key_security):
     msg = Message(msg_title, sender=sender, recipients=[email])
     result_url = f'http://127.0.0.1:5000/results/{key_security}'
     msg.body = f"Your annotation has been completed! To view the data obtained, click on the link: {result_url} . We hope this information will be useful in your research"
+    mail.send(msg)
 
+def send_email_error_size(email, filename):
+    msg_title = "File size not accepted"
+    sender = "noreply@app.com"
+    msg = Message(msg_title, sender=sender, recipients=[email])
+    msg.body = f'O arquivo "{filename}" enviado por {email} excede o tamanho máximo permitido de 30 MB.'
     mail.send(msg)
 
 def send_email_error_extension(email):

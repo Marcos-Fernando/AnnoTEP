@@ -578,6 +578,13 @@ input[type="file"]{
 .box-input{
 	display: flex;
 	flex-direction: row;
+	align-items: end;
+}
+
+.box-input span{
+	font-size: 1rem;
+	margin-left: 1rem;
+	color: var(--green-02);
 }
 
 .name-btn{

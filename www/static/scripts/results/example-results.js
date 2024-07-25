@@ -51,42 +51,27 @@ document.getElementById("logoLink").onclick = function() {
     window.location.href = "/";
 };
 
-
-//Movimento de slide
+//colocando a tabela direto da imagem
 document.addEventListener('DOMContentLoaded', function() {
-    const slidesContainer = document.querySelector('.slides');
-    const slides = document.querySelectorAll('.slide');
-    const nextButton = document.getElementById('next-slide');
-    const prevButton = document.getElementById('prev-slide');
-
-    let index = 0;
-    const totalSlides = slides.length;
-
-    function updateSlides() {
-        const slideWidth = slides[0].offsetWidth;
-        slidesContainer.style.transform = `translateX(-${index * slideWidth}px)`;
-    }
-
-    nextButton.addEventListener('click', function() {
-        if (index < totalSlides - 1) {
-            index++;
-            updateSlides();
-        } else {
-            index = 0; // Voltar ao primeiro slide
-            updateSlides();
-        }
-    });
-
-    prevButton.addEventListener('click', function() {
-        if (index > 0) {
-            index--;
-            updateSlides();
-        } else {
-            index = totalSlides - 1; // Ir ao último slide
-            updateSlides();
-        }
-    });
+    fetch('../static/sceenshot/TEs-Report-Complete.txt')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(text => {
+            displayContent(text);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
 });
+
+function displayContent(text) {
+    const output = document.getElementById('output');
+    output.textContent = text;
+}
 
 // ALterar a tabela do report
 // document.addEventListener('DOMContentLoaded', function() {

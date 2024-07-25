@@ -27,6 +27,14 @@ main.dark-theme{
 	background-color: var(--black);
 }
 
+.box-input.dark-theme span{
+	color: var(--orange);
+}
+
+.box-input.dark-theme .input-text{
+	background-color: var(--white);
+}
+
 .container-main.dark-theme b{
 	color: var(--orange);
 }

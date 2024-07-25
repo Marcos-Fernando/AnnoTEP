@@ -10,7 +10,7 @@ menuSide.addEventListener('click', () => {
 });
 
 
-//----------------- Rolagem menu -----------------------//
+//================= Rolagem menu =================//
 // Captura todos os links âncora no menu
 var links = document.querySelectorAll('#menu a');
 

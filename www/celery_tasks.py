@@ -16,7 +16,7 @@ celery.conf.broker_connection_retry_on_startup = True
 
 
 #Definindo a quantidade de tarefas a serem executadas
-celery.conf.worker_concurrency = 10
+celery.conf.worker_concurrency = 3
 
 @celery.task
 def process_annotation(new_filename, annotation_type, resultsAddress, email, mail_password):

@@ -1,6 +1,6 @@
 //------------------  Script Dark Theme ---------------//
 var replaceConst = document.querySelector('.replace');
-var elementsWithDarkTheme = document.querySelectorAll('.main, .Download, .Help, .About, .Contact, .container-main, .box-checkboxs, .box-explicative, .title-input, .session-title, .header, .footer, .rectangle-green, .uploaddata, .img-dna, .img-phylogeny, .item-download, .icon-download, .container-download, .documentation-annotep, .description-about, .description-contact, .num_work');
+var elementsWithDarkTheme = document.querySelectorAll('.main, .Download, .Help, .About, .Contact, .container-main, .box-input, .box-checkboxs, .box-explicative, .title-input, .session-title, .header, .footer, .rectangle-green, .uploaddata, .img-dna, .img-phylogeny, .item-download, .icon-download, .container-download, .documentation-annotep, .description-about, .description-contact, .num_work');
 var iconHelps = document.querySelectorAll('.icon-help');
 var cloudImg = document.getElementById('cloudImage');
 var logoImgs = document.querySelectorAll('.logo');
