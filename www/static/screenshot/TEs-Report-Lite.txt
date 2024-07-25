@@ -13,7 +13,6 @@ Class I Total:			  9979	   9445851 bp	 7.89 %
 |-Non-LTR:			  1925	    895321 bp	 0.75 %
 |  |-SINEs:			   571	     83748 bp	 0.07 %
 |  |-LINEs:			  1354	    811573 bp	 0.68 %
-|    |-LINE-like:		   511	    264471 bp	 0.22 %
 |
 |-LTR
 |   |-LTR Non-auto:		  1330	    763275 bp	 0.64 %
@@ -24,81 +23,46 @@ Class I Total:			  9979	   9445851 bp	 7.89 %
 |   |
 |   |-LTR auto:			  6724	   7787255 bp	 6.51 %
 |   | |-LTR/Copia:		  2280	   1951739 bp	 1.63 %
-|   |    |-Ale:			  1348	    875497 bp    0.73 %
-|   |    | |-Ale-like:		    72	     61466 bp	 0.05 %
+|   |    |-Ale:			  1420	    936963 bp    0.78 %
 |   |    |-Alesia:		     0	         0 bp	 0.00 %
-|   |    | |-Alesia-like:	     0	         0 bp	 0.00 %
 |   |    |-Angela:		     0	         0 bp	 0.00 %
-|   |    | |-Angela-like:	     0	         0 bp	 0.00 %
-|   |    |-Bianca:		    89	     95613 bp	 0.08 %
-|   |    | |-Bianca-like:	   108	    146886 bp	 0.12 %
+|   |    |-Bianca:		   197	    242499 bp	 0.20 %
 |   |    |-Bryco:		     0	         0 bp	 0.00 %
-|   |    | |-Bryco-like:	     0	         0 bp	 0.00 %
 |   |    |-Lyco:		     0	         0 bp	 0.00 %
-|   |    | |-Lyco-like:		     0	         0 bp	 0.00 %
 |   |    |-Gymco-I:		     0	         0 bp	 0.00 %
-|   |    | |-Gymco-I-like:	     0	         0 bp	 0.00 %
 |   |    |-Gymco-II:		     0	         0 bp	 0.00 %
-|   |    | |-Gymco-II-like:	     0	         0 bp	 0.00 %
 |   |    |-Gymco-III:		     0	         0 bp	 0.00 %
-|   |    | |-Gymco-III-like:	     0	         0 bp	 0.00 %
 |   |    |-Gymco-IV:		     0	         0 bp	 0.00 %
-|   |    | |-Gymco-IV-like:	     0	         0 bp	 0.00 %
 |   |    |-Ikeros:		     0	         0 bp	 0.00 %
-|   |    | |-Ikeros-like:	     0	         0 bp	 0.00 %
-|   |    |-Ivana:		   154	    225653 bp	 0.19 %
-|   |    | |-Ivana-like:	    14	     14955 bp	 0.01 %
+|   |    |-Ivana:		   168	    240608 bp	 0.20 %
 |   |    |-Osser:		     0	         0 bp	 0.00 %
-|   |    | |-Osser-like:	     0	         0 bp	 0.00 %
-|   |    |-SIRE:		    61	    105729 bp	 0.09 %
-|   |    | |-SIRE-like:		    33	     46002 bp	 0.04 %
-|   |    |-TAR:			     0	         0 bp	 0.00 %
-|   |    | |-TAR-like:		    47	     30826 bp	 0.03 %
-|   |    |-Tork:		   214	    229919 bp	 0.19 %
-|   |    | |-Tork-like:		    43	     17747 bp	 0.01 %
+|   |    |-SIRE:		    94	    151731 bp	 0.13 %
+|   |    |-TAR:			    47	     30826 bp	 0.03 %
+|   |    |-Tork:		   257	    247666 bp	 0.21 %
 |   |    |-Ty1-outgroup:	     0	         0 bp	 0.00 %
-|   |    | |-Ty1-out-like:	     0	         0 bp	 0.00 %
 |   | 
 |   |---LTR/Gypsy:		  4444	   5835516 bp	 4.88 %
 |     |-non-chromovirus    
 |     |  |-non-chromo-outgroup:      0	         0 bp	 0.00 %
-|     |  |  |-non-chr-out-like:      0	         0 bp	 0.00 %
 |     |  |-Phygy:		     0	         0 bp	 0.00 %
-|     |  |  |-Phygy-like:	     0	         0 bp	 0.00 %
 |     |  |-Selgy:		     0	         0 bp	 0.00 %
-|     |  |  |-Selgy-like:	     0	         0 bp	 0.00 %
 |     |  |-OTA:			     0	         0 bp	 0.00 %
-|     |  |  |-OTA-like:		     0	         0 bp	 0.00 %
-|     |  |-OTA|Athila:		  1008	   1284826 bp	 1.07 %
-|     |  |  |-OTA|Athila-like:	  1216	   1925151 bp	 1.61 %
+|     |  |-OTA|Athila:		  2224	   3209977 bp	 2.68 %
 |     |  |-OTA|TatI:		     0	         0 bp	 0.00 %
-|     |  |  |-OTA|TatI-like:	     0	         0 bp	 0.00 %
 |     |  |-OTA|TatII:		     0	         0 bp	 0.00 %
-|     |  |  |-OTA|TatII-like:	     0	         0 bp	 0.00 %
 |     |  |-OTA|TatIII:		     0	         0 bp	 0.00 %
-|     |  |  |-OTA|TatIII-like:	     0	         0 bp	 0.00 %
 |     |  |-OTA|Tat|Ogre:	     0	         0 bp	 0.00 %
-|     |  |  |-OTA|Tat|Ogre-like:     0	         0 bp	 0.00 %
-|     |  |-OTA|Tat|Retand:	   356	    612386 bp	 0.51 %
-|     |  |  |-OTA|Tat|Retlike:	   800	    899735 bp	 0.75 %
+|     |  |-OTA|Tat|Retand:	  1156	   1512121 bp	 1.26 %
 |     |
 |     |-chromovirus
 |        |-Chlamyvir:		     0	         0 bp	 0.00 %
-|        |  |-Chlamyvir-like:	     0	         0 bp	 0.00 %
 |        |-Tcn1:		     0	         0 bp	 0.00 %
-|        |  |-Tcn1-like:	     0	         0 bp	 0.00 %
 |        |-chromo-outgroup:	     0	         0 bp	 0.00 %
-|        |  |-chr-outg-like:	     0	         0 bp	 0.00 %
-|        |-CRM:			    99	     96712 bp	 0.08 %
-|        |  |-CRM-like:		   381	    165377 bp	 0.14 %
+|        |-CRM:			   480	    262089 bp	 0.22 %
 |        |-Galadriel:		     0	         0 bp	 0.00 %
-|        |  |-Galadriel-like:	     0	         0 bp	 0.00 %
-|        |-Tekay:		   227	    521056 bp	 0.44 %
-|        |  |-Tekay-like:	    40	     21785 bp	 0.02 %
+|        |-Tekay:		   267	    542841 bp	 0.45 %
 |        |-Reina:		   220	    222999 bp	 0.19 %
-|        |  |-Reina-like:	     0	         0 bp	 0.00 %
 |        |-chromo-unclass:	     0	         0 bp	 0.00 %
-|           |-chromo-un-like:	     0	         0 bp	 0.00 %
 |
 |-Class I others:		     0	         0 bp	 0.00 %
    |-Penelope:			     0	         0 bp	 0.00 %
@@ -128,8 +92,6 @@ Class II Total:			 16439	   6635283 bp	 5.54 %
 |        |-Tc1_Mariner:		     0	         0 bp	 0.00 %
 -Subclass_2
    |-RC/Helitron:		 13305	   4904874 bp	 4.10 %
-      |-Helitron-Auto:		   419	    384962 bp	 0.32 %
-      |-Helitron-Non-auto:	 12886	   4519912 bp	 3.78 %
 -Class II Unknown:		     0           0 bp    0.00 %
 -----------------------------------------------------------------------
 
