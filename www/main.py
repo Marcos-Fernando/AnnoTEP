@@ -36,6 +36,7 @@ def compact_items(origin_items, dest_compact):
                 arcname = os.path.basename(item)
                 zipf.write(item, arcname)
 
+# ======= Routes
 @app.route("/")
 def index():
     num_workers = get_number_of_workers()
@@ -176,6 +177,10 @@ def results_page(key_security):
 @app.route('/results-example', endpoint='result_example')
 def result_example():
     return render_template('results-fixo.html')
+
+@app.route('/A_thaliana', endpoint='A_thaliana')
+def genome_page():
+    return render_template('/genomes/A_thaliana.html')
 
 # @app.route('/results-fixo.html')
 # def results_fixo():

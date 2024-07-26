@@ -14,6 +14,11 @@ function addRow(tableId, name, numElements, length, percentage) {
   cell4.innerHTML = percentage;
 }
 
+//Voltar paa tela inicial
+document.getElementById("logoLink").onclick = function() {
+    window.location.href = "/";
+};
+
 // Função para ler e processar o arquivo JSON
 // function readJsonFile(file, tableId) {
 //   var filejson = new XMLHttpRequest();
@@ -46,10 +51,6 @@ function addRow(tableId, name, numElements, length, percentage) {
 // readJsonFile("static/TEs-Report-Complete.json", "TEs-Report-Complete");
 // // readJsonFile("static/TEs-Report-lite.json", "TEs-Report-lite");
 
-//Voltar paa tela inicial
-document.getElementById("logoLink").onclick = function() {
-    window.location.href = "/";
-};
 
 //colocando a tabela direto da imagem
 document.addEventListener('DOMContentLoaded', function() {

@@ -30,6 +30,10 @@
 				<img class="download-icon" src="static/assets/download.svg">
 				<spam class="txt-link">Download</spam>
 			</li>
+			<li class="li" id="Genome">
+				<img class="Genome-icon" src="static/assets/dna-icon-white.svg">
+				<spam class="txt-link">Genomes</spam>
+			</li>
 			<li class="li" id="Help">
 				<img class="help-icon" src="static/assets/QuestionCircle.svg">
 				<spam class="txt-link"> Help </spam>
@@ -93,12 +97,17 @@
 				<p>Data input</p>
 			</div>
 			<section class="container-email">
+				<div class="note">
+					<span> 
+						The download is limited to <b>30 MB</b>. The maximum number of tasks that can be run simultaneously on the platform is  <span><b>2</b></span>. 
+						If this limit is reached, your task will be placed on a waiting list. If you have a large genome or want to run the annotation quickly without 
+						a queue limit, we recommend downloading the tool to your local machine by going to <b>"Download"</b> in the side menu. 
+						For more information, acess <b>"Help > Web Server"</b>. 
+					</span>
+				</div>
+
 				<div class="session-title">
 					<p>Email Adress </p>
-					<div class="session-icon session-email-icon">
-						<span class="open-tab open-tab-email"> Through the provided email address, you will receive notifications indicating the commencement and completion of the annotation process. </span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-					</div>
 				</div>
 					<input id="email" class="email" type="email" pattern=".com" placeholder="enter email" onfocus="clearPlaceholder(this)" required/> 
 			</section>
@@ -106,10 +115,6 @@
 			<section class="container-genome">
 				<div class="session-title">
 					<p>Genome data</p>
-					<div class="session-icon session-genome-icon">
-						<span class="open-tab open-tab-genome"> Select the genomic data for the plant species you wish to analyze; ensure that the data is formatted in the .fasta file format. </span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-					</div>
 				</div>
 				<div class="box-input">
 					<input type="text" id="fileNameInput" class="input-text" readonly disabled>
@@ -118,19 +123,13 @@
 						<p class="name-btn">Browser</p> 
 						  <input type="file" class="input-data" accept=".fasta" id="inputdata" onchange="updateFileName()">
 					</label>
-					<span>(Limit 30MB)</span>
+					<span>(.fasta)</span>
 				</div>
 			</section>
 	
 			<section class="container-action">
 				<div class="session-title">
 					<p>Type annotation</p>
-					<div class="session-icon session-annotation-icon">
-						<span class="open-tab open-tab-annotation"> 
-							The annotation process for SINE and LINE elements involves providing concise, compressed data about the elements. <br>
-							The complete annotation goes further, conducting a thorough analysis. It not only includes compressed data on SINEs and LINEs, but also incorporates graphical representations, phylogenetic trees and descriptive tables, providing a more nuanced understanding of these elements.</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-					</div>
 				</div>
 				<div class="box-checkboxs">
 					<div class="container-checkbox">
@@ -173,10 +172,7 @@
 
 		<footer class="footer">
 			<div class="cite-us">
-				The maximum size allowed is 30 MB. For annotations in larger files, <span><b>we recommend downloading local versions in the Download session </b></span>.
-				The maximum number of tasks to be run on the platform is <span><b>3</b></span>, during which time your task will be put on hold. 
-				The results obtained through analysis are saved in the database for up to <span><b>48 hours</b></span>. For private work or work with a large amount of data, 
-				we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> <b>cite us</b> </a>
+				If you have found AnnoTEP useful, please <a href=""> <b>cite us</b> </a>
 			</div>
 		</footer>
 	</main>
@@ -264,6 +260,42 @@
 			</div>
 	</main> 	
 
+	<main class="Genome">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+		<section class="container-data-genome">
+			<div class="title-input">
+				<p>Preprocessed Genomes</p>
+			</div>
+			<section class="container-menu-genome">
+				<div class="box-genomes-plants">
+					<a href="{{ url_for('A_thaliana')}}" target="_blank">
+						<div class="name-plants">
+							<span><i> Arabidopsis thaliana </i></span>
+						</div>
+						<img class="image-plants" src="../static/screenshot/Arabidopsis_thaliana.jpg"/>
+					</a>
+				</div>
+				<div class="box-genomes-plants">
+					<a>
+						<div class="name-plants">
+							<span><i> Coming soon </i></span>
+						</div>
+						<img class="image-plants cs" src="../static/assets/coming-soon.png"/>
+					</a>
+				</div>
+			</section>
+		</section>
+		<footer class="footer">
+			<div class="cite-us">
+				
+			</div>
+		</footer>
+	</main>
+
 	<main class="Help">
 		<header class="header">
 			<section class="container-header">
@@ -286,8 +318,20 @@
 
 			<div id="web-server" class="section-models">
 				<h3>Web Server</h3>
-				<p> This model was developed to demonstrate how AnnoTEP works and to allow users to make small annotations of transposable elements completely remotely (online). It is ideal for researchers who want to try out the tool without the need for local installation, facilitating quick access and accommodating essential features for annotating TEs in plant genomes. </p>
-				<p> In this version, to generate the annotation, simply enter your e-mail address, the genomic file and the type of annotation you want, and submit. You will receive information about the start and end of the annotation via email, as well as a link to access the results. Remember that these results are only stored in the database for 48 hours. The genomic data requested for annotation must be in FASTA format. </p>
+				<p> 
+					This model was developed to demonstrate how AnnoTEP works and to allow users to make small annotations of transposable elements 
+					completely remotely (online). It is ideal for researchers who want to try out the tool without the need for local installation, 
+					facilitating quick access and accommodating essential features for annotating TEs in plant genomes. 
+				</p>
+				<p>
+					Due to the limitations of the web format, file sizes are restricted to 30MB, prioritizing up to two annotations at a time. 
+					Annotations of files of this size can take up to three days to complete. For annotations of larger files, we recommend downloading the tool. 
+					You can download it from the platform, in the Download section, or from <a href="https://github.com/Marcos-Fernando/AnnoTEP" target="_blank"> Github.</a>
+				</p>
+				<p> In this version, to generate the annotation, simply enter your e-mail address, the genomic file and the type of annotation you want, and submit. 
+					You will receive information about the start and end of the annotation via email, as well as a link to access the results. Remember that these 
+					results are only stored in the database for 48 hours. The genomic data requested for annotation must be in FASTA format. 
+				</p>
 
 				<ul class="results-annotation">
 					<li><p><a href="#results-annotation">Click here </a> to find out more about the type of annotation and result.</p></li>

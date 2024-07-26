@@ -1,9 +1,10 @@
 //------------------  Script Dark Theme ---------------//
 var replaceConst = document.querySelector('.replace');
-var elementsWithDarkTheme = document.querySelectorAll('.main, .Download, .Help, .About, .Contact, .container-main, .box-input, .box-checkboxs, .box-explicative, .title-input, .session-title, .header, .footer, .rectangle-green, .uploaddata, .img-dna, .img-phylogeny, .item-download, .icon-download, .container-download, .documentation-annotep, .description-about, .description-contact, .num_work');
+var elementsWithDarkTheme = document.querySelectorAll('.main, .Download, .Genome, .Help, .About, .Contact, .container-main, .results-annotation, .menu-help, .note, .box-input, .box-checkboxs, .box-explicative, .title-input, .session-title, .header, .footer, .rectangle-green, .uploaddata, .img-dna, .img-phylogeny, .item-download, .icon-download, .container-download, .documentation-annotep, .description-about, .description-contact, .num_work, .seleting-annotation, .section-models');
 var iconHelps = document.querySelectorAll('.icon-help');
 var cloudImg = document.getElementById('cloudImage');
 var logoImgs = document.querySelectorAll('.logo');
+var commigsoons = document.querySelectorAll('.cs');
 var dnaImg = document.querySelector('.img-dna');
 var imgFile = document.querySelector('.img-file-results');
 var phylogenyImg = document.querySelector('.img-phylogeny');
@@ -29,6 +30,10 @@ replaceConst.addEventListener('click', function(){
 
   iconHelps.forEach(function(iconhelp) {
     iconhelp.src = isCloudSun ? '../static/assets/QuestionDiamond-dark.svg' : '../static/assets/QuestionDiamond-light.svg';
+  });
+
+  commigsoons.forEach(function(commigsoon) {
+    commigsoon.src = isCloudSun ? '../static/assets/coming-soon-dark.png' : '../static/assets/coming-soon.png';
   });
 
   shdownloads.forEach(function(shdownload){

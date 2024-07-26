@@ -360,6 +360,18 @@ article span{
 	animation: showElementAnimation .5s ease-in-out 1.2s forwards;
 }
 
+.note{
+	margin: 1rem 0 2rem 0;
+	font-size: 1.125rem;
+
+	opacity: 0;
+	animation: showElementAnimation .4s ease-in-out 1s forwards;
+}
+
+.note b{
+	color: var(--green-01);
+}
+
 .container-explicative .box-explicative span{
 	font-size: 1.5rem;
 	
@@ -757,7 +769,8 @@ footer span{
 .Download,
 .Help,
 .About,
-.Contact{
+.Contact,
+.Genome{
 	flex-direction: column;
 	display: none;
 	font-family: 'Roboto', sans-serif;
@@ -880,6 +893,51 @@ footer span{
 	color: var(--green-02); /* Define a cor dos links como verde */
 	font-weight: bold; /* Deixa o texto em negrito */
 }
+/*================= Genome =================*/
+.container-menu-genome{
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+	padding: 1rem;
+	margin: 1rem 0 1rem 0;
+
+	opacity: 0;
+	transform: translate(0, -1rem);
+	animation: showElementAnimation .5s ease-in-out 1.8s forwards;
+}
+
+.container-data-genome{
+	margin: 0 2rem 0 2rem;
+  	padding-top: 0;
+}
+
+.box-genomes-plants {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	width: 21rem;
+}
+
+.name-plants{
+	width: 100%;
+	font-size: 1.5rem;
+	font-weight: 700;
+	background-color: var(--green-01);
+	color: var(--white);
+	padding: 0.5rem;
+	border-radius: 1rem 1rem 0 0;
+}
+
+.image-plants{
+	width: 100%;
+	border: 0.15rem solid var(--green-01);
+	height: 23rem;
+}
+
+.cs{
+	padding: 2rem;
+}
+
 
 /*================= Help ===================*/
 .documentation-annotep{ 

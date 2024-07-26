@@ -15,32 +15,44 @@
 	--black:    #29292E;
 }
 
-.container-main.dark-theme{
+.container-main.dark-theme,
+.box-checkboxs.dark-theme,
+.description-about.dark-theme p,
+.description-about.dark-theme span,
+.description-contact.dark-theme span,
+.num_work.dark-theme,
+.note.dark-theme,
+.container-download.dark-theme p,
+.container-download.dark-theme li,
+.documentation-annotep.dark-theme p{
 	color: var(--grey-02);
 }
 
-.box-checkboxs.dark-theme{
-	color: var(--grey-02);
+.box-input.dark-theme span,
+.container-main.dark-theme b,
+footer.dark-theme span,
+.container-download.dark-theme span,
+.num_work.dark-theme span,
+.note.dark-theme b{
+	color: var(--orange);
+}
+
+.container-main.dark-theme a,
+footer.dark-theme a,
+.description-about.dark-theme a,
+.container-download.dark-theme .docker,
+.results-annotation.dark-theme a,
+.menu-help.dark-theme a,
+.section-models.dark-theme p a{
+	color: var(--blue);
 }
 
 main.dark-theme{
 	background-color: var(--black);
 }
 
-.box-input.dark-theme span{
-	color: var(--orange);
-}
-
 .box-input.dark-theme .input-text{
 	background-color: var(--white);
-}
-
-.container-main.dark-theme b{
-	color: var(--orange);
-}
-
-.container-main.dark-theme a{
-	color: var(--blue);
 }
 
 .img-dna.dark-theme, .img-phylogeny.dark-theme{
@@ -59,7 +71,8 @@ main.dark-theme{
 	border-bottom: 0.125rem solid var(--green-01);
 }
 
-.session-title.dark-theme{
+.session-title.dark-theme,
+.description-contact.dark-theme p{
 	color: var(--purple-01);
 }
 
@@ -72,50 +85,22 @@ footer.dark-theme{
 	color: var(--grey-02);
 }
 
-footer.dark-theme a{
-	color: var(--blue);
-}
-
-footer.dark-theme span{
-	color: var(--orange);
-}
-
 .uploaddata.dark-theme{
 	background: var(--green-01);
 	border: 0.0625rem solid var(--green-01);
-}
-
-.item-download.dark-theme p{
-	color: var(--white);
 }
 
 .icon-download.dark-theme{
 	background-color: var(--black);
 }
 
-.container-download.dark-theme span{
-	color: var(--orange);
-}
-
-.container-download.dark-theme p,
-.container-download.dark-theme li{
-	color: var(--grey-02);
-}
-
-.container-download.dark-theme .docker{
-	color: var(--blue);
-}
-
-.container-download.dark-theme b{
+.container-download.dark-theme b, 
+.documentation-annotep.dark-theme p b{
 	color: var(--grey-01);
 }
 
 .item-download.dark-theme p{
 	color: var(--white);
-}
-
-.documentation-annotep.dark-theme p{
-	color: var(--grey-02);
 }
 
 .documentation-annotep.dark-theme h3{
@@ -128,40 +113,12 @@ footer.dark-theme span{
 	border-bottom: 0.125rem solid var(--purple-01); 
 }
 
-.documentation-annotep.dark-theme h3 span{
+.documentation-annotep.dark-theme h3 span,
+.section-models.dark-theme p b{
 	color: var(--green-01);
-}
-
-.documentation-annotep.dark-theme p b{
-	color: var(--grey-01);
 }
 
 .documentation-annotep.dark-theme li{
 	list-style-type: square;
 	color: var(--grey-02);
-}
-
-.description-about.dark-theme p,
-.description-about.dark-theme span{
-	color: var(--grey-02);
-}
-
-.description-about.dark-theme a{
-	color: var(--blue);
-}
-
-.description-contact.dark-theme span{
-	color: var(--grey-02);
-}
-
-.description-contact.dark-theme p{
-	color: var(--purple-01);
-}
-
-.num_work.dark-theme{
-	color: var(--grey-02);
-}
-
-.num_work.dark-theme span{
-	color: var(--orange);
 }

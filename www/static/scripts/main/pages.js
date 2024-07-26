@@ -4,6 +4,7 @@ document.querySelectorAll('.home').forEach(element => {
       document.querySelector('.main').style.display = 'inline-block';
 
       document.querySelector('.Download').style.display = 'none';
+      document.querySelector('.Genome').style.display = 'none';
       document.querySelector('.Help').style.display = 'none';
       document.querySelector('.About').style.display = 'none';
       document.querySelector('.Contact').style.display = 'none';
@@ -15,6 +16,17 @@ document.querySelectorAll('.home').forEach(element => {
     document.querySelector('.Download').style.display = 'flex';
   
     document.querySelector('.main').style.display = 'none';
+    document.querySelector('.Genome').style.display = 'none';
+    document.querySelector('.Help').style.display = 'none';
+    document.querySelector('.About').style.display = 'none';
+    document.querySelector('.Contact').style.display = 'none';
+  });
+
+  document.getElementById('Genome').addEventListener('click', () => {
+    document.querySelector('.Genome').style.display = 'flex';
+  
+    document.querySelector('.main').style.display = 'none';
+    document.querySelector('.Download').style.display = 'none';
     document.querySelector('.Help').style.display = 'none';
     document.querySelector('.About').style.display = 'none';
     document.querySelector('.Contact').style.display = 'none';
@@ -25,6 +37,7 @@ document.querySelectorAll('.home').forEach(element => {
   
     document.querySelector('.main').style.display = 'none';
     document.querySelector('.Download').style.display = 'none';
+    document.querySelector('.Genome').style.display = 'none';
     document.querySelector('.About').style.display = 'none';
     document.querySelector('.Contact').style.display = 'none';
   });
@@ -34,6 +47,7 @@ document.querySelectorAll('.home').forEach(element => {
   
     document.querySelector('.main').style.display = 'none';
     document.querySelector('.Download').style.display = 'none';
+    document.querySelector('.Genome').style.display = 'none';
     document.querySelector('.Help').style.display = 'none';
     document.querySelector('.Contact').style.display = 'none';
   });
@@ -43,6 +57,7 @@ document.querySelectorAll('.home').forEach(element => {
   
     document.querySelector('.main').style.display = 'none';
     document.querySelector('.Download').style.display = 'none';
+    document.querySelector('.Genome').style.display = 'none';
     document.querySelector('.Help').style.display = 'none';
     document.querySelector('.About').style.display = 'none';
   });
