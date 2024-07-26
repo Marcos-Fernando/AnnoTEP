@@ -1169,6 +1169,18 @@ footer span{
 	.command-docker{
 		height: 6rem;
 	}
+
+	.box-genomes-plants {
+		width: 15rem;
+	}
+
+	.name-plants{
+		font-size: 1rem;
+	}
+
+	.image-plants {
+		height: 16rem;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1287,6 +1299,18 @@ footer span{
 
 	.table-logos span {
 		font-size: 0.8rem;
+	}
+
+	.box-genomes-plants {
+		width: 15rem;
+	}
+
+	.name-plants{
+		font-size: 1rem;
+	}
+
+	.image-plants {
+		height: 16rem;
 	}
 	
 }
@@ -1468,6 +1492,23 @@ footer span{
 
 	.table-logos span {
 		display: none;
+	}
+
+	.box-genomes-plants {
+		width: 15rem;
+	}
+
+	.name-plants{
+		font-size: 1rem;
+	}
+
+	.image-plants {
+		height: 16rem;
+	}
+
+	.container-menu-genome{
+		flex-direction: column;
+  		align-items: center;
 	}
 	
 }
