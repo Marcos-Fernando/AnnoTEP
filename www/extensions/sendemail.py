@@ -42,7 +42,7 @@ def send_email_error_size(email, filename):
     msg_title = "File size not accepted"
     sender = "noreply@app.com"
     msg = Message(msg_title, sender=sender, recipients=[email])
-    msg.body = f'O arquivo "{filename}" enviado por {email} excede o tamanho máximo permitido de 30 MB.'
+    msg.body = f'The file “{filename}” sent by {email} exceeds the maximum allowed size of 30 MB.'
     mail.send(msg)
 
 def send_email_error_extension(email):
