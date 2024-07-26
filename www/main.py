@@ -61,8 +61,7 @@ def upload_file():
 
         if file and allowed_file(file.filename):
             # Verifica o tamanho do arquivo
-            if len(file.read()) > MAX_CONTENT_LENGTH:
-                file.seek(0)  # Volta o ponteiro do arquivo para o início
+            if request.content_length > MAX_CONTENT_LENGTH:
                 send_email_error_size(email, file.filename)
                 flash('File size exceeds the maximum limit of 30 MB.')
                 return redirect(request.url)
