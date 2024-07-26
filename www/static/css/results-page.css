@@ -253,6 +253,9 @@ header section{
 	animation: showElementAnimation .5s ease-in-out .3s forwards;
 }
 
+i{
+	color: var(--green-02);
+}
 
 .container-main{
 	color: var(--grey-03);
@@ -319,6 +322,18 @@ header section{
 	border-bottom: 0.125rem solid var(--purple-02);
 
 	padding-top: 1rem;
+}
+
+.note{
+	margin-top: 1rem;
+
+	opacity: 0;
+	animation: showElementAnimation .4s ease-in-out 1s forwards;
+}
+
+.intro-result{
+	opacity: 0;
+	animation: showElementAnimation .4s ease-in-out 1s forwards;
 }
 
 .icon-help{
@@ -549,8 +564,6 @@ td, th{
 
 .Landscape-img{
 	width: 55rem;
-	height: 45rem;
-
 	margin-top: 2rem;
 }
 /* =============== LTRfamily ================ */
@@ -996,6 +1009,18 @@ main.dark-theme{
 	background-color: var(--black);
 }
 
+.note.dark-theme{
+	color: var(--grey-02);
+}
+
+.intro-result.dark-theme{
+	color: var(--grey-02);
+}
+
+.intro-result.dark-theme i{
+	color: var(--green-01);
+}
+
 .rectangle-green.dark-theme{
 	background-color: var(--green-01);
 }
@@ -1058,8 +1083,6 @@ td.dark-theme{
 .table-footer.dark-theme{
 	color: var(--write);
 }
-
-
 
 
 /* Modal */
@@ -1153,6 +1176,50 @@ td.dark-theme{
 	html{
 		font-size: 93.75%;
 	}
+
+	.table-top{
+		margin-top: 2rem;
+		width: 42rem;
+	}
+	
+	.table-footer{
+		width: 42rem;
+	}
+
+	.slider {
+		width: 45rem;
+	}
+	
+	.downloadreport{
+		padding: 0.5rem;
+		width: 8rem;
+	}
+
+	.slider-2{
+		width: 45rem;
+	}
+
+	.downloaddata{
+		width: 15rem;
+		height: 4rem;
+	}
+
+	.slider-3{
+		width: 40rem;
+	}
+
+	.downloadltrtree{
+		width: 14rem;
+	}
+
+	.ltr-density{
+		width: 60rem;
+	}
+
+	.Landscape-img{
+		width: 38rem;
+	}
+
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1209,8 +1276,33 @@ td.dark-theme{
 	}
 
 	.non-ltr-data {
-		width: 18rem;
-		height: 3rem;
+		width: 23rem;
+		height: 4rem;
+		padding: 1rem;
+	}
+
+	.note{
+		font-size: 1rem;
+	}
+
+	.table-top,
+	.table-footer {
+		width: 30rem;
+	}
+
+	.slider,
+	.slider-2,
+	.slider-3{
+		width: 33rem;
+	}
+
+	.downloadreport{
+		width: auto;
+	}
+
+	.downloadltrtree{
+		width: 11rem;
+		height: 6rem;
 	}
 
 	table, td, tr, th {
@@ -1220,8 +1312,7 @@ td.dark-theme{
 	.downloaddata {
 		font-size: 1rem;
 		gap: 0.5rem;
-		width: 28rem;
-		height: 3rem;
+		width: 15rem;
 	}
 
 	.Landscape-img {
@@ -1357,50 +1448,65 @@ td.dark-theme{
 		gap: 0.5rem;
 	}
 
-	.box-compact {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	.intro-result{
+		font-size: 1rem;
 	}
 
 	.non-ltr-data {
-		width: 18rem;
-		height: 3rem;
+		width: 22rem;
+		font-size: 1rem;
 	}
 
 	table, td, tr, th {
 		font-size: 1rem;
 	}
 
+	.table-top,
+	.table-footer{
+		width: 20rem;
+	}
+
+	.slider,
+	.slider-2,
+	.slider-3{
+		width: 26rem;
+	}
+
+	.container-downloadreport,
+	.container-family,
+	.container-ltrtree{
+		gap: 0.5rem;
+		flex-direction: column;
+	}
+
+	.downloadreport,
+	.downloaddata,
+	.downloadltrtree{
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	.prev-slide,
+	.next-slide{
+		font-size: 1rem;
+	}
+
 	.downloaddata {
 		font-size: 1rem;
-		gap: 0.5rem;
-		width: 22rem;
+		width: 20rem;
+	}
+
+	.downloadltrtree{
+		width: 20rem;
 		height: 3rem;
 	}
 
 	.Landscape-img {
-		width: 30rem;
-		height: 20rem;
-	}
-
-	.ltr-copia, .ltr-gypsy {
-		width: 25rem;
-		height: 15rem;
-	}
-
-	.ltr-phylogeny{
-		width: 35rem;
-		margin-top: 1rem;
+		width: 22rem;
 	}
 	
 	.ltr-density{
 		width: 35rem;
-		margin-top: 1rem;
-	}
-	
-	.ltr-tree-rectangular{
-		width: 25rem;
 		margin-top: 1rem;
 	}
 
@@ -1530,37 +1636,64 @@ td.dark-theme{
 		gap: 0.5rem;
 	}
 
-	.box-compact {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
 	.non-ltr-data {
-		width: 18rem;
-		height: 3rem;
+		width: 15rem;
+		height: 6rem;
+		padding: 1.5rem;
+		gap: 0;
 	}
 
 	table, td, tr, th {
 		font-size: 0.8rem;
 	}
 
-	.downloaddata {
-		padding: 1rem;
+	.table-top,
+	.table-footer{
+		width: 20rem;
+	}
+
+	.slider,
+	.slider-2,
+	.slider-3{
+		width: 18rem;
+	}
+
+	.intro-result,
+	.note{
 		font-size: 1rem;
+	}
+
+	.container-downloadreport,
+	.container-family,
+	.container-ltrtree{
 		gap: 0.5rem;
+		flex-direction: column;
+	}
+
+	.downloadreport,
+	.downloaddata,
+	.downloadltrtree{
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	.prev-slide,
+	.next-slide{
+		font-size: 1rem;
+	}
+
+	.downloaddata {
+		font-size: 1rem;
+		width: 20rem;
+	}
+
+	.downloadltrtree{
 		width: 20rem;
 		height: 3rem;
 	}
 
 	.Landscape-img {
-		width: 25rem;
-		height: 15rem;
-	}
-
-	.ltr-copia, .ltr-gypsy {
-		width: 20rem;
-		height: 12rem;
+		width: 18rem;
 	}
 
 	.ltr-phylogeny{

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results-fixo.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results-page.css') }}" />
     <title> AnnoTEP - Results Example </title>
 
 	<script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -70,14 +70,23 @@
 			<section class="container-header">
 				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
 		</header>
+
 		
 		<section class="container-data" id="Non-LTR-section">
+			<div class="intro-result">
+				<p>These are results generated from the complete annotation of the <i>Arabidopsis thaliana</i> genome.</p>
+			</div>
+
 			<div class="title-data">
 				<p>Annotated data</p>
-				<div class="session-nonltr-icon">
-					<span class="open-tab-nonltr"> This section contains .fa data and overlay images for SINE elements. The LINE annotation includes .fa and .gff3 data. The full annotation includes masked elements, .gff3, .fa, as well as SINE, LINE, TIR, Helitron and LTR data. </span>
-					<img class="icon-help" src="../static/assets/QuestionDiamond-light.svg"/>
-				</div>
+			</div>
+			<div class="note">
+				<span> 
+					This session contains some of the data generated in the TEs annotation. In the SINE annotation, .fa files and overlay images are obtained. 
+					In the LINE annotation, .fa and .gff3 files are obtained. In the complete annotation, more refined data is obtained for the SINEs and LINEs 
+					elements, as well as data on LTRs, TIRs and Helitrons elements. Masked files, .gff3 files, .sum files and .LAI files are also generated. When 
+					using the tool on the local machine, it is possible to obtain more data than just that presented. 
+				</span>
 			</div>
 
 			<section class="container-compact">
@@ -93,13 +102,13 @@
 		<section class="container-data" id="Report-section">
 			<div class="title-data" style="--delay: 2.4s">
 				<p>Report</p>
-				<div class="session-report-icon">
-						<span class="open-tab-report"> 
-							In this section, you will find a table that provides a comprehensive report of the transposable elements. <br>
-							Partial elements will be identified with the suffix "-like".
-						</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-				</div>
+			</div>
+			<div class="note">
+				<span> 
+					In this session, we are introduced to the annotation report for transposable elements. Transposable elements are classified into classes, orders, 
+					superfamilies and autonomies. These elements are organized based on the number of base pairs and the percentage they occupy in the genome of the 
+					organism analyzed. The data is stored in .txt files, accompanied by bar charts and bubble charts for visualization.
+				</span>
 			</div>
 
 			<section class="container-table">
@@ -176,14 +185,13 @@
 		<section class="container-data" id="Landscape-section">
 			<div class="title-data" style="--delay: 3.3s">
 				<p>Landscape Graphs</p>
-				<div class="session-graphs-icon">
-						<span class="open-tab-graphs">
-							In this section, the repeat landscape graphs offer a visual representation of the relative quantity of each Transposable Element (TE) class, 
-							correlated to the Kimura distance on the x-axis, acting as an indicator of time. In contrast, the y-axis displays the comparative coverage of each repeat class, 
-							adjusted for genome size. Thus, the repeat landscape graph provides a coherent inference of the relative ages of each element identified in a specific genome.
-						</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-				</div>
+			</div>
+			<div class="note">
+				<span>
+					In this section, the repeat landscape graphs offer a visual representation of the relative quantity of each Transposable Element (TE) class, 
+					correlated to the Kimura distance on the x-axis, acting as an indicator of time. In contrast, the y-axis displays the comparative coverage of each repeat class, 
+					adjusted for genome size. Thus, the repeat landscape graph provides a coherent inference of the relative ages of each element identified in a specific genome.
+				</span>
 			</div>
 
 			<section class="container-landscape">
@@ -195,7 +203,7 @@
 					<a href="../static/screenshot/RLandScape.svg" download="RLandScape.svg"></a>
 						<button type="button" id="" class="downloaddata">
 							<img class="box-icon" src="../static/assets/download.svg"/> 
-							Download Landscape Graphs 
+							Landscape Graphs 
 						</button>
 					</a>
 				</div>
@@ -205,13 +213,12 @@
 		<section class="container-data" id="Ltr-section">
 			<div class="title-data" style="--delay: 4.2s">
 				<p>LTR SuperFamily</p>
-				<div class="session-superfamily-icon">
-						<span class="open-tab-superfamily">
-							This section shows the histograms of the LTR ages. 
-							The dashed vertical lines indicate the median, while the horizontal line represents the average (in millions of years - Mya).
-						</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-				</div>
+			</div>
+			<div class="note">
+				<span>
+					This section shows the histograms of the LTR ages. 
+					The dashed vertical lines indicate the median, while the horizontal line represents the average (in millions of years - Mya).
+				</span>
 			</div>
 
 			<section class="container-ltrfamily">
@@ -244,13 +251,12 @@
 		<section class="container-data" id="phylogeny-section">
 			<div class="title-data" style="--delay: 5.3s">
 				<p>LTR Phylogeny</p>
-				<div class="session-phylogeny-icon">
-						<span class="open-tab-phylogeny"> 
-							In this section, the phylogeny of the alignments of all the LTR-RT domains is elaborated, 
-							providing a comprehensive visualization of the evolutionary relationships between them.
-						</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-				</div>
+			</div>
+			<div class="note">
+				<span> 
+					In this section, the phylogeny of the alignments of all the LTR-RT domains is elaborated, 
+					providing a comprehensive visualization of the evolutionary relationships between them.
+				</span>
 			</div>
 
 			<section class="container-phylogeny">
@@ -293,14 +299,13 @@
 		<section class="container-data" id="density-section">
 			<div class="title-data" style="--delay: 6.2s">
 				<p>LTR Phylogenetic tree - Density</p>
-				<div class="session-density-icon">
-						<span class="open-tab-density"> 
-							In this section, the densities of the elements are displayed, with the outer circle (purple) representing the length occupied by each element in base pairs (bp), 
-							while the inner circle (red) reflects the number of occurrences of each element. 
-							This visual representation provides a comprehensive view of the distribution and frequency of the elements under study.
-						</span>
-						<img class="icon-help" src="static/assets/QuestionDiamond-light.svg"/>
-				</div>
+			</div>
+			<div class="note">
+				<span> 
+					In this section, the densities of the elements are displayed, with the outer circle (purple) representing the length occupied by each element in base pairs (bp), 
+					while the inner circle (red) reflects the number of occurrences of each element. 
+					This visual representation provides a comprehensive view of the distribution and frequency of the elements under study.
+				</span>
 			</div>
 
 			<section class="container-density">
@@ -317,13 +322,17 @@
 					</a>
 				</div>
 			</section>
+			<div class="note">
+				<span class="note">
+					The data in Report, Landscape Graphs, LTR Superfamily, LTR Phylogeny and LTR Phylogenetic tree - Density is only available 
+					when the annotation is complete.
+				</span>
+			</div>
 		</section>
 
-
-			
-		
+	
 		<!-- Modal -->
-		<section id="myModal" class="modal">
+		<!-- <section id="myModal" class="modal">
 			<div class="modal-content">
 			  	<span class="close">&times;</span>
 			  	<div class="container-notification">
@@ -336,9 +345,10 @@
 					</div>
 			  	</div>
 			</div>
-		</section>
+		</section> -->
 		<!-- Modal -->
 
+		
 		<footer class="footer">
 			<div class="cite-us">
 				Results are saved in the database for up to 48 hours. 

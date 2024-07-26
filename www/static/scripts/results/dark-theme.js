@@ -1,6 +1,6 @@
 //------------------  Script Dark Theme ---------------//
 var replaceConst = document.querySelector('.replace');
-var elementsWithDarkTheme = document.querySelectorAll('.non-ltr-data, .downloaddata, .container-compact, th, td, .main, .table-footer,.container-data,.box-explicative, .main-tr, .title-data, .footer-td, footer');
+var elementsWithDarkTheme = document.querySelectorAll('.non-ltr-data, .downloaddata, .container-compact, th, td, .main, .table-footer,.container-data,.box-explicative, .main-tr, .title-data, .footer-td, footer, .note, .intro-result');
 var iconHelps = document.querySelectorAll('.icon-help');
 var cloudImg = document.getElementById('cloudImage');
 var logoImg = document.getElementById('logoImage');

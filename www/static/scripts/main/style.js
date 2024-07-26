@@ -37,7 +37,7 @@ const file = fileInput.files[0];
   
   // Mensagem de erro para o tamanho do arquivo
   if (!isFileSizeValid) {
-    alert('O arquivo é muito grande. O tamanho máximo permitido é 30 MB.');
+    alert('The maximum size allowed is 30 MB. For annotations in larger files, we recommend downloading local versions in the Download session.');
     fileInput.value = ''; // Limpa o campo de entrada
     document.getElementById('fileNameInput').value = ''; // Limpa o nome do arquivo
   }

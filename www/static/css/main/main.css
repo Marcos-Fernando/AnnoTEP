@@ -230,10 +230,6 @@ aside li:hover{
 	cursor: pointer;
 }
 
-li.open{
-	background-color: #3B2369;
-}
-
 main{
 	width: 100%;
 
@@ -767,7 +763,7 @@ footer span{
 	font-family: 'Roboto', sans-serif;
 }
 
-/* Download */
+/* ============= Download ====================*/
 .container-download{
 	display: flex;
 	flex-direction: column;
@@ -825,6 +821,10 @@ footer span{
 	animation: showElementAnimation .5s ease-in-out 1.2s forwards;
 }
 
+.command-docker{
+	height: 6rem;
+}
+
 .item-download{
 	width: 30rem;
     height: 3rem;
@@ -868,7 +868,20 @@ footer span{
 	background: var(--green-01);
 }
 
-/* Help */
+
+.container-download ul{
+	margin: 1rem 0 0 1rem;
+	list-style-type: disc; 
+	padding-left: 0.5rem;
+}
+
+.container-download a {
+	text-decoration: none; /* Remove o sublinhado dos links */
+	color: var(--green-02); /* Define a cor dos links como verde */
+	font-weight: bold; /* Deixa o texto em negrito */
+}
+
+/*================= Help ===================*/
 .documentation-annotep{ 
 	display: flex;
 	flex-direction: column;
@@ -883,20 +896,15 @@ footer span{
 }
 
 .documentation-annotep p b{
-	color: var(--black);
+	color: var(--purple-02);
 }
 
-.documentation-annotep ul{
-	margin: 0 2rem 0 2rem;
-}
-
-.documentation-annotep li{
+.seleting-annotation li{
 	list-style-type: square;
+	margin-bottom: 1.5rem;
 }
 
 .documentation-annotep h3{
-	margin: 1rem 0 0.5rem 0;
-
 	color: var(--grey-03);
     font-weight: 700;
     text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
@@ -907,28 +915,37 @@ footer span{
 	color: var(--green-02);
 }
 
-.documentation-annotep h4{
-	margin: 1rem 0 0.5rem 0;
-    text-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
-    border-bottom: 0.125rem solid var(--purple-02); 
+.menu-help ul,
+.section-models ul {
+	margin: 1rem 0 0 1rem;
+	list-style-type: disc; /* Define os marcadores como bolinhas */
+	padding-left: 0.5rem; /* Espaçamento à esquerda para alinhar as bolinhas */
 }
 
-.screenshot-example{
-	width: 34rem;
-	padding: 0 1rem;
+.menu-help li{
+	margin-bottom: 1.5rem; /* Espaçamento de 1,5 entre os itens */
 }
 
-.screenshot-results{
-	width: 50rem;
-	margin: 1rem 0;
+.menu-help a,
+.section-models a {
+	text-decoration: none; /* Remove o sublinhado dos links */
+	color: var(--green-02); /* Define a cor dos links como verde */
+	font-weight: bold; /* Deixa o texto em negrito */
 }
 
-.screenshot-results img,
-.screenshot-example img{
-	width: 100%;
-	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-	border-radius: 1rem;
+.menu-help a:hover,
+.section-models a:hover{
+	text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
 }
+
+.section-models{
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	margin-top: 2rem;
+}
+
 
 /* About */
 .description-about{
@@ -971,6 +988,12 @@ footer span{
 	animation: showElementAnimation .5s ease-in-out 1.8s forwards;
 }
 
+.table-logos section{
+	display: flex;
+	gap: 2rem;
+	align-items: end;
+}
+
 .logo-info{
 	display: flex;
 	flex-direction: column;
@@ -984,8 +1007,18 @@ footer span{
 	width: 8rem;
 }
 
+.grid-logo{
+	width: 9rem;
+}
+
+.ncc-logo{
+	width: 4rem;
+}
+
 .unesp-logo,
-.labiocad-logo{
+.labiocad-logo,
+.fapespa-logo,
+.fapesp-logo{
 	width: 15rem;
 }
 
@@ -1176,6 +1209,27 @@ footer span{
 	.command-docker{
 		height: 8rem;
 	}
+
+	.capes-logo,
+	.ufpa-logo{
+		width: 5rem;
+	}
+
+	.unesp-logo, .labiocad-logo, .fapespa-logo, .fapesp-logo {
+		width: 10rem;
+	}
+
+	.ncc-logo {
+		width: 3rem;
+	}
+
+	.grid-logo {
+		width: 8rem;
+	}
+
+	.table-logos span {
+		font-size: 0.8rem;
+	}
 	
 }
 
@@ -1299,8 +1353,7 @@ footer span{
 	}
 
 	.email{
-		width: 28rem;
-		height: 2rem;
+		width: 21rem;
 	}
 
 	.input-text{
@@ -1343,6 +1396,20 @@ footer span{
 		width: 20rem;
 		font-size: 1rem;
 		gap: 0.2rem;
+	}
+
+	.capes-logo,
+	.ufpa-logo,
+	.grid-logo{
+		width: 4rem;
+	}
+
+	.unesp-logo, .labiocad-logo, .fapespa-logo, .fapesp-logo {
+		width: 8rem;
+	}
+
+	.table-logos span {
+		display: none;
 	}
 	
 }
@@ -1453,14 +1520,7 @@ footer span{
 	}
 
 	.container-explicative{
-		gap: 3rem;
-		margin: 2rem 3rem 2rem 3rem;
-		padding: 0 4rem 0 4rem;
-
 		flex-direction: column;
-		text-align: center;
-		align-items: center;
-		justify-content: center;
 	}
 
 	.be3 {
@@ -1486,7 +1546,7 @@ footer span{
 	}
 
 	.email{
-		width: 21rem;
+		width: 18rem;
 		height: 2rem;
 	}
 
@@ -1495,16 +1555,22 @@ footer span{
 		height: 2rem;
 	}
 
+	.box-input span {
+		font-size: 0.8rem;
+		margin-left: 0.5rem;
+	}
+
 	.container-checkbox{
 		margin: 0;
 		padding: 0;
 
-		width: 7.5rem;
+		width: 18rem;
 	}
 
 	.box-checkboxs{
-		gap: 0.2rem;
+		gap: 0.5rem;
 		font-size: 1rem;
+		flex-direction: column;
 	}
 
 	footer{
@@ -1521,11 +1587,12 @@ footer span{
 	}
 
 	.code-docker{
-		width: 15rem;
+		width: 17rem;
+		height: 6rem;
 	}
 
 	.command-docker{
-		height: 12rem;
+		height: 18rem;
 	}
 
 	.item-download{
@@ -1541,5 +1608,44 @@ footer span{
 		width: 20rem;
 		height: 15rem;
 	}
+
+	.container-download {
+		font-size: 1rem;
+	}
+
+	.documentation-annotep p {
+		font-size: 1rem;
+	}
+
+	.documentation-annotep h3 {
+		font-size: 1.5rem;
+	}
+
+	.title-input{
+		font-size: 2rem;
+	}
+
+	.capes-logo,
+	.ufpa-logo,
+	.grid-logo{
+		width: 3rem;
+	}
+
+	.unesp-logo, .labiocad-logo, .fapespa-logo, .fapesp-logo {
+		width: 6rem;
+	}
+
+	.ncc-logo {
+		width: 2rem;
+	  }
+
+	.table-logos span {
+		display: none;
+	}
+
+	.description-about p,
+	.description-contact span {
+		font-size: 1rem;
+	  }
 
 }

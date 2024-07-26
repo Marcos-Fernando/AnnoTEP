@@ -77,7 +77,7 @@
 				<div class="box-explicative box-file-results">
 					<img class="img-file-results" src="static/assets/file-results.svg">
 					<span class="be4">  
-						Representative example of complete annotation.
+						Example of complete annotation.
 						<a href="{{ url_for('result_example')}}" class="click-here be3" target="_blank"> Click here </a>
 					</span>	
 				</div>
@@ -173,7 +173,10 @@
 
 		<footer class="footer">
 			<div class="cite-us">
-				The maximum number of tasks to be run on the platform is <span>3</span>, during which time your task will be put on hold. The results obtained through analysis are saved in the database for up to <span>48 hours</span>. We recommend users to run a maximum of two jobs at a time. For private work or work with a large amount of data, we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> cite us </a>
+				The maximum size allowed is 30 MB. For annotations in larger files, <span><b>we recommend downloading local versions in the Download session </b></span>.
+				The maximum number of tasks to be run on the platform is <span><b>3</b></span>, during which time your task will be put on hold. 
+				The results obtained through analysis are saved in the database for up to <span><b>48 hours</b></span>. For private work or work with a large amount of data, 
+				we recommend downloading AnnoTEP. If you have found AnnoTEP useful, please <a href=""> <b>cite us</b> </a>
 			</div>
 		</footer>
 	</main>
@@ -197,17 +200,17 @@
 			<b>Installation guide</b>
 			<ol class="installation-guide">
 				<li>Download the latest annotep image</li>
-				<span class="code-docker">docker pull annotep-local-interface:v1</span class="code-docker">
+				<span class="code-docker">docker pull annotep/graphic-interface:v1</span class="code-docker">
 				<li>Run the following command</li>
-				<span class="code-docker command-docker">sudo docker run --network mynetwork --name flask-container -dp 0.0.0.0:5000:5000  annotep-local-interface:v1</span>
+				<span class="code-docker command-docker">docker run -it -v {folder-results}:/root/TEs/www/results -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1</span>
+				<li>Example</li>
+				<span class="code-docker command-docker">docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1</span>
 			</ol>
 
-			<p>You can also download the .bash file and run it on your machine to automate the installation: </p>
-			<a class="item-download">
-				<p> annotep-local-interface-v1.sh </p>
-				<img class="sh-download" src="../static/assets/icon-download.svg">
-			</a>
 			<p>To access the platform, open a browser and type in the address: <span>127.0.0.1:5000</span> </p>
+			<ul class="results-annotation">
+				<li>For more information, visit the tool's repository:<a href="https://github.com/Marcos-Fernando/AnnoTEP?tab=readme-ov-file#installation-with-container" target="_blank"> Github.</a></li>
+			</ul>
 
 			<div class="title-input title-download">
 				<p>Bash interface</p>
@@ -217,14 +220,42 @@
 			<b>Installation guide</b>
 			<ol class="installation-guide">
 				<li>Download the latest annotep image</li>
-				<span class="code-docker">docker pull annotep-local-terminal:v1</span>
-				<li>Run the following command</li>
+				<span class="code-docker">docker pull annotep/bash-interface:v1</span>
+
+				<li>  Use the <b>-h </b> parameter to display a user guide describing how to use the script </li>
+				<span class="code-docker"> 
+					docker run annotep/bash-interface:v1 python run_annotep.py -h
+				</span>
+
+				<li>Run the container using the command below as a guide. </li>
+				<ul>
+					<li><p>We recommend creating a folder to insert your genomic data in FASTA format. </p></li>
+					<li><p>Make sure you provide the full path to the folder where you want to save the results {folder-results} , as well as the full path to the genomes folder {folder-genomes/genome.fasta} :</p></li>
+				</ul>
+				
 				<span class="code-docker command-docker"> 
-					docker run -it -v  $HOME/results:/root/TEs/local/results -v $HOME/TEs:/{full path of the folder containing the genome} 
-					annotep-local-terminal:v1 python run_annotep.py --file {full folder path + genome name} --type 2
+					docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genomes} 
+					annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} 
+					--type {type-annotation} --threads {optional} 
+				</span>
+
+				<li> Examples</li>
+				<p> <b>Annotation SINE or LINE</b> </p>
+				<span class="code-docker command-docker"> 
+					docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs 
+					annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/AtChr4.fasta 
+					--type 2 
+				</span>
+				<p> <b>Annotation Complete</b> </p>
+				<span class="code-docker command-docker"> 
+					docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs 
+					annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/AtChr4.fasta 
+					--type 4 --threads 12 
 				</span>
 			</ol>
-
+			<ul class="results-annotation">
+				<li>For more information, visit the tool's repository:<a href="https://github.com/Marcos-Fernando/AnnoTEP?tab=readme-ov-file#bash-interface" target="_blank"> Github.</a></li>
+			</ul>
 		</section>
 
 		<footer class="footer">
@@ -243,78 +274,63 @@
 			<h3> AnnoTEP documentation - <span>Anno</span>tation <span>T</span>ransposable <span>E</span>lements for <span>P</span>lants </h3>
 			
 			<p> Welcome to the AnnoTEP documentation. </p>
-			<p> The AnnoTEP framework has been developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to the scientific community involved in research centered on these elements. </p>
-			<p> Transposable elements (TEs) are mobile genetic elements that have the ability to move around the genome, inserting themselves into different regions. Also referred to as "jumping genes", mobile genetic elements (MGEs), they constitute a category of genetic sequences that play a fundamental role in the evolution and genomic dynamics of organisms. Their intrinsic ability to move within the genome, either by RNA-mediated retrotransposition (Class I or Retrotransposons), using the "copy and paste" mechanism, or by direct DNA transposition (Class II or Transposons), using the "cut and paste" or "copy and paste" mechanism, gives these elements a remarkable influence on evolutionary processes and genomic plasticity. </p>		
-			<p> The platform covers various characteristics of TEs and presents the results in the form of detailed reports, informative graphs and phylogenetic trees.  It provides visual resources to enrich the analysis and allow a more complete understanding of the evolutionary dynamics of these genomic sequences. </p>
-				
-			<h3> How to use the platform - web server </h3>
-			<p> This section details the steps required to submit data for annotation of traversable elements on the web server. </p>
+			<p>The AnnoTEP framework was developed to facilitate the annotation of transposable elements in plant genomes and to provide essential support to the scientific community involved in research centered on these elements.</p>
+			<p> The tool has three distinct models: </p>
+			<div class="menu-help">
+				<ul>
+					<li><p><a href="#web-server">Web Server</a></p></li>
+					<li><p><a href="#container-gui">Container Graphical Interface</a></p></li>
+					<li><p><a href="#container-bash">Container Bash Interface</a></p></li>
+				</ul>
+			</div>
 
-			<h4> Staying informed about the annotation process </h4>
-			<p> To start the annotation process and obtain information on the progress of your work, you need to provide your e-mail address in the panel. </p>
-			<div class="screenshot-example"> <img src="../static/screenshot/email.png" alt="box-email"> </div>
-			<p> After submission, you will receive a confirmation email and then a second email will be sent as soon as the annotation process is complete, this email will contain a link to the outputs of the analyzed data. If any errors occur during the analysis, you will also receive an email explaining what happened. </p>
-			<p> It is important to note that when you receive the second email with the link to your annotated work, you will have 48 hours to access and review the results. the results, after which time the data will be deleted from the database.</p>
+			<div id="web-server" class="section-models">
+				<h3>Web Server</h3>
+				<p> This model was developed to demonstrate how AnnoTEP works and to allow users to make small annotations of transposable elements completely remotely (online). It is ideal for researchers who want to try out the tool without the need for local installation, facilitating quick access and accommodating essential features for annotating TEs in plant genomes. </p>
+				<p> In this version, to generate the annotation, simply enter your e-mail address, the genomic file and the type of annotation you want, and submit. You will receive information about the start and end of the annotation via email, as well as a link to access the results. Remember that these results are only stored in the database for 48 hours. The genomic data requested for annotation must be in FASTA format. </p>
 
-			<h4>Entering input data </h4>
-			<p> The ideal data input accepted by the AnnoTEP platform is FASTA format files containing the chromosomes of plant genomes. The "Genome Data" panel allows you to select the file on your machine.</p>	
-			<div class="screenshot-example"> <img src="../static/screenshot/genome.png" alt="box-genome"> </div>
-
-			<h4> Annotation systems </h4>
-			<p> Before submitting your annotations, you need to choose the type of annotation you want to make, by default the SINE annotation is already selected, so confirm your selections before submitting your data.</p>
-			<div class="screenshot-example"> <img src="../static/screenshot/anotação.png" alt="box-annotation"> </div>
-			<p> The annotation system allows you to make four different types of annotations: </p>
+				<ul class="results-annotation">
+					<li><p><a href="#results-annotation">Click here </a> to find out more about the type of annotation and result.</p></li>
+				</ul>
 			
-			<ul>
-				<li><p><b>Selecting SINE Annotation: </b> This option exclusively analyzes the SINE elements present in the plant genome, generating libraries containing specific SINE sequences.</p></li>
-				<li><p><b>Selecting LINE Annotation: </b> This option exclusively analyzes the LINE elements present in the plant genome, generating libraries containing specific LINE sequences.</p></li>
-				<li><p><b>Selecting SINE and LINE Annotation (Together): </b> This choice leads to the joint analysis of SINEs and LINEs elements in the plant genome, generating libraries containing sequences from both categories.</p></li>
-				<li><p><b>Selecting Complete Annotation: </b> This option performs a comprehensive analysis of the SINEs and LINEs elements, including an in-depth analysis using libraries of both elements. In addition to the conventional outputs, such as tables of TRIM, LARD, TR_GAG, BARE-2, MITES, Helitron, Gypsy Family and Copia Family elements, age graphs are generated for the Gypsy and Copia families, as well as a phylogenetic tree.</p></li>
-			</ul>
+				<div id="container-gui" class="section-models">
+				<h3>Container Graphical Interface</h3>
+				<p>For this version, your machine must have Internet access.</p>
+				<p>This version can be installed via Docker, as shown in the download section. It has a graphical interface and functions similar to the web server model, with the difference that it works entirely on the user's machine via localhost.</p>
+				<p>There is no limit to the size of the genome, and the annotation speed will depend on the capacity of your local machine or server. Here you can enter the number of threads you want to use for the complete annotation. Although it works on the local machine, this model integrates an e-mail system that will notify you when the annotation is finished. Also, avoid shutting down the machine during the process, as this can interrupt data analysis. </p>
+
+
+				<ul class="results-annotation">
+					<li><p>For the type of annotation and result, <a href="#results-annotation"> click here.</a></p></li>
+				</ul>
+			</div>
+		
+			<div id="container-bash" class="section-models">
+				<h3>Container Bash Interface</h3>
+				<p>This version works entirely via the command line and does not require Internet access. Like the version with a graphical interface, it has no genome size limit, and the annotation speed will depend on the capacity of the local machine or server.</p>
+				<p>Your data is entered using predefined parameters. All you have to do is enter the path of the genome on your machine, the type of annotation, and depending on the type of annotation, you can enter the number of threads you want to use. All these steps are described in the download section. </p>
+				<p>It can be a little more complex to use than the version with a graphical interface.</p>
+
+				<ul class="results-annotation">
+					<li><p><a href="#results-annotation">Click here </a> to find out more about the type of annotation and result.</p></li>
+				</ul>
+			</div>
+
+			<div id="results-annotation" class="section-models">
+				<h3>Annotation types and results</h3>
+				<ul class="seleting-annotation">
+					<li><p><b>Selecting SINE Annotation: </b> This option exclusively analyzes the SINE elements present in the plant genome, generating data in .fa format and superimposed images of the element. In containerized versions, the result of this annotation is stored in the SINE folder.</p></li>
+					<li><p><b>Selecting LINE Annotation: </b> This option exclusively analyzes the LINE elements present in the plant genome, generating libraries containing LINE sequences in .fa and .gff3 formats. In containerized versions, the result of this annotation is stored in the LINE folder. This option can generate some false positives, making it necessary to carry out the complete annotation to obtain more accurate data.</p></li>
+					<li><p><b>Selecting SINE and LINE Annotation (Together): </b> Brings the same data generated by their unit versions.</p></li>
+					<li><p><b>Selecting Complete Annotation: </b> This option performs an exhaustive analysis of various types of transposable elements, including SINEs, LINEs, LTR, TIR and Helitrons. The SINEs and LINEs data generated here is more refined than in the individual versions. In addition, the result generated by this annotation provides data on the TRIM, LARD, TR_GAG, BARE-2, MITES elements, as well as the Gypsy and Copia families. The analysis also generates graphs and phylogenetic trees of the LTRs, offering a comprehensive and detailed view of the transposable elements present in the genome studied. In addition, this annotation step masks the genome, helping to identify and suppress repetitive regions, which facilitates subsequent analysis and annotation of the genome.</p></li>
+				</ul>
+
+				<p>In the web server version, the results are stored in a database and presented in summary form. In the containerized versions, the results are more complete and detailed.</p>
+				<ul class="results-annotation">
+					<li><p>For more information, visit the tool's repository:<a href="https://github.com/Marcos-Fernando/AnnoTEP" target="_blank"> Github.</a></p></li>
+				</ul>
+			</div>
 			
-			<h4> Sending data </h4>
-			<p> Once you have entered all the necessary data, you can click on the "submit" button and send your genome for analysis. When the job is completed without any errors, you will receive an e-mail informing you that the results are available. annotation.</p>
-			<p> <b>Please note: </b> Results from the web platform are stored in the database for up to 48 hours. To ensure the preservation of your data, we advise users to check and save their information before this period expires.</p>
-
-			<h3> Results page - web server </h3>
-			<p> By accessing the link in the second e-mail, or consulting the "exemple of annotation" available on the home page, you will be directed to the results page. </p>
-			<div class="screenshot-results"><img src="../static/screenshot/guia.png" alt="results-page-guide"></div>
-			<p> On the results page, you are initially presented with a sidebar on the left, which will help you navigate between the different sections quickly. The sections are given titles based on the analyses carried out, and each section is accompanied by question mark-shaped icons which provide additional information to help you understand the results presented.</p>
-			
-			<h4> Viewing non-LTR data </h4>
-			<p> In this section, you will have access to the SINEs and/or LINEs libraries, results generated from the SINEs, LINEs and Completa annotations. To download the content, you have two options: .zip or .tar.gz compressed format. </p>
-			<div class="screenshot-results"><img src="../static/screenshot/nonLTR.png" alt="nonLTR-SINE/LINE/Complete-annotation"></div>
-			<p> If you have chosen to annotate only SINE or LINE, you will see a different presentation. In these options, only the library relating to the chosen annotation will be available, while the other content will remain blocked or "not avaliable".</p>
-			<div class="screenshot-results"><img src="../static/screenshot/annotationsine.png" alt="nonLTR-SINE/LINE-annotation"></div>
-			<p> If you choose to annotate SINE and LINE together, all the options in this section will be unlocked, but the other sections will remain empty.</p>
-			<p> To access the data of the other results, you must have opted for the full annotation.</p>
-
-			<h4> Viewing the transposable elements report </h4>
-			<p> The "Report" section presents a comprehensive table of the various transposable elements found in the genome, including TRIMs, LARDs, BARE-2, Copia Superfamily, Gypsy Superfamily, and others. In this report, partial elements are identified by the suffix "-like".</p>
-			<p> In the table you can see the name of each element, its quantity, the number of base pairs (bp) and the corresponding percentage in the genomic sequence. When you download this report, you will be downloading a table in CSV format (values separated by commas). </p>
-			<div class="screenshot-results"><img src="../static/screenshot/report.png" alt="TE-report"></div>
-
-			<h4> Checking repeated landscape graphics </h4>
-			<p> In the "repeat landscape graph" section, you are presented with a repeat landscape graph that offers a visual representation of the relative amount of each transposable element class, correlated with the Kimura distance on the x-axis, serving as a time indicator. In contrast, the y-axis displays the comparative coverage of each repeat class, adjusted for genome size. Thus, the repeat landscape graph provides a coherent inference of the relative ages of each element identified in a specific genome.</p>
-			<p> When you download this graph, you will receive a figure in SVG format, ready to be used in your research. </p>
-			<div class="screenshot-results"><img src="../static/screenshot/landscape.png" alt="repeat-landscape-graphis"></div>
-
-			<h4> Looking at the ages of the LTR SuperFamily </h4>
-			<p> The age of transposable elements reflects the evolutionary dynamics of the genome over time, and understanding the ages of the LTR Gypsy and Copia Superfamilies allows us to reconstruct the evolutionary history of these elements.</p>
-			<p> In the "LTR SuperFamily" section you are presented with histograms representing the ages of the Gypsy and Copia LTR Superfamilies. </p>
-			<p>	The dashed vertical lines highlight the median, providing a central measure, while the horizontal line represents the average in millions of years (Mya).</p>
-			<div class="screenshot-results"><img src="../static/screenshot/ltrsuperfamily.png" alt="LTR-SuperFamily"></div>
-
-			<h4>Visualizing phylogenetic trees and their density </h4>
-			<p> Phylogeny makes it possible to reconstruct the evolutionary history of organisms, revealing how different species are related to each other. This provides a temporal perspective that helps to understand how organisms have evolved over time. </p>
-			<p> The "phylogeny" section aligns all the annotated LTR-RT domains of the genome. By exploring this section, you will have the opportunity to visualize the evolutionary relationship between these elements, revealing patterns and connections that help elucidate the evolution of these sequences over generations. </p>
-			<div class="screenshot-results"><img src="../static/screenshot/phylogeny.png" alt="Phyloheny"></div>
-
-			<p>Then, in the next section, we highlight the "density" of each branch identified in the genome. </p>
-			<p> The outer circle, highlighted in purple, offers a visual representation of the length occupied by each element in base pairs (bp), providing a clear perception of the physical extent of each element in the genome. On the other hand, the inner circle, in red, reflects the number of occurrences of each element, providing a view of the distribution and abundance of these elements in the genome. </p>
-			<div class="screenshot-results"><img src="../static/screenshot/density.png" alt="Density"></div>
-
-			<p> <b>Note: </b>During the annotation process, it is recommended that users run a maximum of two jobs simultaneously, due to server limitations. If the intention is to annotate large data sets, we suggest downloading and using the local version of AnnoTEP. This recommendation also extends to private research, in order to optimize efficiency and ensure a more stable experience during data analysis.</p>
 		</section>
 		
 		<footer class="footer">
@@ -332,30 +348,56 @@
 		</header>
 
 		<section class="description-about">
-			<p> The AnnoTEP platform was created with the aim of diversifying the available options for tools that annotate transposable elements in plant genomes. Our main goal is to facilitate the annotation of TEs in plants, covering a variety of characteristics related to their classes, orders and superfamilies.</p>
-			<p> AnnoTEP is based on the <a href="https://github.com/amvarani/Plant_Annotation_TEs" target="_blank">Plant Genome Annotation pipeline </a>, developed by prof. Dr. Alessandro de Melo Varani, to carry out the process of analyzing plant genomes.</p>
+			<p> The AnnoTEP platform was developed to expand the range of tools available for annotating transposable elements (TEs) in plant genomes. Our main goal is to simplify and optimize the work of researchers, regardless of their level of experience, by facilitating the TE annotation process and providing as much information as possible about the genome. </p>
 		
 			<div class="title-input title-about">
 				<p>Contributors</p>
 			</div>
 
 			<section class="table-logos">
-				<div class="logo-info">
-					<img class="capes-logo" src="../static/screenshot/capes.png" alt="CAPES logo">
-					<span>Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - CAPES </span>
-				</div>
-				<div class="logo-info">
-					<img class="ufpa-logo" src="../static/screenshot/ufpa.png" alt="UFPA logo"></div></td>
-					<span>Universidade Federal do Pará - UFPA </span>
-				</div>
-				<div class="logo-info">
-					<img class="unesp-logo" src="../static/screenshot/Logo_Unesp.svg" alt="UNESP logo"></div></td>
-					<span>Universidade Estadual Paulista - UNESP</span>
-				</div>
-				<div class="logo-info">
-					<img class="labiocad-logo" src="../static/screenshot/LaBioCAD.png" alt="LABIOCAD logo"></div></td>
-					<span>Laboratório de Bioinformatica e Computação de Alto desempenho - LaBioCad</span>
-				</div>		
+				<section>
+					<div class="logo-info">
+						<img class="capes-logo" src="../static/screenshot/capes.png" alt="CAPES logo">
+						<span>Coordenação de Aperfeiçoamento de Pessoal de Nível Superior </span>
+					</div>
+					<div class="logo-info">
+						<img class="fapesp-logo" src="../static/screenshot/fapesp.png" alt="FAPESP logo">
+						<span>Fundação de Amparo à Pesquisa do Estado de São Paulo</span>
+					</div>	
+	
+					<div class="logo-info">
+						<img class="fapespa-logo" src="../static/screenshot/fapespa.png" alt="FAPESPA logo">
+						<span>Fundação Amazônia de Amparo a Estudos e Pesquisas</span>
+					</div>	
+				</section>
+
+				<section>
+					<div class="logo-info">
+						<img class="ufpa-logo" src="../static/screenshot/ufpa.png" alt="UFPA logo">
+						<span>Universidade Federal do Pará </span>
+					</div>
+	
+					<div class="logo-info">
+						<img class="unesp-logo" src="../static/screenshot/Logo_Unesp.svg" alt="UNESP logo">
+						<span>Universidade Estadual Paulista</span>
+					</div>
+				</section>
+
+				<section>
+					<div class="logo-info">
+						<img class="grid-logo" src="../static/screenshot/logo_gridunesp2.png" alt="GRID logo">
+					</div>
+	
+					<div class="logo-info">
+						<img class="ncc-logo" src="../static/screenshot/NCC.svg" alt="NCC logo">
+						<span>Núcleo de Computação Científica Unesp</span>
+					</div>
+	
+					<div class="logo-info">
+						<img class="labiocad-logo" src="../static/screenshot/LaBioCAD.png" alt="LABIOCAD logo">
+						<span>Laboratório de Bioinformatica e Computação de Alto desempenho</span>
+					</div>
+				</section>
 			</section>
 		</section>	
 
