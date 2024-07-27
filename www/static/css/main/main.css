@@ -1747,4 +1747,21 @@ footer span{
 		font-size: 1rem;
 	  }
 
+	.box-genomes-plants {
+		width: 15rem;
+	}
+
+	.name-plants{
+		font-size: 1rem;
+	}
+
+	.image-plants {
+		height: 16rem;
+	}
+
+	.container-menu-genome{
+		flex-direction: column;
+  		align-items: center;
+	}
+
 }
