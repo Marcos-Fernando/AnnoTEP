@@ -54,7 +54,7 @@ document.getElementById("logoLink").onclick = function() {
 
 //colocando a tabela direto da imagem
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('../static/screenshot/TEs-Report-Complete.txt')
+    fetch('../static/genome-results/A_thaliana/TEs-Report-Complete.txt')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
