@@ -232,8 +232,11 @@ def analysis_results(key_security, mongo):
         svg_Report1_bubble  = ""
         svg_Report2_bubble  = ""
     else:
-        file_complete = filereport.get("file-complete", "")
+        file_complete = filereport.get("file-complete", "") 
+        file_complete_64 = base64.b64encode(file_complete.encode()).decode('utf-8')
         file_lite = filereport.get("file-lite", "")
+        file_lite_64 = base64.b64encode(file_lite.encode()).decode('utf-8')
+
         svg_Report1  = base64.b64encode(filereport.get("file-Report1")).decode('utf-8')
         svg_Report2  = base64.b64encode(filereport.get("file-Report2")).decode('utf-8')
         svg_Report1_bubble  = base64.b64encode(filereport.get("file-Report1-bubble")).decode('utf-8')
@@ -295,7 +298,8 @@ def analysis_results(key_security, mongo):
                            svg_gypsy=svg_gypsy,
                            svg_landscape=svg_landscape,
                            file_complete=file_complete,
-                           file_lite=file_lite,
+                           file_complete_64=file_complete_64,
+                           file_lite=file_lite_64,
                            svg_Report1=svg_Report1,
                            svg_Report2=svg_Report2,
                            svg_Report1_bubble=svg_Report1_bubble,
