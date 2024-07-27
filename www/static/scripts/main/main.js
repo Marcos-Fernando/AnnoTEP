@@ -6,6 +6,34 @@ function getFileAndEmail() {
   return { filegenome, email };
 }
 
+// Função para verificar o formato de email válido
+function isValidEmail(email) {
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return emailRegex.test(email);
+  }
+  
+  // Função para validar ambos os campos
+function validateInputs() {
+  const isEmailValid = isValidEmail(emailInput.value);
+  const isFileSelected = fileInput.files.length > 0;
+  
+  const file = fileInput.files[0];
+    const maxSize = 30 * 1024 * 1024; // 30 MB
+  
+    // Verifica se o tamanho do arquivo é válido, se houver um arquivo selecionado
+    const isFileSizeValid = file ? file.size <= maxSize : true;
+  
+    // Atualiza a mensagem de erro e o botão de envio
+    submitButton.disabled = !(isEmailValid && isFileSelected && isFileSizeValid);
+    
+    // Mensagem de erro para o tamanho do arquivo
+    if (!isFileSizeValid) {
+      alert('The maximum size allowed is 30 MB. For annotations in larger files, we recommend downloading local versions in the Download session.');
+      fileInput.value = ''; // Limpa o campo de entrada
+      document.getElementById('fileNameInput').value = ''; // Limpa o nome do arquivo
+    }
+  }
+
 // Função para ativar apenas a anotação dos elementos SINE
 function execute_annotation(annotation_type) {
   const { filegenome, email } = getFileAndEmail();
