@@ -77,11 +77,13 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 * If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository.
 
+* This version includes a field for the number of threads to be used. This option is only valid in the full annotation, and it is recommended to have at least 4 threads on your machine.
+
 * The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 **Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
 
-Step 6: You can follow the progress of the annotation via the Docker logs.
+**Step 6:** You can follow the progress of the annotation via the Docker logs.
    * In the terminal, type ``docker ps``.
    * A list of active containers will appear. Select the ``CONTAINER ID`` of the AnnoTEP image.
    * With the ID copied, type and paste: ``docker logs {CONTAINER ID}``.
