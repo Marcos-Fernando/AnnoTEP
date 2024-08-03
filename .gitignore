@@ -6,17 +6,12 @@ At.fasta
 Tcacao.fasta
 __pycache__
 
-/www/.www
-/www/.flaskenv
-/www/__pycache__
-/www/results
-/www/Front-end
-/www/static/screenshot/Annotated_data.zip
+/www
 
 /bash-interface/results
 /graphic-interface/results
 
-/SINE
+
 /non-LTR
 /ProcessRepeats
 /RScripts

@@ -121,7 +121,7 @@ tRNA_SINE_retrotransposon	SO:0002274	tRNA_SINE_retrotransposon,SINE/tRNA,SINE/RS
 7SL_SINE_retrotransposon	SO:0002275	7SL_SINE_retrotransposon,SINE/7SL,SINE/RSL,nonLTR/RSL,RSL
 YR_retrotransposon	SO:0002286	YR_retrotransposon,YR/unknown
 Ngaro_YR_retrotransposon	SO:0002288	Ngaro_YR_retrotransposon,YR/Ngaro,YR/RYN,Ngaro,RYN
-DIRS_YR_retrotransposon	SO:0002287	DIRS_YR_retrotransposonYR/DIRS,YR/RYD,DIRS,RYD
+DIRS_YR_retrotransposon	SO:0001384	DIRS_YR_retrotransposon,YR/DIRS,YR/RYD,DIRS,RYD,DIRS-like,LTR/DIRS-like,DIRS_retrotransposon,LTR/DIRS
 Viper_YR_retrotransposon	SO:0002289	Viper_YR_retrotransposon,YR/Viper,YR/RYV,Viper,RYV
 Penelope_retrotransposon	SO:0002290	Penelope_retrotransposon,Penelope,nonLTR/RPP,RPP
 

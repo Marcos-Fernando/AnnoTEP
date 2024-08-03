@@ -4,7 +4,7 @@
 # Freely distributed under the BSD open source license.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # query file:                      ../Family_Seq/PTr-3/PTr-3.hmm
-# target sequence database:        /home/marcos/TEs/www/results/A._20240724-221502/A._20240724-221502.fasta
+# target sequence database:        /home/marcos/TEs/AtChr4.fasta
 # output directed to file:         ../Family_Seq/PTr-3/PTr-3.out
 # number of worker threads:        12
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,7 +31,7 @@ Residues passing bias filter:        1363015  (0.0367); expected (0.02)
 Residues passing Vit filter:          112783  (0.00303); expected (0.003)
 Residues passing Fwd filter:            3197  (8.6e-05); expected (3e-05)
 Total number of hits:                      0  (0)
-# CPU time: 0.82u 0.03s 00:00:00.85 Elapsed: 00:00:00.08
-# Mc/sec: 70667.83
+# CPU time: 0.82u 0.03s 00:00:00.85 Elapsed: 00:00:00.09
+# Mc/sec: 68424.18
 //
 [ok]
