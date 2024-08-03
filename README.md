@@ -215,6 +215,8 @@ git clone https://github.com/Marcos-Fernando/AnnoTEP.git $HOME/TEs
 cd $HOME/TEs
 ```
 
+Note: Pay attention to the name of the folder. In this guide, we will be using the folder named ``TEs``. To make configuration easier, we recommend using this name.
+
 ## Configuring the repository
 ### Libraries
 **Step 1.** In the terminal download the following libraries:
@@ -315,7 +317,49 @@ cd bin
 conda activate AnnoSINE
 ```
 
-**Step 2.** Run the test data (chromosome 4 of A. thaliana) to verify the installation:
+### Configuring environment variables:
+In this pipeline, we will be using HMMER version 3.4 due to a bug in version 3.3. We therefore need to configure the environment variables.
+
+**Step 1.** Have ``vim`` installed on your machine, in the terminal type:
+```sh
+vim ~/.bashrc
+```
+
+A window with instructions will open, drag to the last line of the document and press the letter ``i`` to activate edit mode and type the PATH command:
+```sh
+export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH";
+export PATH="$HOME/TEs/SINE/AnnoSINE/hmmer-develop:$PATH"
+export PATH="$HOME/TEs/SINE/AnnoSINE/hmmer-develop/src:$PATH"
+export PATH="$HOME/TEs/SINE/AnnoSINE/hmmer-develop/bin:$PATH"
+```
+When finished, press the ``ESC`` button to end the editing mode, type ``:wq`` and press ``ENTER`` to save the changes and close the document.
+
+After making the changes, restart the terminal (or close the terminal and open it again)
+
+**Step 2.** Apply the changes and activate the environment:
+```sh
+source ~/.bashrc
+conda activate AnnoSINE
+```
+
+Check that the current version is 3.4:
+```sh
+hmmsearch -h
+```
+
+If everything is correct, we can continue. If not, check the environment variables.
+
+**Step 3.** Configuring HMMER:
+```sh
+cd ..
+cd hmmer-develop
+make clean
+./configure
+make -j
+```
+
+### Running AnnoSINE
+**Step 1.** Run the test data (chromosome 4 of A. thaliana) to verify the installation:
 ```sh
 python3 AnnoSINE.py 3 ../AtChr4.fasta ../Output_Files
 ```
@@ -323,7 +367,7 @@ python3 AnnoSINE.py 3 ../AtChr4.fasta ../Output_Files
 
 We are now ready to annotate the SINE elements of your genome project file.
 
-**Step 3.** In this example we will run the preloaded _A. thaliana_ genome or its data
+**Step 2.** In this example we will run the preloaded _A. thaliana_ genome or its data
 ```sh
 python3 AnnoSINE.py 3 $HOME/TEs/At.fasta At
 cp ./At/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
@@ -334,6 +378,7 @@ cp ./At/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
 conda deactivate
 cd $HOME/TEs
 ```
+
 ### Setting up MGEScan-non-LTR and primary validation with TEsorter
 **Step 1.** Enter the Non-LTR folder and create a virtual environment
 ```sh
@@ -355,11 +400,14 @@ mgescan is now installed and ready to work. Test the installation:
 mgescan --help
 ```
 ### Configuring environment variables:
-**Step 1.** Have vim installed on your machine, in the terminal type:
+MGEscan will use version hmmer 3.2, so we need to configure the development environment again.
+
+**Step 1.** In the terminal type:
 ```sh
 vim ~/.bashrc
 ```
-A window with instructions will open, drag to the last line of the document and press the letter ``i`` to activate edit mode and type the PATH command:
+
+A window with instructions will open, so add the following commands:
 ```sh
 export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH";
 export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH";
@@ -368,6 +416,9 @@ export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH";
 When finished, press the ``ESC`` button to end the editing mode, type ``:wq`` and press ``ENTER`` to save the changes and close the document.
 
 After making the changes, restart the terminal (or close the terminal and open it again)
+```sh
+source ~/.bashrc
+```
 
 **Step 2.** In the terminal, run (only once):
 ```sh
@@ -377,6 +428,7 @@ make clean
 ./configure
 make -j
 ```
+
 Now we can run MGEScan-non-LTR, in the terminal configure the directories:
 ```sh
 cd $HOME/TEs/non-LTR
