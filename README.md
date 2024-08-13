@@ -12,7 +12,7 @@
 AnnoTEP is a platform dedicated to the annotation of transposable elements (TEs) in plant genomes. Built on the [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) pipeline, it combines sophisticated annotation tools integrated with HTML resources to offer researchers an enhanced experience during the annotation process. By integrating these tools with a user-friendly interface, AnnoTEP aims to facilitate and optimize the work of TE annotation, providing an effective solution for plant genomic analysis.
 
 AnnoTEP is currently available in three formats: web server, container with graphic interface and  container with bash interface. Clicking on each format below will take you to the system where you can access or install the platform:
-- [Web Server](http://150.230.81.111:5000/) 
+- [Web Server](https://plantgenomics.ncc.unesp.br/AnnoTEP/) 
 - [Graphic Interface](#graphic-interface)
 - [Bash Interface](#bash-interface)
 
