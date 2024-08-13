@@ -149,7 +149,8 @@ docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genome
 - ``--type {type-annotation}``: Type of annotation shown in step 2
 - ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
-* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository.
+* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository. **Its analysis takes between 30 and 50 minutes if 10 threads are used for the operation.**
+
 
 #### Example 1:
 ```sh
