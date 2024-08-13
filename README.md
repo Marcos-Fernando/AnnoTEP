@@ -75,7 +75,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 4.** When you access 127.0.0.1:5000 you will see a version of the AnnoTEP platform similar to the WEB version. 
 
-* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository.
+* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository. **Its analysis takes between 30 and 50 minutes if 10 threads are used for the operation.**
 
 * This version includes a field for the number of threads to be used. This option is only valid in the full annotation, and it is recommended to have at least 4 threads on your machine.
 
