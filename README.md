@@ -75,7 +75,7 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 4.** When you access 127.0.0.1:5000 you will see a version of the AnnoTEP platform similar to the WEB version. 
 
-* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository. **Its analysis takes between 30 and 50 minutes if 10 threads are used for the operation.**
+* If you want to run tests, you can download the file _Arabidopsis thaliana_ (Chromosome 4) `AtChr4.fasta` from the repository. **Its SINE and LINE annotation can take 5 minutes and its complete annotation can take between 30 and 50 minutes if 10 threads are used for the operations**.
 
 * This version includes a field for the number of threads to be used. This option is only valid in the full annotation, and it is recommended to have at least 4 threads on your machine. **Please note that the fewer the threads, the longer it will take to analyze the element.**
 
@@ -149,7 +149,7 @@ docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genome
 - ``--type {type-annotation}``: Type of annotation shown in step 2
 - ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
-* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository. **Its analysis takes between 30 and 50 minutes if 10 threads are used for the operation.**
+* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository. **Its SINE and LINE annotation can take 5 minutes and its complete annotation can take between 30 and 50 minutes if 10 threads are used for the operations**.
 
 
 #### Example 1:
