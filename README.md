@@ -139,13 +139,13 @@ Required arguments:
 **Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
+docker run -it -v {folder-results}:/root/TEs/results -v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {absolute-path-to-folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
 ```
 
 ### Description:
 - ``-v {folder-results}:/root/TEs/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
-- ``-v $HOME/TEs:{folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{folder-genomes}``.
-- ``--file {folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
+- ``-v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{absolute-path-to-folder-genomes}``.
+- ``--file {absolute-path-to-folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
 - ``--type {type-annotation}``: Type of annotation shown in step 2
 - ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
 
@@ -154,13 +154,13 @@ docker run -it -v {folder-results}:/root/TEs/results -v $HOME/TEs:{folder-genome
 
 #### Example 1:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/AtChr4.fasta --type 2
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v /home/user/TEs:/home/user/TEs annotep/bash-interface:v1 python run_annotep.py --file /home/user/TEs/AtChr4.fasta --type 2
 
 ```
 
 #### Example 2:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v $HOME/TEs:$HOME/TEs annotep/bash-interface:v1 python run_annotep.py --file $HOME/TEs/AtChr4.fasta --type 4 --threads 12
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v /home/user/TEs:/home/user/TEs annotep/bash-interface:v1 python run_annotep.py --file /home/user/TEs/AtChr4.fasta --type 4 --threads 12
 ```
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
@@ -827,9 +827,52 @@ python -m venv .venv
 . .venv/bin/activate
 ```
 
+**Important 4**: If you cloned the git repository to a directory different from the recommended one, which is **$HOME/TEs**, you will need to adjust some lines of code to avoid potential issues.
+
+Follow these steps:
+
+**1. Adjust the main.py file:**
+- Inside the `graphic-interface` folder, locate the file named `main.py`.
+- Open the file and find the following line of code:
+```sh
+    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
+```
+
+ - Modify this line to reflect the directory where you installed the repository. For example:
+
+```sh
+    UPLOAD_FOLDER = {folder installation location}
+    
+    #or
+
+    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'new_directory') 
+```
+- Replace "new_directory" with the correct path of the folder where the repository was cloned.
+
+**2. Adjust the annotation.py file:**
+- Still in the `graphic-interface` folder, go to the `extensions` subfolder and locate the `annotation.py` file.
+- Repeat the same process: find the line of code that defines the UPLOAD_FOLDER path:
+```sh
+    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
+```
+
+- Change this line to the new directory where the repository was installed, just like in the previous example:
+
+```sh
+    UPLOAD_FOLDER = {folder installation location}
+
+    #or
+
+    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'new_directory') 
+```
+
+By following these steps, the system will correctly recognize the new installation path, preventing any errors during processing.
+
+<br>
+
 **Step 2:** Install the packages needed for the application by running the following command (this only needs to be done once):
 ```sh
-pip install -r ../required.txt 
+pip install -r required.txt 
 ```
 - Inside the ``required.txt`` file, you'll find the fundamental libraries, such as Flask and python-dotenv. If any package shows an error, you'll need to install it manually.
 
@@ -860,6 +903,32 @@ If all the settings are correct, you will see a message similar to this one:
 - This mode is entirely command-line based, so there's no need to create a development environment. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 - Go to the ``bash-interface`` folder
 
+**Important 5**: Just like in the `graphic-interface` folder, if you cloned the git repository to a directory different from the suggested one, which is **$HOME/TEs**, you will need to adjust some lines of code to avoid potential issues.
+
+Follow these steps:
+
+- Inside the `bash-interface` folder, locate the file named `run_annotep.py`.
+- Open the file and find the following line of code:
+
+```sh
+    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
+```
+
+- Modify this line to reflect the directory where you installed the repository. For example:
+
+```sh
+    UPLOAD_FOLDER = {folder installation location}
+
+    #or
+
+    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'new_directory') 
+```
+- Replace "new_directory" with the correct path of the folder where the repository was cloned.
+
+By following these steps, the system will correctly recognize the new installation path, preventing any errors during processing.
+
+<br>
+
 **Step 1.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
 ```sh
 python run_annotep.py -h
@@ -888,11 +957,16 @@ required arguments:
 
 **Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
 ```sh
-python run_annotep.py --file $HOME/TEs/At.fasta --type 2
+
+python run_annotep.py --file {absolute-path-to-folder-genomes}/genome.fasta --type number
 ```
 
-or
+#### Example 1:
+```sh
+python run_annotep.py --file /home/user/TEs/At.fasta --type 2
+```
 
+#### Example 2:
 ```sh
 python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
 ```
