@@ -157,11 +157,11 @@ optional arguments:
 **Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v {folder-results}:/root/TEs/results -v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes} --pids-limit {threads x 10000} --memory-swap -1 annotep/bash-interface:v2 python run_annotep.py --genome {absolute-path-to-folder-genomes/genome.fasta} --threads {number}
+docker run -it -v {folder-results}:/root/TEs/bash-interface/results -v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes} --pids-limit {threads x 10000} --memory-swap -1 annotep/bash-interface:v2 python run_annotep.py --genome {absolute-path-to-folder-genomes/genome.fasta} --threads {number}
 ```
 
 ### Description:
-- ``-v {folder-results}:/root/TEs/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
+- ``-v {folder-results}:/root/TEs/bash-interface/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
 - ``-v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{absolute-path-to-folder-genomes}``.
 - ``--genome {absolute-path-to-folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
 - ``--threads {number}``: define the number of threads.
@@ -173,7 +173,7 @@ docker run -it -v {folder-results}:/root/TEs/results -v {absolute-path-to-folder
 
 #### Example 1:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v /home/user/Documents/TEs:/home/user/Documents/TEs --pids-limit 120000 --memory-swap -1 annotep/bash-interface:v2 python run_annotep.py --genome /home/user/TEs/AtChr4.fasta
+docker run -it -v $HOME/results-annotep:/root/TEs/bash-interface/results -v /home/user/Documents/TEs:/home/user/Documents/TEs --pids-limit 120000 --memory-swap -1 annotep/bash-interface:v2 python run_annotep.py --genome /home/user/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
 ```
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
