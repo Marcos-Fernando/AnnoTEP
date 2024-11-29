@@ -101,6 +101,8 @@ Return to [Table of contents](#table-of-contents)
     <img src="graphic-interface/static/assets/Bash-interface-logo.svg" alt="Logo4" width="350px">
 </div><br>
 
+While the primary focus of AnnoTEP is its user-friendly interface, we also provide a Docker version designed exclusively for command-line use. This option caters to researchers who prefer or are more accustomed to working in a terminal environment. The configurable parameters in the Docker version closely mirror those offered by the EDTA pipeline, ensuring a consistent and flexible experience for diverse workflows.
+
 **Step 1.** Download the AnnoTEP image:
 ```sh
 docker pull annotep/bash-interface:v2
@@ -149,9 +151,6 @@ optional arguments:
   --rmlib RMLIB         Provide the RepeatModeler library containing classified TEs to enhance the sensitivity especially for LINEs. If no file is provided (default), EDTA will generate such file for you.
   --rmout RMOUT         Provide your own homology-based TE annotation instead of using the EDTA library for masking. File is in RepeatMasker .out format. This file will be merged with the structural-based TE annotation. (--anno 1 required). Default: use the EDTA library for annotation.
 ```
-<br>
-
-**Your options maintain similar parameters to the EDTA pipeline**
 <br>
 
 **Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
