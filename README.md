@@ -17,6 +17,7 @@ AnnoTEP is currently available in three formats: web server, container with grap
 - [Bash Interface](#bash-interface)
 
 ## Tool functions
+* Identification of LTRs elements, LINEs, SINEs, TIR elements
 * Identification of non-autonomous LTR elements, such as TRIM, LARD, TR-GAG, and BARE2;
 * Identification of soloLTR;
 * Identification of non-autonomous TIR elements, such as MITE;
