@@ -398,7 +398,7 @@ This directory includes the following files and charts:
 
 ### LTR-AGE
 This directory contains charts that estimate the ages of LTR Gypsy and LTR Copia elements:
-- ``AGE-Gypsy.*`` and ``AGE-Copia``: gráficos que estimam as idades dos elementos LTR Gypsy e LTR Copia
+- ``AGE-Gypsy.*`` and ``AGE-Copia.*``: gráficos que estimam as idades dos elementos LTR Gypsy e LTR Copia
 <div align="center">
     <img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
     <img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
