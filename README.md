@@ -9,15 +9,18 @@
 
 
 # AnnoTEP
-AnnoTEP is a platform dedicated to the annotation of transposable elements (TEs) in plant genomes. Built on the [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) pipeline, it combines sophisticated annotation tools integrated with HTML resources to offer researchers an enhanced experience during the annotation process. By integrating these tools with a user-friendly interface, AnnoTEP aims to facilitate and optimize the work of TE annotation, providing an effective solution for plant genomic analysis.
+AnnoTEP is a platform designed for the annotation of transposable elements (TEs) in plant genomes. Developed on the basis of the [EDTA](https://github.com/oushujun/EDTA) pipeline, the tool incorporates specific modifications inspired by [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) pipeline, as well as adjustments that improve its performance and flexibility. One of AnnoTEP's great differentials is its user-friendly interface, built with HTML and Python technologies, which makes the process accessible even to researchers with little familiarity with command lines. Combining efficiency, customisation and ease of use, AnnoTEP offers a powerful solution for the analysis and annotation of TEs, contributing to significant advances in plant genomic research.
 
-AnnoTEP is currently available in three formats: web server, container with graphic interface and  container with bash interface. Clicking on each format below will take you to the system where you can access or install the platform:
+AnnoTEP is currently available in three formats: web server, container with graphic interface and container with bash interface. Clicking on each format below will take you to the system where you can access or install the platform:
 - [Web Server](https://plantgenomics.ncc.unesp.br/AnnoTEP/) 
 - [Graphic Interface](#graphic-interface)
 - [Bash Interface](#bash-interface)
 
 ## Tool functions
-* Identification, validation and annotation of SINE and LINE elements
+* Identification of non-autonomous LTR elements, such as TRIM, LARD, TR-GAG, and BARE2;
+* Identification of soloLTR;
+* Identification of non-autonomous TIR elements, such as MITE;
+* In-depth analysis of autonomous and non-autonomous Helitron elements.
 * Genome masking (local mode)
 * Report generation on TEs
 * Generation of graphs illustrating repeated elements
@@ -29,7 +32,6 @@ AnnoTEP is currently available in three formats: web server, container with grap
 * [Installation with Container](#installation-with-container)
     * [Graphic Interface](#graphic-interface)
     * [Bash Interface](#bash-interface)
-    * [Results Container](#results-container)
 * [Installation with Github](#installation-with-github)
     * [Organizing the environment](#organizing-the-environment)
     * [Results](#results)
@@ -52,22 +54,24 @@ Open the terminal and run the following commands:
 
 **Step 1.** Download the AnnoTEP image:
 ```sh
-docker pull annotep/graphic-interface:v1
+docker pull annotep/graphic-interface:v2
 ```
 
 **Step 2.** Next, run the container with the command below, specifying a folder to store the annotation results on your machine:
 ```sh
-docker run -it -v {folder-results}:/root/TEs/www/results -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1
+docker run -it -v {folder-results}:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit {threads x 10000} --memory-swap -1 annotep/graphic-interface:v2
 ```
 
 ### Description:
-- ``-v {folder-results}:/root/TEs/www/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the path of the directory folder, you don't need to change it.
+- ``-v {folder-results}:/root/TEs/graphic-interface/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine, if you don't have the folder created Docker will create it. ``/root/TEs/graphic-interface/results`` is the path of the directory folder, you don't need to change it.
 - ``-dp 0.0.0.0:5000:5000``: Maps the container's port 5000 to the host's port 5000.
-- ``annotep/graphic-interface:v1``: Specifies the image to be used.
+- ``annotep/graphic-interface:v2``: Specifies the image to be used.
+- ``--pids-limit {threads x 10000}``: Defines the limit of processes that the container can create. **Example:** If you use 12 threads, the value will be 120,000. This ensures that each thread can create subprocesses without exhausting the process limit, maintaining performance at high load.
+- ``--memory-swap -1``: Disables the swap usage limit. This allows the container to use unlimited virtual memory, helping to avoid errors when physical RAM is insufficient.
 
 #### Example:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5000 annotep/graphic-interface:v1
+docker run -it -v $HOME/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit 120000 --memory-swap -1 annotep/graphic-interface:v2
 ```
 
 **Step 3.** After running the container with the previous command, access the AnnoTEP interface by typing the following address into your web browser: 
@@ -75,18 +79,16 @@ docker run -it -v $HOME/results-annotep:/root/TEs/www/results -dp 0.0.0.0:5000:5
 
 **Step 4.** When you access 127.0.0.1:5000 you will see a version of the AnnoTEP platform similar to the WEB version. 
 
-* If you want to run tests, you can download the file _Arabidopsis thaliana_ (Chromosome 4) `AtChr4.fasta` from the repository. **Its SINE and LINE annotation can take 5 minutes and its complete annotation can take between 30 and 50 minutes if 10 threads are used for the operations**.
+* If you want to run tests, you can download the file _Arabidopsis thaliana_ (Chromosome 4) `AtChr4.fasta` from the repository. **The annotation process can take 1 hour if 10 threads are used.**.
 
-* This version includes a field for the number of threads to be used. This option is only valid in the full annotation, and it is recommended to have at least 4 threads on your machine. **Please note that the fewer the threads, the longer it will take to analyze the element.**
+* This version includes a field for the number of threads when using and it is recommended that you have at least 4 threads on your machine. **Please note that the fewer the threads, the longer it will take to analyze the element.**
 
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
-
-**Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder}``.
+**Step 5.** Within the interface you can enter your data such as: email, genome and annotation type and send it for analysis. When the work is completed without any errors, you will receive an e-mail informing you that the results are available in the directory entered in ``-v {folder-results}``.
 
 **Step 6:** You can follow the progress of the annotation via the Docker logs.
    * In the terminal, type ``docker ps``.
    * A list of active containers will appear. Select the ``CONTAINER ID`` of the AnnoTEP image.
-   * With the ID copied, type and paste: ``docker logs {CONTAINER ID}``.
+   * With the ID copied, type and paste: ``docker logs -f {CONTAINER ID}``.
 
 **Important2**: Avoid shutting down the machine during the process, as this could interrupt the data analysis. Even when using the web system, processing takes place locally on your machine.
 
@@ -101,90 +103,83 @@ Return to [Table of contents](#table-of-contents)
 
 **Step 1.** Download the AnnoTEP image:
 ```sh
-docker pull annotep/bash-interface:v1
+docker pull annotep/bash-interface:v2
 ```
 
 **Step 2.** Use the ``-h`` parameter to display a user guide describing how to use the script:
 
 ```sh
-docker run annotep/bash-interface:v1 python run_annotep.py -h
+docker run annotep/bash-interface:v2 python run_annotep.py -h
 ```
 - You will be introduced to:
 ```sh
-usage: run_annotep.py [-h] --file FILE --type {1,2,3,4} [--threads THREADS]
+usage: run_annotep.py [-h] --genome GENOME --threads THREADS
+                      [--species {Rice,Maize,others}]
+                      [--step {all,filter,final,anno}] [--sensitive {0,1}]
+                      [--overwrite {0,1}] [--anno {0,1}] [--evaluate {0,1}]
+                      [--force {0,1}] [--u U] [--maxdiv [0-100]] [--cds CDS]
+                      [--curatedlib CURATEDLIB] [--exclude EXCLUDE]
+                      [--rmlib RMLIB] [--rmout RMOUT]
 
 Run annotep with specified parameters.
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --threads THREADS  Number of threads used to complete annotation (default threads: 4).
-                     This parameter does not need to be set for the other annotation types [1, 2, 3].
+  -h, --help            show this help message and exit
 
-Required arguments:
-  --file FILE        Genome file name (.fasta)
-  --type {1,2,3,4}   Type annotation:
-                      [1] SINE Annotation 
-                      [2] LINE Annotation
-                      [3] SINE and LINE annotation
-                      [4] Complete Annotation
+required arguments:
+  --genome GENOME       The genome FASTA file (.fasta)
+  --threads THREADS     Number of threads used to complete annotation (default threads: 4)
 
+optional arguments:
+  --species {Rice,Maize,others}
+                        Specify the species for identification of TIR candidates. Default: others
+  --step {all,filter,final,anno}
+                        Specify which steps you want to run EDTA.
+  --sensitive {0,1}     Use RepeatModeler to identify remaining TEs (1) or not (0, default). This step may help to recover some TEs.
+  --overwrite {0,1}     If previous raw TE results are found, decide to overwrite (1, rerun) or not (0, default).
+  --anno {0,1}          Perform (1) or not perform (0, default) whole-genome TE annotation after TE library construction.
+  --evaluate {0,1}      Evaluate (1) classification consistency of the TE annotation. (--anno 1 required).
+  --force {0,1}         When no confident TE candidates are found: 0, interrupt and exit (default); 1, use rice TEs to continue.
+  --u U                 Neutral mutation rate to calculate the age of intact LTR elements. Intact LTR age is found in this file: *EDTA_raw/LTR/*.pass.list. Default: 1.3e-8 (per bp per year, from rice).
+  --maxdiv [0-100]      Maximum divergence (0-100, default: 40) of repeat fragments comparing to library sequences.
+  --cds CDS             Provide a FASTA file containing the coding sequence (no introns, UTRs, nor TEs) of this genome or its close relative.
+  --curatedlib CURATEDLIB
+                        Provided a curated library to keep consistant naming and classification for known TEs. TEs in this file will be trusted 100%, so please ONLY provide MANUALLY CURATED ones. This option is not mandatory. It is totally OK if no file is provided (default).
+  --exclude EXCLUDE     Exclude regions (bed format) from TE masking in the MAKER.masked output. Default: undef. (--anno 1 required).
+  --rmlib RMLIB         Provide the RepeatModeler library containing classified TEs to enhance the sensitivity especially for LINEs. If no file is provided (default), EDTA will generate such file for you.
+  --rmout RMOUT         Provide your own homology-based TE annotation instead of using the EDTA library for masking. File is in RepeatMasker .out format. This file will be merged with the structural-based TE annotation. (--anno 1 required). Default: use the EDTA library for annotation.
 ```
-
 <br>
 
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
-
+**Your options maintain similar parameters to the EDTA pipeline**
 <br>
 
 **Step 3.** To simplify this step, we recommend creating a folder to insert your genomic data in FASTA format. Once created, run the container using the command below as a guide. Make sure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v {folder-results}:/root/TEs/results -v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes} annotep/bash-interface:v1 python run_annotep.py --file {absolute-path-to-folder-genomes/genome.fasta} --type {type-annotation} --threads {optional}
+docker run -it -v {folder-results}:/root/TEs/results -v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes} --pids-limit {threads x 10000} --memory-swap -1 annotep/bash-interface:v2 python run_annotep.py --genome {absolute-path-to-folder-genomes/genome.fasta} --threads {number}
 ```
 
 ### Description:
 - ``-v {folder-results}:/root/TEs/results``: This creates a volume between the host and the container to store data. You can replace ``-v {folder-results}`` with any folder path on your machine where you want to save the results, if you don't have the folder created Docker will create it. ``/root/TEs/www/results`` is the directory folder path, you don't need to change it.
 - ``-v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes}``: It is responsible for creating a temporary copy of the genomic files inside Docker, which is why you must enter the correct address of the folder that stores the genomes in ``{absolute-path-to-folder-genomes}``.
-- ``--file {absolute-path-to-folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
-- ``--type {type-annotation}``: Type of annotation shown in step 2
-- ``--threads {optional}``: optional parameter for complete annotation (type 4), define the number of threads that the complete annotation (type 4) will use by default. Not necessary for other annotation types (1,2,3).
+- ``--genome {absolute-path-to-folder-genomes/genome.fasta}``: Here you must enter the correct address of the folder that stores the genomes along with the name of the genome you want to annotate.
+- ``--threads {number}``: define the number of threads.
+- ``--pids-limit {threads x 10000}``: Defines the limit of processes that the container can create. **Example:** If you use 12 threads, the value will be 120,000. This ensures that each thread can create subprocesses without exhausting the process limit, maintaining performance at high load.
+- ``--memory-swap -1``: Disables the swap usage limit. This allows the container to use unlimited virtual memory, helping to avoid errors when physical RAM is insufficient.
 
-* If you want to run tests, you can download the _Arabidopsis thaliana_ (Chromosome 4) file `AtChr4.fasta` from the repository. **Its SINE and LINE annotation can take 5 minutes and its complete annotation can take between 30 and 50 minutes if 10 threads are used for the operations**.
+* If you want to run tests, you can download the file _Arabidopsis thaliana_ (Chromosome 4) `AtChr4.fasta` from the repository. **The annotation process can take 1 hour if 10 threads are used.**.
 
 
 #### Example 1:
 ```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v /home/user/TEs:/home/user/TEs annotep/bash-interface:v1 python run_annotep.py --file /home/user/TEs/AtChr4.fasta --type 2
-
-```
-
-#### Example 2:
-```sh
-docker run -it -v $HOME/results-annotep:/root/TEs/results -v /home/user/TEs:/home/user/TEs annotep/bash-interface:v1 python run_annotep.py --file /home/user/TEs/AtChr4.fasta --type 4 --threads 12
+docker run -it -v $HOME/results-annotep:/root/TEs/results -v /home/user/Documents/TEs:/home/user/Documents/TEs --pids-limit 120000 --memory-swap -1 annotep/bash-interface:v2 python run_annotep.py --genome /home/user/TEs/AtChr4.fasta
 ```
 
 **Step 4.** Now wait for the genome annotation to be completed by following the analysis through the terminal
 
 Return to [Table of contents](#table-of-contents)
 <br>
-
-## Results Container
-Each annotation parameter triggers different results:
-
- **1. SINE annotation:** Generates a folder named “SINE”, containing files in .fa format and alignment images.
-
- **2. LINE Annotation:** Creates a folder named “LINE”, containing files in .fa and .gff3 formats.
-
- **3. Complete Annotation:** Covers the generation of data for SINEs, LINEs, TIRs, Helitrons, among others. When performing this annotation, a folder called “complete-analysis” is created, containing several subfolders and files in .fa and .gff3 formats. Some of the subfolders include:
-    
-   *  **{genome}.fasta.mod.EDTA.raw:** Contains refined files from the SINE and LINE annotations, as well as the LTR, TIR and Helitrons annotations.
-   *  **TE-REPORT:** Provides a general summary of the elements present in the genome and presents quantitative data on them.
-   *  **LTR-AGE:** Analyzes the ages of the Gypsy and Copia superfamilies.
-   *  **TREE:** Displays the phylogenetic trees of the LTR elements.
-
-   The [Results](#results) section presents the additional data obtained from the complete annotation.
-
-Return to [Table of contents](#table-of-contents)
 
 # Installation with Github
  * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
@@ -197,7 +192,7 @@ Return to [Table of contents](#table-of-contents)
 
 - [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)
 
-- System Ubuntu
+- System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
 
 #### MiniConda install
 After downloading miniconda from the link above, run it in the terminal window:
@@ -208,7 +203,7 @@ bash Miniconda3-latest-Linux-x86_64.sh
 ## Download the repository
 **Step 1.** In the terminal run:
 ```sh
-git clone https://github.com/Marcos-Fernando/AnnoTEP.git $HOME/TEs
+git clone https://github.com/Marcos-Fernando/AnnoTEP_v1.git $HOME/TEs
 ```
 
 **Step 2.** Access the repository location on the machine:
@@ -248,7 +243,6 @@ if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
 devtools::install_github("YuLab-SMU/ggtree")
 devtools::install_github("YuLab-SMU/ggtreeExtra")
-
 ```
 
 **Step 2.** After installing the libraries, copy the ``irf`` and ``break_fasta.pl`` scripts to local/bin on your machine:
@@ -304,194 +298,15 @@ cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
 rm TAIR10_chr_all.fas
 ```
 
+<!-- If the link fails, try it:
+```sh
+wget --header="User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" \
+"https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz"
+``` -->
+
+
 * If you can't download _Arabidopsis thaliana_ automatically, you can download it directly from [tair](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files), by clicking on `TAIR10_chr_all.fas.gz` and following the steps in the command above from the second line onwards.
 
-
-## Organizing the environment
-### Configuring the modified AnnoSINE
-**Step 1.** Create and activate the AnnoSINE conda environment:
-```sh
-cd SINE/AnnoSINE/
-conda env create -f AnnoSINE.conda.yaml
-
-cd bin
-conda activate AnnoSINE
-```
-
-### Configuring environment variables:
-In this pipeline, we will be using HMMER version 3.4 due to a bug in version 3.3. We therefore need to configure the environment variables.
-
-**Step 1.** Have ``vim`` installed on your machine, in the terminal type:
-```sh
-vim ~/.bashrc
-```
-
-A window with instructions will open, drag to the last line of the document and press the letter ``i`` to activate edit mode and type the PATH command:
-```sh
-export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH";
-export PATH="$HOME/TEs/SINE/AnnoSINE/hmmer-develop:$PATH"
-export PATH="$HOME/TEs/SINE/AnnoSINE/hmmer-develop/src:$PATH"
-export PATH="$HOME/TEs/SINE/AnnoSINE/hmmer-develop/bin:$PATH"
-```
-When finished, press the ``ESC`` button to end the editing mode, type ``:wq`` and press ``ENTER`` to save the changes and close the document.
-
-After making the changes, restart the terminal (or close the terminal and open it again)
-
-**Step 2.** Apply the changes and activate the environment:
-```sh
-source ~/.bashrc
-conda activate AnnoSINE
-```
-
-Check that the current version is 3.4:
-```sh
-hmmsearch -h
-```
-
-If everything is correct, we can continue. If not, check the environment variables.
-
-**Step 3.** Configuring HMMER:
-```sh
-cd ..
-cd hmmer-develop
-make clean
-./configure
-make -j
-```
-
-### Running AnnoSINE
-**Step 1.** Run the test data (chromosome 4 of A. thaliana) to verify the installation:
-```sh
-python3 AnnoSINE.py 3 ../AtChr4.fasta ../Output_Files
-```
-- A file 'Seed_SINE.fa' will be created in '../Output_Files'. This file contains all the planned SINE elements and will be used later in the next steps.
-
-We are now ready to annotate the SINE elements of your genome project file.
-
-**Step 2.** In this example we will run the preloaded _A. thaliana_ genome or its data
-```sh
-python3 AnnoSINE.py 3 $HOME/TEs/At.fasta At
-cp ./At/Seed_SINE.fa $HOME/TEs/At-Seed_SINE.fa
-```
-
-- Deactivate the environment
-```sh
-conda deactivate
-cd $HOME/TEs
-```
-
-### Setting up MGEScan-non-LTR and primary validation with TEsorter
-**Step 1.** Enter the Non-LTR folder and create a virtual environment
-```sh
-cd non-LTR/mgescan/
-
-virtualenv -p /usr/bin/python2 mgescan-virtualenv
-source mgescan-virtualenv/bin/activate
-pip2 install biopython==1.76
-pip2 install bcbio-gff==0.6.6
-pip2 install docopt==0.6.1
-python setup.py install
-```
-
-Follow the instructions on the installer screens.
-If you are unsure about any settings, accept the defaults.
-
-mgescan is now installed and ready to work. Test the installation:
-```sh
-mgescan --help
-```
-### Configuring environment variables:
-MGEscan will use version hmmer 3.2, so we need to configure the development environment again.
-
-**Step 1.** In the terminal type:
-```sh
-vim ~/.bashrc
-```
-
-A window with instructions will open, so add the following commands:
-```sh
-export PATH="$HOME/miniconda3/envs/AnnoSINE/bin:$PATH";
-export PATH="$HOME/miniconda3/envs/EDTA/bin:$PATH";
-export PATH="$HOME/TEs/non-LTR/hmmer-3.2/src/:$PATH";
-```
-When finished, press the ``ESC`` button to end the editing mode, type ``:wq`` and press ``ENTER`` to save the changes and close the document.
-
-After making the changes, restart the terminal (or close the terminal and open it again)
-```sh
-source ~/.bashrc
-```
-
-**Step 2.** In the terminal, run (only once):
-```sh
-cd ..
-cd hmmer-3.2
-make clean
-./configure
-make -j
-```
-
-Now we can run MGEScan-non-LTR, in the terminal configure the directories:
-```sh
-cd $HOME/TEs/non-LTR
-mkdir At-LINE
-cd At-LINE
-ln -s $HOME/TEs/At.fasta At.fasta
-cd ..
-
-# Set the ulimit higher value - See below
-ulimit -n 8192
-```
-
-**Step 3.** Run MGEScan-non-LTR
-```sh
-mgescan nonltr $HOME/TEs/non-LTR/At-LINE --output=$HOME/TEs/non-LTR/At-LINE-results --mpi=4
-```
-
-**Step 4.** Removing false positives with TEsorter and generating the pre-final non-redundant LINE library showing compatible input for the modified EDTA pipeline:
-```sh
-cd At-LINE-results
-```
-
-**Step 5.** Run the following command to generate the non-redundant LINE-lib.fa file:
-```sh
-cat info/full/*/*.dna > temp.fa
-cat temp.fa | grep \>  | sed 's#>#cat ./info/nonltr.gff3 | grep "#g'  | sed 's#$#" | cut -f 1,4,5#g'  > ver.sh
-bash ver.sh  | sed 's#\t#:#' | sed 's#\t#\.\.#'   > list.txt
-
-mkdir TMP
-break_fasta.pl < temp.fa TMP/
-cat temp.fa | grep \> | sed 's#>#cat ./TMP/#g' | sed 's#$#.fasta#g' > A.txt
-cat temp.fa | grep \> > list2.txt
-paste list2.txt list.txt | sed 's/>/ sed "s#/g'  | sed 's/\t/#/g' | sed 's/$/#g"/g'   > B.txt
-paste A.txt B.txt  -d"|"  > rename.sh
-bash rename.sh > candidates.fa
-
-/usr/local/bin/TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre LINE -p 22 -cov 80 -eval 0.0001 -rule 80-80-80 candidates.fa
-more LINE.cls.lib  | sed 's/#/__/g'  | sed 's#.fa##g' | cut -f 1 -d" " | sed 's#/#-#g'  > pre1.fa
-mkdir pre1
-break_fasta.pl < pre1.fa pre1
-cat pre1/*LINE.fasta  | sed 's#__#\t#g' | cut -f 1  > pre2.fa
-
-/usr/local/bin/TEsorter -db rexdb-line --hmm-database rexdb-line -pre LINE2 -p 22 -cov 60 -eval 0.0001 -rule 80-80-80 pre2.fa
-more LINE2.cls.lib  | sed 's/#/__/g'  | sed 's#.fa##g' | cut -f 1 -d" " | sed 's#/#-#g'  > pre-final.fa
-mkdir pre-final
-break_fasta.pl < pre-final.fa pre-final
-cat pre-final/*LINE*.fasta  > pre-final2.fa
-cdhit-est -i pre-final2.fa -o clustered -c 0.8 -G 1 -T 22 -d 100 -s 0.6 -aL 0.6 -aS 0.6
-cat clustered | sed 's/__/#/g' | sed 's#-#/#g'  > LINE-lib.fa
-#
-rm -rf pre1/ pre-final/ TMP/
-rm LINE2*
-rm LINE.cls.*
-rm A.txt B.txt clustered.clstr clustered LINE.dom* list2.txt list.txt pre1.fa pre2.fa pre-final2.fa pre-final.fa rename.sh temp.fa ver.sh candidates.fa
-cp LINE-lib.fa $HOME/TEs/At-LINE-lib.fa 
-```
-
-- Deactivate the environment and return to the pipeline home screen:
-```sh
-deactivate
-cd $HOME/TEs
-```
 
 ### Configuring modified EDTA
 **Step 1.** Install and activate the EDTA conda environment:
@@ -499,25 +314,18 @@ cd $HOME/TEs
 cd EDTA
 bash
 
-conda env create -f EDTA.yml
-conda activate EDTA
+conda env create -f EDTA_2.2.x.yml
+conda activate EDTA2
 perl EDTA.pl
 ```
 
-- In some cases it may happen that the RunCmdsMP.py package is not added inside EDTA, so to avoid future errors, it is recommended to manually add the file inside the development environment folder:
-
-    ```sh
-    sudo cp $HOME/TEs/Scripts/RunCmdsMP.py $HOME/miniconda3/envs/EDTA/lib/python3.6/site-packages/
-    ```
-
-
-**Step 2.** Now let's use the ``At-LINE-lib.fa`` and ``At-Seed_SINE.fa`` files generated in the previous steps:
+**Step 2.** Running EDTA:
 ```sh
 cd ..
 mkdir Athaliana
 cd Athaliana
 
-nohup $HOME/TEs/EDTA/EDTA.pl --genome ../At.fasta --species others --step all --line ../At-LINE-lib.fa --sine ../At-Seed_SINE.fa --sensitive 1 --anno 1 --threads 10 > EDTA.log 2>&1 &
+nohup $HOME/TEs/EDTA/EDTA.pl --genome ../At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 > EDTA.log 2>&1 &
 ```
 
 **Step 3.** Track progress by:
@@ -527,13 +335,9 @@ tail -f EDTA.log
 
 **Notes:**
 
-**1.** Set the number of threads available on your computer or server. Set the maximum available. In our code it is set to 10.
+**1.** Set the number of threads available on your computer or server. Set the maximum available. In our code it is set to 12.
 
-**2.** For more accurate TE detection and annotation, activate the "sensitive" flag. This will activate the RepeatModeler to identify remaining TEs and other repeats. The RepeatModeler step will also generate the Superfamily and Lineage TE classification and can capture other unknown LINEs and repeats. Our modified EDTA pipeline will do this automatically. This step is strongly recommended.
-
-**3.** The SINE and LINE structural annotations are available in the $genome.EDTA.raw folder. Look for SINE.intact.fa, SINE.intact.gff3, LINE.intact.fa and LINE.intact.gff3
-
-**4.** The final LINE library is embedded in the TElib.fa file. So if you want to recover all the LINEs, use this file.
+**2.** For more accurate TE detection and annotation, activate the "sensitive" flag. This will activate the RepeatModeler to identify remaining TEs and other repeats. The RepeatModeler step will also generate the Superfamily and Lineage TE classification.
 <br>
 
 ---
@@ -692,7 +496,7 @@ cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "Unknown" -A 5 |  g
 perl $HOME/TEs/ProcessRepeats/calcDivergenceFromAlign.pl -s At.divsum align2.txt
 
 genome_size="`perl $HOME/TEs/EDTA/util/count_base.pl ../At.fasta.mod | cut -f 2`" 
-perl $HOME/TEs/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > ../RepeatLandscape.html
+perl $HOME/TEs/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > RepeatLandscape.html
 
 tail -n 72 At.divsum > divsum.txt
 
@@ -822,52 +626,10 @@ Return to [Table of contents](#table-of-contents)
 # Running the platform with a graphical interface via github
 **Step 1.** Access the ``graphic-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 ```sh
-python -m venv .venv
+python -m venv .graphic
 
-. .venv/bin/activate
+. .graphic/bin/activate
 ```
-
-**Important 4**: If you cloned the git repository to a directory different from the recommended one, which is **$HOME/TEs**, you will need to adjust some lines of code to avoid potential issues.
-
-Follow these steps:
-
-**1. Adjust the main.py file:**
-- Inside the `graphic-interface` folder, locate the file named `main.py`.
-- Open the file and find the following line of code:
-```sh
-    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
-```
-
- - Modify this line to reflect the directory where you installed the repository. For example:
-
-```sh
-    UPLOAD_FOLDER = {folder installation location}
-    
-    #or
-
-    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'new_directory') 
-```
-- Replace "new_directory" with the correct path of the folder where the repository was cloned.
-
-**2. Adjust the annotation.py file:**
-- Still in the `graphic-interface` folder, go to the `extensions` subfolder and locate the `annotation.py` file.
-- Repeat the same process: find the line of code that defines the UPLOAD_FOLDER path:
-```sh
-    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
-```
-
-- Change this line to the new directory where the repository was installed, just like in the previous example:
-
-```sh
-    UPLOAD_FOLDER = {folder installation location}
-
-    #or
-
-    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'new_directory') 
-```
-
-By following these steps, the system will correctly recognize the new installation path, preventing any errors during processing.
-
 <br>
 
 **Step 2:** Install the packages needed for the application by running the following command (this only needs to be done once):
@@ -893,86 +655,77 @@ If all the settings are correct, you will see a message similar to this one:
 ```
 
 **Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
-<br>
-
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 <br>
 
 # Running the platform with bash interface via github
-- This mode is entirely command-line based, so there's no need to create a development environment. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
-- Go to the ``bash-interface`` folder
-
-**Important 5**: Just like in the `graphic-interface` folder, if you cloned the git repository to a directory different from the suggested one, which is **$HOME/TEs**, you will need to adjust some lines of code to avoid potential issues.
-
-Follow these steps:
-
-- Inside the `bash-interface` folder, locate the file named `run_annotep.py`.
-- Open the file and find the following line of code:
-
+**Step 1.** Access the ``bash-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
 ```sh
-    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'TEs')
+python -m venv .venv
+
+. .venv/bin/activate
 ```
 
-- Modify this line to reflect the directory where you installed the repository. For example:
-
-```sh
-    UPLOAD_FOLDER = {folder installation location}
-
-    #or
-
-    UPLOAD_FOLDER = os.path.join(os.environ['HOME'], 'new_directory') 
-```
-- Replace "new_directory" with the correct path of the folder where the repository was cloned.
-
-By following these steps, the system will correctly recognize the new installation path, preventing any errors during processing.
-
-<br>
-
-**Step 1.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
+**Step 2.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
 ```sh
 python run_annotep.py -h
 ```
 
 - The ``-h`` parameter displays a user guide describing how to use the script:
 ```sh
-usage: run_annotep.py [-h] --file FILE --type {1,2,3,4} [--threads THREADS]
+usage: run_annotep.py [-h] --genome GENOME --threads THREADS
+                      [--species {Rice,Maize,others}]
+                      [--step {all,filter,final,anno}] [--sensitive {0,1}]
+                      [--overwrite {0,1}] [--anno {0,1}] [--evaluate {0,1}]
+                      [--force {0,1}] [--u U] [--maxdiv [0-100]] [--cds CDS]
+                      [--curatedlib CURATEDLIB] [--exclude EXCLUDE]
+                      [--rmlib RMLIB] [--rmout RMOUT]
 
 Run annotep with specified parameters.
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --threads THREADS  Number of threads used to complete annotation (default threads: 4).
-                     This parameter does not need to be set for the other annotation types [1, 2, 3].
+  -h, --help            show this help message and exit
 
 required arguments:
-  --file FILE        Genome file name (.fasta)
-  --type {1,2,3,4}   Type annotation:
-                      [1] SINE Annotation 
-                      [2] LINE Annotation
-                      [3] SINE and LINE annotation
-                      [4] Complete Annotation
+  --genome GENOME       The genome FASTA file (.fasta)
+  --threads THREADS     Number of threads used to complete annotation (default threads: 4)
 
+optional arguments:
+  --species {Rice,Maize,others}
+                        Specify the species for identification of TIR candidates. Default: others
+  --step {all,filter,final,anno}
+                        Specify which steps you want to run EDTA.
+  --sensitive {0,1}     Use RepeatModeler to identify remaining TEs (1) or not (0, default). This step may help to recover some TEs.
+  --overwrite {0,1}     If previous raw TE results are found, decide to overwrite (1, rerun) or not (0, default).
+  --anno {0,1}          Perform (1) or not perform (0, default) whole-genome TE annotation after TE library construction.
+  --evaluate {0,1}      Evaluate (1) classification consistency of the TE annotation. (--anno 1 required).
+  --force {0,1}         When no confident TE candidates are found: 0, interrupt and exit (default); 1, use rice TEs to continue.
+  --u U                 Neutral mutation rate to calculate the age of intact LTR elements. Intact LTR age is found in this file: *EDTA_raw/LTR/*.pass.list. Default: 1.3e-8 (per bp per year, from rice).
+  --maxdiv [0-100]      Maximum divergence (0-100, default: 40) of repeat fragments comparing to library sequences.
+  --cds CDS             Provide a FASTA file containing the coding sequence (no introns, UTRs, nor TEs) of this genome or its close relative.
+  --curatedlib CURATEDLIB
+                        Provided a curated library to keep consistant naming and classification for known TEs. TEs in this file will be trusted 100%, so please ONLY provide MANUALLY CURATED ones. This option is not mandatory. It is totally OK if no file is provided (default).
+  --exclude EXCLUDE     Exclude regions (bed format) from TE masking in the MAKER.masked output. Default: undef. (--anno 1 required).
+  --rmlib RMLIB         Provide the RepeatModeler library containing classified TEs to enhance the sensitivity especially for LINEs. If no file is provided (default), EDTA will generate such file for you.
+  --rmout RMOUT         Provide your own homology-based TE annotation instead of using the EDTA library for masking. File is in RepeatMasker .out format. This file will be merged with the structural-based TE annotation. (--anno 1 required). Default: use the EDTA library for annotation.
 ```
 
-**Step 2:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
+**Step 3:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
 ```sh
 
-python run_annotep.py --file {absolute-path-to-folder-genomes}/genome.fasta --type number
+python run_annotep.py --genome {absolute-path-to-folder-genomes}/genome.fasta --threads number
 ```
 
 #### Example 1:
 ```sh
-python run_annotep.py --file /home/user/TEs/At.fasta --type 2
+python run_annotep.py --genome /home/user/TEs/At.fasta --threads 12
 ```
 
 #### Example 2:
 ```sh
-python run_annotep.py --file $HOME/TEs/At.fasta --type 4 --threads 10
+python run_annotep.py --genome /home/user/Documents/At.fasta --threads 12 --sensitive 1 --anno 1
 ```
 
 <br>
-
-* The type of annotation and the results obtained are explained in section [Results Container](#results-container)
 
 Return to [Table of contents](#table-of-contents)
