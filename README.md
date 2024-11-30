@@ -34,7 +34,6 @@ AnnoTEP is currently available in three formats: web server, container with grap
     * [Graphic Interface](#graphic-interface)
     * [Bash Interface](#bash-interface)
 * [Installation with Github](#installation-with-github)
-    * [Organizing the environment](#organizing-the-environment)
     * [Results](#results)
     * [Running the platform with a graphical interface via github](#running-the-platform-with-a-graphical-interface-via-github)
     * [Running the platform with bash interface via github](#running-the-platform-with-bash-interface-via-github)
@@ -298,11 +297,11 @@ cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
 rm TAIR10_chr_all.fas
 ```
 
-<!-- If the link fails, try it:
+If the link fails, try it:
 ```sh
 wget --header="User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" \
 "https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz"
-``` -->
+```
 
 
 * If you can't download _Arabidopsis thaliana_ automatically, you can download it directly from [tair](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files), by clicking on `TAIR10_chr_all.fas.gz` and following the steps in the command above from the second line onwards.
