@@ -1118,9 +1118,9 @@ if ($anno == 1){
 	copy_file("${genome}_divergence_plot_2.2.pdf", "..");
 
 	#soloLTR
-	`perl $findLTR -lib $genome.EDTA.TElib.fa > lib.LTR.info`;
-	`perl $solofinder -i BK-FINAL-$genome.out -info lib.LTR.info > solo_LTR.txt`;
-	copy_file("solo_LTR.txt", "..");
+	# `perl $findLTR -lib $genome.EDTA.TElib.fa > lib.LTR.info`;
+	# `perl $solofinder -i BK-FINAL-$genome.out -info lib.LTR.info > solo_LTR.txt`;
+	# copy_file("solo_LTR.txt", "..");
 
 	# evaluate the annotation consistency
 	if ($evaluate == 1){
