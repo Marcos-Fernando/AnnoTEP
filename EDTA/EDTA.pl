@@ -23,6 +23,8 @@ my $version = "v2.2.1";
 #v2.1 10/10/2022
 #v2.2 01/05/2024
 
+#v2.2 modified AnnoTEP 16/11/2024
+
 print "
 #########################################################
 ##### Extensive de-novo TE Annotator (EDTA) $version  #####
