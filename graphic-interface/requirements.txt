@@ -1,5 +1,5 @@
 biopython==1.78
-Flask==2.0.3
+Flask==2.2.5
 Flask-Celery==2.4.3
 Flask-Mail==0.9.1
 Flask-PyMongo==2.3.0
