@@ -6,9 +6,14 @@ use File::Basename;
 use File::Spec; # for obtaining the real path of a file
 use Pod::Usage;
 
-########################################################
-##### Perform initial searches for TE candidates    ####
-##### Shujun Ou (shujun.ou.1@gmail.com, 07/16/2020) ####
+#########################################################
+##### Extensive de-novo TE Annotator (EDTA) $version  #####
+##### Shujun Ou (shujun.ou.1\@gmail.com)             #####
+#########################################################
+#####       For Marcos Costa                        ####
+##### Modified and Enhanced EDTA version            ####
+##### This is an experimental version               ####
+##### Use at your own risk                          #### 
 ########################################################
 
 ## Input:
