@@ -619,7 +619,12 @@ if ($type eq "sine" or $type eq "all"){
 	if (-s "Seed_SINE.fa"){
 		print STDERR "$date\tExisting result file Seed_SINE.fa found!\n\t\tWill keep this file without rerunning this module.\n\t\tPlease specify --overwrite 1 if you want to rerun AnnoSINE_v2.\n\n";
 	} else { 
-		$status = system("python3 ${annosine}AnnoSINE_v2 -t $threads -a 2 --num_alignments 50000 -rpm 0 --copy_number 3 --shift 100 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		#
+		### EDIT
+		# 
+		$status = system("python3 ${annosine}AnnoSINE_v2 -t $threads --num_alignments 50000 -rpm 0 --copy_number 3 --shift 100 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		# $status = system("python3 ${annosine}AnnoSINE_v2 -t $threads -a 2 --num_alignments 50000 -rpm 0 --copy_number 3 --shift 100 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		
 	}
 
 	# filter and reclassify AnnoSINE candidates with TEsorter and make SINE library
@@ -632,6 +637,7 @@ if ($type eq "sine" or $type eq "all"){
 			
 		# clean up tandem repeat
 		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.AnnoSINE.raw.fa.cln > $genome.SINE.raw.fa`;
+
 	} elsif ($status == 0) {
 		print "\t\tAnnoSINE is finished without error, but the Seed_SINE.fa file is not produced.\n\n";
 		`touch $genome.SINE.raw.fa`;
@@ -699,6 +705,9 @@ if ($type eq "line" or $type eq "all"){
 	}
 
 	# filter and reclassify RepeatModeler candidates with TEsorter and make LINE library
+	#
+	#### ADDED / EDIT
+	# 
 	if (-s "$genome-families.fa"){
 		# annotate and remove misclassified candidates
 		`awk '{gsub(/Unknown/, "unknown"); print \$1}' $genome-families.fa > $genome.RM2.raw.fa` if -e "$genome-families.fa";
