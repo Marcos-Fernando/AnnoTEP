@@ -3,4 +3,5 @@ matplotlib
 pandas
 python-dotenv
 tensorflow
+seaborn
 regex==2016.6.24
