@@ -13,7 +13,10 @@ def plot_data(df):
     df = df.sort_values(by="length", ascending=False)
 
     # Configurar estilo
-    plt.style.use('seaborn-whitegrid')
+    try:
+        plt.style.use('seaborn-whitegrid')
+    except OSError:
+        plt.style.use('seaborn-v0_8-whitegrid')
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
