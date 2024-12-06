@@ -9,3 +9,4 @@ pandas==1.1.5
 python-dotenv==0.20.0
 tensorflow==2.6.2
 regex==2016.6.24
+seaborn
