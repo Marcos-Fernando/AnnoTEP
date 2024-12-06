@@ -217,8 +217,7 @@ Note: Pay attention to the name of the folder. In this guide, we will be using t
 **Step 1.** In the terminal download the following libraries:
 ```sh
 sudo apt-get install libgdal-dev lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk
-sudo apt-get install hmmer emboss python3-virtualenv python2 python2-setuptools-whl python2-pip-whl cd-hit iqtree
-sudo apt-get install python2-dev build-essential linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl
+sudo apt-get install hmmer emboss python3-virtualenv cd-hit iqtree build-essential linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl
 sudo apt-get install pdf2svg
 
 # R dependencies
@@ -250,35 +249,6 @@ sudo cp Scripts/irf /usr/local/bin
 sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
 
-**Step 3.** Then configure the TEsorter:
-```sh
-cd $HOME/TEs/TEsorter
-sudo python3 setup.py install
-```
-
-Check the version of python on the machine to proceed with the configuration
-* Python 3.7
-```sh
-cd /usr/local/lib/python3.7/dist-packages/TEsorter-1.4.1-py3.6.egg/TEsorter/database/
-```
-
-* Python 3.10
-```sh
-cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/
-```
-...
-
-```sh
-sudo hmmpress REXdb_v3_TIR.hmm
-sudo hmmpress Yuan_and_Wessler.PNAS.TIR.hmm
-sudo hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm
-sudo hmmpress REXdb_protein_database_viridiplantae_v3.0.hmm
-sudo hmmpress REXdb_protein_database_metazoa_v3.hmm
-sudo hmmpress Kapitonov_et_al.GENE.LINE.hmm
-sudo hmmpress GyDB2.hmm
-sudo hmmpress AnnoSINE.hmm
-cd $HOME/TEs 
-```
 ### Downloading genomes for testing
 At this stage you can choose to use your data or download some examples for testing:
 * _Theobrama cacao_
@@ -349,11 +319,14 @@ Generally, non-autonomous elements can carry passenger genes (for example, non-a
 Return to [Table of contents](#table-of-contents)
 
 # Results
+**Important 4:** You may skip this step and proceed directly to the tool execution steps using either the [graphical interface](#running-the-platform-with-a-graphical-interface-via-github) or the [bash interface](#running-the-platform-with-bash-interface-via-github).
+
 **Step 1. Create and activate the virtual environment:** Before proceeding, deactivate Conda if it is active to avoid dependency conflicts. It is recommended to create a Python virtual environment to ensure an isolated and appropriate setup for executing the next command. Follow the steps below:
 ```sh
-python -m venv .venv
+cd $HOME/TEs/
+python -m venv .results
 
-. .venv/bin/activate
+. .results/bin/activate
 ```
 
 **Step 2. Install the required packages:** With the virtual environment activated, install the necessary dependencies for the application by running the command below:
@@ -363,6 +336,7 @@ pip install -r required.txt
 
 **Step 3. Run the processing script:** Once the environment is set up, execute the following command to generate new data and graphs from the input file (e.g., At.fasta):
  ```sh
+cd $HOME/TEs/Athaliana
 python -u $HOME/TEs/Scripts/process_graphic.py At.fasta
 ```
 
@@ -426,7 +400,7 @@ Return to [Table of contents](#table-of-contents)
 <br>
 
 # Running the platform with a graphical interface via github
-**Step 1.** Access the ``graphic-interface`` folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
+**Step 1.** Access the ``graphic-interface`` folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#configuring-the-repository) before proceeding.
 ```sh
 python -m venv .graphic
 
@@ -461,11 +435,11 @@ If all the settings are correct, you will see a message similar to this one:
 <br>
 
 # Running the platform with bash interface via github
-**Step 1.** Access the ``bash-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#organizing-theenvironment) before proceeding.
+**Step 1.** Access the ``bash-interface`` folder folder and create a Python virtual environment by running the following commands in your terminal. Make sure you have done the [environment setup](#configuring-the-repository) before proceeding.
 ```sh
-python -m venv .venv
+python -m venv .bashinterface
 
-. .venv/bin/activate
+. .bashinterface/bin/activate
 ```
 
 **Step 2.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
