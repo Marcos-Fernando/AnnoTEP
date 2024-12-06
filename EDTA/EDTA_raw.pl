@@ -695,23 +695,30 @@ if ($type eq "line" or $type eq "all"){
 				" and exit unless $status == 0;
 		}
 		`rm $genome.nhr $genome.nin $genome.nnd $genome.nni $genome.nog $genome.nsq $genome.njs $genome.translation 2>/dev/null`;
+		#  exit(0);
 	}
 
 	# filter and reclassify RepeatModeler candidates with TEsorter and make LINE library
 	if (-s "$genome-families.fa"){
 		# annotate and remove misclassified candidates
 		`awk '{gsub(/Unknown/, "unknown"); print \$1}' $genome-families.fa > $genome.RM2.raw.fa` if -e "$genome-families.fa";
-		`${TEsorter}TEsorter $genome.RM2.raw.fa --disable-pass2 -p $threads 2>/dev/null`;
-		`perl $cleanup_misclas $genome.RM2.raw.fa.rexdb.cls.tsv`;
-		
+		`${TEsorter}TEsorter $genome.RM2.raw.fa -db rexdb-line --hmm-database rexdb-line -p $threads 2>/dev/null`;
+		`awk -F'#Unknown ' '{if (NF>1) print ">"\$2; else print \$0}' $genome.RM2.raw.fa.rexdb-line.cls.lib >  $genome.RM2.raw.fa.cln`;
+		# `${TEsorter}TEsorter $genome.RM2.raw.fa --disable-pass2 -p $threads 2>/dev/null`;
+		# `perl $cleanup_misclas $genome.RM2.raw.fa.rexdb.cls.tsv`;
+	
 		# reclassify clean candidates
-		`${TEsorter}TEsorter $genome.RM2.raw.fa.cln --disable-pass2 -p $threads 2>/dev/null`;
-		`perl -nle 's/>\\S+\\s+/>/; print \$_' $genome.RM2.raw.fa.cln.rexdb.cls.lib > $genome.RM2.raw.fa.cln`;
+		# `${TEsorter}TEsorter $genome.RM2.raw.fa.cln --disable-pass2 -p $threads 2>/dev/null`;
+		# `perl -nle 's/>\\S+\\s+/>/; print \$_' $genome.RM2.raw.fa.cln.rexdb.cls.lib > $genome.RM2.raw.fa.cln`;
 
 		# clean up tandem repeat
+		# `perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.RM2.raw.fa.cln > $genome.RM2.raw.fa.cln2`;
+		# `grep -P 'LINE|SINE' $genome.RM2.raw.fa.cln2 | perl $output_by_list 1 $genome.RM2.raw.fa.cln2 1 - -FA > $genome.LINE.raw.fa`;
+		# `grep -P 'LINE|SINE' $genome.RM2.raw.fa.cln2 | perl $output_by_list 1 $genome.RM2.raw.fa.cln2 1 - -FA -ex > $genome.RM2.fa`;
 		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.RM2.raw.fa.cln > $genome.RM2.raw.fa.cln2`;
 		`grep -P 'LINE|SINE' $genome.RM2.raw.fa.cln2 | perl $output_by_list 1 $genome.RM2.raw.fa.cln2 1 - -FA > $genome.LINE.raw.fa`;
 		`grep -P 'LINE|SINE' $genome.RM2.raw.fa.cln2 | perl $output_by_list 1 $genome.RM2.raw.fa.cln2 1 - -FA -ex > $genome.RM2.fa`;
+		# exit(0);
 	} else {
 		print "\t\tRepeatModeler is finished, but the $genome-families.fa file is not produced.\n\n";
 		`touch $genome.RM2.raw.fa $genome.LINE.raw.fa $genome.RM2.fa`;
