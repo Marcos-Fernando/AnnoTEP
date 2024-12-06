@@ -29,6 +29,13 @@ genomes_size=_SIZE_GEN_
 kd_melt = melt(KimuraDistance,id="Div")
 kd_melt$norm = kd_melt$value/genomes_size * 100
 
+#
+# ADDED
+#
+# Remove rows with missing or out-of-range values
+kd_melt <- kd_melt[!is.na(kd_melt$norm) & kd_melt$norm >= 0 & kd_melt$norm <= 100, ]
+
+
 ggplot(kd_melt, aes(fill=variable, y=norm, x=Div)) + 
   geom_bar(position="stack", stat="identity",color="black") +
   scale_fill_viridis(discrete = T) +
