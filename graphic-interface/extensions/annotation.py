@@ -49,7 +49,7 @@ def dataGeneration(new_filename, resultsAddress):
     pdf2svg RepeatLandScape.pdf RLandScape.svg
 
     rm align2.txt
-    rm tmp.txtcd 
+    rm tmp.txt 
 
     # ========= Plotting ==============
     cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{{print $1}}' > count.txt
@@ -69,7 +69,7 @@ def dataGeneration(new_filename, resultsAddress):
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
     
-	python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
+	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report1.pdf
     pdf2svg TE-Report1.pdf TE-Report1.svg
 
@@ -127,7 +127,7 @@ def dataGeneration(new_filename, resultsAddress):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "RC/Helitron" | sed 's#RC/Helitron#Helitron#g' >> plot.txt
 	
 	cat header.txt plot.txt > plot1.txt
-	python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
+	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report2.pdf
     pdf2svg TE-Report2.pdf TE-Report2.svg
 
@@ -165,9 +165,9 @@ def dataGeneration(new_filename, resultsAddress):
     break_fasta.pl < tmp.txt ./tmp
     cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
 
-
-    /usr/local/bin/TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1
-    
+    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
+    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1 &&
+    conda deactivate
 
     concatenate_domains.py TE.cls.pep GAG > GAG.aln
     concatenate_domains.py TE.cls.pep PROT > PROT.aln

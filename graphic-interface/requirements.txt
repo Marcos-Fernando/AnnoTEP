@@ -4,9 +4,9 @@ Flask-Celery==2.4.3
 Flask-Mail==0.9.1
 Flask-PyMongo==2.3.0
 Flask-Script==2.0.6
-matplotlib==3.3.4
-pandas==1.1.5
+matplotlib==3.9.3
+pandas==2.2.3
 python-dotenv==0.20.0
-tensorflow
+tensorflow==2.18.0
 regex==2016.6.24
-seaborn
+seaborn==0.12.2
