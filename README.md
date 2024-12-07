@@ -331,7 +331,7 @@ python -m venv .results
 
 **Step 2. Install the required packages:** With the virtual environment activated, install the necessary dependencies for the application by running the command below:
  ```sh
-pip install -r required.txt 
+pip install -r requirements.txt 
 ```
 
 **Step 3. Run the processing script:** Once the environment is set up, execute the following command to generate new data and graphs from the input file (e.g., At.fasta):
