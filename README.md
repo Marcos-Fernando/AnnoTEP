@@ -410,9 +410,9 @@ python -m venv .graphic
 
 **Step 2:** Install the packages needed for the application by running the following command (this only needs to be done once):
 ```sh
-pip install -r required.txt 
+pip install -r requirements.txt 
 ```
-- Inside the ``required.txt`` file, you'll find the fundamental libraries, such as Flask and python-dotenv. If any package shows an error, you'll need to install it manually.
+- Inside the ``requirements.txt`` file, you'll find the fundamental libraries, such as Flask and python-dotenv. If any package shows an error, you'll need to install it manually.
 
 **Step 3:** Now, inside the "graphic-interface" folder and with the virtual environment activated, run the following command to start the application:
 ```sh
@@ -442,7 +442,12 @@ python -m venv .bashinterface
 . .bashinterface/bin/activate
 ```
 
-**Step 2.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
+**Step 2:** Install the packages needed for the application by running the following command (this only needs to be done once):
+```sh
+pip install -r requirements.txt 
+```
+
+**Step 3.** Go to the "local" folder and run the ``run_annotep.py`` script by typing the following command:
 ```sh
 python run_annotep.py -h
 ```
@@ -486,7 +491,7 @@ optional arguments:
   --rmout RMOUT         Provide your own homology-based TE annotation instead of using the EDTA library for masking. File is in RepeatMasker .out format. This file will be merged with the structural-based TE annotation. (--anno 1 required). Default: use the EDTA library for annotation.
 ```
 
-**Step 3:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
+**Step 4:** Run the command adding the full path of the directory containing the genome and the type of annotation you want:
 ```sh
 
 python run_annotep.py --genome {absolute-path-to-folder-genomes}/genome.fasta --threads number
