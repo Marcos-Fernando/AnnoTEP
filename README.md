@@ -216,7 +216,7 @@ Note: Pay attention to the name of the folder. In this guide, we will be using t
 ### Libraries
 **Step 1.** In the terminal download the following libraries:
 ```sh
-sudo apt-get install libgdal-dev lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk
+sudo apt-get install libgdal-dev lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk libtext-soundex-perl
 sudo apt-get install hmmer emboss python3-virtualenv cd-hit iqtree build-essential linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl
 sudo apt-get install pdf2svg
 
