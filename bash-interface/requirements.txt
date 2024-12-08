@@ -1,4 +1,4 @@
-biopython==1.78
+biopython
 matplotlib
 pandas
 python-dotenv
