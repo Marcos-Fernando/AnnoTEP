@@ -182,7 +182,7 @@ Return to [Table of contents](#table-of-contents)
 
 # Installation with Github
  * The installation guide to be presented was adapted from [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs), with some modifications throughout the code. 
- * **Plant Genome Annotation** uses modified code from the [AnnoSINE](https://github.com/baozg/AnnoSINE), [MGEScan-non-LTR](https://github.com/MGEScan), [TEsorter](https://github.com/zhangrengang/TEsorter) and [EDTA](https://github.com/oushujun/EDTA) pipelines.
+ * **Plant Genome Annotation** uses modified code from the [EDTA](https://github.com/oushujun/EDTA) pipeline.
 
 ## Prerequisites
 - [Python 3.7+](https://www.python.org/)
