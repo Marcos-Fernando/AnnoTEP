@@ -185,7 +185,7 @@ Return to [Table of contents](#table-of-contents)
  * **Plant Genome Annotation** uses modified code from the [AnnoSINE](https://github.com/baozg/AnnoSINE), [MGEScan-non-LTR](https://github.com/MGEScan), [TEsorter](https://github.com/zhangrengang/TEsorter) and [EDTA](https://github.com/oushujun/EDTA) pipelines.
 
 ## Prerequisites
-- [Python 3.6+](https://www.python.org/)
+- [Python 3.7+](https://www.python.org/)
 
 - [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
 
