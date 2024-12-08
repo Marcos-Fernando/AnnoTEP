@@ -28,7 +28,7 @@ def plot_data(df):
     # Adicionar valores da coluna "length" acima das barras
     for bar, length, perc in zip(bars, df['length'], df['percentage']):
         ax1.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), 
-            f'{length:.3f} Mb \n({perc:.2f}%)', ha='center', va='bottom', color='black', fontsize=6)
+            f'{length:.2f} Mb \n({perc:.2f}%)', ha='center', va='bottom', color='black', fontsize=6)
 
 
     # Criar segundo eixo Y

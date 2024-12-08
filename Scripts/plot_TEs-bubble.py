@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib.cm import ScalarMappable
 
 def plot_data(df):
+
+    df['length'] = df['length'] / 1e6
+    
     # Remover linhas com valor zero e resetar índices
     df = df[df["Number"] != 0].reset_index(drop=True)
 
