@@ -5,7 +5,7 @@ from matplotlib.cm import ScalarMappable
 def plot_data(df):
 
     df['length'] = df['length'] / 1e6
-    
+
     # Remover linhas com valor zero e resetar índices
     df = df[df["Number"] != 0].reset_index(drop=True)
 
@@ -24,7 +24,7 @@ def plot_data(df):
     # Configuração do plot
     ax.set_xlabel('Occurrences', fontsize=12, color='black')
     ax.set_ylabel("Length Occupied (Mb)", fontsize=12, color='black')
-    ax.set_title('TE-Report', fontsize=16, color='black')
+    ax.set_title('Distribution of TEs: Length and Occurrences', fontsize=16, color='black')
 
     # Cria uma colorbar
     cbar = fig.colorbar(bubbles)
