@@ -26,7 +26,7 @@ def plot_data(df):
     bars = ax1.bar(df['Type'], df['length'], color=colors)
 
     # Adicionar valores da coluna "length" acima das barras
-    for bar, length, perc in zip(bars, df['length'], df['percentage']):
+    for bar, length, perc, number in zip(bars, df['length'], df['percentage'], df['Number']):
         ax1.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), 
             f'{length:.2f} Mb \n({perc:.2f}%)', ha='center', va='bottom', color='black', fontsize=6)
 
@@ -67,7 +67,7 @@ def plot_data(df):
 
 
     # Adicione o label "Occurrences" abaixo da colorbar
-    ax1.annotate('Occurrences', xy=(0.075, 0.76), xycoords='figure fraction', fontsize=8, ha='left', color='black')
+    ax1.annotate('Occurrences', xy=(0.075, 0.75), xycoords='figure fraction', fontsize=8, ha='left', color='black')
 
     plt.tight_layout()
     plt.savefig("TE-Report.pdf")
