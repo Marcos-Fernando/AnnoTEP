@@ -439,14 +439,9 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		`mkdir TMP`;
 		`cat $genome.LTR.cls.lib | sed 's# #_END\t#g' | cut -f 1 | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' | sed 's/#/__/g' |  sed 's#/#_#g' > tmp.fa`;
 		`break_fasta.pl < tmp.fa ./TMP` ; 
-		`find ./TMP -name '*LINE*' | xargs rm -f ` unless -e "./TMP/*LINE*" ; 
-		`find ./TMP -name '*TIR*' | xargs rm -f ` unless -e "./TMP/*TIR*";
-		`find ./TMP -name '*Helitron*' | xargs rm -f ` unless -e "./TMP/*Helitron*";
-		#
-		#`rm -f ./TMP/*LINE*` unless -e "./TMP/*LINE*" ; 
-		#`rm -f ./TMP/*TIR*` unless -e "./TMP/*TIR*"; 
-		#`rm -f ./TMP/*Helitron*` unless -e "./TMP/*Helitron*"; 
-		#
+		`rm -f ./TMP/*LINE*` unless -e "./TMP/*LINE*" ; 
+		`rm -f ./TMP/*TIR*` unless -e "./TMP/*TIR*"; 
+		`rm -f ./TMP/*Helitron*` unless -e "./TMP/*Helitron*"; 
 		#
 		#
 		#
@@ -455,8 +450,8 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#
 		#
 		`cat table.txt | awk '{if (\$5 == "yes") print \$1}' | cut -f 1 -d"#"  | sed 's#^#cat ./TMP/#g' |  sed 's#\$#*.fasta#g' | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g'  > pick.sh`;  
-		#
-		if (!-s "pick.sh") {
+
+		if (-z "pick.sh" || !-s "pick.sh") {
 			chomp ($date = `date`);
 			print STDERR "$date\tEMPTY LTRs\n"; 
 		} else {
@@ -472,7 +467,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#	
 		`cat table.txt | grep LTR | grep Gypsy | grep GAG | grep -v PROT | grep -v INT | grep -v RT | grep -v RH | grep -v CHD | awk '{if (\$5 == "no") print \$0}' | awk '{if ((\$8 >= 4000 ) && (\$8 <= 20000)) print \$1}'  | cut -f 1 -d"#"  | sed 's#^#cat ./TMP/#g' |  sed 's#\$#*.fasta#g' | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g'  > pick.sh `;
 		#		
-		if (!-s "pick.sh") {
+		if (-z "pick.sh" || !-s "pick.sh") {
 			chomp ($date = `date`);
 			print STDERR "$date\tEMPTY TR_GAG\n"; 
 		} else {
@@ -485,7 +480,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		# BARE-2	
 		`cat table.txt | grep LTR | grep Copia | grep -v GAG | grep PROT | grep INT | grep RT | grep RH | awk '{if (\$5 == "no") print \$0}' | awk '{if ((\$8 >= 3000 ) && (\$8 <= 12000)) print \$1}'  | cut -f 1 -d"#"  | sed 's#^#cat ./TMP/#g' |  sed 's#\$#*.fasta#g' | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g'  > pick.sh `;
 		#
-		if (!-s "pick.sh") {
+		if (-z "pick.sh" || !-s "pick.sh") {
 			chomp ($date = `date`);
 			print STDERR "$date\tEMPTY BARE-2\n"; 
 		} else {
@@ -496,15 +491,15 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#
 		#
 		# Find the Gypsy and Copia lineages-like
-		`find TMP/ -name "*.fasta" | xargs ls | sed 's#TMP/##g' |  sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#__#\t#g'  | cut -f 1 | sed 's#^#cat table.txt | grep "#g'  | sed 's#\$#"#g' > pick.sh`;
-		if (!-s "pick.sh") {
+		`ls TMP/*.fasta | sed 's#TMP/##g' |  sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#__#\t#g'  | cut -f 1 | sed 's#^#cat table.txt | grep "#g'  | sed 's#\$#"#g' > pick.sh`;
+		if (-z "pick.sh" || !-s "pick.sh") {
 			chomp ($date = `date`);
 			print STDERR "$date\tNo Gypsy and Copia lineages-like\n"; 
 		} else {
 			`bash pick.sh > TSV.txt`;
 			#
 			`cat TSV.txt | awk '{if (\$5 == "no") print \$1}'   | cut -f 1 -d"#"  | sed 's#^#cat ./TMP/#g' |  sed 's#\$#*.fasta#g' | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' > pick2.sh`;  
-			if (!-s "pick.sh") {
+			if (-z "pick.sh" || !-s "pick.sh") {
 				print STDERR "$date\tNo Gypsy and Copia lineages-like - step 1\n"; 
 			} else {
 				`bash pick2.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END#-like#g' | sed 's#LTR/mixture-like#LTR/Unknown#g' | sed 's#mixture-like#Unknown#g' | sed 's#pararetrovirus-like#pararetrovirus#g' | sed 's#Gypsy-like#Gypsy#g' | sed 's#Copia-like#Copia#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa` ; 
@@ -513,7 +508,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 			} 
 			#
 			`cat TSV.txt | awk '{if (\$5 == "none") print \$1}'   | cut -f 1 -d"#"  | sed 's#^#cat ./TMP/#g' |  sed 's#\$#*.fasta#g' | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' > pick2.sh`;  
-			if (!-s "pick.sh") {
+			if (-z "pick.sh" || !-s "pick.sh") {
 				print STDERR "$date\tNo Gypsy and Copia lineages-like - step2\n"; 
 			} else {
 				`bash pick2.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END#-like#g' | sed 's#LTR/mixture-like#LTR/Unknown#g' | sed 's#mixture-like#Unknown#g' | sed 's#pararetrovirus-like#pararetrovirus#g' | sed 's#Gypsy-like#Gypsy#g' | sed 's#Copia-like#Copia#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa` ; 
@@ -543,16 +538,15 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#
 		#
 		my $test_rest = `find ./TMP -name '*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
-		#		
-		if ($test_rest > 0) {
-			`find TMP/ -name "*.fasta" | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g'  | sed 's#_END##g' | sed 's#LTR_mixture#LTR/Unknown#g' | sed 's#mixture#LTR/Unknown#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa`;	
-			#`cat TMP/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g'  | sed 's#_END##g' | sed 's#LTR_mixture#LTR/Unknown#g' | sed 's#mixture#LTR/Unknown#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa`;
+		
+		if ($test_rest > 0) {		
+			`cat TMP/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g'  | sed 's#_END##g' | sed 's#LTR_mixture#LTR/Unknown#g' | sed 's#mixture#LTR/Unknown#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa`;
 		}
 		#
 		#
 		# Cleaning and validating the final file
 		#
-		`cat $genome.LTR.intact.raw.fa | sed 's#Caulimoviridae/badnavirus#Caulimoviridae#g' | sed 's#Caulimoviridae/caulimovirus#Caulimoviridae#g' | sed 's#/mixture-like##g' | sed 's#LTR/Copia/mixture#LTR/Copia#g' | sed 's#LTR/Gypsy/mixture#LTR/Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#LTR/0#LTR/Unknown#g' | sed 's#-outgroup##g' | sed 's#chromo-unclass#chromo#g' | sed 's#chromo-unclass-like#chromo-like#g'  > tmp.fa`;  
+		`cat $genome.LTR.intact.raw.fa | sed 's#Caulimoviridae/badnavirus#Caulimoviridae#g' | sed 's#Caulimoviridae/caulimovirus#Caulimoviridae#g' | sed 's#/mixture-like##g' | sed 's#LTR/Copia/mixture#LTR/Copia#g' | sed 's#LTR/Gypsy/mixture#LTR/Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#LTR/0#LTR/Unknown#g' | sed 's#-outgroup##g' > tmp.fa`;  
 		`pullseq -i tmp.fa -m 1 > $genome.LTR.intact.raw.fa` ;  
 		#
 		#
@@ -650,7 +644,7 @@ if ($type eq "sine" or $type eq "all"){
 
 	# enter the working directory and create genome softlink
 	chdir "$genome.EDTA.raw/SINE";
-	`ln -s "../../$genome" "$genome"` unless -s $genome;
+	`ln -s ../../$genome $genome` unless -s $genome;
 
 	# Remove existing results
 	`rm -rf Seed_SINE.fa Step* HMM_out 2>/dev/null` if $overwrite eq 1;
@@ -673,10 +667,10 @@ if ($type eq "sine" or $type eq "all"){
 		`${TEsorter}TEsorter $genome.AnnoSINE.raw.fa --disable-pass2 -p $threads 2>/dev/null`;
 		`touch $genome.AnnoSINE.raw.fa.rexdb.cls.tsv` unless -e "$genome.AnnoSINE.raw.fa.rexdb.cls.tsv";
 		`perl $cleanup_misclas $genome.AnnoSINE.raw.fa.rexdb.cls.tsv`;
-		#	
+			
 		# clean up tandem repeat
 		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.AnnoSINE.raw.fa.cln  > tmp.fa`;
-		`cat tmp.fa | sed 's#/unknown##g' | sed 's#?##g' | sed 's#/ID##g' > $genome.SINE.raw.fa`;
+		`cat tmp.fa | sed 's#/unknown##g' > $genome.SINE.raw.fa`;
 		`rm tmp.fa`;
 	} elsif ($status == 0) {
 		print "\t\tAnnoSINE is finished without error, but the Seed_SINE.fa file is not produced.\n\n";
@@ -686,7 +680,7 @@ if ($type eq "sine" or $type eq "all"){
 	}
 
 	# copy result files out
-	`cp "$genome.SINE.raw.fa" ../`;
+	`cp $genome.SINE.raw.fa ../`;
 	chdir '../..';
 
 	# check results
@@ -698,6 +692,81 @@ if ($type eq "sine" or $type eq "all"){
 		print STDERR "$date\tWarning: The SINE result file has 0 bp!\n\n";
 	}
 
+}
+
+
+#############################
+######  RepeatModeler  ######
+#############################
+
+if ($type eq "line" or $type eq "all"){
+
+	chomp ($date = `date`);
+	print STDERR "$date\tStart to find LINE candidates.\n\n";
+
+	# enter the working directory and create genome softlink
+	chdir "$genome.EDTA.raw/LINE";
+	`ln -s ../../$genome $genome` unless -s $genome;
+	`cp ../../$RMlib $RMlib` if $RMlib ne 'null';
+
+	# Try to recover existing results or run RepeatModeler2
+	chomp ($date = `date`);
+	if ($overwrite eq 0 and -s $RMlib){
+		if (-s "$genome-families.fa"){
+			print STDERR "$date\tExisting result file $genome-families.fa found!\n\t\tWill not use the provided RepeatModeler2 library since --overwrite 0.\n\t\tPlease specify --overwrite 1 if you want to use the provided --rmlib file.\n\n";
+		} else {
+			`cp $RMlib "$genome-families.fa" 2>/dev/null`;
+		}
+	}
+
+	if ($overwrite eq 0 and -s "$genome-families.fa"){
+		print STDERR "$date\tExisting result file $genome-families.fa found!\n\t\tWill keep this file without rerunning this module.\n\t\tPlease specify --overwrite 1 if you want to rerun this module.\n\n";
+	} else {
+		# run RepeatModeler2
+		print STDERR "$date\tIdentify LINE retrotransposon candidates from scratch.\n\n";
+		my $status; # record status of RepeatModeler execution
+		`${repeatmodeler}BuildDatabase -name $genome $genome`;
+		$status = system("${repeatmodeler}RepeatModeler -engine ncbi -threads $threads -database $genome > /dev/null 2>&1");
+		if ($status != 0) {
+			# Execute the old version of RepeatModeler
+			$status = system("${repeatmodeler}RepeatModeler -engine ncbi -pa $threads -database $genome > /dev/null 2>&1");
+			print "ERROR: RepeatModeler did not run correctly. Please test run this command:
+				${repeatmodeler}RepeatModeler -engine ncbi -pa $threads -database $genome
+				" and exit unless $status == 0;
+		}
+		`rm $genome.nhr $genome.nin $genome.nnd $genome.nni $genome.nog $genome.nsq $genome.njs $genome.translation 2>/dev/null`;
+	}
+
+	# filter and reclassify RepeatModeler candidates with TEsorter and make LINE library
+	#
+	#### ADDED / EDIT
+	# 
+	if (-s "$genome-families.fa"){
+		# annotate and remove misclassified candidates
+		`awk '{gsub(/Unknown/, "unknown"); print \$1}' $genome-families.fa > $genome.RM2.raw.fa` if -e "$genome-families.fa";
+		`${TEsorter}TEsorter $genome.RM2.raw.fa -db rexdb-line --hmm-database rexdb-line -p $threads 2>/dev/null`;
+		`awk -F'#Unknown ' '{if (NF>1) print ">"\$2; else print \$0}' $genome.RM2.raw.fa.rexdb-line.cls.lib >  $genome.RM2.raw.fa.cln`;
+		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.RM2.raw.fa.cln > $genome.RM2.raw.fa.cln2`;
+		`grep -P 'LINE|SINE' $genome.RM2.raw.fa.cln2 | perl $output_by_list 1 $genome.RM2.raw.fa.cln2 1 - -FA > $genome.LINE.raw.fa`;
+		`grep -P 'LINE|SINE' $genome.RM2.raw.fa.cln2 | perl $output_by_list 1 $genome.RM2.raw.fa.cln2 1 - -FA -ex > $genome.RM2.fa`;
+	} else {
+		print "\t\tRepeatModeler is finished, but the $genome-families.fa file is not produced.\n\n";
+		`touch $genome.RM2.raw.fa $genome.LINE.raw.fa $genome.RM2.fa`;
+	}
+
+	# copy result files out
+	`cp $genome.LINE.raw.fa $genome.RM2.fa ../`; #update the filtered RM2 result in the EDTA/raw folder
+	`cp $genome.RM2.raw.fa ../../`; #update the raw RM2 result in the EDTA folder
+	chdir '../..';
+
+	# check results
+	chomp ($date = `date`);
+	die "Error: LINE results not found!\n\n" unless -e "$genome.EDTA.raw/$genome.LINE.raw.fa";
+	if (-s "$genome.EDTA.raw/$genome.LINE.raw.fa"){
+		print STDERR "$date\tFinish finding LINE candidates.\n\n";
+	} else {
+		print STDERR "$date\tWarning: The LINE result file has 0 bp!\n\n";
+	}
 }
 
 
@@ -762,37 +831,36 @@ if ($type eq "tir" or $type eq "all"){
 			`break_fasta.pl < tmp1.fa ./TMP` ;
 			#
 			#
-			#
+			
 			my $test_mite = `find ./TMP -name '*MITE*' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
-			#
+
 			if ($test_mite > 0) {
-			    	`find ./TMP -name '*MITE*' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#MITE_#MITE/#g' | sed 's#/DTM##g' | sed 's#/DTA##g' | sed 's#/DTC##g' | sed 's#/DTH##g' | sed 's#/DTT##g' > $genome.TIR.raw.fa`;
-			   	#	
-				`find ./TMP -name '*MITE*' | xargs rm -f `;
+			    `cat ./TMP/*MITE* | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#MITE_#MITE/#g' | sed 's#/DTM##g' | sed 's#/DTA##g' | sed 's#/DTC##g' | sed 's#/DTH##g' | sed 's#/DTT##g' > $genome.TIR.raw.fa`;
+			    `rm -f ./TMP/*MITE*` unless -e "./TMP/*MITE*"; 
 			}
 			#
+
 			my $test_tir = `find ./TMP -name '*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
-			#
+
 			if ($test_tir > 0) {
-				`find ./TMP -name '*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#DNA_#DNA/#g' > tst.fa`;	
+				`cat ./TMP/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#DNA_#DNA/#g' > tst.fa`;
 				#
 				`${TEsorter}TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre $genome.TIR -p $threads tst.fa 2>/dev/null`;
-				`find ./TMP -name '*.fasta' | xargs rm -f `;
+				`rm -f ./TMP/*.fasta`;
 				`cat $genome.TIR.cls.lib | cut -f 1,3 -d" " | sed 's#\\.\\.#--#g' | sed 's#:#_DOIS_#g' | sed 's/#/__/g' | sed 's#/#_#g' | sed 's# TSD#_TSD#g' > tmp.fa`;
 				`break_fasta.pl < tmp.fa ./TMP` ;
-				#
-				`find ./TMP -name '*LINE*' | xargs rm -f `;
-				`find ./TMP -name '*LTR*' | xargs rm -f `;
-				`find ./TMP -name '*Helitron*' | xargs rm -f `;
-				`find ./TMP -name '*pararetrovirus*' | xargs rm -f `;				
-				#
+	
+				`rm -f ./TMP/*LINE*` unless -e "./TMP/*LINE*" ; 
+				`rm -f ./TMP/*LTR*` unless -e "./TMP/*LTR*"; 
+
 				my $test_tir2 = `find ./TMP -name '*TIR*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
-				#
+
 				if ($test_tir2 > 0) {
-					`find ./TMP -name '*TIR*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' |  sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#TIR_#TIR/#g' | sed 's#_TSD# TSD#g' >> $genome.TIR.raw.fa` ; 	
+					`cat ./TMP/*TIR*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' |  sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#TIR_#TIR/#g' | sed 's#_TSD# TSD#g' >> $genome.TIR.raw.fa` ; 
+
 				}
 			#
-			#
+
 			#
 			`rm -rf TMP` ;  
 			`rm -f tmp.fa`; 
@@ -897,16 +965,14 @@ if ($type eq "helitron" or $type eq "all"){
 				`break_fasta.pl < tmp1.fa ./TMP1` ;
 				my $test_hel_1 = `find ./TMP1 -name '*Helitron*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
 				if ($test_hel_1 > 0) {
-					`find ./TMP1 -name '*Helitron*.fasta' | xargs cat | sed 's#__Helitron##g'  | grep \\>  > HEL-auto.fa`; 		
-					#`cat ./TMP1/*Helitron*.fasta | sed 's#__Helitron##g'  | grep \\>  > HEL-auto.fa`;
+					`cat ./TMP1/*Helitron*.fasta | sed 's#__Helitron##g'  | grep \\>  > HEL-auto.fa`;
 					#
 					`mkdir ./TMP2`;
 					`cat $genome.HelitronScanner.filtered.ext.fa.pass.fa | cut -f 1 -d" " | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' | sed 's/#/__/g' |  sed 's#/#_#g' > tmp1.fa` ;
 					`break_fasta.pl < tmp1.fa ./TMP2` ;
 					`break_fasta.pl <  HEL-auto.fa ./TMP2` ;
 					#
-					`find ./TMP2 -name '*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' > $genome.HelitronScanner.filtered.ext.fa.pass.fa`;
-					#`cat ./TMP2/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' > $genome.HelitronScanner.filtered.ext.fa.pass.fa`; 
+					`cat ./TMP2/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' > $genome.HelitronScanner.filtered.ext.fa.pass.fa`; 
 					#
 					`rm -rf ./TMP2`;
 					`rm -f HEL-auto.fa`;
@@ -949,8 +1015,7 @@ if ($type eq "helitron" or $type eq "all"){
 			#
 			my $test_hel = `find ./TMP -name '*Helitron*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
 			if ($test_hel > 0) {
-				`find ./TMP -name '*Helitron*.fasta' | xargs cat > HEL-auto.fa`;
-				#`cat ./TMP/*Helitron*.fasta > HEL-auto.fa`;
+				`cat ./TMP/*Helitron*.fasta > HEL-auto.fa`;
 			}
 			#
 			my $test_hel2 = `find ./TMP -name '*__Unknown.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
@@ -959,8 +1024,7 @@ if ($type eq "helitron" or $type eq "all"){
 			}
 			#
 			#
-			`find ./TMP -name '*.fasta' | xargs rm -f`; 
-			#`rm ./TMP/*.fasta`;
+			`rm ./TMP/*.fasta`;
 			`break_fasta.pl < tmp1.fa ./TMP` ;
 			`touch $genome.Helitron.raw.fa`;
 			#
@@ -975,13 +1039,13 @@ if ($type eq "helitron" or $type eq "all"){
 			if ( -e "HEL-nonauto.fa" and ! -z "HEL-nonauto.fa") { 
 				`cat HEL-nonauto.fa  | grep "^>"  | sed 's#__#\t#g' | cut -f 1 | sed 's#^>#cat ./TMP/#g' | sed 's#\$#*.fasta#g'  > pick.sh`;
 
-				`bash pick.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#DNA_#DNA/#g' | sed 's#DNA/Helitron#RC/Helitron-like#g' >> $genome.Helitron.raw.fa`;
+				`bash pick.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#DNA_#DNA/#g' | sed 's#DNA/Helitron#RC/Unknown#g' >> $genome.Helitron.raw.fa`;
 				`rm -f pick.sh ; rm -f HEL-nonauto.fa `; 
 			}
 			#
 			`rm -f pick.sh ; rm -f tmp1.fa ; rm -f tmp.fa ; rm -rf TMP`; 
 		} else {
-			`cat $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln | sed 's#DNA/Helitron#RC/Helitron-like#g' > $genome.Helitron.raw.fa`;	
+			`cat $genome.HelitronScanner.filtered.fa.pass.fa.dusted.cln | sed 's#DNA/Helitron#RC/Unknown#g' > $genome.Helitron.raw.fa`;	
 		}
 	} else {
 		print STDERR "$date\tUsing the previous generated $genome.Helitron.raw.fa\n\n";
@@ -1006,157 +1070,6 @@ if ($type eq "helitron" or $type eq "all"){
 	}
 
 }
-
-
-#############################
-######  RepeatModeler  ######
-#############################
-
-if ($type eq "line" or $type eq "all"){
-	#
-	chomp ($date = `date`);
-	print STDERR "$date\tStart to find LINE candidates.\n\n";
-	#
-	###########################################################################################################
-	# EDIT
-	###########################################################################################################
-	#
-	# RepeatModeler is very slow. 
-	# In order to optimize the process we may mask the genome according the prediction of 
-	# the previous annotated elements to speed-up the process
-	#
-	###########################################################################################################
-	#
-	chdir "$genome.EDTA.raw/"; 
-	#
-	if (-s "$genome.Helitron.intact.raw.gff3" ) {
-		`cat "$genome.Helitron.intact.raw.gff3" > tmp.gff` ;
-	} 
-	if (-s "$genome.TIR.intact.raw.gff3" ) {
-		`cat "$genome.TIR.intact.raw.gff3" >> tmp.gff`; 
-	}
-	if (-s "$genome.LTR.intact.raw.gff3" ) {
-		`cat "$genome.LTR.intact.raw.gff3" | grep LTR_retrotransposon >> tmp.gff`; 
-	}	
-	if (-s "./SINE/Seed_SINE.fa" ) {
-		`cat ./SINE/Seed_SINE.fa | grep \\> | sed 's#^>##g' | sed 's#:#\\t#g' | sed 's#|#\\t#g' | awk '{if (\$5>\$4) print \$2,"AnnoSINE","SINE",\$4,\$5,".",\$3,".","ID="\$1; else print \$2,"AnnoSINE","SINE",\$5,\$4,".",\$3,".","ID="\$1;}' | awk '{if (\$7 == "F") print \$1,\$2,\$3,\$4,\$5,\$6,"+",\$8,\$9; else print \$1,\$2,\$3,\$4,\$5,\$6,"-",\$8,\$9;}' | sed 's# #\\t#g' >> tmp.gff`;
-	}	
-	#
-	#
-	if (-s "tmp.gff") {  
-		`cat tmp.gff  | sort -V  > mask.gff`; 
-		`bedtools maskfasta -fi ../$genome -bed mask.gff -fo to-LINEs.fasta -mc X -fullHeader`; 
-		`rm -f tmp.gff ; rm -f mask.gff` ;   	
-	} else {
-		`ln -s ../$genome to-LINEs.fasta`; 
-	}
-	#
-	#######################################################################################################
-	#
-	# enter the working directory and create genome softlink
-	#chdir "$genome.EDTA.raw/LINE";
-	#`ln -s ../../$genome $genome` unless -s $genome;
-	#
-	chdir "LINE";
-	`ln -s ../to-LINEs.fasta $genome` unless -s $genome;
-	`cp ../../$RMlib $RMlib` if $RMlib ne 'null';
-	#
-	# Try to recover existing results or run RepeatModeler2
-	chomp ($date = `date`);
-	if ($overwrite eq 0 and -s $RMlib){
-		if (-s "$genome-families.fa"){
-			print STDERR "$date\tExisting result file $genome-families.fa found!\n\t\tWill not use the provided RepeatModeler2 library since --overwrite 0.\n\t\tPlease specify --overwrite 1 if you want to use the provided --rmlib file.\n\n";
-		} else {
-			`cp $RMlib "$genome-families.fa" 2>/dev/null`;
-		}
-	}
-	#
-	if ($overwrite eq 0 and -s "$genome-families.fa"){
-		print STDERR "$date\tExisting result file $genome-families.fa found!\n\t\tWill keep this file without rerunning this module.\n\t\tPlease specify --overwrite 1 if you want to rerun this module.\n\n";
-	} else {
-		# run RepeatModeler2
-		print STDERR "$date\tIdentify LINE retrotransposon candidates from scratch.\n\n";
-		my $status; # record status of RepeatModeler execution
-		`${repeatmodeler}BuildDatabase -name $genome $genome`;
-		$status = system("${repeatmodeler}RepeatModeler -engine ncbi -threads $threads -database $genome > /dev/null 2>&1");
-		if ($status != 0) {
-			# Execute the old version of RepeatModeler
-			$status = system("${repeatmodeler}RepeatModeler -engine ncbi -pa $threads -database $genome > /dev/null 2>&1");
-			print "ERROR: RepeatModeler did not run correctly. Please test run this command:
-				${repeatmodeler}RepeatModeler -engine ncbi -pa $threads -database $genome
-				" and exit unless $status == 0;
-		}
-		`rm $genome.nhr $genome.nin $genome.nnd $genome.nni $genome.nog $genome.nsq $genome.njs $genome.translation 2>/dev/null`;
-	}
-	#
-	# ======================================
-	#### EDITED FOR PLANT GENOMES
-	# ======================================
-	if (-s "$genome-families.fa"){
-		# annotate and remove misclassified candidates
-		#
-		# 
-		#
-		`cat "$genome-families.fa"  | cut -f 1 -d"#" > "tmp1.fa"` if -e "$genome-families.fa";
-		#
-		`cp tmp1.fa $genome.RM2.raw.fa`;
-		#
-		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.8 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f tmp1.fa > $genome.RM2.raw.fa.cln`;
-		#
-		`${TEsorter}TEsorter $genome.RM2.raw.fa.cln -db rexdb-line --hmm-database rexdb-line -p $threads 2>/dev/null`;
-		`mkdir TMP`; 	
-		`cat $genome.RM2.raw.fa.cln.rexdb-line.cls.lib | sed 's# #_END\t#g' | cut -f 1 | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' | sed 's/#/__/g' |  sed 's#/#_#g' > tmp2.fa`;
-		#
-		`break_fasta.pl < tmp2.fa ./TMP` ; 		
-		`find ./TMP -name '*LINE*' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END##g' | sed 's#/family#_family#g' > $genome.LINE.raw.fa`;
-		`find ./TMP -name '*LINE*' | xargs rm -f` ;   
-		`find ./TMP -name '*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END##g' | sed 's#/family#_family#g'  | cut -f 1 -d"#" > rest.fa`; 
-		#
-		#
-		`${TEsorter}TEsorter rest.fa -db rexdb-plant --hmm-database rexdb-plant -p $threads 2>/dev/null`;
-		`find ./TMP -name '*.fasta' | xargs rm -f `;  
-		`cat rest.fa.rexdb-plant.cls.lib | sed 's# #_END\t#g' | cut -f 1 | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' | sed 's/#/__/g' |  sed 's#/#_#g' > tmp3.fa`;
-		`break_fasta.pl < tmp3.fa ./TMP` ; 		
-		 `find ./TMP -name '*LINE*' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END##g' | sed 's#/family#_family#g' >> $genome.LINE.raw.fa`; 
-		`find ./TMP -name '*LINE*' | xargs rm -f` ;   
-		`find ./TMP -name '*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END##g' | sed 's#/family#_family#g'  | cut -f 1 -d"#" > $genome.RM2.fa`; 
-		#
-		# Cleaning the temporary files
-		`rm *rexdb-line*`;
-		`rm *rexdb-plant*`;
-		`rm tmp1.fa`;
-		`rm tmp2.fa`;
-		`rm tmp3.fa`;
-		`rm rest.fa`;
-		`rm -rf TMP`;	
-	} else {
-		print "\t\tRepeatModeler is finished, but the $genome-families.fa file is not produced.\n\n";
-		`touch $genome.RM2.raw.fa $genome.LINE.raw.fa $genome.RM2.fa`;
-	}
-	#
-	# copy result files out
-	`cp $genome.LINE.raw.fa $genome.RM2.fa ../`; #update the filtered RM2 result in the EDTA/raw folder
-	`cp $genome.RM2.raw.fa ../../`; #update the raw RM2 result in the EDTA folder
-	#
-	# Edit
-	`rm -f $genome`; 
-	`rm -f ../to-LINEs.fasta`; 
-	#
-	chdir '../..';
-	#
-	# check results
-	chomp ($date = `date`);
-	die "Error: LINE results not found!\n\n" unless -e "$genome.EDTA.raw/$genome.LINE.raw.fa";
-	if (-s "$genome.EDTA.raw/$genome.LINE.raw.fa"){
-		print STDERR "$date\tFinish finding LINE candidates.\n\n";
-	} else {
-		print STDERR "$date\tWarning: The LINE result file has 0 bp!\n\n";
-	}
-}
-
-#############################
-######    Exiting      ######
-#############################
 
 chomp ($date = `date`);
 print STDERR "$date\tExecution of EDTA_raw.pl is finished!\n\n";
