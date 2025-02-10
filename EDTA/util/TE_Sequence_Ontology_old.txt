@@ -10,9 +10,6 @@
 #	12/21/2023
 #	05/03/2023 
 #	04/21/2023
-#
-#       Plant annotation mod
-#	02/10/2025	
 ############################################################
 
 
@@ -31,12 +28,11 @@ rRNA_5_external_transcribed_sequence    SO:0002360      rRNA_5_external_transcri
 rRNA_3_external_transcribed_sequence    SO:0002360      rRNA_3_external_transcribed_sequence,rDNA/3_ETS
 rRNA_internal_transcribed_spacer1       SO:0002360      rRNA_internal_transcribed_spacer1,rDNA/ITS1,rRNA/ITS1
 rRNA_internal_transcribed_spacer2       SO:0002360      rRNA_internal_transcribed_spacer2,rDNA/ITS2,rRNA/ITS2
-Sola_TIR_transposon	SO:0000182	TIR/Sola2,Sola_TIR_transposon,TIR/Sola3,DNA/Sola,DNA/Sola1,DNA/Sola2,DNA/Sola3,DNA/Sola_1,DNA/Sola_2,DNA/Sola-1,DNA/Sola-2,DNA/Sola-3,TIR/Sola1,TIR/Sola2,TIR/Sola3
+Sola_TIR_transposon	SO:0000182	TIR/Sola2,Sola_TIR_transposon,TIR/Sola3,DNA/Sola,DNA/Sola1,DNA/Sola2,DNA/Sola3,DNA/Sola_1,DNA/Sola_2,DNA/Sola-1,DNA/Sola-2,DNA/Sola-3
 PILE_TIR_transposon	SO:0000182	PILE_TIR_transposon,DNAauto/PILE,DNAnona/PILE,DNA/PILE,MITE/PILE,TIR/PILE
 POLE_TIR_transposon	SO:0000182	POLE_TIR_transposon,DNAauto/POLE,DNAnona/POLE,DNA/POLE,MITE/POLE,TIR/POLE
-Ginger_TIR_transposon	SO:0000182	Ginger_TIR_transposon,TIR/Ginger,TIR/Ginger1,DNA/Ginger,DNA/Ginger1,TIR/Ginger
+Ginger_TIR_transposon	SO:0000182	Ginger_TIR_transposon,TIR/Ginger,TIR/Ginger1,DNA/Ginger,DNA/Ginger1
 Kolobok_TIR_transposon	SO:0000182	Kolobok_TIR_transposon,TIR/Kolobok,TIR/tvBac,DNA/Kolobok,DNA/Kolobok-T2,DNA/Kolobok_T2,DNA/Kolobok-H,DNA/Kolobok_H,DNA/Kolobok-Hydra,DNA/Kolobok_Hydra,DNA/Kolobok
-Novosib_TIR_transposon	SO:0000182	TIR/Novosib,DNA/Novosib,TIR/novosib,DNA/novosib
 Dada_TIR_transposon	SO:0000182	Dada_TIR_transposon,DNA/Dada
 IS3EU_TIR_transposon	SO:0000182	IS3EU_TIR_transposon,DNA/IS3EU
 Zator_TIR_transposon	SO:0000182	Zator_TIR_transposon,DNA/Zator
@@ -57,7 +53,7 @@ Tad1_LINE_retrotransposon	SO:0000194	Tad1_LINE_retrotransposon,LINE/Tad1,LINE/Ta
 Rex_LINE_retrotransposon	SO:0000194	Rex_LINE_retrotransposon,LINE/Rex-Babar,LINE/Rex,LINE/Rex_Babar
 Proto2_LINE_retrotransposon	SO:0000194	Proto2_LINE_retrotransposon,LINE/Proto2
 ERTBV_retrotransposon	SO:0000189	ERTBV_retrotransposon,DNAvirus/ERTBV-A,Evirus/ERTBV-A,DNAvirus/ERTBV-B,Evirus/ERTBV-B,DNAvirus/ERTBV-C,Evirus/ERTBV-C,Evirus/ERTBV,Evirus/Unknown,Evirus/unknown
-pararetrovirus	SO:0000189	pararetrovirus,pararetrovirus/NA,pararetrovirus/Unknown,pararetrovirus/unknown,LTR/Caulimovirus,Pararetrovirus
+pararetrovirus	SO:0000189	pararetrovirus,pararetrovirus/NA,pararetrovirus/Unknown,pararetrovirus/unknown,LTR/Caulimovirus
 
 
 #######################
@@ -74,7 +70,7 @@ chloroplast_DNA	SO:0001033	chloroplast_DNA,chloroplast/chloroplast
 mitochondrial_DNA	SO:0001032	mitochondrial_DNA,mitochondrion/mitochondrion
 
 ## higher order
-repeat_region	SO:0000657	repeat_region,mixture
+repeat_region	SO:0000657	repeat_region
 repeat_fragment	SO:0001050	repeat_fragment,Unknown,unknown,unknown/unknown,NA/NA,Unknown/NA,Unknown/unknown,Unspecified,repeat/unknown,repeat/Unknown,Unknown/Unknown,unknown/NA
 retrotransposon	SO:0000180	Class_I,RNA_transposon,retrotransposon,Retroposon,Retroposon/L1_dep
 DNA_transposon	SO:0000182	Class_II,DNA_transposon,DNA/unknown,DNA/Unknown,DNA,DNA/NA
@@ -96,49 +92,49 @@ cytosolic_28S_rRNA	SO:0000653	cytosolic_28S_rRNA,rDNA/28s_rRNA,rDNA/28S_rRNA,rDN
 ## TIR DNA transposons
 terminal_inverted_repeat_element	SO:0000208	terminal_inverted_repeat_element,TIR/unknown,DNA/DTX,DTX,DNAauto/unknown,DNAnona/unknown,TIR/Unknown,DNAauto/Unknown,DNAnona/Unknown
 MITE	SO:0000338	MITE,TIR/MITE,MITE/unknown,MITE/Unknown
-CACTA_TIR_transposon	SO:0002285	CACTA_TIR_transposon,DNAauto/CACTA,DNAnona/CACTA,DNAauto/CACTG,DNAnona/CACTG,DNA/DTC,MITE/DTC,DTC,dSpm,CACTC,En-Spm,EnSpm,CMC-EnSpm,DNA/CACTA,DNA/CACTG,MITE/CACTA,MITE/CACTG,TIR/EnSpm_CACTA,DNA/EnSpm_CACTA,DNA/CMC-EnSpm,DNA/CMC_Chapaev_3,DNA/CMC_EnSpm,DNA/CMC-Chapaever,DNA/CMC-Chapaev-3,DNA/CMC-EnSpmo,DNA/CMC-Miragen,TIR/CMC,DNA/CM
+CACTA_TIR_transposon	SO:0002285	CACTA_TIR_transposon,DNAauto/CACTA,DNAnona/CACTA,DNAauto/CACTG,DNAnona/CACTG,DNA/DTC,MITE/DTC,DTC,dSpm,CACTC,En-Spm,EnSpm,CMC-EnSpm,DNA/CACTA,DNA/CACTG,MITE/CACTA,MITE/CACTG,TIR/EnSpm_CACTA,DNA/EnSpm_CACTA,DNA/CMC-EnSpm,DNA/CMC_Chapaev_3,DNA/CMC_EnSpm,DNA/CMC-Chapaever,DNA/CMC-Chapaev-3,DNA/CMC-EnSpmo,DNA/CMC-Miragen
 hAT_TIR_transposon	SO:0002279	hAT_TIR_transposon,DNAauto/hAT,DNAnona/hAT,MITE/DTA,DNA/DTA,DTA,hAT,Ac-Ds,Ac/Ds,hAT-Ac,DNA/hAT,MITE/hAT,TIR/hAT,DNA/hAT-Ac,DNA/hAT-Tag1,DNA/hAT-Blackjack,DNA/hAT-Charlie,DNA/hAT-hAT5,DNA/hAT-hAT6,DNA/hAT-hobo,DNA/hAT-Tip100,DNA/hAT_Ac,DNA/hAT_Blackjack,DNA/hAT_Charlie,DNA/hAT_hAT5,DNA/hAT_hAT6,DNA/hAT_hobo,DNA/hAT_Pegasus,DNA/hAT_Tag1,DNA/hAT_Tip100,DNA/hAT-hATm,DNA/hAT-AcTigger,DNA/hAT_AcTigger,DNA/hAT-hAT1,DNA/hAT_hAT1,DNA/hAT-hATm-hAT-hybrid,DNA/hAT-hATm-hAT_hybrid,DNA/hAT-hATw,DNA/hAT_hATw,DNA/hAT-hATx,DNA/hAT_hATx,DNA/hAT-Pegasus,DNA/hAT-Restless,DNA/hAT_Restless,DNA/hAT-Tag11,DNA/hAT_Tag11,DNA/hAT-Tip100?,DNA/hAT_Tip100?,DNA/hAT-Tol2,DNA/hAT_Tol2
-Mutator_TIR_transposon	SO:0002280	Mutator_TIR_transposon,DNAauto/MULE,DNAnona/MULE,DNAnona/MULEtir,MITE/DTM,DNA/DTM,DTM,Mutator,MuDR,DNA/MULE,DNA/MULEtir,MITE/MULE,MITE/MULEtir,MULEtir,TIR/MuDR_Mutator,DNA/Mutator,DNA/MuDR,DNA/MULE-MuDR,DNA/MULE-NOF,DNA/MULE_MuDR,DNA/MULE_NOF,DNA/MuLE-NOF?,DNA/MuLE_NOF?,DNA/MuLE-MuDR,DNA/MuLE_MuDR,DNA/MuLE-F,DNA/MuLE_F,DNA/MUDR,TIR/MULE,DNA/MULE
-PIF_Harbinger_TIR_transposon	SO:0002284	PIF_Harbinger_TIR_transposon,DNAnona/Tourist,MITE/Tourist,MITE/DTH,DNA/DTH,DTH,PIF-Harbinger,PIF/Harbinger,Harbinger,Tourist,DNA/Tourist,TIR/PIF_Harbinger,DNA/Harbinger,DNA/PIF-Harbinger,DNA/PIF,DNA/PIF-ISL2EU,DNA/PIF_ISL2EU,DNA/PIF_Harbinger,TIR/Academ
+Mutator_TIR_transposon	SO:0002280	Mutator_TIR_transposon,DNAauto/MULE,DNAnona/MULE,DNAnona/MULEtir,MITE/DTM,DNA/DTM,DTM,Mutator,MuDR,DNA/MULE,DNA/MULEtir,MITE/MULE,MITE/MULEtir,MULEtir,TIR/MuDR_Mutator,DNA/Mutator,DNA/MuDR,DNA/MULE-MuDR,DNA/MULE-NOF,DNA/MULE_MuDR,DNA/MULE_NOF,DNA/MuLE-NOF?,DNA/MuLE_NOF?,DNA/MuLE-MuDR,DNA/MuLE_MuDR,DNA/MuLE-F,DNA/MuLE_F,DNA/MUDR
+PIF_Harbinger_TIR_transposon	SO:0002284	PIF_Harbinger_TIR_transposon,DNAnona/Tourist,MITE/Tourist,MITE/DTH,DNA/DTH,DTH,PIF-Harbinger,PIF/Harbinger,Harbinger,Tourist,DNA/Tourist,TIR/PIF_Harbinger,DNA/Harbinger,DNA/PIF-Harbinger,DNA/PIF,DNA/PIF-ISL2EU,DNA/PIF_ISL2EU,DNA/PIF_Harbinger
 Tc1_Mariner_TIR_transposon	SO:0002278	Tc1_Mariner_TIR_transposon,stowaway,Stowaway,DNA/DTT,MITE/Stow,MITE/DTT,DTT,Tc1-Mariner,Tc1_Mariner,Tc1_mariner,Tc1/Mariner,TcMar-Stowaway,DNAauto/MLE,DNAnona/MLE,DNA/MLE,MITE/MLE,TIR/Tc1_Mariner,DNA/Tc1-Mariner,DNA/TcMar-Pogo,DNA/Mariner,DNA/TcMar-Stowaway,DNA/TcMar-Mariner,DNA/TcMar,DNA/TcMar-Fot1,DNA/TcMar-ISRm11,DNA/TcMar-Tc1,DNA/TcMar-Tigger,DNA/TcMar_Fot1,DNA/TcMar_ISRm11,DNA/TcMar_Mariner,DNA/TcMar_Tc1,DNA/TcMar_Tc2,DNA/TcMar_Tigger,DNA/TcMar_Pogo,DNA/Tc1_Mariner,DNA/TcMar_Stowaway,DNA/TcMareSL,DNA/TcMar-Ant1,DNA/TcMar_Ant1,DNA/TcMar-Gizmo,DNA/TcMar_Gizmo,DNA/TcMar-IS630,DNA/TcMar_IS630,DNA/TcMar-IS885,DNA/TcMar_IS885,DNA/TcMar-m44,DNA/TcMar_m44,DNA/TcMar-Mogwai,DNA/TcMar_Mogwai,DNA/TcMar-Sagan,DNA/TcMar_Sagan,DNA/TcMar-Tc2,DNA/TcMar-Tc4,DNA/TcMar_Tc4,Mariner/Tc1
 P_TIR_transposon	SO:0001535	P_TIR_transposon,P-element,P_element,DNA/DTP,TIR/P,DNA/P
 piggyBac_TIR_transposon	SO:0002283	piggyBac_TIR_transposon,PiggyBac,DNA/DTB,MITE/DTB,TIR/PiggyBac,TIR/piggyBac,piggyBac,DNA/PiggyBac,DNA/PiggyBacen,DNA/piggyBac
 polinton	SO:0001170	polinton,maverick,Maverick,DNA/Maverick,TIR/Maverick,Polinton
-Transib_TIR_transposon	SO:0002282	Transib_TIR_transposon,transib,DNA/DTR,MITE/DTR,DNA/CMC-Transib,DNA/CMC-Transibway,DNA/Transib,TIR/Transib
+Transib_TIR_transposon	SO:0002282	Transib_TIR_transposon,transib,DNA/DTR,MITE/DTR,DNA/CMC-Transib,DNA/CMC-Transibway,DNA/Transib
 Merlin_TIR_transposon	SO:0002281	Merlin_TIR_transposon,Merlin,DNA/DTE,MITE/DTE,TIR/Merlin,DNA/Merlin,DNA/Merlin1
 terminal_inverted_repeat	SO:0000481	terminal_inverted_repeat,TIR
 
 ## nonTIR DNA transposons
 Crypton_YR_transposon	SO:0002277	Crypton_YR_transposon,Crypton,DNA/DYC,DYC,DNA/Crypton,DNA/Crypton-A,DNA/Crypton-H,DNA/Crypton-V,DNA/Crypton_A,DNA/Crypton_H,DNA/Crypton_V,DNA/CryptonA,DNA/CryptonF,DNA/CryptonI,DNA/CryptonS,DNA/CryptonV
-helitron	SO:0000544	helitron,DNAauto/Helitron,DNAnona/Helitron,DNA/Helitron,Helitron,RC/Helitron,Unknown/Helitron-2,nonDNA/Helitron,DNA/Helitron/non-autonomous,DNA/Helitron/autonomous,DNA/Helitron/non-auto,RC/Helitron/non-autonomous,RC/Helitron/autonomous,RC/Unknown,RC/Helitron-like
+helitron	SO:0000544	helitron,DNAauto/Helitron,DNAnona/Helitron,DNA/Helitron,Helitron,RC/Helitron,Unknown/Helitron-2,nonDNA/Helitron,DNA/Helitron/non-autonomous,DNA/Helitron/autonomous,DNA/Helitron/non-auto,RC/Helitron/non-autonomous,RC/Helitron/autonomous,RC/Unknown
 
 ## LTR retrotransposons
 LTR_retrotransposon	SO:0000186	LTR_retrotransposon,LTR/unknown,LTR/Solo,LTR/Unknown,LTR/solo,LTR,LTR/NA
 Retrovirus_LTR_retrotransposon	SO:0002267	Retrovirus_LTR_retrotransposon,LTR/retrovirus,retrovirus,LTR/RLR,RLR,LTR/Retrovirus
-TRIM	SO:0002261	TRIM,LTR/TRIM,TRIM/NA,TRIM-like,LTR/TRIM-like,LTR/TRIM
-LARD	SO:0002260	LARD,LTR/LARD,LARD/NA,LARD-like,LTR/LARD-like,LTR/LARD
+TRIM	SO:0002261	TRIM,LTR/TRIM,TRIM/NA,TRIM-like
+LARD	SO:0002260	LARD,LTR/LARD,LARD/NA,LARD-like
 Copia_LTR_retrotransposon	SO:0002264	Copia_LTR_retrotransposon,LTR/Copia,LTR/RLC,RLC,Copia,Ty1,LTR/Ty1,LTR/Copia?
 Gypsy_LTR_retrotransposon	SO:0002265	Gypsy_LTR_retrotransposon,LTR/Gypsy,LTR/RLG,RLG,Gypsy,Ty3,LTR/CRM,LTR/Ty3,LTR/Gypsy?,LTR/Gypsy-Cigr,LTR/Gypsy_Cigr,LTR/Gypsy-Troyka,LTR/Gypsy_Troyka
 ####
 ####
 ####
 ####
-TR_GAG	SO:0000186	TR_GAG,TR_GAG/NA,LTR/TR_GAG,LTR/TR_GAG/Unknown,TR_GAG/Unknown,TR_GAG/Ale,TR_GAG/Alesia,TR_GAG/Angela,TR_GAG/Bianca,TR_GAG/Bryco,TR_GAG/Lyco,TR_GAG/Gymco-III,TR_GAG/Gymco-I,TR_GAG/Gymco-II,TR_GAG/Ikeros,TR_GAG/Ivana,TR_GAG/Gymco-IV,TR_GAG/Osser,TR_GAG/SIRE,TR_GAG/TAR,TR_GAG/Tork,TR_GAG/Ty1-outgroup,TR_GAG/Ale-like,TR_GAG/Alesia-like,TR_GAG/Angela-like,TR_GAG/Bianca-like,TR_GAG/Bryco-like,TR_GAG/Lyco-like,TR_GAG/Gymco-III-like,TR_GAG/Gymco-I-like,TR_GAG/Gymco-II-like,TR_GAG/Ikeros-like,TR_GAG/Ivana-like,TR_GAG/Gymco-IV-like,TR_GAG/Osser-like,TR_GAG/SIRE-like,TR_GAG/TAR-like,TR_GAG/Tork-like,TR_GAG/Ty1-outgroup-like,TR_GAG/non-chromo-outgroup,TR_GAG/non-chromo-outgroup-like,TR_GAG/Phygy,TR_GAG/Phygy-like,TR_GAG/Selgy,TR_GAG/Selgy-like,TR_GAG/OTA,TR_GAG/OTA-like,TR_GAG/Athila,TR_GAG/Athila-like,TR_GAG/TatI,TR_GAG/TatI-like,TR_GAG/TatII,TR_GAG/TatII-like,TR_GAG/TatIII,TR_GAG/TatIII-like,TR_GAG/Ogre,TR_GAG/Ogre-like,TR_GAG/Retand,TR_GAG/Retand-like,TR_GAG/Chlamyvir,TR_GAG/Chlamyvir-like,TR_GAG/Tcn1,TR_GAG/Tcn1-like,TR_GAG/chromo-outgroup,TR_GAG/chromo-outgroup-like,TR_GAG/CRM,TR_GAG/CRM-like,TR_GAG/Galadriel,TR_GAG/Galadriel-like,TR_GAG/Tekay,TR_GAG/Tekay-like,TR_GAG/Reina,TR_GAG/Reina-like,TR_GAG/chromo-unclass,TR_GAG/chromo-unclass-like,TR_GAG/Alexandra,TR_GAG/Ferco,TR_GAG/Bryana,TR_GAG/Tatius,TR_GAG/Ferney,TR_GAG/Alexandra-like,TR_GAG/Ferco-like,TR_GAG/Bryana-like,TR_GAG/Tatius-like,TR_GAG/Ferney-like,TR_GAG-like
+TR_GAG	SO:0000186	TR_GAG,TR_GAG/NA,LTR/TR_GAG,LTR/TR_GAG/Unknown,TR_GAG/Unknown,TR_GAG/Copia/Ale,TR_GAG/Copia/Alesia,TR_GAG/Copia/Angela,TR_GAG/Copia/Bianca,TR_GAG/Copia/Bryco,TR_GAG/Copia/Lyco,TR_GAG/Copia/Gymco-III,TR_GAG/Copia/Gymco-I,TR_GAG/Copia/Gymco-II,TR_GAG/Copia/Ikeros,TR_GAG/Copia/Ivana,TR_GAG/Copia/Gymco-IV,TR_GAG/Copia/Osser,TR_GAG/Copia/SIRE,TR_GAG/Copia/TAR,TR_GAG/Copia/Tork,TR_GAG/Copia/Ty1-outgroup,TR_GAG/Copia/Ale-like,TR_GAG/Copia/Alesia-like,TR_GAG/Copia/Angela-like,TR_GAG/Copia/Bianca-like,TR_GAG/Copia/Bryco-like,TR_GAG/Copia/Lyco-like,TR_GAG/Copia/Gymco-III-like,TR_GAG/Copia/Gymco-I-like,TR_GAG/Copia/Gymco-II-like,TR_GAG/Copia/Ikeros-like,TR_GAG/Copia/Ivana-like,TR_GAG/Copia/Gymco-IV-like,TR_GAG/Copia/Osser-like,TR_GAG/Copia/SIRE-like,TR_GAG/Copia/TAR-like,TR_GAG/Copia/Tork-like,TR_GAG/Copia/Ty1-outgroup-like,TR_GAG/Gypsy/non-chromo-outgroup,TR_GAG/Gypsy/non-chromo-outgroup-like,TR_GAG/Gypsy/Phygy,TR_GAG/Gypsy/Phygy-like,TR_GAG/Gypsy/Selgy,TR_GAG/Gypsy/Selgy-like,TR_GAG/Gypsy/OTA,TR_GAG/Gypsy/OTA-like,TR_GAG/Gypsy/Athila,TR_GAG/Gypsy/Athila-like,TR_GAG/Gypsy/TatI,TR_GAG/Gypsy/TatI-like,TR_GAG/Gypsy/TatII,TR_GAG/Gypsy/TatII-like,TR_GAG/Gypsy/TatIII,TR_GAG/Gypsy/TatIII-like,TR_GAG/Gypsy/Ogre,TR_GAG/Gypsy/Ogre-like,TR_GAG/Gypsy/Retand,TR_GAG/Gypsy/Retand-like,TR_GAG/Gypsy/Chlamyvir,TR_GAG/Gypsy/Chlamyvir-like,TR_GAG/Gypsy/Tcn1,TR_GAG/Gypsy/Tcn1-like,TR_GAG/Gypsy/chromo-outgroup,TR_GAG/Gypsy/chromo-outgroup-like,TR_GAG/Gypsy/CRM,TR_GAG/Gypsy/CRM-like,TR_GAG/Gypsy/Galadriel,TR_GAG/Gypsy/Galadriel-like,TR_GAG/Gypsy/Tekay,TR_GAG/Gypsy/Tekay-like,TR_GAG/Gypsy/Reina,TR_GAG/Gypsy/Reina-like,TR_GAG/Gypsy/chromo-unclass,TR_GAG/Gypsy/chromo-unclass-like
 ####
 ####
 ####
 ####
-BARE-2	SO:0000186	BARE-2,BARE-2/NA,LTR/BARE-2,LTR/BARE-2/Unknown,BARE-2/Unknown,BARE-2/Ale,BARE-2/Alesia,BARE-2/Angela,BARE-2/Bianca,BARE-2/Bryco,BARE-2/Lyco,BARE-2/Gymco-III,BARE-2/Gymco-I,BARE-2/Gymco-II,BARE-2/Ikeros,BARE-2/Ivana,BARE-2/Gymco-IV,BARE-2/Osser,BARE-2/SIRE,BARE-2/TAR,BARE-2/Tork,BARE-2/Ty1-outgroup,BARE-2/Ale-like,BARE-2/Alesia-like,BARE-2/Angela-like,BARE-2/Bianca-like,BARE-2/Bryco-like,BARE-2/Lyco-like,BARE-2/Gymco-III-like,BARE-2/Gymco-I-like,BARE-2/Gymco-II-like,BARE-2/Ikeros-like,BARE-2/Ivana-like,BARE-2/Gymco-IV-like,BARE-2/Osser-like,BARE-2/SIRE-like,BARE-2/TAR-like,BARE-2/Tork-like,BARE-2/Ty1-outgroup-like,BARE-2/non-chromo-outgroup,BARE-2/non-chromo-outgroup-like,BARE-2/Phygy,BARE-2/Phygy-like,BARE-2/Selgy,BARE-2/Selgy-like,BARE-2/OTA,BARE-2/OTA-like,BARE-2/Athila,BARE-2/Athila-like,BARE-2/TatI,BARE-2/TatI-like,BARE-2/TatII,BARE-2/TatII-like,BARE-2/TatIII,BARE-2/TatIII-like,BARE-2/Ogre,BARE-2/Ogre-like,BARE-2/Retand,BARE-2/Retand-like,BARE-2/Chlamyvir,BARE-2/Chlamyvir-like,BARE-2/Tcn1,BARE-2/Tcn1-like,BARE-2/chromo-outgroup,BARE-2/chromo-outgroup-like,BARE-2/CRM,BARE-2/CRM-like,BARE-2/Galadriel,BARE-2/Galadriel-like,BARE-2/Tekay,BARE-2/Tekay-like,BARE-2/Reina,BARE-2/Reina-like,BARE-2/chromo-unclass,BARE-2/chromo-unclass-like,BARE2/Alexandra,BARE2/Ferco,BARE2/Bryana,BARE2/Tatius,BARE2/Ferney,BARE2/Alexandra-like,BARE2/Ferco-like,BARE2/Bryana-like,BARE2/Tatius-like,BARE2/Ferney-like,BARE-2-like
+BARE-2	SO:0000186	BARE-2,BARE-2/NA,LTR/BARE-2,LTR/BARE-2/Unknown,BARE-2/Unknown,BARE-2/Copia/Ale,BARE-2/Copia/Alesia,BARE-2/Copia/Angela,BARE-2/Copia/Bianca,BARE-2/Copia/Bryco,BARE-2/Copia/Lyco,BARE-2/Copia/Gymco-III,BARE-2/Copia/Gymco-I,BARE-2/Copia/Gymco-II,BARE-2/Copia/Ikeros,BARE-2/Copia/Ivana,BARE-2/Copia/Gymco-IV,BARE-2/Copia/Osser,BARE-2/Copia/SIRE,BARE-2/Copia/TAR,BARE-2/Copia/Tork,BARE-2/Copia/Ty1-outgroup,BARE-2/Copia/Ale-like,BARE-2/Copia/Alesia-like,BARE-2/Copia/Angela-like,BARE-2/Copia/Bianca-like,BARE-2/Copia/Bryco-like,BARE-2/Copia/Lyco-like,BARE-2/Copia/Gymco-III-like,BARE-2/Copia/Gymco-I-like,BARE-2/Copia/Gymco-II-like,BARE-2/Copia/Ikeros-like,BARE-2/Copia/Ivana-like,BARE-2/Copia/Gymco-IV-like,BARE-2/Copia/Osser-like,BARE-2/Copia/SIRE-like,BARE-2/Copia/TAR-like,BARE-2/Copia/Tork-like,BARE-2/Copia/Ty1-outgroup-like,BARE-2/Gypsy/non-chromo-outgroup,BARE-2/Gypsy/non-chromo-outgroup-like,BARE-2/Gypsy/Phygy,BARE-2/Gypsy/Phygy-like,BARE-2/Gypsy/Selgy,BARE-2/Gypsy/Selgy-like,BARE-2/Gypsy/OTA,BARE-2/Gypsy/OTA-like,BARE-2/Gypsy/Athila,BARE-2/Gypsy/Athila-like,BARE-2/Gypsy/TatI,BARE-2/Gypsy/TatI-like,BARE-2/Gypsy/TatII,BARE-2/Gypsy/TatII-like,BARE-2/Gypsy/TatIII,BARE-2/Gypsy/TatIII-like,BARE-2/Gypsy/Ogre,BARE-2/Gypsy/Ogre-like,BARE-2/Gypsy/Retand,BARE-2/Gypsy/Retand-like,BARE-2/Gypsy/Chlamyvir,BARE-2/Gypsy/Chlamyvir-like,BARE-2/Gypsy/Tcn1,BARE-2/Gypsy/Tcn1-like,BARE-2/Gypsy/chromo-outgroup,BARE-2/Gypsy/chromo-outgroup-like,BARE-2/Gypsy/CRM,BARE-2/Gypsy/CRM-like,BARE-2/Gypsy/Galadriel,BARE-2/Gypsy/Galadriel-like,BARE-2/Gypsy/Tekay,BARE-2/Gypsy/Tekay-like,BARE-2/Gypsy/Reina,BARE-2/Gypsy/Reina-like,BARE-2/Gypsy/chromo-unclass,BARE-2/Gypsy/chromo-unclass-like
 ####
 ####
 ####
 ####
-Copia_LTR_retrotransposon	SO:0002264	Copia_LTR_retrotransposon,LTR/Copia,LTR/RLC,RLC,Copia,Ty1,LTR/Copia/Ale,LTR/Copia/Alesia,LTR/Copia/Angela,LTR/Copia/Bianca,LTR/Copia/Bryco,LTR/Copia/Lyco,LTR/Copia/Gymco-III,LTR/Copia/Gymco-I,LTR/Copia/Gymco-II,LTR/Copia/Ikeros,LTR/Copia/Ivana,LTR/Copia/Gymco-IV,LTR/Copia/Osser,LTR/Copia/SIRE,LTR/Copia/TAR,LTR/Copia/Tork,LTR/Copia/Ty1-outgroup,LTR/Copia/Ale-like,LTR/Copia/Alesia-like,LTR/Copia/Angela-like,LTR/Copia/Bianca-like,LTR/Copia/Bryco-like,LTR/Copia/Lyco-like,LTR/Copia/Gymco-III-like,LTR/Copia/Gymco-I-like,LTR/Copia/Gymco-II-like,LTR/Copia/Ikeros-like,LTR/Copia/Ivana-like,LTR/Copia/Gymco-IV-like,LTR/Copia/Osser-like,LTR/Copia/SIRE-like,LTR/Copia/TAR-like,LTR/Copia/Tork-like,LTR/Copia/Ty1-outgroup-like,LTR/Copia/Alexandra,LTR/Copia/Ferco,LTR/Copia/Bryana,LTR/Copia/Alexandra-like,LTR/Copia/Ferco-like,LTR/Copia/Bryana-like
+Copia_LTR_retrotransposon	SO:0002264	Copia_LTR_retrotransposon,LTR/Copia,LTR/RLC,RLC,Copia,Ty1,LTR/Copia/Ale,LTR/Copia/Alesia,LTR/Copia/Angela,LTR/Copia/Bianca,LTR/Copia/Bryco,LTR/Copia/Lyco,LTR/Copia/Gymco-III,LTR/Copia/Gymco-I,LTR/Copia/Gymco-II,LTR/Copia/Ikeros,LTR/Copia/Ivana,LTR/Copia/Gymco-IV,LTR/Copia/Osser,LTR/Copia/SIRE,LTR/Copia/TAR,LTR/Copia/Tork,LTR/Copia/Ty1-outgroup,LTR/Copia/Ale-like,LTR/Copia/Alesia-like,LTR/Copia/Angela-like,LTR/Copia/Bianca-like,LTR/Copia/Bryco-like,LTR/Copia/Lyco-like,LTR/Copia/Gymco-III-like,LTR/Copia/Gymco-I-like,LTR/Copia/Gymco-II-like,LTR/Copia/Ikeros-like,LTR/Copia/Ivana-like,LTR/Copia/Gymco-IV-like,LTR/Copia/Osser-like,LTR/Copia/SIRE-like,LTR/Copia/TAR-like,LTR/Copia/Tork-like,LTR/Copia/Ty1-outgroup-like
 ####
 ####
 ####
 ####
-Gypsy_LTR_retrotransposon	SO:0002265	Gypsy_LTR_retrotransposon,LTR/Gypsy,LTR/RLG,RLG,Gypsy,Ty3,LTR/Gypsy/non-chromo-outgroup,LTR/Gypsy/non-chromo-outgroup-like,LTR/Gypsy/Phygy,LTR/Gypsy/Phygy-like,LTR/Gypsy/Selgy,LTR/Gypsy/Selgy-like,LTR/Gypsy/OTA,LTR/Gypsy/OTA-like,LTR/Gypsy/Athila,LTR/Gypsy/Athila-like,LTR/Gypsy/TatI,LTR/Gypsy/TatI-like,LTR/Gypsy/TatII,LTR/Gypsy/TatII-like,LTR/Gypsy/TatIII,LTR/Gypsy/TatIII-like,LTR/Gypsy/Ogre,LTR/Gypsy/Ogre-like,LTR/Gypsy/Retand,LTR/Gypsy/Retand-like,LTR/Gypsy/Chlamyvir,LTR/Gypsy/Chlamyvir-like,LTR/Gypsy/Tcn1,LTR/Gypsy/Tcn1-like,LTR/Gypsy/chromo-outgroup,LTR/Gypsy/chromo-outgroup-like,LTR/Gypsy/CRM,LTR/Gypsy/CRM-like,LTR/Gypsy/Galadriel,LTR/Gypsy/Galadriel-like,LTR/Gypsy/Tekay,LTR/Gypsy/Tekay-like,LTR/Gypsy/Reina,LTR/Gypsy/Reina-like,LTR/Gypsy/chromo-unclass,LTR/Gypsy/chromo-unclass-like,LTR/Gypsy/Tatius,LTR/Gypsy/Ferney,LTR/Gypsy/Tatius-like,LTR/Gypsy/Ferney-like,LTR/Gypsy/non-chromo-like,LTR/Gypsy/chromo-like,LTR/Gypsy/chromo
+Gypsy_LTR_retrotransposon	SO:0002265	Gypsy_LTR_retrotransposon,LTR/Gypsy,LTR/RLG,RLG,Gypsy,Ty3,LTR/Gypsy/non-chromo-outgroup,LTR/Gypsy/non-chromo-outgroup-like,LTR/Gypsy/Phygy,LTR/Gypsy/Phygy-like,LTR/Gypsy/Selgy,LTR/Gypsy/Selgy-like,LTR/Gypsy/OTA,LTR/Gypsy/OTA-like,LTR/Gypsy/Athila,LTR/Gypsy/Athila-like,LTR/Gypsy/TatI,LTR/Gypsy/TatI-like,LTR/Gypsy/TatII,LTR/Gypsy/TatII-like,LTR/Gypsy/TatIII,LTR/Gypsy/TatIII-like,LTR/Gypsy/Ogre,LTR/Gypsy/Ogre-like,LTR/Gypsy/Retand,LTR/Gypsy/Retand-like,LTR/Gypsy/Chlamyvir,LTR/Gypsy/Chlamyvir-like,LTR/Gypsy/Tcn1,LTR/Gypsy/Tcn1-like,LTR/Gypsy/chromo-outgroup,LTR/Gypsy/chromo-outgroup-like,LTR/Gypsy/CRM,LTR/Gypsy/CRM-like,LTR/Gypsy/Galadriel,LTR/Gypsy/Galadriel-like,LTR/Gypsy/Tekay,LTR/Gypsy/Tekay-like,LTR/Gypsy/Reina,LTR/Gypsy/Reina-like,LTR/Gypsy/chromo-unclass,LTR/Gypsy/chromo-unclass-like
 ####
 ####
 ####
@@ -150,14 +146,14 @@ primer_binding_site	SO:0005850	primer_binding_site,PBS
 long_terminal_repeat	SO:0000286	long_terminal_repeat
 
 ## nonLTR retrotransposons
-non_LTR_retrotransposon	SO:0000189	non_LTR_retrotransposon,non_LTR,nonLTR/unknown,nonLTR/Unknown,LINE/CRE,LINE/Penelope,LINE/CR1,LINE/R1,Line/Daphne,LINE/RandI,LINE/RTETP
+non_LTR_retrotransposon	SO:0000189	non_LTR_retrotransposon,non_LTR,nonLTR/unknown,nonLTR/Unknown
 LINE_element	SO:0000194	LINE_element,LINE/unknown,LINE,LINE/Unknown,LINE/NA
-R2_LINE_retrotransposon	SO:0002269	R2_LINE_retrotransposon,LINE/R2,LINE/RIR,nonLTR/RIR,RIR,LINE/R2-Hero,LINE/R2-NeSL,LINE/R2_Hero,LINE/R2_NeSL,LINE/R2-Dualen,LINE/R2_Dualen,LINE/Hero,LINE/NeSL
-Jockey_LINE_retrotransposon	SO:0002271	Jockey_LINE_retrotransposon,LINE/Jockey,LINE/RIJ,nonLTR/RIJ,RIJ,LINE/I-Jockey,LINE/Jockey
+R2_LINE_retrotransposon	SO:0002269	R2_LINE_retrotransposon,LINE/R2,LINE/RIR,nonLTR/RIR,RIR,LINE/R2-Hero,LINE/R2-NeSL,LINE/R2_Hero,LINE/R2_NeSL,LINE/R2-Dualen,LINE/R2_Dualen
+Jockey_LINE_retrotransposon	SO:0002271	Jockey_LINE_retrotransposon,LINE/Jockey,LINE/RIJ,nonLTR/RIJ,RIJ,LINE/I-Jockey
 L1_LINE_retrotransposon	SO:0002272	L1_LINE_retrotransposon,LINE/L1,LINE/RIL,nonLTR/RIL,RIL,LINE-1,LINE/L1-Tx1,LINE/L1_Tx1,LINE/L1?
-I_LINE_retrotransposon	SO:0002273	I_LINE_retrotransposon,LINE/I,LINE/RII,nonLTR/RII,LINE/I-Nimb,LINE/I_Nimb,LINE/Nimb,
+I_LINE_retrotransposon	SO:0002273	I_LINE_retrotransposon,LINE/I,LINE/RII,nonLTR/RII,LINE/I-Nimb,LINE/I_Nimb
 RTE_LINE_retrotransposon	SO:0002270	RTE_LINE_retrotransposon,LINE/RTE,LINE/RIT,nonLTR/RIT,RIT,LINE/RTEX,LINE/RTE-X,LINE/RTE-BovB,LINE/RTE_BovB,LINE/RTE_X,LINE/RTE-RTE,LINE/RTE_RTE
-SINE_element	SO:0000206	SINE_element,SINE/unknown,SINE,SINE/Unknown,SINE?,SINE?/NA,SINE/U,SINE/NA,SINE/tRNA-Deu-RTE
+SINE_element	SO:0000206	SINE_element,SINE/unknown,SINE,SINE/Unknown,SINE?,SINE?/NA,SINE/U,SINE/NA
 tRNA_SINE_retrotransposon	SO:0002274	tRNA_SINE_retrotransposon,SINE/tRNA,SINE/RST,nonLTR/RST,RST,tRNA,SINE2/tRNA,SINE/tRNA-Core-RTE,SINE/tRNA-V-CR1,tRNA,SINE/tRNA_CR1,SINE/tRNA_RTE,SINE/tRNA_V_RTE,SINE/tRNA-V-RTE,SINE/tRNA-CR1,SINE/tRNA_Core_RTE,SINE/tRNA_V_CR1,SINE/tRNA-RTE
 5S_SINE_retrotransposon	SO:0002276	5S_SINE_retrotransposon,SINE/5S,SINE/RSS,nonLTR/RSS,RSS,SINE3/5S,SINE/5S-Deu-L2,SINE/5S_Deu_L2
 7SL_SINE_retrotransposon	SO:0002275	7SL_SINE_retrotransposon,SINE/7SL,SINE/RSL,nonLTR/RSL,RSL,SINE1/7SL
@@ -165,7 +161,7 @@ YR_retrotransposon	SO:0002286	YR_retrotransposon,YR/unknown,YR/Unknown
 Ngaro_YR_retrotransposon	SO:0002288	Ngaro_YR_retrotransposon,YR/Ngaro,YR/RYN,Ngaro,RYN,LTR/Ngaro
 DIRS_YR_retrotransposon	SO:0002287	DIRS_YR_retrotransposonYR/DIRS,YR/RYD,DIRS,RYD,LTR/DIRS,DIRS/NA,LTR/DIRS?
 Viper_YR_retrotransposon	SO:0002289	Viper_YR_retrotransposon,YR/Viper,YR/RYV,Viper,RYV
-Penelope_retrotransposon	SO:0002290	Penelope_retrotransposon,Penelope,nonLTR/RPP,RPP,nonLTR/Penelope,Penelope/NA
+Penelope_retrotransposon	SO:0002290	Penelope_retrotransposon,Penelope,nonLTR/RPP,RPP,nonLTR/Penelope,Penelope/NA,LINE/Penelope
 
 ## parts
 target_site_duplication	SO:0000434	target_site_duplication,TSD

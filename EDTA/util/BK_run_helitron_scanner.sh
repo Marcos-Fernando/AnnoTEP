@@ -14,7 +14,7 @@ HSDIR=$path/../bin/HelitronScanner
 
 ### preset CPU and max memory
 CPU=4
-MEMGB=300 #Gb
+MEMGB=150 #Gb
 
 ### allow user to specify CPU number to run HelitronScanner
 if [ ! -z "$2" ];
@@ -27,28 +27,10 @@ fi
 
 ##find helitron heads
 ### will load each chromosome into memory, without splitting into 1Mb batches (-buffer_size option ==0) 
-java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanHead -lcv_filepath ${HSDIR}/TrainingSet/head.lcvs -g $GENOME -buffer_size 0 -output ${GENOME}.HelitronScanner.head -tl 4 &
-PID1="$!"
+java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanHead -lcv_filepath ${HSDIR}/TrainingSet/head.lcvs -g $GENOME -buffer_size 0 -output ${GENOME}.HelitronScanner.head
 
 ## helitron tails
-java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanTail -lcv_filepath ${HSDIR}/TrainingSet/tail.lcvs -g $GENOME -buffer_size 0 -output ${GENOME}.HelitronScanner.tail -tl 4 &
-PID2="$!"
-
-############################
-##    REVERSE COMPLEMENT  ##
-############################
-
-##find helitron heads
-### will load each chromosome into memory, without splitting into 1Mb batches (-buffer_size option ==0) 
-java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanHead -lcv_filepath ${HSDIR}/TrainingSet/head.lcvs -g $GENOME -buffer_size 0 --rc -output ${GENOME}.HelitronScanner.rc.head -tl 4 &
-PID3="$!"
-
-## helitron tails
-java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanTail -lcv_filepath ${HSDIR}/TrainingSet/tail.lcvs -g $GENOME -buffer_size 0 --rc -output ${GENOME}.HelitronScanner.rc.tail -tl 4 &
-PID4="$!"
-
-wait $PID1 $PID2 $PID3 $PID4
-
+java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanTail -lcv_filepath ${HSDIR}/TrainingSet/tail.lcvs -g $GENOME -buffer_size 0 -output ${GENOME}.HelitronScanner.tail
 
 ## pair the ends to generate possible helitrons
 java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar pairends -head_score ${GENOME}.HelitronScanner.head -tail_score ${GENOME}.HelitronScanner.tail -output ${GENOME}.HelitronScanner.pairends
@@ -56,6 +38,17 @@ java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar pairends -head_score ${GENO
 ## draw the helitrons into fastas
 java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar draw -pscore ${GENOME}.HelitronScanner.pairends -g $GENOME -output ${GENOME}.HelitronScanner.draw -pure_helitron
  
+############################
+##    REVERSE COMPLEMENT  ##
+############################
+
+##find helitron heads
+### will load each chromosome into memory, without splitting into 1Mb batches (-buffer_size option ==0) 
+java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanHead -lcv_filepath ${HSDIR}/TrainingSet/head.lcvs -g $GENOME -buffer_size 0 --rc -output ${GENOME}.HelitronScanner.rc.head
+
+## helitron tails
+java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar scanTail -lcv_filepath ${HSDIR}/TrainingSet/tail.lcvs -g $GENOME -buffer_size 0 --rc -output ${GENOME}.HelitronScanner.rc.tail
+
 ## pair the ends to generate possible helitrons
 java -Xmx${MEMGB}g -jar ${HSDIR}/HelitronScanner.jar pairends -head_score ${GENOME}.HelitronScanner.rc.head -tail_score ${GENOME}.HelitronScanner.rc.tail --rc -output ${GENOME}.HelitronScanner.rc.pairends
 
