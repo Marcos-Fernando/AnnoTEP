@@ -7,10 +7,19 @@ use File::Basename;
 use FindBin;
 use Pod::Usage;
 
+#======================================================================================================================================================================================================
+# Altered for different LTR Elements
+#
+# -w 2 -C -D 20000 -d 1000 -L 15000 -l 100 -p 20 -M 0.80
+# 
+#======================================================================================================================================================================================================
+
+
+
 my $version = "v1.2";
 # customized parameters
 my $seq_path = ""; #specify the sequence file
-my $finder_para = "-w 2 -C -D 15000 -d 1000 -L 7000 -l 100 -p 20 -M 0.85"; #specify ltr_finder parameters. The "-w 2" parameter is required.
+my $finder_para = "-w 2 -C -D 20000 -d 1000 -L 15000 -l 100 -p 20 -M 0.80"; #specify ltr_finder parameters. The "-w 2" parameter is required.
 my $harvest_format = 0; #0, print out format is in LTR_finder table output format (default); 1, LTRharvest screen output format
 my $size_of_each_piece = 5000000; #5 Mb per piece
 my $timeout = 1500; #set maximum time for a thread to run. After $timeout seconds, the child thread is killed.

@@ -7,10 +7,16 @@ use File::Basename;
 use FindBin;
 use Pod::Usage;
 
+#======================================================================================================================================================================================================
+# Altered for different LTR Elements
+#
+# -minlenltr 100 -maxlenltr 15000 -maxdistltr 20000 -mintsd 4 -maxtsd 6 -motif TGCA -motifmis 1 -similar 80 -vic 10 -seed 20 -seqids yes
+#======================================================================================================================================================================================================
+
 my $version = "v1.1";
 # customized parameters
 my $seq_path = ""; #specify the sequence file
-my $harvest_para = "-minlenltr 100 -maxlenltr 7000 -mintsd 4 -maxtsd 6 -motif TGCA -motifmis 1 -similar 85 -vic 10 -seed 20 -seqids yes"; #specify LTR_HARVEST parameters.
+my $harvest_para = "-minlenltr 100 -maxlenltr 15000 -maxdistltr 20000 -mintsd 4 -maxtsd 6 -motif TGCA -motifmis 1 -similar 85 -vic 10 -seed 20 -seqids yes"; #specify LTR_HARVEST parameters.
 my $size_of_each_piece = 5000000; #5 Mb per piece
 my $timeout = 1500; #set maximum time for a thread to run. After $timeout seconds, the child thread is killed.
 my $try1 = 1; #1, further split to 50 Kb regions if thread killed by timeout. 0, no further split.
@@ -179,7 +185,7 @@ open Out, ">$seq_file.harvest.combine.scn" or die $!;
 
 #print out headers
 print Out "#LTR_HARVEST_parallel -seq $seq_file -size $size_of_each_piece -time $timeout -try1 $try1 -threads $threads -cut $cut
-# LTR_HARVEST args= -minlenltr 100 -maxlenltr 7000 -mintsd 4 -maxtsd 6 -motif TGCA -motifmis 1 -similar 85 -vic 10 -seed 20 -seqids yes
+# LTR_HARVEST args=  -minlenltr 100 -maxlenltr 15000 -maxdistltr 20000 -mintsd 4 -maxtsd 6 -motif TGCA -motifmis 1 -similar 80 -vic 10 -seed 20 -seqids yes
 # LTR_HARVEST_parallel version=$version
 # predictions are reported in the following way
 # s(ret) e(ret) l(ret) s(lLTR) e(lLTR) l(lLTR) s(rLTR) e(rLTR) l(rLTR) sim(LTRs) seq-nr chr
