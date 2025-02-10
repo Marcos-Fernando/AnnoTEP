@@ -33,6 +33,8 @@
 #   Cleanup before a distribution
 #
 #
+#   Modified for AnnoTEP - 01/27/2025
+#
 ###############################################################################
 #
 #
@@ -5159,22 +5161,28 @@ sub generateOutput {
 ###############################################################################################################################
 
 
-# CLASS I 
+###########################################################################################################
+# CLASS I Elements
+###########################################################################################################
+
                          'RETROTRANS'    => { 'RE' => '^RNA' },
                          'RPNEL'         => { 'RE' => '^Penelope$' },
                          'SINE'    	 => { 'RE' => '^SINE' },
                          'LINE'    	 => { 'RE' => '^LINE' },
-                         'LINEI'    	 => { 'RE' => '^LINE-like' },
                          'LTR'           => { 'RE' => '^LTR' },
 			 'LTRLARD'       => { 'RE' => '^LARD' },
 			 'LTRTRIM'       => { 'RE' => '^TRIM' },
 			 
-			 'LTRTRGAG'       => { 'RE' => '^TR_GAG' },
-			 'LTRBARE2'       => { 'RE' => '^BARE-2' },
+			 'LTRTRGAG'      => { 'RE' => '^TR_GAG' },
+			 'LTRBARE2'      => { 'RE' => '^BARE-2' },
 			 
 			 
 			 'LTRGYP'  	 => { 'RE' => '^LTR\/Gypsy' },
 			 'LTRCOP'  	 => { 'RE' => '^LTR\/Copia' },
+			 
+			 'LTRGYPUNK'  	 => { 'RE' => '^LTR\/Gypsy$|^LTR\/Gypsy-like$' },
+			 #'LTRCOPUNK'  	 => { 'RE' => '^LTR\/Copia$|^LTR\/Copia-like$' },
+			 
 
 			 'LTRDIR'  	 => { 'RE' => '^DIRS' },
 			 'LTRDIRR'  	 => { 'RE' => '^DIRS/DIRS$' },
@@ -5182,168 +5190,142 @@ sub generateOutput {
 			 'LTRDIRVPR'  	 => { 'RE' => '^DIRS/VIPER$' },		 
 			 
 			 
-			 'LTRUNK'  	 => { 'RE' => '^LTR\/Unknown' },
+			 'LTRUNK'  	 => { 'RE' => '^LTR\/Unknown|^LTR\/unknown' },
 
-
+###########################################################################################################
 # LTR/Copia
+###########################################################################################################
 
 			 'LTRALE'  	 => { 'RE' => '^LTR\/Copia\/Ale' },
-                         #'LTRALEI'        => { 'RE' => '^LTR\/Copia\/Ale-like' },
-                         
+                       
             		 'LTRASIA'	 => { 'RE' => '^LTR\/Copia\/Alesia' },
-                         #'LTRASIAI'       => { 'RE' => '^LTR\/Copia\/Alesia-like' },             
                          
 			 'LTRANG'  	 => { 'RE' => '^LTR\/Copia\/Angela' },
-                         #'LTRANGI'        => { 'RE' => '^LTR\/Copia\/Angela-like' },
 
 			 'LTRBIA'	 => { 'RE' => '^LTR\/Copia\/Bianca' },
-                         #'LTRBIAI'        => { 'RE' => '^LTR\/Copia\/Bianca-like' },
 
 			 'LTRBRCO'	 => { 'RE' => '^LTR\/Copia\/Bryco' },
-                         #'LTRBRCOI'        => { 'RE' => '^LTR\/Copia\/Bryco-like' },
 
 			 'LTRLYCO'	 => { 'RE' => '^LTR\/Copia\/Lyco' },
-                         #'LTRLYCOI'        => { 'RE' => '^LTR\/Copia\/Lyco-like' },
 
 			 'LTRGYCI'	 => { 'RE' => '^LTR\/Copia\/Gymco-I' },
-                         #'LTRGYCIL'        => { 'RE' => '^LTR\/Copia\/Gymco-I-like' },
 
 			 'LTRGYCII'	 => { 'RE' => '^LTR\/Copia\/Gymco-II' },
-                         #'LTRGYCIIL'        => { 'RE' => '^LTR\/Copia\/Gymco-II-like' },
 
 			 'LTRGYCIII'	 => { 'RE' => '^LTR\/Copia\/Gymco-III' },
-                         #'LTRGYCIIIL'        => { 'RE' => '^LTR\/Copia\/Gymco-III-like' },
 
 			 'LTRGYCIV'	 => { 'RE' => '^LTR\/Copia\/Gymco-IV' },
-                         #'LTRGYCIVL'        => { 'RE' => '^LTR\/Copia\/Gymco-IV-like' },
 
 			 'LTRIKER'	 => { 'RE' => '^LTR\/Copia\/Ikeros' },
-                         #'LTRIKERI'       => { 'RE' => '^LTR\/Copia\/Ikeros-like' },
 
 			 'LTRIVA'  	 => { 'RE' => '^LTR\/Copia\/Ivana' },
-                         #'LTRIVAI'        => { 'RE' => '^LTR\/Copia\/Ivana-like' },
                          
                          'LTROSSER'	 => { 'RE' => '^LTR\/Copia\/Osser' },
-                         #'LTROSSERI'       => { 'RE' => '^LTR\/Copia\/Osser-like' },
                          
 			 'LTRSIRE'	 => { 'RE' => '^LTR\/Copia\/SIRE' },
-                         #'LTRSIREI'       => { 'RE' => '^LTR\/Copia\/SIRE-like' },
 
 			 'LTRTAR'  	 => { 'RE' => '^LTR\/Copia\/TAR' },
-                         #'LTRTARI'        => { 'RE' => '^LTR\/Copia\/TAR-like' },
 
 			 'LTRTOR'  	 => { 'RE' => '^LTR\/Copia\/Tork' },
-                         #'LTRTORI'        => { 'RE' => '^LTR\/Copia\/Tork-like' },
+			 
+			 'LTRALEX'  	 => { 'RE' => '^LTR\/Copia\/Alexandra' },
+			 
+			 'LTRFERCO'  	 => { 'RE' => '^LTR\/Copia\/Ferco' },	
+			 
+			 'LTRBRYAN'  	 => { 'RE' => '^LTR\/Copia\/Bryana' },			 		 			 
 
-			 'LTRTY1'  	 => { 'RE' => '^LTR\/Copia\/Ty1-outgroup' },
-                         #'LTRTY1I'        => { 'RE' => '^LTR\/Copia\/Ty1-outgroup-like' },
+			 'LTRTY1'  	 => { 'RE' => '^LTR\/Copia\/Ty1|^LTR\/Copia$|^LTR\/Copia-like$' },
 
 
-
+###########################################################################################################
 #LTR/Gypsy
+###########################################################################################################
 
-			 'LTRNCRO'  	 => { 'RE' => '^LTR\/Gypsy\/non-chromo-outgroup' },
-			 #'LTRNCROI'  	 => { 'RE' => '^LTR\/Gypsy\/non-chromo-outgroup-like' },
+			 'LTRNCROMO'  	 => { 'RE' => '^LTR\/Gypsy\/non-chromo$|^LTR\/Gypsy\/non-chromo-outgroup|^LTR\/Gypsy\/Phygy|^LTR\/Gypsy\/Selgy|^LTR\/Gypsy\/OTA|^LTR\/Gypsy\/Athila|^LTR\/Gypsy\/Tatius|^LTR\/Gypsy\/Tat|^LTR\/Gypsy\/Ogre|^LTR\/Gypsy\/Retand' },
+
+			 'LTRNCRO'  	 => { 'RE' => '^LTR\/Gypsy\/non-chromo$|^LTR\/Gypsy\/non-chromo-outgroup' },
 			 
 			 'LTRPHYGY'  	 => { 'RE' => '^LTR\/Gypsy\/Phygy' },
-                         #'LTRPHYGYI'        => { 'RE' => '^LTR\/Gypsy\/Phygy-like' },
 
 			 'LTRSELGY'  	 => { 'RE' => '^LTR\/Gypsy\/Selgy' },
-                         #'LTRSELGYI'        => { 'RE' => '^LTR\/Gypsy\/Selgy-like' },
 			 
-			 'LTROTA'  	 => { 'RE' => '^LTR\/Gypsy\/OTA' },
-                         #'LTROTAI'        => { 'RE' => '^LTR\/Gypsy\/OTA-like' }, 
+			 'LTROTA'  	 => { 'RE' => '^LTR\/Gypsy\/OTA|^LTR\/Gypsy\/Athila|^LTR\/Gypsy\/Tatius|^LTR\/Gypsy\/Tat|^LTR\/Gypsy\/Ogre|^LTR\/Gypsy\/Retand' },
 			 
 			 'LTRATH'  	 => { 'RE' => '^LTR\/Gypsy\/Athila' },
-                         #'LTRATHI'        => { 'RE' => '^LTR\/Gypsy\/Athila-like' },
+
+			 'LTRTATI'  	 => { 'RE' => '^LTR\/Gypsy\/Tatius' },
 			 
+                         'LTROTATA'      => { 'RE' => '^LTR\/Gypsy\/Tat|^LTR\/Gypsy\/Ogre|^LTR\/Gypsy\/Retand' }, 
+
 			 'LTRTATI'  	 => { 'RE' => '^LTR\/Gypsy\/TatI' },
-                         #'LTRTATIL'        => { 'RE' => '^LTR\/Gypsy\/TatI-like' },
 
 			 'LTRTATII'  	 => { 'RE' => '^LTR\/Gypsy\/TatII' },
-                         #'LTRTATIIL'        => { 'RE' => '^LTR\/Gypsy\/TatII-like' },
 
 			 'LTRTATIII'  	 => { 'RE' => '^LTR\/Gypsy\/TatIII' },
-                         #'LTRTATIIIL'        => { 'RE' => '^LTR\/Gypsy\/TatIII-like' },
 
 			 'LTROGRE'  	 => { 'RE' => '^LTR\/Gypsy\/Ogre' },
-                         #'LTROGREI'       => { 'RE' => '^LTR\/Gypsy\/Ogre-like' },
 
 			 'LTROGRV'  	 => { 'RE' => '^LTR\/Gypsy\/Retand' },
-			 #'LTROGRVI'  	 => { 'RE' => '^LTR\/Gypsy\/Retand-like' },
+			 
+			 'LTRCROMO'  	 => { 'RE' => '^LTR\/Gypsy\/Chlamyvir|^LTR\/Gypsy\/Tcn1|^LTR\/Gypsy\/chromo|^LTR\/Gypsy\/chromo-outgroup|^LTR\/Gypsy\/CRM|^LTR\/Gypsy\/Galadriel|LTR\/Gypsy\/Tekay|^LTR\/Gypsy\/Del|^LTR\/Gypsy\/Reina|^LTR/Gypsy\/Ferney|^LTR\/Gypsy\/chromo-unclass' },
+			 
 
 			 'LTRCHLVIR'  	 => { 'RE' => '^LTR\/Gypsy\/Chlamyvir' },
-                         #'LTRCHLVIRI'        => { 'RE' => '^LTR\/Gypsy\/Chlamyvir-like' },
 
 			 'LTRTCN1'  	 => { 'RE' => '^LTR\/Gypsy\/Tcn1' },
-                         #'LTRTCN1I'        => { 'RE' => '^LTR\/Gypsy\/Tcn1-like' },
 
-			 'LTRCRO'  	 => { 'RE' => '^LTR\/Gypsy\/chromo-outgroup' },
-                         #'LTRCROI'        => { 'RE' => '^LTR\/Gypsy\/chromo-outgroup-like' },
+			 'LTRCRO'  	 => { 'RE' => '^LTR\/Gypsy\/chromo' },
 
              		 'LTRCRM'  	 => { 'RE' => '^LTR\/Gypsy\/CRM' },
-                         #'LTRCRMI'        => { 'RE' => '^LTR\/Gypsy\/CRM-like' },
                          
                		 'LTRGALA'  	 => { 'RE' => '^LTR\/Gypsy\/Galadriel' },
-                         #'LTRGALAI'       => { 'RE' => '^LTR\/Gypsy\/Galadriel-like' },         
                          
-			 'LTRTEK'  	 => { 'RE' => '^LTR\/Gypsy\/Tekay' },
-                         #'LTRTEKI'        => { 'RE' => '^LTR\/Gypsy\/Tekay-like' },                         
+			 'LTRTEK'  	 => { 'RE' => '^LTR\/Gypsy\/Tekay|^LTR\/Gypsy\/Del' },
 
 			 'LTRREI'  	 => { 'RE' => '^LTR\/Gypsy\/Reina' },
-                         #'LTRREII'        => { 'RE' => '^LTR\/Gypsy\/Reina-like' },
 
-			 'LTRCROUN'  	 => { 'RE' => '^LTR\/Gypsy\/chromo-unclass' },
-                         #'LTRCROUNI'        => { 'RE' => '^LTR\/Gypsy\/chromo-unclass-like' },
+                         'LTRFERN'  	 => { 'RE' => '^LTR/Gypsy\/Ferney' },
 
-			 #'LTRDEL'  	 => { 'RE' => '^LTR\/Gypsy\/Del$' },
-                         #'LTRDELI'        => { 'RE' => '^LTR\/Gypsy\/Del-like' },
+			 #'LTRCROUN'  	 => { 'RE' => '^LTR\/Gypsy\/chromo-unclass' },
 
-			 'PARARET'	 => { 'RE' => '^pararetrovirus' },
+			 'PARARET'	 => { 'RE' => '^pararetrovirus|^Pararetrovirus' },
 
-
+###########################################################################################################
 # CLASS II 
+###########################################################################################################
 
 			'DNTIR'   =>   { 'RE' => '^TIR' },
 			
 			'DMITE'   =>   { 'RE' => '^MITE' },
 
-			'DNSPM'   =>   { 'RE' => '^TIR\/EnSpm_CACTA' },
-
+			'DNSPM'   =>   { 'RE' => '^TIR\/EnSpm_CACTA|^TIR\/CMC' },
 			'DNHAT'   =>   { 'RE' => '^TIR\/hAT' },
-
-			'DNKOLOB'   =>   { 'RE' => '^TIR\/Kolobok' },
-			
-			'DNMERL'   =>   { 'RE' => '^TIR\/Merlin' },
-			
-			'DNMUDR'  =>   { 'RE' => '^TIR\/MuDR_Mutator' },
-			
+			'DNKOLOB' =>   { 'RE' => '^TIR\/Kolobok' },
+			'DNMERL'  =>   { 'RE' => '^TIR\/Merlin' },
+			'DNMUDR'  =>   { 'RE' => '^TIR\/MuDR_Mutator|^TIR\/MULE' },
 			'DNNOVO'  =>   { 'RE' => '^TIR\/Novosib' },
-			
-			'DNPPP'  =>   { 'RE' => '^TIR\/P$' },			
-			
-			'DNPIF'   =>   { 'RE' => '^TIR\/PIF_Harbinger' },
-			
-			'DNPIGB'   =>   { 'RE' => '^TIR\/PiggyBac' },	
-			
-			'DNSOLA1'   =>   { 'RE' => '^TIR\/Sola1' },				
-					
-			'DNSOLA2'   =>   { 'RE' => '^TIR\/Sola2' },		
-			
-			'DNMARIN'   =>   { 'RE' => '^TIR\/TIR\/Tc1_Mariner' },				
+			'DNPPP'   =>   { 'RE' => '^TIR\/P$' },			
+			'DNPIF'   =>   { 'RE' => '^TIR\/PIF_Harbinger|^TIR\/Academ' },
+			'DNGING'  =>   { 'RE' => '^TIR\/Ginger' },			
+			'DNPIGB'  =>   { 'RE' => '^TIR\/PiggyBac' },	
+			'DNSOLA1' =>   { 'RE' => '^TIR\/Sola1' },				
+			'DNSOLA2' =>   { 'RE' => '^TIR\/Sola2' },	
+			'DNSOLA3' =>   { 'RE' => '^TIR\/Sola3' },						
+			'DNMARIN' =>   { 'RE' => '^TIR\/Tc1_Mariner' },				
+			'DNTRANS' =>   { 'RE' => '^TIR\/Transib' },				
 			
 			
-			'DNHEL'   =>   { 'RE' => '^DNA\/Helitron' },
-                        #'DNHELCO'   =>   { 'RE' => '^DNA\/Helitron\/autonomous' },
-                        #'DNHELIN'   =>   { 'RE' => '^DNA\/Helitron\/non-auto' },
+			'DNHEL'   =>   { 'RE' => '^RC\/Helitron|^RC/Unknown' },
+                        #'DNHELCO'   =>   { 'RE' => '^RC\/Helitron$' },
+                        #'DNHELIN' =>   { 'RE' => '^RC\/Helitron-like$|^RC/Unknown$' },
 
 
 
-			'DNUNK'   =>   { 'RE' => '^DNA\/Unknown' },
+			'DNUNK'   =>   { 'RE' => '^DNA\/Unknown|^TIR\/Unknown|^DNA\/unknown|^TIR\/unknown' },
 
 
 
-                         'OTHER'   => { 'RE' => '^Unknown|^Composite|^Other' },
+                         'OTHER'   => { 'RE' => '^Unknown|^Composite|^Other|^unknown' },
                          'RNA'     => { 'RE' => 'RNA$' },
                          'SATEL'   => { 'RE' => 'Satel' },
                          'SIMPLE'  => { 'RE' => '^Simple|^SSR' },
@@ -5763,7 +5745,7 @@ sub generateOutput {
     my $db = FastaDB->new(
                            fileName    => $options{'maskSource'},
                            openMode    => SeqDBI::ReadOnly,
-                           maxIDLength => 50
+                           maxIDLength => 80
     );
     my $maskFormat = '';
     $maskFormat = 'x'      if ( $options{'x'} );
@@ -6169,7 +6151,6 @@ sub generateOutput {
     printf $OUT "----------------------------Class I:Results---------------------------\n";
     printf $OUT "Class I Total:			%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LINE'}->{'count'} +
-        $aggregateStats{'LINEI'}->{'count'} +
         $aggregateStats{'SINE'}->{'count'} +
         $aggregateStats{'LTRLARD'}->{'count'} +
         $aggregateStats{'LTRTRIM'}->{'count'} +
@@ -6183,7 +6164,6 @@ sub generateOutput {
 	$aggregateStats{'DIRS'}->{'count'},
 	#
         $aggregateStats{'LINE'}->{'length'} +
-        $aggregateStats{'LINEI'}->{'length'} +
         $aggregateStats{'SINE'}->{'length'} +
         $aggregateStats{'LTRLARD'}->{'length'} +
         $aggregateStats{'LTRTRIM'}->{'length'} +
@@ -6197,7 +6177,6 @@ sub generateOutput {
 	$aggregateStats{'LTRDIR'}->{'length'},
 	#
 	($aggregateStats{'LINE'}->{'length'} +
-        $aggregateStats{'LINEI'}->{'length'} +
         $aggregateStats{'SINE'}->{'length'} +
         $aggregateStats{'LTRLARD'}->{'length'} +
         $aggregateStats{'LTRTRIM'}->{'length'} +
@@ -6215,18 +6194,18 @@ sub generateOutput {
 ### Non-LTR 
     print $OUT "----------------------------------------------------------------------\n";
     printf $OUT "|-Non-LTR:			%6d	%10d bp	%5.2f \%\n",
-    $aggregateStats{'SINE'}->{'count'} + $aggregateStats{'LINE'}->{'count'}  + $aggregateStats{'LINEI'}->{'count'},
-    $aggregateStats{'SINE'}->{'length'} + $aggregateStats{'LINE'}->{'length'} + $aggregateStats{'LINEI'}->{'length'} ,
-    ($aggregateStats{'SINE'}->{'length'} + $aggregateStats{'LINE'}->{'length'} + $aggregateStats{'LINEI'}->{'length'})* 100 * $usePerc / $totseqlen;
+    $aggregateStats{'SINE'}->{'count'} + $aggregateStats{'LINE'}->{'count'} ,
+    $aggregateStats{'SINE'}->{'length'} + $aggregateStats{'LINE'}->{'length'} ,
+    ($aggregateStats{'SINE'}->{'length'} + $aggregateStats{'LINE'}->{'length'})* 100 * $usePerc / $totseqlen;
 
     printf $OUT "|  |-SINEs:			%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'SINE'}->{'count'}, $aggregateStats{'SINE'}->{'length'},
         $aggregateStats{'SINE'}->{'length'} * 100 * $usePerc / $totseqlen;
 
     printf $OUT "|  |-LINEs:			%6d	%10d bp	%5.2f \%\n",
-        $aggregateStats{'LINE'}->{'count'} + $aggregateStats{'LINEI'}->{'count'}, 
-        $aggregateStats{'LINE'}->{'length'} + $aggregateStats{'LINEI'}->{'length'},
-        ($aggregateStats{'LINE'}->{'length'} + $aggregateStats{'LINEI'}->{'length'}) * 100 * $usePerc / $totseqlen;
+        $aggregateStats{'LINE'}->{'count'}, 
+        $aggregateStats{'LINE'}->{'length'},
+        ($aggregateStats{'LINE'}->{'length'}) * 100 * $usePerc / $totseqlen;
 #    printf $OUT "|    |-LINE-like:		%6d	%10d bp	%5.2f \%\n",
 #        $aggregateStats{'LINEI'}->{'count'},
 #        $aggregateStats{'LINEI'}->{'length'},
@@ -6262,6 +6241,7 @@ sub generateOutput {
         $aggregateStats{'LTRBARE2'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
+
 ### LTR - Autonomous 
     print $OUT "|   |\n";
     printf $OUT "|   |-LTR auto:			%6d	%10d bp	%5.2f \%\n",
@@ -6273,357 +6253,267 @@ sub generateOutput {
 
 ### LTR - Copia
 
-
-    printf $OUT "|   | |-LTR/Copia:		%6d	%10d bp	%5.2f \%\n",
+    print $OUT "|     |\n";
+    printf $OUT "|     |-LTR/Copia:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRCOP'}->{'count'},
         $aggregateStats{'LTRCOP'}->{'length'},
         $aggregateStats{'LTRCOP'}->{'length'} * 100 * $usePerc / $totseqlen;
     #printf $OUT "|-Lineages\n";
  
  
-    printf $OUT "|   |    |-Ale:			%6d	%10d bp   %5.2f \%\n",
+    printf $OUT "|     |  |-Ale:			%6d	%10d bp   %5.2f \%\n",
         $aggregateStats{'LTRALE'}->{'count'},
         $aggregateStats{'LTRALE'}->{'length'},
         $aggregateStats{'LTRALE'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Ale-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRALEI'}->{'count'},
-#        $aggregateStats{'LTRALEI'}->{'length'},
-#        $aggregateStats{'LTRALEI'}->{'length'} * 100 * $usePerc / $totseqlen;
    
-   
-    printf $OUT "|   |    |-Alesia:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Alesia:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRASIA'}->{'count'},
         $aggregateStats{'LTRASIA'}->{'length'},
         $aggregateStats{'LTRASIA'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Alesia-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRASIAI'}->{'count'},
-#        $aggregateStats{'LTRASIAI'}->{'length'},
-#        $aggregateStats{'LTRASIAI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Angela:		%6d	%10d bp	%5.2f \%\n",
+
+    printf $OUT "|     |  |-Angela:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRANG'}->{'count'},
         $aggregateStats{'LTRANG'}->{'length'},
         $aggregateStats{'LTRANG'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Angela-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRANGI'}->{'count'},
-#        $aggregateStats{'LTRANGI'}->{'length'},
-#        $aggregateStats{'LTRANGI'}->{'length'} * 100 * $usePerc / $totseqlen;
+
    
-    printf $OUT "|   |    |-Bianca:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Bianca:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRBIA'}->{'count'},
         $aggregateStats{'LTRBIA'}->{'length'},
         $aggregateStats{'LTRBIA'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Bianca-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRBIAI'}->{'count'},
-#        $aggregateStats{'LTRBIAI'}->{'length'},
-#        $aggregateStats{'LTRBIAI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
-    printf $OUT "|   |    |-Bryco:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Bryco:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRBRCO'}->{'count'},
         $aggregateStats{'LTRBRCO'}->{'length'},
         $aggregateStats{'LTRBRCO'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Bryco-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRBRCOI'}->{'count'},
-#        $aggregateStats{'LTRBRCOI'}->{'length'},
-#        $aggregateStats{'LTRBRCOI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
-    printf $OUT "|   |    |-Lyco:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Lyco:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRLYCO'}->{'count'},
         $aggregateStats{'LTRLYCO'}->{'length'},
         $aggregateStats{'LTRLYCO'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Lyco-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRLYCOI'}->{'count'},
-#        $aggregateStats{'LTRLYCOI'}->{'length'},
-#        $aggregateStats{'LTRLYCOI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
-    printf $OUT "|   |    |-Gymco-I:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Gymco-I:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRGYCI'}->{'count'},
         $aggregateStats{'LTRGYCI'}->{'length'},
         $aggregateStats{'LTRGYCI'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Gymco-I-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRGYCIL'}->{'count'},
-#        $aggregateStats{'LTRGYCIL'}->{'length'},
-#        $aggregateStats{'LTRGYCIL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Gymco-II:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Gymco-II:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRGYCII'}->{'count'},
         $aggregateStats{'LTRGYCII'}->{'length'},
         $aggregateStats{'LTRGYCII'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Gymco-II-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRGYCIIL'}->{'count'},
-#        $aggregateStats{'LTRGYCIIL'}->{'length'},
-#        $aggregateStats{'LTRGYCIIL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Gymco-III:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Gymco-III:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRGYCIII'}->{'count'},
         $aggregateStats{'LTRGYCIII'}->{'length'},
         $aggregateStats{'LTRGYCIII'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Gymco-III-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRGYCIIIL'}->{'count'},
-#        $aggregateStats{'LTRGYCIIIL'}->{'length'},
-#        $aggregateStats{'LTRGYCIIIL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Gymco-IV:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Gymco-IV:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRGYCIV'}->{'count'},
         $aggregateStats{'LTRGYCIV'}->{'length'},
         $aggregateStats{'LTRGYCIV'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Gymco-IV-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRGYCIVL'}->{'count'},
-#        $aggregateStats{'LTRGYCIVL'}->{'length'},
-#        $aggregateStats{'LTRGYCIVL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Ikeros:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Ikeros:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRIKER'}->{'count'},
         $aggregateStats{'LTRIKER'}->{'length'},
         $aggregateStats{'LTRIKER'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Ikeros-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRIKERI'}->{'count'},
-#        $aggregateStats{'LTRIKERI'}->{'length'},
-#        $aggregateStats{'LTRIKERI'}->{'length'} * 100 * $usePerc / $totseqlen;
         
-    printf $OUT "|   |    |-Ivana:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Ivana:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRIVA'}->{'count'},
         $aggregateStats{'LTRIVA'}->{'length'},
         $aggregateStats{'LTRIVA'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Ivana-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRIVAI'}->{'count'},
-#        $aggregateStats{'LTRIVAI'}->{'length'},
-#        $aggregateStats{'LTRIVAI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Osser:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Osser:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTROSSER'}->{'count'},
         $aggregateStats{'LTROSSER'}->{'length'},
         $aggregateStats{'LTROSSER'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Osser-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTROSSERI'}->{'count'},
-#        $aggregateStats{'LTROSSERI'}->{'length'},
-#        $aggregateStats{'LTROSSERI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-SIRE:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-SIRE:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRSIRE'}->{'count'},
         $aggregateStats{'LTRSIRE'}->{'length'},
         $aggregateStats{'LTRSIRE'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-SIRE-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRSIREI'}->{'count'},
-#        $aggregateStats{'LTRSIREI'}->{'length'},
-#        $aggregateStats{'LTRSIREI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-TAR:			%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-TAR:			%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTAR'}->{'count'},
         $aggregateStats{'LTRTAR'}->{'length'},
         $aggregateStats{'LTRTAR'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-TAR-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTARI'}->{'count'},
-#        $aggregateStats{'LTRTARI'}->{'length'},
-#        $aggregateStats{'LTRTARI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|   |    |-Tork:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Tork:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTOR'}->{'count'},
         $aggregateStats{'LTRTOR'}->{'length'},
         $aggregateStats{'LTRTOR'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Tork-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTORI'}->{'count'},
-#        $aggregateStats{'LTRTORI'}->{'length'},
-#        $aggregateStats{'LTRTORI'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+    printf $OUT "|     |  |-Alexandra:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRALEX'}->{'count'},
+        $aggregateStats{'LTRALEX'}->{'length'},
+        $aggregateStats{'LTRALEX'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+    printf $OUT "|     |  |-Ferco:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRFERCO'}->{'count'},
+        $aggregateStats{'LTRFERCO'}->{'length'},
+        $aggregateStats{'LTRFERCO'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+    printf $OUT "|     |  |-Bryana:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRBRYAN'}->{'count'},
+        $aggregateStats{'LTRBRYAN'}->{'length'},
+        $aggregateStats{'LTRBRYAN'}->{'length'} * 100 * $usePerc / $totseqlen;
+
     
-    printf $OUT "|   |    |-Ty1-outgroup:	%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|     |  |-Unclassified:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTY1'}->{'count'},
         $aggregateStats{'LTRTY1'}->{'length'},
         $aggregateStats{'LTRTY1'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|   |    | |-Ty1-out-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTY1I'}->{'count'},
-#        $aggregateStats{'LTRTY1I'}->{'length'},
-#        $aggregateStats{'LTRTY1I'}->{'length'} * 100 * $usePerc / $totseqlen;
-    #printf $OUT "\n";
+
+#    printf $OUT "|     |  |-Unclassified:	%6d	%10d bp	%5.2f \%\n",
+#        $aggregateStats{'LTRCOPUNK'}->{'count'},
+#        $aggregateStats{'LTRCOPUNK'}->{'length'},
+#        $aggregateStats{'LTRCOPUNK'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
 
 ### LTR - Gypsy
 
-    print $OUT "|   | \n";
-
+     print $OUT "|     |\n";
+     print $OUT "|     |\n";
    #printf $OUT "\n";
    #printf $OUT "------------------------LTR Gypsy--------------------------\n";
-    printf $OUT "|   |---LTR/Gypsy:		%6d	%10d bp	%5.2f \%\n",
+
+    printf $OUT "|     |-LTR/Gypsy:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRGYP'}->{'count'},
         $aggregateStats{'LTRGYP'}->{'length'},
         $aggregateStats{'LTRGYP'}->{'length'} * 100 * $usePerc / $totseqlen;
-   # printf $OUT "Lineages\n";
 
-     print $OUT "|     |-non-chromovirus    \n";
-    printf $OUT "|     |  |-non-chromo-outgroup: %6d	%10d bp	%5.2f \%\n",
+     print $OUT "|       |\n";
+     
+    printf $OUT "|       |-Unclassified:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRGYPUNK'}->{'count'},
+        $aggregateStats{'LTRGYPUNK'}->{'length'},
+        $aggregateStats{'LTRGYPUNK'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+    printf $OUT "|       |-non-chromovirus:	%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRNCROMO'}->{'count'},
+        $aggregateStats{'LTRNCROMO'}->{'length'},
+        $aggregateStats{'LTRNCROMO'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+    printf $OUT "|       |  |-outgroup:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRNCRO'}->{'count'},
         $aggregateStats{'LTRNCRO'}->{'length'},
         $aggregateStats{'LTRNCRO'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-non-chr-out-like: %6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRNCROI'}->{'count'},
-#        $aggregateStats{'LTRNCROI'}->{'length'},
-#        $aggregateStats{'LTRNCROI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|     |  |-Phygy:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |  |-Phygy:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRPHYGY'}->{'count'},
         $aggregateStats{'LTRPHYGY'}->{'length'},
         $aggregateStats{'LTRPHYGY'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-Phygy-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRPHYGYI'}->{'count'},
-#        $aggregateStats{'LTRPHYGYI'}->{'length'},
-#        $aggregateStats{'LTRPHYGYI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|     |  |-Selgy:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |  |-Selgy:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRSELGY'}->{'count'},
         $aggregateStats{'LTRSELGY'}->{'length'},
         $aggregateStats{'LTRSELGY'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-Selgy-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRSELGYI'}->{'count'},
-#        $aggregateStats{'LTRSELGYI'}->{'length'},
-#        $aggregateStats{'LTRSELGYI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|     |  |-OTA:			%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |  |-OTA:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTROTA'}->{'count'},
         $aggregateStats{'LTROTA'}->{'length'},
         $aggregateStats{'LTROTA'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTROTAI'}->{'count'},
-#        $aggregateStats{'LTROTAI'}->{'length'},
-#        $aggregateStats{'LTROTAI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|     |  |-OTA|Athila:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |     |-Athila:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRATH'}->{'count'},
         $aggregateStats{'LTRATH'}->{'length'},
         $aggregateStats{'LTRATH'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA|Athila-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRATHI'}->{'count'},
-#        $aggregateStats{'LTRATHI'}->{'length'},
-#        $aggregateStats{'LTRATHI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-
-    printf $OUT "|     |  |-OTA|TatI:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |     |-Tatius:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTATI'}->{'count'},
         $aggregateStats{'LTRTATI'}->{'length'},
         $aggregateStats{'LTRTATI'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA|TatI-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTATIL'}->{'count'},
-#        $aggregateStats{'LTRTATIL'}->{'length'},
-#        $aggregateStats{'LTRTATIL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
+    printf $OUT "|       |     |-Tat:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTROTATA'}->{'count'},
+        $aggregateStats{'LTROTATA'}->{'length'},
+        $aggregateStats{'LTROTATA'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|     |  |-OTA|TatII:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |        |-TatI:	%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRTATI'}->{'count'},
+        $aggregateStats{'LTRTATI'}->{'length'},
+        $aggregateStats{'LTRTATI'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+    printf $OUT "|       |        |-TatII:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTATII'}->{'count'},
         $aggregateStats{'LTRTATII'}->{'length'},
         $aggregateStats{'LTRTATII'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA|TatII-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTATIIL'}->{'count'},
-#        $aggregateStats{'LTRTATIIL'}->{'length'},
-#        $aggregateStats{'LTRTATIIL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-
-    printf $OUT "|     |  |-OTA|TatIII:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |        |-TatIII:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTATIII'}->{'count'},
         $aggregateStats{'LTRTATIII'}->{'length'},
         $aggregateStats{'LTRTATIII'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA|TatIII-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTATIIIL'}->{'count'},
-#        $aggregateStats{'LTRTATIIIL'}->{'length'},
-#        $aggregateStats{'LTRTATIIIL'}->{'length'} * 100 * $usePerc / $totseqlen;
     
-    
-    printf $OUT "|     |  |-OTA|Tat|Ogre:	%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |        |-Ogre:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTROGRE'}->{'count'},
         $aggregateStats{'LTROGRE'}->{'length'},
         $aggregateStats{'LTROGRE'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA|Tat|Ogre-like:%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTROGREI'}->{'count'},
-#        $aggregateStats{'LTROGREI'}->{'length'},
-#        $aggregateStats{'LTROGREI'}->{'length'} * 100 * $usePerc / $totseqlen;
     
-    printf $OUT "|     |  |-OTA|Tat|Retand:	%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|       |        |-Retand:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTROGRV'}->{'count'},
         $aggregateStats{'LTROGRV'}->{'length'},
         $aggregateStats{'LTROGRV'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|     |  |  |-OTA|Tat|Retlike:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTROGRVI'}->{'count'},
-#        $aggregateStats{'LTROGRVI'}->{'length'},
-#        $aggregateStats{'LTROGRVI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
-     print $OUT "|     |\n";
-     print $OUT "|     |-chromovirus\n";
-    printf $OUT "|        |-Chlamyvir:		%6d	%10d bp	%5.2f \%\n",
+     print $OUT "|       |\n";
+    printf $OUT "|       |-chromovirus:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRCROMO'}->{'count'},
+        $aggregateStats{'LTRCROMO'}->{'length'},
+        $aggregateStats{'LTRCROMO'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+
+    printf $OUT "|          |-Chlamyvir:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRCHLVIR'}->{'count'},
         $aggregateStats{'LTRCHLVIR'}->{'length'},
         $aggregateStats{'LTRCHLVIR'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-Chlamyvir-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRCHLVIRI'}->{'count'},
-#        $aggregateStats{'LTRCHLVIRI'}->{'length'},
-#        $aggregateStats{'LTRCHLVIRI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|        |-Tcn1:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|          |-Tcn1:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTCN1'}->{'count'},
         $aggregateStats{'LTRTCN1'}->{'length'},
         $aggregateStats{'LTRTCN1'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-Tcn1-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTCN1I'}->{'count'},
-#        $aggregateStats{'LTRTCN1I'}->{'length'},
-#        $aggregateStats{'LTRTCN1I'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|        |-chromo-outgroup:	%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|          |-chromo-outgroup:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRCRO'}->{'count'},
         $aggregateStats{'LTRCRO'}->{'length'},
         $aggregateStats{'LTRCRO'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-chr-outg-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRCROI'}->{'count'},
-#        $aggregateStats{'LTRCROI'}->{'length'},
-#        $aggregateStats{'LTRCROI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-
-    printf $OUT "|        |-CRM:			%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|          |-CRM:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRCRM'}->{'count'},
         $aggregateStats{'LTRCRM'}->{'length'},
         $aggregateStats{'LTRCRM'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-CRM-like:		%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRCRMI'}->{'count'},
-#        $aggregateStats{'LTRCRMI'}->{'length'},
-#        $aggregateStats{'LTRCRMI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|        |-Galadriel:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|          |-Galadriel:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRGALA'}->{'count'},
         $aggregateStats{'LTRGALA'}->{'length'},
         $aggregateStats{'LTRGALA'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-Galadriel-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRGALAI'}->{'count'},
-#        $aggregateStats{'LTRGALAI'}->{'length'},
-#        $aggregateStats{'LTRGALAI'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "|        |-Tekay:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|          |-Tekay/Del:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRTEK'}->{'count'},
         $aggregateStats{'LTRTEK'}->{'length'},
         $aggregateStats{'LTRTEK'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-Tekay-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRTEKI'}->{'count'},
-#        $aggregateStats{'LTRTEKI'}->{'length'},
-#        $aggregateStats{'LTRTEKI'}->{'length'} * 100 * $usePerc / $totseqlen;
     
-    printf $OUT "|        |-Reina:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|          |-Reina:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRREI'}->{'count'},
         $aggregateStats{'LTRREI'}->{'length'},
         $aggregateStats{'LTRREI'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|        |  |-Reina-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRREII'}->{'count'},
-#        $aggregateStats{'LTRREII'}->{'length'},
-#        $aggregateStats{'LTRREII'}->{'length'} * 100 * $usePerc / $totseqlen;
 
 
-    printf $OUT "|        |-chromo-unclass:	%6d	%10d bp	%5.2f \%\n",
-        $aggregateStats{'LTRCROUN'}->{'count'},
-        $aggregateStats{'LTRCROUN'}->{'length'},
-        $aggregateStats{'LTRCROUN'}->{'length'} * 100 * $usePerc / $totseqlen;
-#    printf $OUT "|           |-chromo-un-like:	%6d	%10d bp	%5.2f \%\n",
-#        $aggregateStats{'LTRCROUNI'}->{'count'},
-#        $aggregateStats{'LTRCROUNI'}->{'length'},
-#        $aggregateStats{'LTRCROUNI'}->{'length'} * 100 * $usePerc / $totseqlen;
+    printf $OUT "|          |-Ferney:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'LTRFERN'}->{'count'},
+        $aggregateStats{'LTRFERN'}->{'length'},
+        $aggregateStats{'LTRFERN'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+
+#    printf $OUT "|          |-chromo-unclass:	%6d	%10d bp	%5.2f \%\n",
+#        $aggregateStats{'LTRCROUN'}->{'count'},
+#        $aggregateStats{'LTRCROUN'}->{'length'},
+#        $aggregateStats{'LTRCROUN'}->{'length'} * 100 * $usePerc / $totseqlen;
+
+
 
 
 
@@ -6634,20 +6524,21 @@ sub generateOutput {
     $aggregateStats{'RPNEL'}->{'length'} + $aggregateStats{'LTRDIR'}->{'length'} + $aggregateStats{'PARARET'}->{'length'},
     ($aggregateStats{'RPNEL'}->{'length'} + $aggregateStats{'LTRDIR'}->{'length'} + $aggregateStats{'PARARET'}->{'length'})* 100 * $usePerc / $totseqlen;
     
-    printf $OUT "   |-Penelope:			%6d	%10d bp	%5.2f \%\n",
+   
+    printf $OUT "|  |-Penelope:			%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'RPNEL'}->{'count'}, 
         $aggregateStats{'RPNEL'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "   |-DIRS:			%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|  |-DIRS:			%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRDIR'}->{'count'}, 
         $aggregateStats{'LTRDIR'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-    printf $OUT "   |-Pararetrovirus:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|  |-Pararetrovirus:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'PARARET'}->{'count'},
         $aggregateStats{'PARARET'}->{'length'},
         $aggregateStats{'PARARET'}->{'length'} * 100 * $usePerc / $totseqlen;
 
-   printf $OUT "-Class I Unknown:		%6d	%10d bp	%5.2f \%\n",
+   printf $OUT "|-Class I Unknown:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'LTRUNK'}->{'count'},
         $aggregateStats{'LTRUNK'}->{'length'},
         $aggregateStats{'LTRUNK'}->{'length'} * 100 * $usePerc / $totseqlen;
@@ -6706,7 +6597,7 @@ sub generateOutput {
         $aggregateStats{'DNMERL'}->{'length'},
         $aggregateStats{'DNMERL'}->{'length'} * 100 * $usePerc / $totseqlen;       
         
-    printf $OUT "|        |-MuDR_Mutator:	%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|        |-MuDR_Mutator/MULE:	%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'DNMUDR'}->{'count'},
         $aggregateStats{'DNMUDR'}->{'length'},
         $aggregateStats{'DNMUDR'}->{'length'} * 100 * $usePerc / $totseqlen;
@@ -6726,6 +6617,11 @@ sub generateOutput {
         $aggregateStats{'DNPIF'}->{'length'},
         $aggregateStats{'DNPIF'}->{'length'} * 100 * $usePerc / $totseqlen;
 
+    printf $OUT "|        |-Ginger:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'DNGING'}->{'count'},
+        $aggregateStats{'DNGING'}->{'length'},
+        $aggregateStats{'DNGING'}->{'length'} * 100 * $usePerc / $totseqlen;
+
     printf $OUT "|        |-PiggyBac:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'DNPIGB'}->{'count'},
         $aggregateStats{'DNPIGB'}->{'length'},
@@ -6741,16 +6637,26 @@ sub generateOutput {
         $aggregateStats{'DNSOLA2'}->{'length'},
         $aggregateStats{'DNSOLA2'}->{'length'} * 100 * $usePerc / $totseqlen;        
         
+    printf $OUT "|        |-Sola3:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'DNSOLA3'}->{'count'},
+        $aggregateStats{'DNSOLA3'}->{'length'},
+        $aggregateStats{'DNSOLA3'}->{'length'} * 100 * $usePerc / $totseqlen;  
+
     printf $OUT "|        |-Tc1_Mariner:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'DNMARIN'}->{'count'},
         $aggregateStats{'DNMARIN'}->{'length'},
         $aggregateStats{'DNMARIN'}->{'length'} * 100 * $usePerc / $totseqlen;  
 
+    printf $OUT "|        |-Transib:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'DNTRANS'}->{'count'},
+        $aggregateStats{'DNTRANS'}->{'length'},
+        $aggregateStats{'DNTRANS'}->{'length'} * 100 * $usePerc / $totseqlen; 
+
 
 
     #printf $OUT "-----------------------------------------------------------\n";
     print $OUT "-Subclass_2\n";
-    printf $OUT "   |-RC/Helitron:		%6d	%10d bp	%5.2f \%\n",
+    printf $OUT "|  |-RC/Helitron:		%6d	%10d bp	%5.2f \%\n",
         $aggregateStats{'DNHEL'}->{'count'},
         $aggregateStats{'DNHEL'}->{'length'},
         $aggregateStats{'DNHEL'}->{'length'} * 100 * $usePerc / $totseqlen;
@@ -6767,7 +6673,8 @@ sub generateOutput {
 
 
     #printf $OUT "-----------------------------------------------------------\n";
-    printf $OUT "-Class II Unknown:		%6d  %10d bp   %5.2f \%\n",
+    printf $OUT "|\n";
+    printf $OUT "|-Class II Unknown:		%6d  %10d bp   %5.2f \%\n",
         $aggregateStats{'DNUNK'}->{'count'},
         $aggregateStats{'DNUNK'}->{'length'},
         $aggregateStats{'DNUNK'}->{'length'} * 100 * $usePerc / $totseqlen;
@@ -6820,7 +6727,9 @@ sub generateOutput {
     printf $OUT "$customLib\n" if ( $customLib ne "" );
     printf $OUT "$dbversion\n";
     printf $OUT "\n";
-    printf $OUT "Plant TEs classification based on Orozco-Arias et al.,2019";
+    printf $OUT "Plant TEs classification based on Orozco-Arias et al.,2019\n";
+    printf $OUT "Based on TEsorter classification and REXdb 4.0 (LTR,TIRs and etc), and\n";    
+    printf $OUT "Kapitonov, et al., 2009 (LINE) databases\n";     
     printf $OUT "\n";
     printf $OUT "=======================================================================\n";
     close $OUT;
@@ -6834,7 +6743,10 @@ sub generateOutput {
 ###############################################################################################################################
 
 
-}    # sub generateOutput();
+}    
+
+
+# sub generateOutput();
 
 ##-------------------------------------------------------------------------##
 ## Use: my ( $chainBegRef, $chainEndRef ) =
