@@ -196,12 +196,12 @@ while IFS= read -r i; do
 	echo "De novo annotate genome $genome with EDTA"
 		perl $path/util/count_base.pl $genome -s > $genome.stats
 		if [ "$curatedlib" != '' ]; then
-			perl $path/EDTA.pl --genome $genome -t $threads --anno 1 --cds $cds_ind --curatedlib $curatedlib || {
+			perl $path/EDTA.pl --genome $genome -t $threads --anno 1 --cds $cds_ind --sensitive 1 --curatedlib $curatedlib || {
 				echo >&2 ERROR: Initial EDTA failed for $genome
 			exit 1
 		}
 		else
-			perl $path/EDTA.pl --genome $genome -t $threads --anno 1 --cds $cds_ind || {
+			perl $path/EDTA.pl --genome $genome -t $threads --anno 1 --cds $cds_ind --sensitive 1 || {
 				echo >&2 ERROR: Initial EDTA failed for $genome
 			exit 1
 		}
