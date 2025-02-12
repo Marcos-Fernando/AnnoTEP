@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="../static/css/main/home.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/main/help.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/main/modal.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/main/dark-theme.css" />
+    <title> AnnoTEP </title>
+</head>
+<body>
+	<div class="menuMobile">
+		<i class="ph-bold ph-list"></i>
+	</div>
+
+	<aside class="aside">
+		<ul id="menu">
+			<div class="logoAnnotep">
+				<img src="../static/assets/icon.svg" alt="Logo do Annotep">
+			</div>
+			<li class="li open" id="Home">
+				<img class="home-icon" src="../static/assets/home.svg">
+				<span class="txt-link">Home</span>
+			</li>
+			<li class="li" id="Help">
+				<img class="help-icon" src="../static/assets/QuestionCircle.svg">
+				<span class="txt-link"> Help </span>
+			</li>
+		</ul>
+	</aside>
+
+	<div class="cloudImageWrapper">
+		<img id="cloudImage" class="replace" src="../static/assets/CloudMoon.svg">
+	</div>
+
+	<main class="main sectionsPage">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+
+		<section class="container-main">
+			<article class="description-screen">
+				<p> Welcome to AnnoTEP - local version. This version provides a graphical interface that streamlines your work and research in annotating transposable elements in plants. The performance of the annotation process depends on your machine's specifications, so ensure it remains powered on during execution. For any questions or further information, please use the <b>'Help'</b> option available in the menu.</p>
+			</article>
+
+			<section class="container-explicative">
+				<div class="box-explicative">
+					<img class="img-dna" src="../static/assets/dna-icon.svg">
+					<span><b>Annotation</b> of all Class I and Class II elements </span>
+				</div>
+				<div class="box-explicative">
+					<img class="img-phylogeny" src="../static/assets/phylogeny.svg">
+					<span> <b>Data visualisation</b> in graph format and phylogenetic trees. </span>
+				</div>
+				<div class="box-explicative box-email">
+					<img class="img-email" src="../static/assets/email-icon-light.svg">
+					<span>A link with the results is sent <br> directly to your email. </span>
+				</div>
+			</section>
+		</section>
+	
+
+		<section class="container-data-input">
+			<div class="title-input">
+				<p>Data input</p>
+			</div>
+			<div class="data-input">
+                <section class="container-email">
+                    <p class="session-title">Email Adress <span class="required">*</span> </p></p>
+                    <input id="email" class="email" placeholder="Enter email" type="email" pattern=".com"  onfocus="clearPlaceholder(this)" required/> 
+                </section>
+                
+                <section class="container-genome">
+                    <p class="session-title">Genome data <span class="required">*</span> </p> </p>
+                    <div  class="input-genome">
+                        <div class="box-input">
+                            <input type="text" id="fileNameInput" placeholder=".fasta" class="input-text" readonly disabled>
+        
+                            <label for="inputdata" class="file-input">
+                                <p class="name-btn">Browser</p>
+                                <input type="file" class="input-data" accept=".fasta" id="inputdata" onchange="updateFileName()">
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+		<section class="container-action">
+			<div class="title-add-features">
+				<p>Additional features</p>
+			</div>
+
+			<div class="container-add-feature">
+                <section>
+                    <p class="session-title"> Species specification to identify TIR candidates <span class="required">*</span> </p></p>
+                    <div class="box-checkboxs-tir">
+                        <div class="container-checkbox-tir">
+                            <input type="checkbox" id="others" name="others" class="checkbox-tir" checked>
+                            <label for="others">others</label>
+                        </div>
+                        <div class="container-checkbox-tir">
+                            <input type="checkbox" id="rice" name="rice" class="checkbox-tir">
+                            <label for="rice">rice</label>
+                        </div>
+                        <div class="container-checkbox-tir">
+                            <input type="checkbox" id="maize" name="maize" class="checkbox-tir">
+                            <label for="maize">maize</label>
+                        </div>
+                    </div>
+                </section>
+    
+                <section>
+                    <p class="session-title"> Steps to be executed <span class="required">*</span> </p>
+                    <div class="box-checkboxs-step">
+                        <div class="container-checkbox-step">
+                            <input type="checkbox" id="all" name="all" class="checkbox-step" checked>
+                            <label for="all">all</label>
+                        </div>
+                        <div class="container-checkbox-step">
+                            <input type="checkbox" id="filter" name="filter" class="checkbox-step">
+                            <label for="filter">filter</label>
+                        </div>
+                        <div class="container-checkbox-step">
+                            <input type="checkbox" id="final" name="final" class="checkbox-step">
+                            <label for="final">final</label>
+                        </div>
+                        <div class="container-checkbox-step">
+                            <input type="checkbox" id="anno" name="anno" class="checkbox-step">
+                            <label for="anno">anno</label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+           <section class="container-switch">
+                <table class="table-switch">
+                    <tr>
+                        <td><p class="session-title">Overwrite</p></td>
+                        <td class="button-switch">
+                            <div class="switch">
+                                <input type="checkbox" id="switch1" />
+                                <label for="switch1">Toggle</label>
+                            </div>
+                        </td>
+                        <td><p id="status-text-switch1"> Deactivated </p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="session-title">Sensitivity</p></td>
+                        <td class="button-switch">
+                            <div class="switch">
+                                <input type="checkbox" id="switch2" checked/>
+                                <label for="switch2">Toggle</label>
+                            </div>
+                        </td>
+                        <td><p id="status-text-switch2"> Enable</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="session-title">Annotation</p></td>
+                        <td class="button-switch">
+                            <div class="switch">
+                                <input type="checkbox" id="switch3" />
+                                <label for="switch3">Toggle</label>
+                            </div>
+                        </td>
+                        <td><p id="status-text-switch3"> Deactivated</p></td>
+                    </tr>
+                </table>
+
+                <table class="table-switch">
+                    <tr>
+                        <td><p class="session-title">Evaluate</p></td>
+                        <td class="button-switch">
+                            <div class="switch">
+                                <input type="checkbox" id="switch4" />
+                                <label for="switch4">Toggle</label>   
+                            </div>
+                        </td>
+                        <td><p id="status-text-switch4">Deactivated</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="session-title">Force</p></td>
+                        <td class="button-switch">
+                            <div class="switch">
+                                <input type="checkbox" id="switch5" />
+                                <label for="switch5">Toggle</label>
+                            </div>
+                        </td>
+                        <td><p id="status-text-switch5">Deactivated</p></td>
+                    </tr>
+                </table>
+           </section>
+
+			<div class="container-number-input">
+				<section class="container-mutation-rate">
+					<label for="mutation-rate" class="session-title"> Neutral mutation rate </label>
+					<input type="text" id="mutation-rate" placeholder="1.3e-8" title="Enter a value in scientific notation, for example, 1.3e-8"/>
+				</section>
+	
+				<section class="container-maxdiv">
+					<label for="maximun-divergence" class="session-title"> Maximum divergence </label>
+					<input type="number" id="maximun-divergence" value="40" min="0" max="100" title="Enter a value from 0 to 100"/>
+				</section>
+	
+				<section class="container-threads">
+					<p class="session-title"> Threads <span class="required">*</span></p>
+					<input type="number" id="threads" name="threads" min="4" value="4" step="1">
+				</section>
+			</div>
+		</section>
+
+			<section class="container-action">
+				<div class="title-add-features">
+					<p>Additional input files</p>
+					<span class="not-required"> (Field not required) </span>
+				</div>
+
+				<div class="container-add-input">
+					<section class="container-genome">
+						<div class="session-title">
+							<p> Coding DNA Sequence </p>
+						</div>
+						<div class="box-input">
+							<input type="text" id="cdsInput" class="input-library" placeholder=".fasta .fa" readonly disabled>
+							<label for="cds" class="file-input">
+								<p class="name-btn">Browser</p>
+								<input type="file" class="input-data" accept=".fasta, .fa" id="cds" onchange="">
+							</label>
+						</div>
+					</section>
+
+					<section class="container-genome">
+						<div class="session-title">
+							<p> Curate library </p>
+						</div>
+						<div class="box-input">
+							<input type="text" id="curateLibInput" class="input-library"  readonly disabled>
+							<label for="curatelib" class="file-input">
+								<p class="name-btn">Browser</p>
+								<input type="file" class="input-data" id="curatelib" onchange="">
+							</label>
+						</div>
+					</section>
+
+					<section class="container-genome">
+						<div class="session-title">
+							<p>Exclusion of masked regions</p>
+						</div>
+						<div class="box-input">
+							<input type="text" id="maskedRegionsInput" class="input-library" placeholder=".bed" readonly disabled>
+		
+							<label for="exclude" class="file-input">
+								<p class="name-btn disabled" id="browseExcludeButton">Browser</p>
+								  <input type="file" class="input-data" accept=".bed" id="exclude" onchange="">
+							</label>
+						</div>
+					</section>
+				</div>
+
+				<div class="container-add-input">
+					<section class="container-genome">
+						<div class="session-title">
+							<p>RepeatModeler library</p>
+						</div>
+						<div class="box-input">
+							<input type="text" id="rmLibInput" class="input-library" readonly disabled>
+		
+							<label for="rmlib" class="file-input">
+								<p class="name-btn">Browser</p>
+								  <input type="file" class="input-data" id="rmlib" onchange="">
+							</label>
+						</div>
+					</section>
+
+					<section class="container-genome">
+						<div class="session-title">
+							<p> RepeatMasker library </p>
+						</div>
+						<div class="box-input">
+							<input type="text" id="rmoutInput" class="input-library" placeholder=".out" readonly disabled>
+							<label for="rmout" class="file-input">
+								<p class="name-btn disabled" id="browseButton">Browser</p>
+								<input type="file" class="input-data" accept=".out" id="rmout" disabled>
+							</label>
+						</div>
+					</section>
+				</div>
+			</section>
+	
+        <section class="container-submit">
+			<button type="button" id="uploaddata" class="uploaddata" disabled> Submit </button>
+		</section>
+
+		<footer class="footer">
+			<div class="cite-us">
+				Thank you for downloading and using AnnoTEP, please <a href=""> cite us </a>
+			</div>
+		</footer>
+	</main>
+
+	<main class="Help">
+		<header class="header">
+			<section class="container-header">
+				<img id="logoImage" class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+		<section class="documentation-annotep">
+			<section class="bloco">
+				<h3> AnnoTEP documentation - <span>Anno</span>tation <span>T</span>ransposable <span>E</span>lements for <span>P</span>lants </h3>
+			
+				<p> Welcome to the AnnoTEP Documentation </p>
+				<p> AnnoTEP is a transposable element annotation framework designed based on the EDTA pipeline, offering additional functionalities that enhance the analysis of genomic elements in plants. In addition to maintaining the core features of EDTA, AnnoTEP expands its applicability by including the analysis of non-autonomous LTR (Long Terminal Repeat) elements, such as TRIM, LARD, TR-GAG, and BARE2, along with the capability to detect soloLTRs. Furthermore, we also analyse non-autonomous TIR (Terminal Inverted Repeat) elements, such as MITEs (Miniature Inverted-repeat Transposable Elements), as well as perform an in-depth analysis of autonomous and non-autonomous Helitron elements.  </p>
+
+				<p> AnnoTEP also features a structured graphical interface that facilitates the annotation process of transposable elements in plant genomes. This interface enables the scientific community to conduct analyses more efficiently and with greater visual accessibility, providing essential support for research focused on the understanding and classification of transposable elements in plants. </p>
+			</section>
+				
+			<section class="bloco">
+				<h3> How to use the platform </h3>
+				<p> The AnnoTEP interface is organised into three main sections: Data Input, Additional Features, and Additional Input Files. Below, the use of each of these areas is detailed to configure the analysis of transposable elements in plant genomes. </p>
+			</section>
+
+			<section class="bloco">
+				<h4> Data Input </h4>
+				<p><b>Email Address: </b> To start the annotation process, enter a valid email address. This is a mandatory field and is used to send notifications about the status of the analysis. While the email facilitates communication, the annotation occurs locally, so keep the system running during the process. </p>
+				
+				<p><b>Genome Data: </b> Upload the input file containing the complete genomic sequence in FASTA format. Use the "Browse" button to select the file from the local system.</p>
+			</section>
+
+			<section class="bloco">
+				<h4> Additional Features </h4>
+				<p>This section provides advanced configuration options for the analysis.</p>
+
+				<p><b>Species Specification to Identify TIR Candidates:</b> Specify the species to optimise the identification of TIR elements. The options include:</p>
+				<ul>
+					<li><p><b>Others: </b> For species other than rice or maize (default).</p></li>
+					<li><p><b>Rice: </b>For rice genomes.</p></li>
+					<li><p><b>Maize: </b>For maize genomes. </p></li>
+				</ul>
+
+				<p><b>Steps to Be Executed:</b>Select which parts of the pipeline will be executed: </p>
+				<ul>
+					<li><p><b>All: </b>Runs the entire pipeline (default).</p></li>
+					<li><p><b>Filter: </b>Starts from raw TEs to the end.</p></li>
+					<li><p><b>Final: </b>Begins with filtered TEs to completion.</p></li>
+					<li><p><b>Anno: </b>Conducts genome-wide annotation after building the TE library.</p></li>
+				</ul>
+
+				<p><b>Overwrite:</b> Decide whether existing output data should be overwritten.</p>
+				<p><b>Sensitivity:</b> Control the execution of RepeatModeler to identify additional elements.</p>
+				<p><b>Annotation:</b> Specify whether the genome-wide annotation of TEs should proceed after building the TE library.</p>
+				<p><b>Evaluate:</b> Check if the classification of annotated TEs is consistent. The "Annotation" field must be enabled to use this feature.</p>
+				<p><b>Force:</b> If no reliable TE candidates are identified, enabling this option allows the script to continue using a backup rice TE library.</p>
+
+				<p><b>Neutral Mutation Rate:</b> Set the neutral mutation rate for calculating the age of intact LTR elements (default: 1.3e-8 bp per year, based on rice).</p>
+				<p><b>Maximum Divergence:</b> Define the maximum acceptable divergence for TE fragments.</p>
+				<p><b>Threads:</b> Determine the number of threads to be used in running the pipeline (default: 4).</p>
+			</section>
+				
+			<section class="bloco">
+				<h4> Additional Input File </h4>
+				<p>This section allows for the addition of optional files to customise the analysis:</p>
+
+				<p><b>Coding DNA Sequence: </b>Select a FASTA file containing the coding sequence (without introns, UTRs, or TEs) of the genome or a close relative. This helps in excluding non-transposable elements.</p>
+				<p><b>Curate library: </b>Upload a curated library to maintain consistent TE naming and classification. Only manually validated TEs should be provided. This file is optional.</p>
+				<p><b>Exclusion of masked regions: </b>Define regions to be ignored during TE masking. The "Annotation" field must be enabled to use this option.</p>
+				<p><b>RepeatModeler library: </b>Upload a classified RepeatModeler library to enhance analysis sensitivity, particularly for LINEs. If not provided, one will be generated automatically.</p>
+				<p><b>RepeatMasker library: </b>Provide your own homology-based TE annotation in RepeatMasker .out format. This file will be merged with the structure-based annotation. The "Annotation" field must be enabled.</p>
+			</section>
+				
+			<section class="bloco">
+				<h4> Submit </h4>
+				<p> After completing all necessary fields, click "Submit" to start the analysis. Ensure that all configurations are correct for efficient and accurate processing. Upon submission, an email will be sent to indicate the start of the annotation and another upon completion, including the name of the folder where the data has been stored. </p>
+			</section>
+		</section>
+		
+		<footer class="footer">
+			<div class="cite-us">
+				
+			</div>
+		</footer>
+	</main>
+
+	<script src="https://unpkg.com/@phosphor-icons/web"></script>
+	<script type="text/javascript" src="../static/scripts/main/main.js"></script>
+	<script type="text/javascript" src="../static/scripts/main/style.js"></script>
+	<script type="text/javascript" src="../static/scripts/main/dark-theme.js"></script>
+	<script type="text/javascript" src="../static/scripts/main/modal.js"></script>
+	<script type="text/javascript" src="../static/scripts/main/pages.js"></script>
+	<!-- <script type="text/javascript" src="{{ url_for('static', filename='scripts/main/main.js') }}"></script> -->
+</body>
+</html>

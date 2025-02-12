@@ -1,0 +1,186 @@
+:root{
+	--white:	#F5F5F5;
+	--grey-01:  #DDD;
+	--grey-02:	#C4C4CC;
+	--grey-03:  #121214;
+    --green-01: #00B37E;
+	--green-02: #00875F;
+	--green-03: #23693B;
+	--green-04: #015F43;
+	--green-05: #2d8b6f80;
+	--purple-01:#8D6FC5;
+    --purple-02:#3B2369;
+	--blue: 	#81D8F7;
+	--orange:   #FBA94C;
+	--black:    #29292E;
+}
+
+.container-main.dark-theme{
+	color: var(--grey-02);
+	background-color: var(--black);
+	box-shadow: 0px 4px 10px rgb(22, 100, 61);
+}
+
+.box-checkboxs.dark-theme{
+	color: var(--grey-02);
+}
+
+main.dark-theme{
+	background-color: var(--grey-03);
+}
+
+.container-main.dark-theme b{
+	color: var(--orange);
+}
+
+.container-main.dark-theme a{
+	color: var(--blue);
+}
+
+main.dark-theme .required,
+main.dark-theme .not-required{
+	color: var(--orange);
+}
+
+.img-dna.dark-theme, .img-phylogeny.dark-theme{
+	width: 6.5rem;
+	height: 6.5rem;
+	margin-bottom: -0.5rem;
+	filter: none;
+}
+
+.rectangle-green.dark-theme{
+	background-color: var(--green-01);
+}
+
+main.dark-theme .title-add-features,
+.title-input.dark-theme{
+	color: var(--grey-02);
+	border-bottom: 0.125rem solid var(--green-01);
+}
+
+main.dark-theme .checkbox-step + label::before, 
+main.dark-theme .checkbox-tir + label::before{
+	border: 0.125rem solid var(--grey-01);
+}
+
+main.dark-theme  .checkbox-step:checked + label::before, 
+main.dark-theme .checkbox-tir:checked + label::before{
+	background-color: var(--grey-01);
+	color: var(--green-01);
+}
+
+.session-title.dark-theme{
+	color: var(--purple-01);
+}
+
+header.dark-theme{
+	border-bottom: 0.125rem solid var(--green-01);
+	background-color:var(--black);
+}
+
+footer.dark-theme{
+	border-top: 0.125rem solid var(--green-01);
+	color: var(--grey-02);
+	background-color: var(--black);
+}
+
+footer.dark-theme a{
+	color: var(--blue);
+}
+
+footer.dark-theme span{
+	color: var(--orange);
+}
+
+.uploaddata.dark-theme{
+	background: var(--green-01);
+	border: 0.0625rem solid var(--green-01);
+}
+
+.item-download.dark-theme p{
+	color: var(--white);
+}
+
+.icon-download.dark-theme{
+	background-color: var(--black);
+}
+
+.container-download.dark-theme span{
+	color: var(--orange);
+}
+
+.container-download.dark-theme p,
+.container-download.dark-theme li{
+	color: var(--grey-02);
+}
+
+.container-download.dark-theme .docker{
+	color: var(--blue);
+}
+
+.container-download.dark-theme b{
+	color: var(--grey-01);
+}
+
+.item-download.dark-theme p{
+	color: var(--white);
+}
+
+main.dark-theme label,
+.documentation-annotep.dark-theme p{
+	color: var(--grey-02);
+}
+
+.documentation-annotep.dark-theme h3{
+	color: var(--grey-02);
+	border-bottom: 0.125rem solid var(--green-01);
+}
+
+.documentation-annotep.dark-theme h4{
+	color: var(--grey-02);
+	border-bottom: 0.125rem solid var(--purple-01); 
+}
+
+.documentation-annotep.dark-theme h3 span{
+	color: var(--green-01);
+}
+
+.documentation-annotep.dark-theme p b{
+	color: var(--grey-01);
+}
+
+
+main.dark-theme .container-data-input,
+main.dark-theme .container-action,
+main.dark-theme .container-submit,
+.documentation-annotep.dark-theme .bloco{
+	background-color: var(--black);
+	box-shadow: 0px 4px 10px rgb(22, 100, 61);
+}
+
+.documentation-annotep.dark-theme li{
+	color: var(--grey-02);
+}
+
+.documentation-annotep.dark-theme li b{
+	color: var(--purple-01) !important;
+}
+
+.description-about.dark-theme p,
+.description-about.dark-theme span{
+	color: var(--grey-02);
+}
+
+.description-about.dark-theme a{
+	color: var(--blue);
+}
+
+.description-contact.dark-theme span{
+	color: var(--grey-02);
+}
+
+.description-contact.dark-theme p{
+	color: var(--purple-01);
+}
+
