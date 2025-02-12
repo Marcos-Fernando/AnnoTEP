@@ -15,3 +15,12 @@ __pycache__
 /graphic-interface/.graphic
 
 /EDTA/bin/TIR-Learner*/Module3/Maize_model.sav
+/EDTA/database/*
+
+/Scripts/plot_comparison*
+
+modificacoes.txt
+ProcessRepeats_file
+RepeatMasker
+
+graphic-interface
