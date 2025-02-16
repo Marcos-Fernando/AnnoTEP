@@ -9,30 +9,26 @@
 
 
 # AnnoTEP
-AnnoTEP is a platform designed for the annotation of transposable elements (TEs) in plant genomes. Developed on the basis of the [EDTA](https://github.com/oushujun/EDTA) pipeline, the tool incorporates specific modifications inspired by [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) pipeline, as well as adjustments that improve its performance and flexibility. One of AnnoTEP's great differentials is its user-friendly interface, built with HTML and Python technologies, which makes the process accessible even to researchers with little familiarity with command lines. Combining efficiency, customisation and ease of use, AnnoTEP offers a powerful solution for the analysis and annotation of TEs, contributing to significant advances in plant genomic research.
+AnnoTEP is a platform designed for the annotation of transposable elements (TEs) in plant genomes. Developed on the basis of the [EDTA](https://github.com/oushujun/EDTA) pipeline, the tool incorporates specific modifications inspired by [Plant genome Annotation](https://github.com/amvarani/Plant_Annotation_TEs) pipeline, as well as adjustments that improve its performance and flexibility. One of AnnoTEP's great differentials is its graphic user interface, built with HTML and Python technologies, which makes the process accessible even to researchers with little familiarity with command lines. Combining efficiency, customisation and ease of use, AnnoTEP offers a powerful solution for the analysis and annotation of TEs, contributing to significant advances in plant genomic research.
 
-AnnoTEP is currently available in three formats: web server, container with graphic interface and container with bash interface. Clicking on each format below will take you to the system where you can access or install the platform:
-- [Web Server](https://plantgenomics.ncc.unesp.br/AnnoTEP/) 
-- [Graphic Interface](#graphic-interface)
-- [Bash Interface](#bash-interface)
+In addition to its GitHub repository, AnnoTEP also has a [website](https://plantgenomics.ncc.unesp.br/AnnoTEP/) that centralises its documentation, displays the genome mutation rate table, and showcases a selection of pre-processed genomes using the tool.
 
-## Tool functions
-* Identification of LTRs elements, LINEs, SINEs, TIR elements
-* Identification of non-autonomous LTR elements, such as TRIM, LARD, TR-GAG, and BARE2;
-* Identification of soloLTR;
-* Identification of non-autonomous TIR elements, such as MITE;
-* In-depth analysis of autonomous and non-autonomous Helitron elements.
-* Genome masking (local mode)
-* Report generation on TEs
-* Generation of graphs illustrating repeated elements
-* Generation of age graphs for Gypsy and Copia elements
-* Generation of LTR phylogeny and density graphs
+## Functions of AnnoTEP
+* Enhancement in the detection of LTRs, LINEs, TIRs, and Helitrons.
+* Improved identification and classification of non-autonomous LTRs, such as TRIM, LARD, TR-GAG, and BARE2.
+* Detection of solo LTRs.
+* Classification of lineages belonging to the Copia and Gypsy superfamilies.
+* Classification of Helitrons into autonomous and non-autonomous.
+* Optimisation of repetitive sequence masking.
+* Generation of transposable element (TE) classification reports.
+* Creation of repeat landscape plots, histograms, and phylogenetic trees of LTR lineages.
+
 <br>
 
 # Table of contents
 * [Installation with Container](#installation-with-container)
-    * [Graphic Interface](#graphic-interface)
-    * [Bash Interface](#bash-interface)
+    * [Graphic User Interface](#graphic-interface)
+    * [Command Line Interface](#bash-interface)
 * [Installation with Github](#installation-with-github)
     * [Results](#results)
     * [Running the platform with a graphical interface via github](#running-the-platform-with-a-graphical-interface-via-github)
@@ -43,7 +39,7 @@ AnnoTEP is currently available in three formats: web server, container with grap
 AnnoTEP can be installed on the machine in different ways, one of which is using Docker. The tool is available in two formats: with a graphical interface and without an interface (terminal mode). To follow the steps below, you need to have Docker installed on your machine. You can download it directly from the official [Docker website](https://docs.docker.com/engine/install/)
 
 
-## Graphic Interface
+## Graphic User Interface
 <div align="center"> 
     <img src="graphic-interface/static/assets/Graphic-interface-logo.svg" alt="Logo3" width="350px">
 </div><br>
@@ -96,9 +92,9 @@ docker run -it -v $HOME/results-annotep:/root/TEs/graphic-interface/results -dp 
 
 Return to [Table of contents](#table-of-contents)
 
-## Bash Interface
+## Command Line Interface
 <div align="center"> 
-    <img src="graphic-interface/static/assets/Bash-interface-logo.svg" alt="Logo4" width="350px">
+    <img src="graphic-interface/static/assets/Command-Line-interface-logo.svg" alt="Logo4" width="350px">
 </div><br>
 
 While the primary focus of AnnoTEP is its user-friendly interface, we also provide a Docker version designed exclusively for command-line use. This option caters to researchers who prefer or are more accustomed to working in a terminal environment. The configurable parameters in the Docker version closely mirror those offered by the EDTA pipeline, ensuring a consistent and flexible experience for diverse workflows.
@@ -413,7 +409,21 @@ pip install -r requirements.txt
 ```
 - Inside the ``requirements.txt`` file, you'll find the fundamental libraries, such as Flask and python-dotenv. If any package shows an error, you'll need to install it manually.
 
-**Step 3:** Now, inside the "graphic-interface" folder and with the virtual environment activated, run the following command to start the application:
+**Step 3:** Create and configure a .flaskenv file. This step is essential to ensure Flask and email functionality.
+```sh
+FLASK_APP = "main.py"
+FLASK_DEBUG = True
+FLASK_ENV = development
+
+MAIL_SERVER=****.com
+MAIL_PORT=number
+MAIL_USE_TLS=True
+MAIL_USE_SSL=False
+MAIL_USERNAME=your@email.com
+MAIL_PASSWORD=your*email*password
+```
+
+**Step 4:** Now, inside the "graphic-interface" folder and with the virtual environment activated, run the following command to start the application:
 ```sh
 flask run
 ```
@@ -429,7 +439,7 @@ If all the settings are correct, you will see a message similar to this one:
  * Debugger PIN: 264-075-516
 ```
 
-**Step 4.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
+**Step 5.** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
 
 <br>
 
