@@ -24,7 +24,7 @@
     * [🗂️ TREE](#🗂️-tree)
 * [🧬 List of genomes tested in this pipeline](#🧬-list-of-genomes-tested-in-this-pipeline)
 * [📝 Citations](#📝-citations)
-* [🗨️ Questions and Issues](#🗨️-questions-and-issues)
+* [🗨️ Questions and Issues](#:left_speech_bubble:-questions-and-issues)
 <br>
 
 # 📖 Introduction
