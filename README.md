@@ -186,7 +186,8 @@ At the end of the analysis, three main directories will be generated: TE-REPORT,
 
 ---
 ### Running AnnoTEP CLI in Alternative Ways
-AnnoTEP CLI can also be executed using an alternative method. Follow the steps below to set up and run the CLI.
+AnnoTEP CLI can also be executed using an alternative method. Follow the steps below to set up and run the CLI. <br>
+
 **Step 1. Set Up the Virtual Environment:** After installing the required libraries and the conda environment, navigate to the ``bash-interface`` directory within the AnnoTEP folder. Create a Python virtual environment and install the necessary libraries:
 ```sh
 python -m venv .bashinterface
