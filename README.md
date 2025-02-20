@@ -55,29 +55,16 @@ O AnnoTEP pode ser instalado de diferentes maneiras, dependendo das suas prefer�
 - 📊 [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)  
 - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
 
-
-### MiniConda Installation
-After downloading Miniconda from the link above, run the following command in your terminal:
- ```sh
- bash Miniconda3-latest-Linux-x86_64.sh
- ```
-
- <!-- ### Download the repository
- **Step 1.**  Clone the repository by running the following command in your terminal:
- ```sh
- git clone https://github.com/Marcos-Fernando/AnnoTEP.git $HOME/AnnoTEP
- ```
-
-**Step 2.** Navigate to the repository directory:
-```sh
-cd {absolute-path-to-folder-AnnoTEP}/AnnoTEP
-```
-
-> [!TIP] 
-> Pay attention to the name of the folder. In this guide, we will be using the folder named ``AnnoTEP``. To make configuration easier, we recommend using this name. -->
+> [!TIP]
+> **MiniConda Installation**
+><br>
+>After downloading Miniconda from the link above, run the following command in your terminal:
+> ```sh
+> bash Miniconda3-latest-Linux-x86_64.sh
+> ```
 
 ## Configuring the repository
-### Installing Required Libraries
+### 📚 Installing Required Libraries
 **Step 1.** Install the necessary libraries by running the following commands in your terminal:
 ```sh
 sudo apt-get install libgdal-dev lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk libtext-soundex-perl
@@ -112,7 +99,7 @@ devtools::install_github("YuLab-SMU/ggtreeExtra")
 sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
 
-### Configuring modified EDTA
+### ⚙️ Configuring modified EDTA
 **Step 1.** AnnoTEP uses the same installation method as EDTA. To set up the environment, navigate to the AnnoTEP folder and follow the steps below:
 ```sh
 # Navigate to the EDTA directory
@@ -124,7 +111,7 @@ perl EDTA.pl
 ```
 
 ## Testing 
-### Downloading genomes
+### 📥 Downloading genomes
 **Step 1.** You can choose to use your own data or download example genomes for testing: <br>
 
 🧬 _Theobrama cacao_
@@ -461,17 +448,17 @@ In addition to FASTA libraries, GFF3 files, and softmasking outputs, AnnoTEP als
 ## TE-REPORT
 In the **TE-REPORT** directory, you will find a table that categorises TEs hierarchically by order, superfamily, and autonomy, along with metrics such as base pairs, size, and percentage. This data is visualised using bar charts and bubble charts.
 
-- ``TEs-Report-Complete.txt``: A comprehensive table listing the classifications of TEs, including partial elements, which are labelled with the suffix “-like” (e.g., Angela-like).
+📌 ``TEs-Report-Complete.txt``: A comprehensive table listing the classifications of TEs, including partial elements, which are labelled with the suffix “-like” (e.g., Angela-like).
 <div align="center">
     <img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
 </div>
 
-- ``TEs-Report-Lite.txt``: A simplified report derived from the complete version, containing concise and accessible information.
+📌 ``TEs-Report-Lite.txt``: A simplified report derived from the complete version, containing concise and accessible information.
 <div align="center">
     <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
 </div>
 
-- ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
+📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
     <img src="graphic-interface/static/screenshot/TE-Report1-length.svg" alt="TE-Report1-length" border="0" width="650px" />
     <img src="graphic-interface/static/screenshot/TE-Report2-length.svg" alt="TE-Report2-length" border="0" width="650px" />
@@ -481,7 +468,7 @@ In the **TE-REPORT** directory, you will find a table that categorises TEs hiera
     <img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="650px" />
 </div>
 
-- ``RepeatLandScape.*``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
+📌 ``RepeatLandScape.*``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
 By applying Kimura’s calculation, the graph distinguishes older elements (with greater accumulated divergence) from more recent ones (with lower divergence), offering valuable insights into the evolutionary dynamics and genomic history of the organism under study.
 <div align="center">
     <img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
@@ -489,7 +476,7 @@ By applying Kimura’s calculation, the graph distinguishes older elements (with
 
 ### LTR-AGE
 This directory **LTR-AGE** directory contains charts that estimate the ages of LTR Gypsy and LTR Copia elements:
-- ``AGE-Gypsy.*`` and ``AGE-Copia.*``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
+📌 ``AGE-Gypsy.*`` and ``AGE-Copia.*``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
 <div align="center">
     <img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
     <img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
@@ -498,14 +485,14 @@ This directory **LTR-AGE** directory contains charts that estimate the ages of L
 ### TREE
 This **TREE** directory contains phylogenetic charts for the alignments of all LTR-RT domains:
 
-- ``LTR_RT-Tree1.*``, ``LTR_RT-Tree3.*``, ``LTR_RT-Tree4.*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
+📌 ``LTR_RT-Tree1.*``, ``LTR_RT-Tree3.*``, ``LTR_RT-Tree4.*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
 <div align="center">
     <img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="750px">
     <img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="750px">
     <img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="750px">
 </div>
 
-- ``LTR_RT-Tree2.*``: A circular chart where: 
+📌 ``LTR_RT-Tree2.*``: A circular chart where: 
     - The outer circle (purple) represents the length (in base pairs) occupied by each element.
     - The inner circle (red) represents the number of occurrences of each element.
 <div align="center">
