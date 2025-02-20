@@ -201,7 +201,7 @@ python run_annotep.py -h
 * To run the script with your genome file, use the following command:
 
 ```sh
-python run_annotep.py --genome {absolute-path-to-folder-genomes}/genome.fasta --threads number
+python run_annotep.py --genome "{absolute-path-to-folder-genomes}"/genome.fasta --threads number
 ```
 
 > [!NOTE]
