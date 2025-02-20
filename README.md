@@ -49,11 +49,14 @@ O AnnoTEP pode ser instalado de diferentes maneiras, dependendo das suas prefer�
 
 # Installing with library and conda
 
-### Prerequisites
-- 🐍 [Python 3.7+](https://www.python.org/)  
-- 📦 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)  
-- 📊 [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)  
-- 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
+> [!IMPORTANT]
+> **Prerequisites**
+> <br>
+> - 🐍 [Python 3.7+](https://www.python.org/)  
+> - 📦 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)  
+> - 📊 [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)  
+> - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
+<br>
 
 > [!TIP]
 > **MiniConda Installation**
