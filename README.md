@@ -330,7 +330,7 @@ docker run -it -v /home/user/results-annotep:/root/TEs/graphic-interface/results
 > 📌 This version includes a field to specify the number of threads. It is recommended to have at least 4 threads available on your machine. **Note that fewer threads will result in longer analysis times**.
 
 **Step 4. Submit Data for Analysis:** In the graphical interface, input the required data, such as: 
-* <b> To receiveEmail Address:</b> notifications about the process status.
+* <b>Email Address:</b> notifications about the process status.
 * <b>Genome:</b> The genome file to be analysed.
 * <b>Features:</b> Choose the type of analysis to be performed.
 
@@ -455,11 +455,13 @@ In the **TE-REPORT** directory, you will find a table that categorises TEs hiera
 <div align="center">
     <img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
 </div>
+<br>
 
 📌 ``TEs-Report-Lite.txt``: A simplified report derived from the complete version, containing concise and accessible information.
 <div align="center">
     <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
 </div>
+<br>
 
 📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
@@ -470,6 +472,7 @@ In the **TE-REPORT** directory, you will find a table that categorises TEs hiera
     <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="650px" />
     <img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="650px" />
 </div>
+<br>
 
 📌 ``RepeatLandScape.*``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
 By applying Kimura’s calculation, the graph distinguishes older elements (with greater accumulated divergence) from more recent ones (with lower divergence), offering valuable insights into the evolutionary dynamics and genomic history of the organism under study.
@@ -479,6 +482,7 @@ By applying Kimura’s calculation, the graph distinguishes older elements (with
 
 ### LTR-AGE
 This directory **LTR-AGE** directory contains charts that estimate the ages of LTR Gypsy and LTR Copia elements:
+<br>
 📌 ``AGE-Gypsy.*`` and ``AGE-Copia.*``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
 <div align="center">
     <img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
@@ -487,6 +491,7 @@ This directory **LTR-AGE** directory contains charts that estimate the ages of L
 
 ### TREE
 This **TREE** directory contains phylogenetic charts for the alignments of all LTR-RT domains:
+<br>
 
 📌 ``LTR_RT-Tree1.*``, ``LTR_RT-Tree3.*``, ``LTR_RT-Tree4.*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
 <div align="center">
@@ -494,6 +499,7 @@ This **TREE** directory contains phylogenetic charts for the alignments of all L
     <img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="750px">
     <img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="750px">
 </div>
+<br>
 
 📌 ``LTR_RT-Tree2.*``: A circular chart where: 
     - The outer circle (purple) represents the length (in base pairs) occupied by each element.
