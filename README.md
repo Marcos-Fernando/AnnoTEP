@@ -568,5 +568,5 @@ Return to [Table of contents](#table-of-contents)
 # Citations
 - Comming Soon
 
-# :left_speech_bubble: Questions and Issues
+# Questions and Issues
 - Commig Soon
