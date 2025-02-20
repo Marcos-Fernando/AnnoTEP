@@ -9,8 +9,8 @@
 </div>
 
 # Table of contents
-* [📖 Introduction](#📖-introduction)
-* [⚙️ Installing with library and conda](#⚙️-installing-with-library-and-conda)
+* [📖 Introduction](#introduction)
+* [⚙️ Installing with library and conda](#installing-with-library-and-conda)
     * [🧪 Testing](#🧪-testing)
     * [🎨 Generating Graphs](#🎨-generating-graphs)
         * [📝 Running AnnoTEP CLI in Alternative Ways](#📝-running-annotep-cli-in-alternative-ways)
