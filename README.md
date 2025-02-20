@@ -24,7 +24,7 @@
     * [🗂️ TREE](#tree)
 * [🧬 List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
 * [📝 Citations](#citations)
-* [🗨️ Questions and Issues](#:left_speech_bubble:-questions-and-issues)
+* [🗨️ Questions and Issues](#questions-and-issues)
 <br>
 
 # Introduction
@@ -44,10 +44,10 @@ In addition to its GitHub repository, AnnoTEP also has a [website](https://plant
 
 <br>
 
-# 🔧 Installing and configuring environments
+# Installing and configuring environments
 O AnnoTEP pode ser instalado de diferentes maneiras, dependendo das suas preferências e necessidades. Neste tutorial, vamos guiá-lo através de dois métodos principais de instalação: o método tradicional e a instalação via Docker. Ambos os métodos são detalhados para garantir uma configuração suave e eficiente em sua máquina.
 
-# ⚙️ Installing with library and conda
+# Installing with library and conda
 
 ### Prerequisites
 - 🐍 [Python 3.7+](https://www.python.org/)  
@@ -76,7 +76,7 @@ cd {absolute-path-to-folder-AnnoTEP}/AnnoTEP
 > [!TIP] 
 > Pay attention to the name of the folder. In this guide, we will be using the folder named ``AnnoTEP``. To make configuration easier, we recommend using this name. -->
 
-## ⚙️ Configuring the repository
+## Configuring the repository
 ### Installing Required Libraries
 **Step 1.** Install the necessary libraries by running the following commands in your terminal:
 ```sh
@@ -123,7 +123,7 @@ conda activate EDTA2
 perl EDTA.pl
 ```
 
-## 🧪 Testing 
+## Testing 
 ### Downloading genomes
 **Step 1.** You can choose to use your own data or download example genomes for testing: <br>
 
@@ -175,7 +175,7 @@ tail -f EDTA.log
 
 <br>
 
-## 🎨 Generating Graphs
+## Generating Graphs
 **Step 1. Create and activate the virtual environment:** Before proceeding, ``disable the Conda environment`` if it is active to prevent dependency conflicts. Then, navigate to the ``AnnoTEP folder``, create a Python virtual environment to ensure an isolated and proper setup, and finally, install the required dependencies by running the command below:
 ```sh
 python -m venv .results
@@ -196,7 +196,7 @@ python -u {absolute-path-to-folder-AnnoTEP}/Scripts/process_graphic.py At.fasta
 At the end of the analysis, three main directories will be generated: TE-REPORT, LTR-AGE, and TREE, each containing detailed results and relevant visualisations. In the [results section](#🔬-results), each generated graph will be described in detail.
 
 ---
-### 📝 Running AnnoTEP CLI in Alternative Ways
+### Running AnnoTEP CLI in Alternative Ways
 AnnoTEP CLI can also be executed using an alternative method. Follow the steps below to set up and run the CLI.
 **Step 1. Set Up the Virtual Environment:** After installing the required libraries and the conda environment, navigate to the ``bash-interface`` directory within the AnnoTEP folder. Create a Python virtual environment and install the necessary libraries:
 ```sh
@@ -222,7 +222,7 @@ python run_annotep.py --genome {absolute-path-to-folder-genomes}/genome.fasta --
 
 <br>
 
-# 🖥️ Using AnnoTEP with Graphical User Interface
+# Using AnnoTEP with Graphical User Interface
 > [!IMPORTANT]
 > Before proceeding, ensure that all required libraries and the conda environment have been installed.
 
@@ -294,11 +294,11 @@ Return to [Table of contents](#table-of-contents)
 <br>
 
 ---
-# ⚙️ Installing with Container
+# Installing with Container
 AnnoTEP can be installed on the machine in different ways, one of which is using Docker. The tool is available in two formats: with a graphical interface and without an interface (terminal mode). To follow the steps below, you need to have Docker installed on your machine. You can download it directly from the official [Docker website](https://docs.docker.com/engine/install/)
 
 
-## 🖌️ Graphic User Interface - GUI
+## Graphic User Interface - GUI
 <div align="center"> 
     <img src="graphic-interface/static/assets/Graphic-interface-logo.svg" alt="Logo3" width="350px">
 </div><br>
@@ -367,7 +367,7 @@ When the process is completed without errors, you will receive an email informin
 
 Return to [Table of contents](#table-of-contents)
 
-## ✏️ Command Line Interface - CLI
+## Command Line Interface - CLI
 <div align="center"> 
     <img src="graphic-interface/static/assets/Command-Line-interface-logo.svg" alt="Logo4" width="350px">
 </div><br>
@@ -455,10 +455,10 @@ docker run -it -v /home/user/results-annotep:/root/TEs/bash-interface/results -v
 Return to [Table of contents](#table-of-contents)
 <br>
 
-# 🔬 Results
+# Results
 In addition to FASTA libraries, GFF3 files, and softmasking outputs, AnnoTEP also generates informative graphs and detailed reports based on the data obtained during the annotation process.
 
-## 🗂️ TE-REPORT
+## TE-REPORT
 In the **TE-REPORT** directory, you will find a table that categorises TEs hierarchically by order, superfamily, and autonomy, along with metrics such as base pairs, size, and percentage. This data is visualised using bar charts and bubble charts.
 
 - ``TEs-Report-Complete.txt``: A comprehensive table listing the classifications of TEs, including partial elements, which are labelled with the suffix “-like” (e.g., Angela-like).
@@ -487,7 +487,7 @@ By applying Kimura’s calculation, the graph distinguishes older elements (with
     <img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
 </div>
 
-### 🗂️ LTR-AGE
+### LTR-AGE
 This directory **LTR-AGE** directory contains charts that estimate the ages of LTR Gypsy and LTR Copia elements:
 - ``AGE-Gypsy.*`` and ``AGE-Copia.*``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
 <div align="center">
@@ -495,7 +495,7 @@ This directory **LTR-AGE** directory contains charts that estimate the ages of L
     <img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
 </div>
 
-### 🗂️ TREE
+### TREE
 This **TREE** directory contains phylogenetic charts for the alignments of all LTR-RT domains:
 
 - ``LTR_RT-Tree1.*``, ``LTR_RT-Tree3.*``, ``LTR_RT-Tree4.*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
@@ -517,7 +517,7 @@ Return to [Table of contents](#table-of-contents)
 
 <br>
 
-# 🧬 List of genomes tested in this pipeline
+# List of genomes tested in this pipeline
 | Genome                                           | Common Name            | Size          |
 |--------------------------------------------------|------------------------|---------------|
 | _Ananas comosus_ (v1)                            | pineapple              | 381,91 Mb     |
@@ -565,7 +565,7 @@ Return to [Table of contents](#table-of-contents)
 | _Zea mays_                                       | maize                  | 2,14 Gb       |
 
 
-# 📝 Citations
+# Citations
 - Comming Soon
 
 # :left_speech_bubble: Questions and Issues
