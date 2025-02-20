@@ -172,6 +172,7 @@ main.dark-theme .container-submit,
 	color: var(--grey-02);
 }
 
+.documentation-annotep.dark-theme .bloco p a,
 .description-about.dark-theme a{
 	color: var(--blue);
 }
