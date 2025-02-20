@@ -45,7 +45,7 @@ In addition to its GitHub repository, AnnoTEP also has a [website](https://plant
 <br>
 
 # Installing and configuring environments
-O AnnoTEP pode ser instalado de diferentes maneiras, dependendo das suas preferências e necessidades. Neste tutorial, vamos guiá-lo através de dois métodos principais de instalação: o método tradicional e a instalação via Docker. Ambos os métodos são detalhados para garantir uma configuração suave e eficiente em sua máquina.
+AnnoTEP can be installed in different ways, depending on your preferences and needs. In this tutorial, we will guide you through two main installation methods: the traditional method and installation via Docker. Both methods are detailed to ensure a smooth and efficient setup on your machine.
 
 # Installing with library and conda
 
