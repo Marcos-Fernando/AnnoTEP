@@ -182,6 +182,8 @@ python -u {absolute-path-to-folder-AnnoTEP}/Scripts/process_graphic.py At.fasta
 
 At the end of the analysis, three main directories will be generated: TE-REPORT, LTR-AGE, and TREE, each containing detailed results and relevant visualisations. In the [results section](#🔬-results), each generated graph will be described in detail.
 
+📎 Return to [Table of contents](#table-of-contents)
+
 ---
 ### Running AnnoTEP CLI in Alternative Ways
 AnnoTEP CLI can also be executed using an alternative method. Follow the steps below to set up and run the CLI.
@@ -276,7 +278,7 @@ If all settings are correct, you will see a message similar to this:
 
 **Step 4. Access the Platform:** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
 
-Return to [Table of contents](#table-of-contents)
+📎 Return to [Table of contents](#table-of-contents)
 
 <br>
 
@@ -352,7 +354,7 @@ When the process is completed without errors, you will receive an email informin
 
 <br>
 
-Return to [Table of contents](#table-of-contents)
+📎 Return to [Table of contents](#table-of-contents)
 
 ## Command Line Interface - CLI
 <div align="center"> 
@@ -439,7 +441,7 @@ docker run -it -v /home/user/results-annotep:/root/TEs/bash-interface/results -v
 
 **Step 4. Monitor the Annotation Process:** Wait for the genome annotation to complete. You can monitor the progress directly through the terminal.
 
-Return to [Table of contents](#table-of-contents)
+📎 Return to [Table of contents](#table-of-contents)
 <br>
 
 # Results
@@ -500,7 +502,7 @@ This **TREE** directory contains phylogenetic charts for the alignments of all L
 </div>
 <br>
 
-Return to [Table of contents](#table-of-contents)
+📎 Return to [Table of contents](#table-of-contents)
 
 <br>
 
@@ -551,6 +553,11 @@ Return to [Table of contents](#table-of-contents)
 | _Vitis vinifera_ (v2.1)                          | grape vine             | 486,20 Mb     |
 | _Zea mays_                                       | maize                  | 2,14 Gb       |
 
+<br>
+
+📎 Return to [Table of contents](#table-of-contents)
+
+<br>
 
 # Citations
 - Comming Soon
