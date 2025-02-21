@@ -514,6 +514,9 @@ This **TREE** directory contains phylogenetic charts for the alignments of all L
 <br>
 
 # List of genomes tested in this pipeline
+AnnoTEP offers the capability to analyse a wide range of genomes that have not yet been explored or are underrepresented in previous studies. This approach enables the discovery of new TEs and genomic patterns that could be crucial for advancements in areas such as genomic evolution, species adaptation, and biotechnology. By focusing on less-studied genomes, AnnoTEP opens doors to groundbreaking research and contributes to filling gaps in the current understanding of TE diversity and functionality.
+<br>
+
 | Genome                                           | Common Name            | Size          |
 |--------------------------------------------------|------------------------|---------------|
 | _Ananas comosus_ (v1)                            | pineapple              | 381,91 Mb     |
@@ -522,45 +525,52 @@ This **TREE** directory contains phylogenetic charts for the alignments of all L
 | _Amborella trichopoda_ (v1.0)                    | amborella              | 706,33 Mb     |
 | _Brachypodium distachyon_ ABR2 v1                | stiff brome            | 271,43 Mb     |
 | _Brassica oleracea capitata_ v1.0                | cabbage                | 385,01 Mb     |
-| _Ceratopteris richardii_ (v2.1)                  | fern                   | 7,46 Gb       |
 | _Coffea arabica_                                 | Arabian coffee         | 1,9 Gb        |
 | _Chlamydomonas reinhardtii_                      | green algae            | 114,6 Mb      |
 | _Eucalyptus grandis_ (v2.0)                      | rose gum               | 691,35 Mb     |
 | _Fragaria x ananassa_ (Royal Royce v1.0)         | strawberries           | 786,54 Mb     |
-| _Ginkgo biloba_                                  | maidenhair trees       | 2,64 Gb       |
 | _Gossypium hirsutum_ (v3.1)                      | cotton                 | 2,28 Gb       |
-| _Helianthus annuus_ (r1.2)                       | sunflower              | 3,03 Gb       |
 | _Hevea brasiliensis_                             | rubber tree            | 1,88 Gb       |
 | _Musa acuminata_ (Pahang)                        | banana                 | 484,06 Mb     |
 | _Mimosa bimucronata_                             | Maricá                 | 640,55 Mb     |
 | _Mimosa pudica_                                  | Sensitive Plant        | 797,25 Mb     |
-| _Marchantia polymorpha_ (v3.0)                   | common liverwort       | 225,76 Mb     |
 | _Malus domestica_ (v1.1)                         | Apple                  | 709,56 Mb     |
 | _Malpighia emarginata_                           | Acerola                | 1,03 Gb       |
 | _Manihot esculenta_ (V8.1)                       | Cassava                | 639,59 Mb     |
 | _Oryza sativa_ (v7.0)                            | Rice                   | 374,47 Mb     |
-| _Passiflora edulis_                              | Passion fruit          | 1,34 Gb       |
 | _Psidium guajava_                                | Guava                  | 443,76 Mb     |
 | _Physcomitrium patens_ (6.1)                     | Moss                   | 481,75 Mb     |
 | _Prunus persica_ (v2.1)                          | peach                  | 227,41 Mb     |
-| _Pinus tabuliformis_                             | Chinese pine           | 24,40 Gb      |
 | _Populus trichocarpa_ (v4.1)                     | black cottonwood       | 392,16 Mb     |
 | _Phaseolus vulgaris_ (v2.1)                      | common bean            | 537,212 Mb    |
-| _Saccharum officinarum x spontaneum_ R570 (v2.1) | Sugarcane              | 5,05 Gb       |
 | _Sherardia arvensis_                             | Field madder           | 441,30 Mb     |
 | _Sorghum bicolor_ (v5.1)                         | Broomcorn              | 719,90 Mb     |
 | _Solanum lycopersicum_ (ITAG5.0)                 | Tomato                 | 801,81 Mb     |
 | _Salix purpurea_ (5.1)                           | Basket willow          | 329,29 Mb     |
 | _Solanum tuberosum_ v6.1                         | Potato                 | 741,59 Mb     |
 | _Setaria viridis_ (v4.1)                         | green foxtail          | 397,28 Mb     |
-| _Triticum aestivum cv. Chinese Spring_ (v2.1)    | bread wheat            | 14,58 Gb      |
 | _Theobroma cacao_ (v2.1)                         | Cacao                  | 341,71 Mb     |
 | _Theobroma grandiflorum_ (C1074)                 | Cupuassu               | 423,92 Mb     |
 | _Utricularia gibba_                              | floating bladderwort   | 100,69 Mb     |
 | _Vitis vinifera_ (v2.1)                          | grape vine             | 486,20 Mb     |
-| _Zea mays_                                       | maize                  | 2,14 Gb       |
 
 <br>
+
+### Genomes Under Analysis
+This section lists the genomes currently being analysed using the AnnoTEP pipeline. The results will be updated as the analysis progresses.
+<br>
+
+| Genome                                           | Common Name            | Size          |
+|--------------------------------------------------|------------------------|---------------|
+| _Ceratopteris richardii_ (v2.1)                  | fern                   | 7,46 Gb       |
+| _Ginkgo biloba_                                  | maidenhair trees       | 2,64 Gb       |
+| _Helianthus annuus_ (r1.2)                       | sunflower              | 3,03 Gb       |
+| _Marchantia polymorpha_ (v3.0)                   | common liverwort       | 225,76 Mb     |
+| _Passiflora edulis_                              | Passion fruit          | 1,34 Gb       |
+| _Pinus tabuliformis_                             | Chinese pine           | 24,40 Gb      |
+| _Saccharum officinarum x spontaneum_ R570 (v2.1) | Sugarcane              | 5,05 Gb       |
+| _Triticum aestivum cv. Chinese Spring_ (v2.1)    | bread wheat            | 14,58 Gb      |
+| _Zea mays_                                       | maize                  | 2,14 Gb       |
 
 📎 Return to [Table of contents](#table-of-contents)
 
