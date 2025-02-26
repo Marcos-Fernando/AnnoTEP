@@ -9,22 +9,22 @@
 </div>
 
 # Table of contents
-* [📖 Introduction](#introduction)
-* [⚙️ Installing with library and conda](#installing-with-library-and-conda)
-    * [🧪 Testing](#testing)
-    * [🎨 Generating Graphs](#generating-graphs)
-        * [📝 Running AnnoTEP CLI in Alternative Ways](#running-annotep-cli-in-alternative-ways)
-    * [🖥️ Using AnnoTEP with graphical user interface](#using-annotep-with-graphical-user-interface)
-* [⚙️ Installing with Container](#installing-with-container)
-    * [🖌️ Graphic User Interface - GUI](#graphic-user-interface---gui)
+* [Introduction](#introduction)
+* [Installing with library and conda](#installing-with-library-and-conda)
+    * [Testing](#testing)
+    * [Generating Graphs](#generating-graphs)
+        * [Running AnnoTEP CLI in Alternative Ways](#running-annotep-cli-in-alternative-ways)
+    * [Using AnnoTEP with graphical user interface](#using-annotep-with-graphical-user-interface)
+* [Installing with Container](#installing-with-container)
+    * [Graphic User Interface - GUI](#graphic-user-interface---gui)
     * [✏️ Command Line Interface - CLI](#command-line-interface---cli)
-* [🔬 Results](#results)
-    * [🗂️ TE-REPORT](#te-report)
-    * [🗂️ LTR-AGE](#ltr-age)
-    * [🗂️ TREE](#tree)
-* [🧬 List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
-* [📝 Citations](#citations)
-* [🗨️ Questions and Issues](#questions-and-issues)
+* [Results](#results)
+    * [TE-REPORT](#te-report)
+    * [LTR-AGE](#ltr-age)
+    * [TREE](#tree)
+* [List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
+* [Citations](#citations)s
+* [Questions and Issues](#questions-and-issues)
 <br>
 
 # Introduction
