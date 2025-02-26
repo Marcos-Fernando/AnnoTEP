@@ -69,6 +69,7 @@ AnnoTEP can be installed in different ways, depending on your preferences and ne
 > * <b>Threads:</b> 20
 > * <b> RAM: </b> 50GB
 > * <b> Storage: </b> 1TB 
+> 
 > More resources are recommended for larger genomes.
 
 ## Configuring the repository
