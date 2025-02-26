@@ -254,8 +254,11 @@ MAIL_PASSWORD=app*password*
 > [!NOTE]
 > <b> Email Server Settings: </b>
 > * Gmail:
->   * Server: smtp.gmail.com - Port: 587 (TLS) or 465 (SSL) 
->   * Outlook: smtp.office365.com - Port: 587 (TLS)
+>   * Server: smtp.gmail.com 
+>   * Port: 587 (TLS) or 465 (SSL) 
+> * Outlook: 
+>   * Server: smtp.office365.com
+>   * Port: 587 (TLS)
 > <br>
 >
 > <b>App Password for Gmail:</b> <br>
