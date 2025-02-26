@@ -56,14 +56,6 @@ AnnoTEP can be installed in different ways, depending on your preferences and ne
 > - 📊 [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)  
 > - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
 
-> [!TIP]
-> **MiniConda Installation**
-><br>
->After downloading Miniconda from the link above, run the following command in your terminal:
-> ```sh
-> bash Miniconda3-latest-Linux-x86_64.sh
-> ```
-
 >[!IMPORTANT]
 > <b> System requirements </b> <br>
 > Minimum requirements for both versions for Genomes up to <b>1GB</b>
@@ -72,6 +64,14 @@ AnnoTEP can be installed in different ways, depending on your preferences and ne
 > * <b> Storage: </b> 1TB 
 > 
 > More resources are recommended for larger genomes.
+
+> [!TIP]
+> **MiniConda Installation**
+><br>
+>After downloading Miniconda from the link above, run the following command in your terminal:
+> ```sh
+> bash Miniconda3-latest-Linux-x86_64.sh
+> ```
 
 ## Configuring the repository
 ### 📚 Installing Required Libraries
