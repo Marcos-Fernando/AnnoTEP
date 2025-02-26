@@ -64,12 +64,12 @@ AnnoTEP can be installed in different ways, depending on your preferences and ne
 > ```
 
 >[!IMPORTANT]
-> <b> System requirements </b> </n>
+> <b> System requirements </b> <br>
 > Minimum requirements for both versions for Genomes up to <b>1GB</b>
 > * <b>Threads:</b> 20
 > * <b> RAM: </b> 50GB
 > * <b> Storage: </b> 1TB
-> </n> 
+> <br> 
 > More resources are recommended for larger genomes.
 
 ## Configuring the repository
