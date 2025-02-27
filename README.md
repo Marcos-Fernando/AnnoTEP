@@ -117,7 +117,7 @@ cd EDTA
 
 conda env create -f EDTA_2.2.x.yml
 conda activate EDTA2
-perl EDTA.pl
+perl EDTA.pl -h
 ```
 
 ## Testing 
@@ -156,7 +156,7 @@ nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-
 > Replace ``{absolute path to the-AnnoTEP-folder}`` and ``{absolute path to the-genome-folder}`` with the appropriate path
 
 > [!TIP]
-> To perform a more accurate analysis of the genome, we recommend using the mutation rate (-u "value"). The values and explanation are provided in the file ``LTR-Ages.doc``.
+> 📌 To perform a more accurate analysis of the genome, we recommend using the mutation rate (-u "value"). The values and explanation are provided in the file ``LTR-Ages.doc``.
 > <br>
 > <b> Example of usage: </b>
 > ```sh
@@ -171,15 +171,13 @@ tail -f EDTA.log
 
 > [!TIP]
 >
-> **1.** Adjust the number of threads based on your computer or server's capacity. Set it to the maximum available. In the example above, it is set to 12.
->
-> **2.** For more accurate TE detection and annotation, enable the ``--sensitive flag``. This activates RepeatModeler to identify remaining TEs and other repeats, and it also generates Superfamily and Lineage classifications for TEs.
+> 📌 Adjust the number of threads based on your computer or server's capacity. Set it to the maximum available. In the example above, it is set to 12.
+> <br>
+> 📌 For more accurate TE detection and annotation, enable the ``--sensitive flag``. This activates RepeatModeler to identify remaining TEs and other repeats, and it also generates Superfamily and Lineage classifications for TEs.
 <br>
 
 > [!NOTE]
 > Non-autonomous elements (e.g., non-autonomous LARDs and Helitrons) can carry passenger genes. For proper genome annotation, these elements must be partially masked. The modified EDTA pipeline handles this automatically and generates a softmasked genome sequence, available in the EDTA folder as ``$genome-Softmasked.fa`` .
-
-<br>
 
 ## Generating Graphs
 **Step 1. Create and activate the virtual environment:** Before proceeding, ``disable the Conda environment`` if it is active to prevent dependency conflicts. Then, navigate to the ``AnnoTEP folder``, create a Python virtual environment to ensure an isolated and proper setup, and finally, install the required dependencies by running the command below:
