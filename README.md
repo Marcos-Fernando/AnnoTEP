@@ -329,11 +329,11 @@ docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0
 ```
 > [!TIP]
 > ### Description:
-> 📌``-v {folder-results}:/root/TEs/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/graphic-interface/results`` is the directory inside the container and should not be changed. <br>
-> 📌``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine. <br>
-> 📌``annotep/annotep-gui:v1``: Specifies the Docker image to use. <br>
-> 📌``--pids-limit {threads x 10000}``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load. <br>
-> 📌``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient. <br>
+> 📌 ``-v {folder-results}:/root/TEs/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/graphic-interface/results`` is the directory inside the container and should not be changed. <br>
+> 📌 ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine. <br>
+> 📌 ``annotep/annotep-gui:v1``: Specifies the Docker image to use. <br>
+> 📌 ``--pids-limit {threads x 10000}``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load. <br>
+> 📌 ``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient. <br>
 
 #### Example:
 ```sh
