@@ -96,13 +96,14 @@ BiocManager::install("ggtree")
 BiocManager::install("ggtreeExtra")
 ```
 
-- <b>Alternative Method:</b> If you encounter errors with ``BiocManager``, ``ggtree``, or ``ggtreeExtra``, use the following approach:
-```sh
-if (!requireNamespace("devtools", quietly = TRUE))
-    install.packages("devtools")
-devtools::install_github("YuLab-SMU/ggtree")
-devtools::install_github("YuLab-SMU/ggtreeExtra")
-```
+> [!TIP]
+> <b>Alternative Method:</b> If you encounter errors with ``BiocManager``, ``ggtree``, or ``ggtreeExtra``, use the following approach:
+> ```sh
+> if (!requireNamespace("devtools", quietly = TRUE))
+>     install.packages("devtools")
+> devtools::install_github("YuLab-SMU/ggtree")
+> devtools::install_github("YuLab-SMU/ggtreeExtra")
+> ```
 
 **Step 2.** Copy the ``break_fasta.pl`` scripts to ``/usr/local/bin``:
 ```sh
@@ -140,7 +141,7 @@ gzip -d TAIR10_chr_all.fas.gz
 cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
 rm TAIR10_chr_all.fas
 ```
-> [!NOTE]
+> [!TIP]
 > If you can't download _Arabidopsis thaliana_ automatically, you can manually download it from [tair](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files), Click on `TAIR10_chr_all.fas.gz` and follow the commands above starting from the second line.
 
 **Step 2.** Run EDTA on the downloaded genome:
