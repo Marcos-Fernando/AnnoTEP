@@ -156,7 +156,7 @@ nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-
 > Replace ``{absolute path to the-AnnoTEP-folder}`` and ``{absolute path to the-genome-folder}`` with the appropriate path
 
 > [!TIP]
-> To perform a more accurate analysis of the genome, we recommend using the mutation rate (-u value). The values and explanation are provided in the file LTR-Ages.doc.
+> To perform a more accurate analysis of the genome, we recommend using the mutation rate (-u "value"). The values and explanation are provided in the file ``LTR-Ages.doc``.
 > <br>
 > <b> Example of usage: </b>
 > ```sh
