@@ -255,8 +255,8 @@ FLASK_ENV = development
 
 MAIL_SERVER=server-email
 MAIL_PORT=number
-MAIL_USE_TLS=True
-MAIL_USE_SSL=False
+MAIL_USE_TLS=True or False
+MAIL_USE_SSL=True or False
 MAIL_USERNAME=your@email.com
 MAIL_PASSWORD=app*password*
 ```
