@@ -258,7 +258,7 @@ MAIL_USE_SSL=True or False
 MAIL_USERNAME=your@email.com
 MAIL_PASSWORD=app*password*
 ```
-> [!NOTE]
+> [!TIP]
 > <b> Email Server Settings: </b>
 > * Gmail:
 >   * Server: smtp.gmail.com 
