@@ -149,11 +149,19 @@ cd EDTA
 mkdir Athaliana
 cd Athaliana
 
-nohup {absolute-path-to-folder-AnnoTEP}/EDTA/EDTA.pl --genome {absolute-path-to-folder-genome}/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 > EDTA.log 2>&1 &
+nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 > EDTA.log 2>&1 &
 ```
 
 > [!NOTE]
 > Replace ``{absolute path to the-AnnoTEP-folder}`` and ``{absolute path to the-genome-folder}`` with the appropriate path
+
+> [!TIP]
+> To perform a more accurate analysis of the genome, we recommend using the mutation rate (-u value). The values and explanation are provided in the file LTR-Ages.doc.
+> Example of usage:
+> ```sh
+> nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 -u 7.0e-9 > EDTA.log 2>&1 & 
+> ``` 
+>
 
 **Step 3.** Monitor the progress of the EDTA run:
 ```sh
