@@ -327,7 +327,7 @@ docker pull annotep/annotep-gui:v1
 ```sh
 docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v1
 ```
-> [!TIP]
+> [!NOTE]
 > ### Description:
 > - ``-v {folder-results}:/root/TEs/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/graphic-interface/results`` is the directory inside the container and should not be changed.
 > - ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine.
@@ -442,7 +442,7 @@ optional arguments:
 docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absolute-path-to-folder-genomes}":"{absolute-path-to-folder-genomes}" --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-cli:v1 python run_annotep.py --genome "{absolute-path-to-folder-genomes/genome.fasta}" --threads "{number}"
 ```
 
->[!TIP]
+>[!NOTE]
 > ### Description:
 > - ``-v {folder-results}:/root/TEs/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/www/results``  is the directory inside the container and should not be changed.
 > - ``-v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes}``: Creates a temporary copy of the genomic files inside Docker. Ensure you provide the correct path to the folder containing your genomes.
