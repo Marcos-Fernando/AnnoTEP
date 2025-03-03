@@ -123,7 +123,7 @@ perl EDTA.pl -h
 
 > [!WARNING]
 > 📌 <b> FOR NVIDIA GPU SERVERS ONLY!!!!!</b> <br>
-> The **TIR Learner**  in EDTA may cause issues on GPU servers. To resolve this, follow the instructions below to install EDTA correctly:
+> The **TIR Learner**  in EDTA may may not work correctly on GPU servers. To resolve this, follow the instructions below to install EDTA correctly:
 > ```sh
 > mamba create -n EDTA2.2 -c conda-forge -c bioconda -c r annosine2 biopython blast cd-hit coreutils genericrepeatfinder genometools-genometools glob2    h5py==3.9 keras==2.11 ltr_finder ltr_retriever mdust multiprocess muscle openjdk pandas perl perl-text-soundex pyarrow python r-base r-dplyr regex repeatmodeler r-ggplot2 r-here r-tidyr scikit-learn swifter tensorflow==2.11 tesorter
 > ``` 
