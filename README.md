@@ -185,6 +185,7 @@ tail -f EDTA.log
 > <br>
 > 📌 <b> RepeatMasker Fixes for Long Names </b> <br>
 > During execution, you may encounter the following error:
+>
 > ```sh
 > FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )
 > ```
@@ -197,19 +198,19 @@ tail -f EDTA.log
 > To fix this issue, follow the steps below:
 > * Locate all occurrences of ``FastaDB`` where the following snippet appears:
 > ``` sh
->   my $db = FastaDB->new(
->                         fileName    => $file,
->                         openMode    => SeqDBI::ReadWrite,
->                         maxIDLength => 50
->  );
+> my $db = FastaDB->new(
+>            fileName    => $file,
+>            openMode    => SeqDBI::ReadWrite,
+>            maxIDLength => 50
+> );
 > ``` 
 > * Change the value of ``maxIDLength`` from ``50`` to a higher value, for example:
 > ``` sh
->  my $db = FastaDB->new(
->                         fileName    => $file,
->                         openMode    => SeqDBI::ReadWrite,
->                         maxIDLength => 80
->  );
+> my $db = FastaDB->new(
+>           fileName    => $file,
+>           openMode    => SeqDBI::ReadWrite,
+>           maxIDLength => 80
+> );
 >  ```
 > * Save the file.
 >
