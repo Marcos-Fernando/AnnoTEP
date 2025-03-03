@@ -189,8 +189,8 @@ tail -f EDTA.log
 > 
 > To fix this issue, follow the steps below:
 > <br>
-> **Step 1.** Edit the RepeatMasker PERL File
-> * Access the RepeatMasker PERL file installed in the Conda environment:
+> **Step 1.** Edit the RepeatMasker File
+> * Access the RepeatMasker file installed in the Conda environment:
 >   ```sh
 >   /home/user/miniconda3/envs/EDTA/bin/RepeatMasker
 >   ``` 
@@ -212,8 +212,8 @@ tail -f EDTA.log
 >    );
 >    ```
 >
-> **Step 2.** Edit the ProcessRepeats PERL File
-> * Acess the ``ProcessRepeats`` PERL file:
+> **Step 2.** Edit the ProcessRepeats File
+> * Acess the ``ProcessRepeats`` file:
 >   ```sh
 >   /home/user/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
 >   ``` 
