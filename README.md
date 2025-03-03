@@ -168,8 +168,8 @@ tail -f EDTA.log
 > <br>
 > 📌 For more accurate TE detection and annotation, enable the ``--sensitive 1``. This activates RepeatModeler to identify remaining TEs and other repeats, and it also generates Superfamily and Lineage classifications for TEs.
 > <br>
-> 📌 To perform a more accurate analysis of the genome, we recommend enable the mutation rate ``-u float``. The values and explanation are provided in the file ``LTR-Ages.doc``.
-> <br>
+> 📌 To perform a more accurate analysis of the genome, we recommend enable the mutation rate ``-u float``. The values and explanation are provided in the file ``LTR-Ages.doc``. <br>
+> 
 > <b> Example of usage: </b>
 > ```sh
 > nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 -u 7.0e-9 > EDTA.log 2>&1 & 
@@ -183,9 +183,9 @@ tail -f EDTA.log
 >  mamba create -n EDTA2.2 -c conda-forge -c bioconda -c r annosine2 biopython blast cd-hit coreutils genericrepeatfinder genometools-genometools glob2 h5py==3.9 keras==2.11 ltr_finder ltr_retriever mdust multiprocess muscle openjdk pandas perl perl-text-soundex pyarrow python r-base r-dplyr regex repeatmodeler r-ggplot2 r-here r-tidyr scikit-learn swifter tensorflow==2.11 tesorter
 > ``` 
 > <br>
+>
 > 📌 <b> RepeatMasker Fixes for Long Names </b> <br>
 > During execution, you may encounter the following error:
->
 > ```sh
 > FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )
 > ```
