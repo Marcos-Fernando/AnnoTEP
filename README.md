@@ -192,12 +192,12 @@ tail -f EDTA.log
 > 
 > To fix this issue, follow the steps below:
 > **Step 1.** Edit the RepeatMasker PERL File <br>
-> 📎 Access the RepeatMasker PERL file installed in the Conda environment:
+> 📌 Access the RepeatMasker PERL file installed in the Conda environment:
 > ```sh
 > /home/user/miniconda3/envs/EDTA/bin/RepeatMasker
 > ``` 
 >
-> 📎 Locate all occurrences of ``FastaDB`` where the following snippet appears:
+> 📌 Locate all occurrences of ``FastaDB`` where the following snippet appears:
 > ``` sh
 > my $db = FastaDB->new(
 >            fileName    => $file,
@@ -205,7 +205,7 @@ tail -f EDTA.log
 >            maxIDLength => 50
 > );
 > ``` 
-> 📎 Change the value of ``maxIDLength`` from ``50`` to a higher value, for example:
+> 📌 Change the value of ``maxIDLength`` from ``50`` to a higher value, for example:
 > ``` sh
 > my $db = FastaDB->new(
 >           fileName    => $file,
@@ -213,15 +213,15 @@ tail -f EDTA.log
 >           maxIDLength => 80
 > );
 >  ```
-> 📎 Save the file.
+> 📌 Save the file.
 >
 > **Step 2.** Edit the ProcessRepeats PERL File <br>
-> 📎 Acess the ``ProcessRepeats`` PERL file:
+> 📌 Acess the ``ProcessRepeats`` PERL file:
 >```sh
 > /home/user/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
 >``` 
-> 📎 Repeat the same procedure to change the value of  ``maxIDLength`` to ``80``. <br>
-> 📎 Save the file
+> 📌 Repeat the same procedure to change the value of  ``maxIDLength`` to ``80``. <br>
+> 📌 Save the file
 
 > [!NOTE]
 > Non-autonomous elements (e.g., non-autonomous LARDs and Helitrons) can carry passenger genes. For proper genome annotation, these elements must be partially masked. The modified EDTA pipeline handles this automatically and generates a softmasked genome sequence, available in the EDTA folder as ``$genome-Softmasked.fa`` .
