@@ -213,7 +213,6 @@ tail -f EDTA.log
 >           maxIDLength => 80
 > );
 >  ```
-> * Save the file.
 >
 > **Step 2.** Edit the ProcessRepeats PERL File
 > * Acess the ``ProcessRepeats`` PERL file:
@@ -221,7 +220,7 @@ tail -f EDTA.log
 > /home/user/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
 >``` 
 > * Repeat the same procedure to change the value of  ``maxIDLength`` to ``80``.
-> * Save the file
+
 
 > [!NOTE]
 > Non-autonomous elements (e.g., non-autonomous LARDs and Helitrons) can carry passenger genes. For proper genome annotation, these elements must be partially masked. The modified EDTA pipeline handles this automatically and generates a softmasked genome sequence, available in the EDTA folder as ``$genome-Softmasked.fa`` .
