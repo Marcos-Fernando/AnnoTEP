@@ -214,6 +214,7 @@ tail -f EDTA.log
 >
 > **Step 2.** Edit the **ProcessRepeats File**
 > * Acess the ``ProcessRepeats`` file:
+>
 >   ```sh
 >   /home/user/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
 >   ``` 
