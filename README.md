@@ -185,8 +185,7 @@ tail -f EDTA.log
 > <br>
 > 📌 <b> RepeatMasker Fixes for Long Names </b> <br>
 >
-> During execution, you may encounter the following error: <br>
->``` FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )```
+> During execution, you may encounter the following error: ``` FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )```
 > 
 > To fix this issue, follow the steps below:
 > **Step 1.** Edit the RepeatMasker PERL File
