@@ -188,6 +188,7 @@ tail -f EDTA.log
 > During execution, you may encounter the following error: ``` FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )```
 > 
 > To fix this issue, follow the steps below:
+> <br>
 > **Step 1.** Edit the RepeatMasker PERL File
 > * Access the RepeatMasker PERL file installed in the Conda environment:
 >   ```sh
