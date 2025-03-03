@@ -111,7 +111,7 @@ sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
 
 ### ⚙️ Configuring modified EDTA
-**Step 1.** AnnoTEP uses the same installation method as EDTA. To set up the environment, navigate to the AnnoTEP folder and follow the steps below:
+📌 AnnoTEP uses the same installation method as EDTA. To set up the environment, navigate to the AnnoTEP folder and follow the steps below:
 ```sh
 # Navigate to the EDTA directory
 cd EDTA
