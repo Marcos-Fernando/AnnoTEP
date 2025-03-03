@@ -156,14 +156,6 @@ nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-
 > [!NOTE]
 > Replace ``{absolute path to the-AnnoTEP-folder}`` and ``{absolute path to the-genome-folder}`` with the appropriate path
 
-> [!TIP]
-> 📌 To perform a more accurate analysis of the genome, we recommend using the mutation rate (-u "value"). The values and explanation are provided in the file ``LTR-Ages.doc``.
-> <br>
-> <b> Example of usage: </b>
-> ```sh
-> nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 -u 7.0e-9 > EDTA.log 2>&1 & 
-> ``` 
->
 
 **Step 3.** Monitor the progress of the EDTA run:
 ```sh
@@ -174,8 +166,60 @@ tail -f EDTA.log
 >
 > 📌 Adjust the number of threads based on your computer or server's capacity. Set it to the maximum available. In the example above, it is set to 12.
 > <br>
-> 📌 For more accurate TE detection and annotation, enable the ``--sensitive flag``. This activates RepeatModeler to identify remaining TEs and other repeats, and it also generates Superfamily and Lineage classifications for TEs.
-<br>
+> 📌 For more accurate TE detection and annotation, enable the ``--sensitive 1``. This activates RepeatModeler to identify remaining TEs and other repeats, and it also generates Superfamily and Lineage classifications for TEs.
+> <br>
+> 📌 To perform a more accurate analysis of the genome, we recommend enable the mutation rate ``-u float``. The values and explanation are provided in the file ``LTR-Ages.doc``.
+> <br>
+> <b> Example of usage: </b>
+> ```sh
+> nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 -u 7.0e-9 > EDTA.log 2>&1 & 
+> ``` 
+>
+
+> [!WARNING]
+> <b>FOR NVIDIA GPU SERVERS ONLY!!!!!</b> <br>
+> The **TIR Learner**  in EDTA may cause issues on GPU servers. To resolve this, follow the instructions below to install EDTA correctly:
+> ```sh
+>  mamba create -n EDTA2.2 -c conda-forge -c bioconda -c r annosine2 biopython blast cd-hit coreutils genericrepeatfinder genometools-genometools glob2 h5py==3.9 keras==2.11 ltr_finder ltr_retriever mdust multiprocess muscle openjdk pandas perl perl-text-soundex pyarrow python r-base r-dplyr regex repeatmodeler r-ggplot2 r-here r-tidyr scikit-learn swifter tensorflow==2.11 tesorter
+> ``` 
+> <b> RepeatMasker Fixes for Long Names </b> <br>
+> During execution, you may encounter the following error:
+> ```sh
+> FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )
+> ```
+> <br>
+> <br>
+> **Step 1.** Edit the RepeatMasker PERL File
+> * Access the RepeatMasker PERL file installed in the Conda environment:
+> ```sh
+> /home/user/miniconda3/envs/EDTA/bin/RepeatMasker
+> ``` 
+> To fix this issue, follow the steps below: <br>
+> * Locate all occurrences of ``FastaDB`` where the following snippet appears:
+> ``` sh
+>   my $db = FastaDB->new(
+>                         fileName    => $file,
+>                         openMode    => SeqDBI::ReadWrite,
+>                         maxIDLength => 50
+>  );
+> ``` 
+> * Change the value of ``maxIDLength`` from ``50`` to a higher value, for example:
+> ``` sh
+>  my $db = FastaDB->new(
+>                         fileName    => $file,
+>                         openMode    => SeqDBI::ReadWrite,
+>                         maxIDLength => 80
+>  );
+>  ```
+> * Save the file.
+>
+> **Step 2.** Edit the ProcessRepeats PERL File
+> * Acess the ``ProcessRepeats`` PERL file:
+>```sh
+> /home/user/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
+>``` 
+> * Repeat the same procedure to change the value of  ``maxIDLength`` to ``80``.
+> * Save the file
 
 > [!NOTE]
 > Non-autonomous elements (e.g., non-autonomous LARDs and Helitrons) can carry passenger genes. For proper genome annotation, these elements must be partially masked. The modified EDTA pipeline handles this automatically and generates a softmasked genome sequence, available in the EDTA folder as ``$genome-Softmasked.fa`` .
