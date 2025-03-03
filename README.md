@@ -137,7 +137,7 @@ perl EDTA.pl -h
 > **Step 1.** Edit the **RepeatMasker File**
 > * Access the RepeatMasker file installed in the Conda environment:
 >   ```sh
->   /home/user/miniconda3/envs/EDTA/bin/RepeatMasker
+>   /home/"user"/miniconda3/envs/EDTA/bin/RepeatMasker
 >   ``` 
 >
 > * Locate all occurrences of ``FastaDB`` where the following snippet appears:
@@ -161,7 +161,7 @@ perl EDTA.pl -h
 > * Acess the ``ProcessRepeats`` file:
 >
 >   ```sh
->   /home/user/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
+>   /home/"user"/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
 >   ``` 
 > * Repeat the same procedure to change the value of  ``maxIDLength`` to ``80``.
 >
@@ -385,7 +385,7 @@ docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0
 >
 > #### Example:
 > ```sh
-> docker run -it -v /home/user/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit 120000 --memory-swap -1 annotep/annotep-gui:v1
+> docker run -it -v /home/"user"/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit 120000 --memory-swap -1 annotep/annotep-gui:v1
 > ```
 
 **Step 3. Acess the AnnoTEP interface:** After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
@@ -503,7 +503,7 @@ docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absol
 >
 > #### Example:
 > ```sh
-> docker run -it -v /home/user/results-annotep:/root/TEs/bash-interface/results -v /home/user/Documents/TEs:/home/user/Documents/TEs --pids-limit 120000 --memory-swap -1 annotep/annotep-cli:v1 python run_annotep.py --genome /home/user/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
+> docker run -it -v /home/"user"/results-annotep:/root/TEs/bash-interface/results -v /home/"user"/Documents/TEs:/home/"user"/Documents/TEs --pids-limit 120000 --memory-swap -1 annotep/annotep-cli:v1 python run_annotep.py --genome /home/"user"/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
 > ```
 
 **Step 4. Monitor the Annotation Process:** Wait for the genome annotation to complete. You can monitor the progress directly through the terminal.
