@@ -608,6 +608,7 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Euglena gracilis_                               | Unicellular algae      | 2,37 Gb       |
 | _Fragaria x ananassa_ (Royal Royce v1.0)         | Strawberries           | 786,54 Mb     |
 | _Galdieria yellowstonensis_                      | Red algae              | 14,51 Mb      |
+| _Ginkgo biloba_                                  | Maidenhair trees       | 2,64 Gb       |
 | _Gnetum montanum_                                | Joint fir              | 3,79 Gb       |
 | _Gossypium hirsutum_ (v3.1)                      | Cotton                 | 2,28 Gb       |
 | _Hevea brasiliensis_                             | Rubber tree            | 1,88 Gb       |
@@ -645,6 +646,7 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Utricularia gibba_                              | Floating bladderwort   | 100,69 Mb     |
 | _Vitis vinifera_ (v2.1)                          | Grape vine             | 486,20 Mb     |
 | _Welwitschia mirabilis_                          | Tree Tumbo             | 6,87 Gb       |
+| _Zea mays_                                       | maize                  | 2,14 Gb       |
 
 <br>
 
@@ -655,11 +657,10 @@ This section lists the genomes currently being analysed using the AnnoTEP pipeli
 | Genome                                           | Common Name            | Size          |
 |--------------------------------------------------|------------------------|---------------|
 | _Ceratopteris richardii_ (v2.1)                  | Fern                   | 7,46 Gb       |
-| _Ginkgo biloba_                                  | Maidenhair trees       | 2,64 Gb       |
 | _Helianthus annuus_ (r1.2)                       | Sunflower              | 3,03 Gb       |
 | _Pinus tabuliformis_                             | Chinese pine           | 24,41 Gb      |
 | _Triticum aestivum cv. Chinese Spring_ (v2.1)    | bread wheat            | 14,58 Gb      |
-| _Zea mays_                                       | maize                  | 2,14 Gb       |
+
 
 📎 Return to [Table of contents](#table-of-contents)
 
