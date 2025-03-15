@@ -506,7 +506,7 @@ docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absol
 
 ---
 
->[!NOTE]
+>[!IMPORTANT]
 > <b>Resolving Memory Issues in Docker Containers</b> <br>
 > If Docker containers experience memory issues or unexpected terminations due to intensive resource usage, you can adjust the process limits (``--pids-limit``) and swap memory (``--memory-swap``). 
 > Example usage: 
