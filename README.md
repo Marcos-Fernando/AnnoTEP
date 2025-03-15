@@ -371,7 +371,7 @@ docker pull annotep/annotep-gui:v1
 
 **Step 2. Run the Container** Next, run the container using the command below. Specify a folder on your machine to store the annotation results:
 ```sh
-docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v1
+docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
 ```
 > [!TIP]
 > ### Description:
@@ -383,7 +383,7 @@ docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0
 >
 > #### Example:
 > ```sh
-> docker run -it -v /home/"user"/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit 120000 --memory-swap -1 annotep/annotep-gui:v1
+> docker run -it -v /home/"user"/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
 > ```
 
 **Step 3. Acess the AnnoTEP interface:** After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
