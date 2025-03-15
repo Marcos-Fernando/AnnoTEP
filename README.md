@@ -121,7 +121,7 @@ conda activate EDTA2
 perl EDTA.pl -h
 ```
 
-> [!IMPORTAT]
+> [!IMPORTANT]
 > 📌 <b> FOR NVIDIA GPU SERVERS ONLY!!!!!</b> <br>
 > The **TIR Learner**  in EDTA may may not work correctly on GPU servers. To resolve this, follow the instructions below to install EDTA correctly:
 > ```sh
