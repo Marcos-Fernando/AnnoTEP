@@ -373,13 +373,11 @@ docker pull annotep/annotep-gui:v1
 ```sh
 docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v1
 ```
-> [!NOTE]
+> [!TIP]
 > ### Description:
 > - ``-v {folder-results}:/root/TEs/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/graphic-interface/results`` is the directory inside the container and should not be changed.
 > - ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine.
 > - ``annotep/annotep-gui:v1``: Specifies the Docker image to use.
-> - ``--pids-limit {threads x 10000}``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
-> - ``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient.
 > <br>
 > 📌 For testing, you can download the Arabidopsis thaliana (Chromosome 4) file AtChr4.fasta from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
 >
@@ -390,7 +388,7 @@ docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0
 
 **Step 3. Acess the AnnoTEP interface:** After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
 
-> [!TIP]
+> [!NOTE]
 > 📌 When you access 127.0.0.1:5000, you will see a version of the AnnoTEP platform similar to the web version.
 >
 > 📌 For testing, you can download the _Arabidopsis thaliana_ (Chromosome 4) file ``AtChr4.fasta`` from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
@@ -487,26 +485,37 @@ optional arguments:
 **Step 3. Run the Container:** To simplify this step, we recommend creating a folder to store your genomic data in **FASTA format**. Once created, run the container using the command below as a guide. Ensure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absolute-path-to-folder-genomes}":"{absolute-path-to-folder-genomes}" --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-cli:v1 python run_annotep.py --genome "{absolute-path-to-folder-genomes/genome.fasta}" --threads "{number}"
+docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absolute-path-to-folder-genomes}":"{absolute-path-to-folder-genomes}" annotep/annotep-cli:v1 python run_annotep.py --genome "{absolute-path-to-folder-genomes/genome.fasta}" --threads "{number}"
 ```
 
->[!NOTE]
+>[!TIP]
 > ### Description:
 > - ``-v {folder-results}:/root/TEs/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/www/results``  is the directory inside the container and should not be changed.
 > - ``-v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes}``: Creates a temporary copy of the genomic files inside Docker. Ensure you provide the correct path to the folder containing your genomes.
 > - ``--genome {absolute-path-to-folder-genomes/genome.fasta}``: Specify the full path to the genome file you want to annotate.
 > - ``--threads {number}``: Define the number of threads to use.
-> - ``--pids-limit {threads x 10000}``: Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
-> - ``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient.
 > <br>
 > 📌 For testing, you can download the Arabidopsis thaliana (Chromosome 4) file AtChr4.fasta from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
 >
 > #### Example:
 > ```sh
-> docker run -it -v /home/"user"/results-annotep:/root/TEs/bash-interface/results -v /home/"user"/Documents/TEs:/home/"user"/Documents/TEs --pids-limit 120000 --memory-swap -1 annotep/annotep-cli:v1 python run_annotep.py --genome /home/"user"/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
+> docker run -it -v /home/"user"/results-annotep:/root/TEs/bash-interface/results -v /home/"user"/Documents/TEs:/home/"user"/Documents/TEs annotep/annotep-cli:v1 python run_annotep.py --genome /home/"user"/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
 > ```
 
 **Step 4. Monitor the Annotation Process:** Wait for the genome annotation to complete. You can monitor the progress directly through the terminal.
+
+---
+
+>[!NOTE]
+> <b>Resolving Memory Issues in Docker Containers</b> <br>
+> If Docker containers experience memory issues or unexpected terminations due to intensive resource usage, you can adjust the process limits (``--pids-limit``) and swap memory (``--memory-swap``). 
+> Example usage: 
+>```sh
+> docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v1
+>```
+> <b> Explanation: </b>
+> - ``--pids-limit {threads x 10000}``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
+> - ``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient.
 
 📎 Return to [Table of contents](#table-of-contents)
 <br>
