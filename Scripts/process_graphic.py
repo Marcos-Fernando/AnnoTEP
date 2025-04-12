@@ -67,10 +67,11 @@ def dataGeneration(genome):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIUnknown" | sed 's#ClassIUnknown#Class_I_Unknown#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "TIRs"  >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIIUnknown" | sed 's#ClassIIUnknown#Class_II_Unknown#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "Unclassified"  >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | tac | grep -m 1 -w "Unclassified" | tac  >> plot.txt
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
     
+    #/home/marcos/TEs/Scripts
 	python {SCRIPT}/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report1-length.pdf
     pdf2svg TE-Report1-length.pdf TE-Report1-length.svg
@@ -125,14 +126,15 @@ def dataGeneration(genome):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Galadriel >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Tekay >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Reina >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w MITE >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | grep -w MITEs >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w EnSpm_CACTA | sed 's#EnSpm_CACTA#CACTA#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w hAT >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w MuDR_Mutator | sed 's#MuDR_Mutator#MuDR#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w PIF_Harbinger | sed 's#PIF_Harbinger#Harbinger#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "RC/Helitron" | sed 's#RC/Helitron#Helitron#g' >> plot.txt
-	
+    paste names.txt count.txt bp.txt percentage.txt | grep -w Tc1_Mariner >> plot.txt
 	cat header.txt plot.txt > plot1.txt
+
 	python {SCRIPT}/plot_TEs_length.py
 	mv TE-Report.pdf  TE-Report2-length.pdf
     pdf2svg TE-Report2-length.pdf TE-Report2-length.svg
@@ -157,6 +159,7 @@ def dataGeneration(genome):
       names.txt \
       percentage.txt \
       plot.txt \
+      plot1.txt \
       plotKimura.R \
       tmp.txt
 
@@ -198,13 +201,12 @@ def dataGeneration(genome):
 
     source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
     TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1 &&
+    concatenate_domains.py TE.cls.pep GAG > GAG.aln &&
+    concatenate_domains.py TE.cls.pep PROT > PROT.aln &&
+    concatenate_domains.py TE.cls.pep RH > RH.aln &&
+    concatenate_domains.py TE.cls.pep RT > RT.aln &&
+    concatenate_domains.py TE.cls.pep INT > INT.aln &&
     conda deactivate
-
-    concatenate_domains.py TE.cls.pep GAG > GAG.aln
-    concatenate_domains.py TE.cls.pep PROT > PROT.aln
-    concatenate_domains.py TE.cls.pep RH > RH.aln
-    concatenate_domains.py TE.cls.pep RT > RT.aln
-    concatenate_domains.py TE.cls.pep INT > INT.aln
 
     cat GAG.aln | cut -f 1 -d" " > GAG.fas
     cat PROT.aln | cut -f 1 -d" " > PROT.fas

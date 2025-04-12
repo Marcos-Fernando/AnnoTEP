@@ -24,7 +24,7 @@ def plot_data(df):
     # Configuração do plot
     ax.set_xlabel('Occurrences', fontsize=12, color='black')
     ax.set_ylabel("Length Occupied (Mb)", fontsize=12, color='black')
-    ax.set_title('Distribution of TEs: Length and Occurrences', fontsize=16, color='black')
+    ax.set_title('Distribution of TEs', fontsize=16, color='black')
 
     # Cria uma colorbar
     cbar = fig.colorbar(bubbles)

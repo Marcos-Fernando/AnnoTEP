@@ -29,9 +29,9 @@ def plot_data(df):
                  ha='center', va='bottom', color='black', fontsize=6)
 
     # Configuração do plot
-    ax1.set_xlabel('TE Type', fontsize=12, color='black')
+    ax1.set_xlabel('Classification levels of TEs', fontsize=12, color='black')
     ax1.set_ylabel("Number of elements", fontsize=12, color='black')
-    ax1.set_title('Distribution of TEs: Number of elements', fontsize=14, color='black')
+    ax1.set_title('Distribution of TEs', fontsize=14, color='black')
     ax1.grid(False)
 
     # Diminuir tamanho da fonte do eixo x e rotacionar
