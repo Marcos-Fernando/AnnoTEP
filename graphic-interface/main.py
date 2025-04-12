@@ -5,7 +5,7 @@ import subprocess
 from app import create_app, allowed_file
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, flash, jsonify
-from extensions.sendemail import send_email_checking, send_email_complete_annotation
+from extensions.sendemail import send_email_checking, send_email_complete_annotation, send_email_error_annotation
 from extensions.annotation import dataGeneration
 
 app, _ = create_app()
@@ -92,24 +92,56 @@ def annotation_process():
     #enviando email informando os dados utilizados
     send_email_checking(email, new_genome_name, speciesTIR, stepsExecuted, sensitivity, threads, param_str)
 
+    log_path = os.path.join(resultsAddress, "log.txt")
+    success = True
+    stageNotice = None
+
     # Comando final
-    cmds = f"""
-    cd {resultsAddress}
+    try:
+        cmds = f"""
+            cd {resultsAddress}
 
-    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-    export PATH="$HOME/miniconda3/envs/EDTA2/bin:$PATH" &&
-    export PATH="$HOME/miniconda3/envs/EDTA2/bin/RepeatMasker:$PATH" &&
-    export PATH="$HOME/miniconda3/envs/EDTA2/bin/gt:$PATH" &&
-    export PATH="$HOME/TEs/EDTA/util:$PATH" &&
-        
-    {EDTA_FOLDER}/EDTA.pl --genome {new_genome_name} --species {speciesTIR} --step {stepsExecuted} --sensitive {sensitivity} --threads {threads} {param_str}
-    """
+            source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
+            export PATH="$HOME/miniconda3/envs/EDTA2/bin:$PATH" &&
+            export PATH="$HOME/miniconda3/envs/EDTA2/bin/RepeatMasker:$PATH" &&
+            export PATH="$HOME/miniconda3/envs/EDTA2/bin/gt:$PATH" &&
+            export PATH="$HOME/TEs/EDTA/util:$PATH" &&
 
-    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
-    process.wait()
+            {EDTA_FOLDER}/EDTA.pl --genome {new_genome_name} --species {speciesTIR} --step {stepsExecuted} --sensitive {sensitivity} --threads {threads} {param_str}
+        """
 
-    dataGeneration(new_genome_name, resultsAddress)
-    send_email_complete_annotation(email, storageFolder)
+        with open(log_path, "w") as logfile:
+            process = subprocess.Popen(cmds, shell=True, executable='/bin/bash',
+                                   stdout=logfile, stderr=logfile)
+            process.wait()
+
+        # Verifica se o EDTA falhou
+        if process.returncode != 0:
+            success = False
+            stageNotice = "Error in the annotation step"
+        else:
+            print("EDTA finalised")
+            # Se EDTA rodou bem, tenta executar dataGeneration
+            try:
+                print("Generation of graphs and reports")
+                dataGeneration(new_genome_name, resultsAddress, log_path, threads)
+                success = True
+            except Exception as e:
+                success = False
+                with open(log_path, "a") as logfile:
+                    logfile.write(f"\n\n[Error at the stage of generating graphs and reports]\n{str(e)}\n")
+                stageNotice = "Error in the generation of graphs and reports"
+
+    except Exception as e:
+        success = False
+        with open(log_path, "a") as logfile:
+            logfile.write(f"\n\n[Pipeline Error]\n{str(e)}\n")
+
+    finally:
+        if success:
+            send_email_complete_annotation(email, storageFolder, log_path)
+        else:
+            send_email_error_annotation(email, storageFolder, log_path, stageNotice)
 
     print("Finished annotation")
     print("")
