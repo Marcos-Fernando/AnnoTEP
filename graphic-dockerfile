@@ -30,20 +30,6 @@ COPY . /root/TEs
 COPY Scripts/break_fasta.pl /usr/local/bin/
 COPY Scripts/irf /usr/local/bin/ 
 
-# Install TEsorter
-RUN cd /root/TEs/TEsorter \
-    && python3 setup.py install
-
-RUN cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/ \
-    && hmmpress REXdb_v3_TIR.hmm \
-    && hmmpress Yuan_and_Wessler.PNAS.TIR.hmm \
-    && hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm \
-    && hmmpress REXdb_protein_database_viridiplantae_v3.0.hmm \
-    && hmmpress REXdb_protein_database_metazoa_v3.hmm \
-    && hmmpress Kapitonov_et_al.GENE.LINE.hmm \
-    && hmmpress GyDB2.hmm \
-    && hmmpress AnnoSINE.hmm
-
 #Install miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && mkdir /root/.conda \
@@ -74,6 +60,7 @@ VOLUME /root/TEs/graphic-interface/results
 
 # Command to start Flask and synchronize the folder
 CMD ["/bin/bash", "-c", "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && flask run --host=0.0.0.0"]
+#CMD ["flask", "run", "--host=0.0.0.0"]
 
 
 
