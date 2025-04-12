@@ -10,7 +10,7 @@ GRAPHIC_FOLDER = os.path.join(EXTENSIONS_FOLDER, '..')
 UPLOAD_FOLDER = os.path.join(GRAPHIC_FOLDER, '..')
 RESULTS_FOLDER = os.path.join(GRAPHIC_FOLDER, 'results')
 
-def dataGeneration(new_filename, resultsAddress):
+def dataGeneration(new_filename, resultsAddress, log_path, threads):
     cmds = f"""
     cd {resultsAddress}
     mkdir TE-REPORT
@@ -66,13 +66,17 @@ def dataGeneration(new_filename, resultsAddress):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIUnknown" | sed 's#ClassIUnknown#Class_I_Unknown#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "TIRs"  >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIIUnknown" | sed 's#ClassIIUnknown#Class_II_Unknown#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "Unclassified"  >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | tac | grep -m 1 -w "Unclassified" | tac  >> plot.txt
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
     
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report1.pdf
     pdf2svg TE-Report1.pdf TE-Report1.svg
+
+    python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
+	mv TE-Report.pdf TE-Report1-number.pdf
+    pdf2svg TE-Report1-number.pdf TE-Report1-number.svg
 
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report1-bubble.pdf
@@ -120,17 +124,22 @@ def dataGeneration(new_filename, resultsAddress):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Galadriel >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Tekay >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Reina >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w MITE >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | grep -w MITEs >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w EnSpm_CACTA | sed 's#EnSpm_CACTA#CACTA#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w hAT >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w MuDR_Mutator | sed 's#MuDR_Mutator#MuDR#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w PIF_Harbinger | sed 's#PIF_Harbinger#Harbinger#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "RC/Helitron" | sed 's#RC/Helitron#Helitron#g' >> plot.txt
-	
+	paste names.txt count.txt bp.txt percentage.txt | grep -w Tc1_Mariner >> plot.txt
 	cat header.txt plot.txt > plot1.txt
+    
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report2.pdf
     pdf2svg TE-Report2.pdf TE-Report2.svg
+
+    python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
+	mv TE-Report.pdf TE-Report2-number.pdf
+    pdf2svg TE-Report2-number.pdf TE-Report2-number.svg
 
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report2-bubble.pdf
@@ -167,14 +176,14 @@ def dataGeneration(new_filename, resultsAddress):
     cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
 
     source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1 &&
+    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p {threads} TE.fasta >/dev/null 2>&1 &&
+    
+    concatenate_domains.py TE.cls.pep GAG > GAG.aln &&
+    concatenate_domains.py TE.cls.pep PROT > PROT.aln &&
+    concatenate_domains.py TE.cls.pep RH > RH.aln &&
+    concatenate_domains.py TE.cls.pep RT > RT.aln &&
+    concatenate_domains.py TE.cls.pep INT > INT.aln &&
     conda deactivate
-
-    concatenate_domains.py TE.cls.pep GAG > GAG.aln
-    concatenate_domains.py TE.cls.pep PROT > PROT.aln
-    concatenate_domains.py TE.cls.pep RH > RH.aln
-    concatenate_domains.py TE.cls.pep RT > RT.aln
-    concatenate_domains.py TE.cls.pep INT > INT.aln
 
     cat GAG.aln | cut -f 1 -d" " > GAG.fas
     cat PROT.aln | cut -f 1 -d" " > PROT.fas
@@ -183,7 +192,7 @@ def dataGeneration(new_filename, resultsAddress):
     cat INT.aln | cut -f 1 -d" " > INT.fas
     
     perl {UPLOAD_FOLDER}/Scripts/catfasta2phyml.pl -c -f *.fas > all.fas
-    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt AUTO
+    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt {threads}
 
     wait
     cat TE.cls.tsv | cut -f 1 | sed 's#^#cat tree.mod.EDTA.TEanno.sum | grep -w "#g' | sed 's#$#"#g' > pick-occur.sh
@@ -217,8 +226,15 @@ def dataGeneration(new_filename, resultsAddress):
     pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
     """
 
-    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
-    process.wait()
+    with open(log_path, "a") as logfile:
+        logfile.flush()
+        process = subprocess.Popen(cmds, shell=True, executable="/bin/bash",
+                                   stdout=logfile, stderr=logfile)
+        process.wait()
+
+        if process.returncode != 0:
+            logfile.write("\n[Error detected during execution of the dataGeneration function]\n")
+            raise RuntimeError("Error when generating graphs and reports (dataGeneration).")
 
     print("Finished annotation")
     print("")
