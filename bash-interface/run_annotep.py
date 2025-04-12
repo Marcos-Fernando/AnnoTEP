@@ -87,7 +87,7 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
     process.wait()
     
-    complete_Analysis(new_genome, resultsAddress)
+    complete_Analysis(new_genome, resultsAddress, adjusted_threads)
 
     # cmds = f""" EDTA.pl --genome {genome} --species {species} --step {step} --threads {adjusted_threads} {param_str} """
     # print(cmds)
@@ -95,7 +95,7 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
     print(f">>>>>>>>>> Process finished >>>> Output: {storageFolder}")
 
 
-def complete_Analysis(new_genome, resultsAddress):
+def complete_Analysis(new_genome, resultsAddress, adjusted_threads):
     cmds = f"""
     cd {resultsAddress}
     mkdir TE-REPORT
@@ -149,13 +149,17 @@ def complete_Analysis(new_genome, resultsAddress):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIUnknown" | sed 's#ClassIUnknown#Class_I_Unknown#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "TIRs"  >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIIUnknown" | sed 's#ClassIIUnknown#Class_II_Unknown#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "Unclassified"  >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | tac | grep -m 1 -w "Unclassified" | tac  >> plot.txt
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
     
-	python {UPLOAD_FOLDER}/Scriptsplot_TEs_length.py
+	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report1.pdf
     pdf2svg TE-Report1.pdf TE-Report1.svg
+
+    python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
+	mv TE-Report.pdf TE-Report1-number.pdf
+    pdf2svg TE-Report1-number.pdf TE-Report1-number.svg
 
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report1-bubble.pdf
@@ -202,17 +206,22 @@ def complete_Analysis(new_genome, resultsAddress):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Galadriel >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Tekay >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Reina >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w MITE >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | grep -w MITEs >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w EnSpm_CACTA | sed 's#EnSpm_CACTA#CACTA#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w hAT >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w MuDR_Mutator | sed 's#MuDR_Mutator#MuDR#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w PIF_Harbinger | sed 's#PIF_Harbinger#Harbinger#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "RC/Helitron" | sed 's#RC/Helitron#Helitron#g' >> plot.txt
-	
+	paste names.txt count.txt bp.txt percentage.txt | grep -w Tc1_Mariner >> plot.txt
 	cat header.txt plot.txt > plot1.txt
-	python {UPLOAD_FOLDER}/Scriptsplot_TEs_length.py
+
+	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report2.pdf
     pdf2svg TE-Report2.pdf TE-Report2.svg
+
+    python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
+	mv TE-Report.pdf TE-Report2-number.pdf
+    pdf2svg TE-Report2-number.pdf TE-Report2-number.svg
 
 	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
 	mv TE-Report.pdf TE-Report2-bubble.pdf
@@ -248,14 +257,14 @@ def complete_Analysis(new_genome, resultsAddress):
     cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
 
     source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1 &&
+    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p {adjusted_threads} TE.fasta >/dev/null 2>&1 &&
+    
+    concatenate_domains.py TE.cls.pep GAG > GAG.aln &&
+    concatenate_domains.py TE.cls.pep PROT > PROT.aln &&
+    concatenate_domains.py TE.cls.pep RH > RH.aln &&
+    concatenate_domains.py TE.cls.pep RT > RT.aln &&
+    concatenate_domains.py TE.cls.pep INT > INT.aln &&
     conda deactivate
-
-    concatenate_domains.py TE.cls.pep GAG > GAG.aln
-    concatenate_domains.py TE.cls.pep PROT > PROT.aln
-    concatenate_domains.py TE.cls.pep RH > RH.aln
-    concatenate_domains.py TE.cls.pep RT > RT.aln
-    concatenate_domains.py TE.cls.pep INT > INT.aln
 
     cat GAG.aln | cut -f 1 -d" " > GAG.fas
     cat PROT.aln | cut -f 1 -d" " > PROT.fas
@@ -264,7 +273,7 @@ def complete_Analysis(new_genome, resultsAddress):
     cat INT.aln | cut -f 1 -d" " > INT.fas
     
     perl {UPLOAD_FOLDER}/Scripts/catfasta2phyml.pl -c -f *.fas > all.fas
-    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt AUTO
+    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt {adjusted_threads}
 
     wait
     cat TE.cls.tsv | cut -f 1 | sed 's#^#cat tree.mod.EDTA.TEanno.sum | grep -w "#g' | sed 's#$#"#g' > pick-occur.sh
