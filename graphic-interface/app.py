@@ -2,8 +2,6 @@ import os
 
 from flask import Flask
 from flask_mail import Mail
-from flask_pymongo import PyMongo
-from celery import Celery
 
 def create_app():
     GRAPHIC_FOLDER = os.path.dirname(os.path.abspath(__file__))
