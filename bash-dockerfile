@@ -29,20 +29,6 @@ COPY . /root/TEs
 COPY Scripts/break_fasta.pl /usr/local/bin/
 COPY Scripts/irf /usr/local/bin/ 
 
-# Install TEsorter
-RUN cd /root/TEs/TEsorter \
-    && python3 setup.py install
-
-RUN cd /usr/local/lib/python3.10/dist-packages/TEsorter-1.4.1-py3.10.egg/TEsorter/database/ \
-    && hmmpress REXdb_v3_TIR.hmm \
-    && hmmpress Yuan_and_Wessler.PNAS.TIR.hmm \
-    && hmmpress REXdb_protein_database_viridiplantae_v3.0_plus_metazoa_v3.hmm \
-    && hmmpress REXdb_protein_database_viridiplantae_v3.0.hmm \
-    && hmmpress REXdb_protein_database_metazoa_v3.hmm \
-    && hmmpress Kapitonov_et_al.GENE.LINE.hmm \
-    && hmmpress GyDB2.hmm \
-    && hmmpress AnnoSINE.hmm
-
 #Install miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && mkdir /root/.conda \
@@ -64,15 +50,6 @@ ENV LANG=C.UTF-8
 
 # Port Flask
 EXPOSE 5000
-
-# Installing the platform's development environment and adding the requirements
-#RUN cd /root/TEs/bash-interface \
-#    && python3 -m venv .venv \
-#    && . .venv/bin/activate \
-#    && pip install --upgrade pip \
-#    && pip install -r requirements.txt
-    
-#ENTRYPOINT ["python", "run_annotep.py"]
 
 # Work directory
 WORKDIR /root/TEs/bash-interface
