@@ -366,24 +366,24 @@ Open the terminal and run the following commands:
 
 **Step 1. Download the AnnoTEP Image:** Open your terminal and run the following command to download the AnnoTEP Docker image:
 ```sh
-docker pull annotep/annotep-gui:v1
+docker pull annotep/annotep-gui:v2
 ```
 
 **Step 2. Run the Container** Next, run the container using the command below. Specify a folder on your machine to store the annotation results:
 ```sh
-docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
+docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v2
 ```
 > [!TIP]
 > ### Description:
 > - ``-v {folder-results}:/root/TEs/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/graphic-interface/results`` is the directory inside the container and should not be changed.
 > - ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine.
-> - ``annotep/annotep-gui:v1``: Specifies the Docker image to use.
+> - ``annotep/annotep-gui:v2``: Specifies the Docker image to use.
 > <br>
 > 📌 For testing, you can download the Arabidopsis thaliana (Chromosome 4) file AtChr4.fasta from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
 >
 > #### Example:
 > ```sh
-> docker run -it -v /home/"user"/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
+> docker run -it -v /home/"user"/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v2
 > ```
 
 **Step 3. Acess the AnnoTEP interface:** After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
@@ -432,13 +432,13 @@ While the primary focus of AnnoTEP is its user-friendly graphical interface, we 
 
 **Step 1. Download the AnnoTEP Image:** To get started, download the AnnoTEP CLI Docker image by running the following command:
 ```sh
-docker pull annotep/annotep-cli:v1
+docker pull annotep/annotep-cli:v2
 ```
 
 **Step 2. Display the User Guide:** Use the ``-h`` parameter to display a detailed guide on how to use the script:
 
 ```sh
-docker run annotep/annotep-cli:v1 python run_annotep.py -h
+docker run annotep/annotep-cli:v2 python run_annotep.py -h
 ```
 
 This will show the following usage instructions:
@@ -485,7 +485,7 @@ optional arguments:
 **Step 3. Run the Container:** To simplify this step, we recommend creating a folder to store your genomic data in **FASTA format**. Once created, run the container using the command below as a guide. Ensure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absolute-path-to-folder-genomes}":"{absolute-path-to-folder-genomes}" annotep/annotep-cli:v1 python run_annotep.py --genome "{absolute-path-to-folder-genomes/genome.fasta}" --threads "{number}"
+docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absolute-path-to-folder-genomes}":"{absolute-path-to-folder-genomes}" annotep/annotep-cli:v2 python run_annotep.py --genome "{absolute-path-to-folder-genomes/genome.fasta}" --threads "{number}"
 ```
 
 >[!TIP]
@@ -499,7 +499,7 @@ docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absol
 >
 > #### Example:
 > ```sh
-> docker run -it -v /home/"user"/results-annotep:/root/TEs/bash-interface/results -v /home/"user"/Documents/TEs:/home/"user"/Documents/TEs annotep/annotep-cli:v1 python run_annotep.py --genome /home/"user"/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
+> docker run -it -v /home/"user"/results-annotep:/root/TEs/bash-interface/results -v /home/"user"/Documents/TEs:/home/"user"/Documents/TEs annotep/annotep-cli:v2 python run_annotep.py --genome /home/"user"/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
 > ```
 
 **Step 4. Monitor the Annotation Process:** Wait for the genome annotation to complete. You can monitor the progress directly through the terminal.
@@ -511,7 +511,7 @@ docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absol
 > If Docker containers experience memory issues or unexpected terminations due to intensive resource usage, you can adjust the process limits (``--pids-limit``) and swap memory (``--memory-swap``). 
 > Example usage: 
 >```sh
-> docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v1
+> docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v2
 >```
 > <b> Explanation: </b>
 > - ``--pids-limit {threads x 10000}``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
