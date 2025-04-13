@@ -148,7 +148,7 @@ perl EDTA.pl -h
 >                   maxIDLength => 50
 >   );
 >   ``` 
-> * Change the value of ``maxIDLength`` from ``50`` to a higher value, for example:
+> * Change the value of ``maxIDLength`` from ``80`` to a higher value, for example:
 >   ``` sh
 >   my $db = FastaDB->new(
 >                   fileName    => $file,
