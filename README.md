@@ -402,7 +402,11 @@ docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0
 
 <br>
 
-When the process is completed without errors, you will receive an email informing you that the results are available in the specified results folder ``-v {folder-results}``.
+Once the process is complete, you will receive an email confirming whether it finished successfully or with errors. The email will include:
+
+* The name of the generated folder (available in the results directory specified via ``-v {folder-results}``);
+* A detailed ``log`` of the annotation steps;
+* Any ``error messages``, if they occurred.
 
 **Step 5. Monitor Progress via Docker Logs:** To monitor the annotation progress, use the Docker logs:.
    1. In the terminal, type 
