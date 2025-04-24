@@ -671,7 +671,6 @@ This section lists the genomes currently being analysed using the AnnoTEP pipeli
 | Genome                                           | Common Name            | Size          |
 |--------------------------------------------------|------------------------|---------------|
 | _Ceratopteris richardii_ (v2.1)                  | Fern                   | 7,46 Gb       |
-| _Helianthus annuus_ (r1.2)                       | Sunflower              | 3,03 Gb       |
 | _Pinus tabuliformis_                             | Chinese pine           | 24,41 Gb      |
 | _Triticum aestivum cv. Chinese Spring_ (v2.1)    | bread wheat            | 14,58 Gb      |
 
