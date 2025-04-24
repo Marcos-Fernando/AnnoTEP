@@ -611,8 +611,7 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Chlamydomonas reinhardtii_                      | Green algae            | 114,63 Mb     |
 | _Coffea arabica_                                 | Arabian coffee         | 1,19 Gb       |
 | _Conticribra weissflogii_                        | Diatoms                | 231,50 Mb     |
-| _Cryptomonas gyropyrenoidosa_                    | Cryptomonads           | 0,74 Mb       |
-| _Cycas panzhihuaensis_                           | Dukou sago palm        | 10,48 Gb      |
+| _Cryptomonas gyropyrenoidosa_                    | Cryptomonads           | 0,74 Mb       |  
 | _Cyanidia caldarium_                             | Red algae              | 8,79 Mb       |
 | _Cyanidiococcus yangmingshanensis_               | Red algae              | 12,02 Mb      |
 | _Cyanophora paradoxa_                            | Freshwater Glaucophyte | 99,94 Mb      |
@@ -621,9 +620,11 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Euglena gracilis_                               | Unicellular algae      | 2,37 Gb       |
 | _Fragaria x ananassa_ (Royal Royce v1.0)         | Strawberries           | 786,54 Mb     |
 | _Galdieria yellowstonensis_                      | Red algae              | 14,51 Mb      |
-| _Ginkgo biloba_                                  | Maidenhair trees       | 2,64 Gb       |
+| _Ginkgo biloba_                                  | Maidenhair trees       | 9,35 Gb       |
 | _Gnetum montanum_                                | Joint fir              | 3,79 Gb       |
 | _Gossypium hirsutum_ (v3.1)                      | Cotton                 | 2,28 Gb       |
+| _Glycine max_                                    | Soybean                | 1,01 Gb       |
+| _Helianthus annuus_ (r1.2)                       | Sunflower              | 3,03 Gb       |
 | _Hevea brasiliensis_                             | Rubber tree            | 1,88 Gb       |
 | _Isoetes taiwanensis_                            | Quillwort              | 1,66 Gb       |
 | _Lotus japonicus_                                | Miyakogusa             | 553,71 Mb     |
