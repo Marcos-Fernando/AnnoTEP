@@ -105,6 +105,13 @@ my $LTR_HARVEST2 = "$script_path/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel2"
 my $MAKE_GFF3 = "$script_path/bin/make_gff3_2.pl";
 my $PARSE_HARVEST = "$script_path/util/parse_LTRharvest.py";
 my $CLASSIFY_LTR = "$script_path/util/classify_LTRs.py"; 
+#
+my $LTR_HARVEST_SMALL = "$script_path/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel_small";
+my $LTR_HARVEST_BIG = "$script_path/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel_big";
+my $LTR_HARVEST2_BIG = "$script_path/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel2_big";
+my $LTR_HARVEST2_SMALL = "$script_path/bin/LTR_HARVEST_parallel/LTR_HARVEST_parallel2_small";
+my $LTR_FINDER_SMALL = "$script_path/bin/LTR_FINDER_parallel/LTR_FINDER_parallel_small";
+my $LTR_FINDER_BIG = "$script_path/bin/LTR_FINDER_parallel/LTR_FINDER_parallel_big";
 ################
 
 # read parameters
@@ -169,8 +176,18 @@ print STDERR "$date\tEDTA_raw: Check dependencies, prepare working directories.\
 # check files and dependencies
 die "The LTR_FINDER_parallel is not found in $LTR_FINDER!\n" unless -s $LTR_FINDER;
 die "The LTR_HARVEST_parallel is not found in $LTR_HARVEST!\n" unless -s $LTR_HARVEST;
+# =======
 # Added
+# =======
 die "The LTR_HARVEST_parallel2 is not found in $LTR_HARVEST2!\n" unless -s $LTR_HARVEST2;
+die "The LTR_HARVEST_parallel_small is not found in  $LTR_HARVEST_SMALL!\n" unless -s $LTR_HARVEST_SMALL;
+die "The LTR_HARVEST_parallel_big is not found in  $LTR_HARVEST_BIG!\n" unless -s $LTR_HARVEST_BIG;
+die "The LTR_HARVEST_parallel2_small is not found in  $LTR_HARVEST2_SMALL!\n" unless -s $LTR_HARVEST2_SMALL;
+die "The LTR_HARVEST_parallel2_big is not found in  $LTR_HARVEST2_BIG!\n" unless -s $LTR_HARVEST2_BIG;
+die "The LTR_FINDER_parallel_small is not found in $LTR_FINDER_SMALL!\n" unless -s $LTR_FINDER_SMALL;
+die "The LTR_FINDER_parallel_big is not found in $LTR_FINDER_BIG!\n" unless -s $LTR_FINDER_BIG;
+#
+#
 #
 die "The TIR_Learner is not found in $TIR_Learner!\n" unless -s "$TIR_Learner/bin/main.py";
 die "The script get_range.pl is not found in $get_range!\n" unless -s $get_range;
@@ -325,7 +342,27 @@ if ($convert_name == 1){
 		$genome = "$genome.mod";
 	}
 }
-
+#
+# ======================
+# Calculate genome size
+# ======================
+#
+my $genome_size = 0;
+my $fai_file = "$genome.fai";
+unless (-e $fai_file) {
+    system("samtools faidx $genome") == 0 or die "samtools faidx error\n";
+}	
+#
+open(my $fh, "<", $fai_file) or die "samtools faidx error: $fai_file: $!\n";
+#
+while (my $line = <$fh>) {
+    my @cols = split(/\t/, $line);
+    $genome_size += $cols[1];  
+}
+close($fh);	
+print STDERR "$date\tGenome size is: $genome_size bp \n";
+#
+#
 # Make working directories
 `mkdir $genome.EDTA.raw` unless -e "$genome.EDTA.raw" && -d "$genome.EDTA.raw";
 `mkdir $genome.EDTA.raw/LTR` unless -e "$genome.EDTA.raw/LTR" && -d "$genome.EDTA.raw/LTR";
@@ -354,45 +391,81 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 	print STDERR "$date\tExisting result file $genome.LTR.raw.fa found!\n\t\tWill keep this file without rerunning this module.\n\t\tPlease specify --overwrite 1 if you want to rerun this module.\n\n";
 } else {
 	print STDERR "$date\tIdentify LTR retrotransposon candidates from scratch.\n\n";
-
-
-	# ==========================================================================================================================================================================================
+	#
+	#
+	# =================================================================================================
 	# 
 	# Changed for plant genomes - LTR and elements size modifications
-	# ==========================================================================================================================================================================================
-
-
+	# 
+	# =================================================================================================
+	#
+	#
+	# ==================
 	# run LTRharvest
-	
+	# ==================
+	#
 	if ($overwrite eq 0 and -s "$genome.harvest.combine.scn"){
 		print STDERR "$date\tExisting raw result $genome.harvest.scn found!\n\t\tWill use this for further analyses.\n\n";
 	} else {
-		`perl $LTR_HARVEST -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`;
+		#
+		#
+		if ($genome_size <= 10000000) {
+			`perl $LTR_HARVEST_SMALL -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`;
+		}
+		else { # elseif ($genome_size > 50000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+			`perl $LTR_HARVEST -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`; 
+		}
+		#else {  # Genomes larger than 2 Gb
+		#	`perl $LTR_HARVEST_BIG -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`; 
+		#}
 	}
-	# ==========================================================================================================================================================================================
+	#
+	# =================================================================================================
 	# ADDED
 	# run LTRharvest2 nonTGCA motif
-	# ==========================================================================================================================================================================================
+	# =================================================================================================
+	#
 	if ($overwrite eq 0 and -s "$genome.harvest.combine2.scn"){
 		print STDERR "$date\tExisting raw result $genome.harvest2.scn found (nonTGCA motif)!\n\t\tWill use this for further analyses.\n\n";
 	} else {
-		`perl $LTR_HARVEST2 -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`;
+		if ($genome_size <= 10000000) {
+			`perl $LTR_HARVEST2_SMALL -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`; 
+		}
+		else { #elsif ($genome_size > 50000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+			`perl $LTR_HARVEST2 -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`;
+		}
+		#else {  # Genomes larger than 2 Gb
+		#	`perl $LTR_HARVEST2_BIG -seq $genome -threads $threads -gt $genometools -size 5000000 -time 1500`;
+		#}
 	}
 	#
+	#
+	#	
 	if (($overwrite eq 0 and -s "$genome.harvest.combine2.scn") && ($overwrite eq 0 and -s "$genome.harvest.combine.scn")){
 		print STDERR "$date\tExisting raw result $genome.harvest.scn $genome.harvest2.scn found!\n\t\tWill use this for further analyses.\n\n";
-
+		#
 		`python $PARSE_HARVEST -motif $genome.harvest.combine.scn -nomotif $genome.harvest.combine2.scn -out $genome.harvest.combine2-cleaned.scn `;
 
 	} else {
 			print STDERR "ERROR on $genome.harvest.scn $genome.harvest2.scn found!\n\n";
 	}
 	#
+	#
+	#
+	#
 	# run LTR_FINDER_parallel
 	if ($overwrite eq 0 and -s "$genome.finder.combine.scn"){
 		print STDERR "$date\tExisting raw result $genome.finder.combine.scn found!\n\t\tWill use this for further analyses.\n\n";
 	} else {
-		`perl $LTR_FINDER -seq $genome -threads $threads -harvest_out -size 5000000 -time 1500`;
+		if ($genome_size <= 10000000) {
+			`perl $LTR_FINDER_SMALL -seq $genome -threads $threads -harvest_out -size 5000000 -time 1500`;
+		}
+		else { #elsif ($genome_size > 50000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+			`perl $LTR_FINDER -seq $genome -threads $threads -harvest_out -size 5000000 -time 1500`;
+		}
+		#else {  # Genomes larger than 2 Gb
+		#	`perl $LTR_FINDER_BIG -seq $genome -threads $threads -harvest_out -size 5000000 -time 1500`; 
+		#}
 	}
 	#
 	# run LTR_retriever
@@ -403,9 +476,36 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#
 		#
 		if (-s "$genome.harvest.combine2-cleaned.scn") { 
-			`${LTR_retriever}LTR_retriever -genome $genome -minlen 100 -max_ratio 50 -flanksim 75 -procovTE 0.6 -procovPL 0.6 -inharvest $genome.rawLTR.scn -nonTGCA $genome.harvest.combine2-cleaned.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
-		} else {	
-			`${LTR_retriever}LTR_retriever -genome $genome -minlen 100 -max_ratio 50 -flanksim 75 -procovTE 0.6 -procovPL 0.6 -inharvest $genome.rawLTR.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#	
+			#
+			if ($genome_size <= 10000000) {
+				`${LTR_retriever}LTR_retriever -genome $genome -minlen 30 -max_ratio 40 -minscore 500 -flanksim 30 -flankmiss 30 -procovTE 0.8 -procovPL 0.8 -cdhit "-c 0.75 -G 0.8 -s 0.9 -aL 0.9 -aS 0.9 -M 0" -inharvest $genome.rawLTR.scn -nonTGCA $genome.harvest.combine2-cleaned.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#
+			}
+			else { #elsif ($genome_size > 50000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+				`${LTR_retriever}LTR_retriever -genome $genome -minlen 100 -max_ratio 50 -flanksim 75 -procovTE 0.6 -procovPL 0.6 -inharvest $genome.rawLTR.scn -nonTGCA $genome.harvest.combine2-cleaned.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#
+			}
+			#else {  # Genomes larger than 2 Gb
+			#	`${LTR_retriever}LTR_retriever -genome $genome -minlen 500 -max_ratio 20 -minscore 2000 -flanksim 70 -flankmiss 20 -procovTE 0.6 -procovPL 0.6 -cdhit "-c 0.85 -G 0.9 -s 0.95 -aL 0.95 -aS 0.95 -M 0" -inharvest $genome.rawLTR.scn -nonTGCA $genome.harvest.combine2-cleaned.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#	
+			#}
+			#
+			#
+			#
+		} else {
+			#			
+			if ($genome_size <= 10000000) {
+				`${LTR_retriever}LTR_retriever -genome $genome -minlen 30 -max_ratio 40 -minscore 500 -flanksim 30 -flankmiss 30 -procovTE 0.8 -procovPL 0.8 -cdhit "-c 0.75 -G 0.8 -s 0.9 -aL 0.9 -aS 0.9 -M 0" -inharvest $genome.rawLTR.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#
+			}
+			else { #elsif ($genome_size > 50000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+				`${LTR_retriever}LTR_retriever -genome $genome -minlen 100 -max_ratio 50 -flanksim 75 -procovTE 0.6 -procovPL 0.6 -inharvest $genome.rawLTR.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#
+			}
+			#else {  # Genomes larger than 2 Gb
+			#	`${LTR_retriever}LTR_retriever -genome $genome -minlen 500 -max_ratio 20 -minscore 2000 -flanksim 70 -flankmiss 20 -procovTE 0.6 -procovPL 0.6 -cdhit "-c 0.85 -G 0.9 -s 0.95 -aL 0.95 -aS 0.95 -M 0" -inharvest $genome.rawLTR.scn -u $miu -threads $threads -noanno -trf_path $trf -blastplus $blastplus -repeatmasker $repeatmasker`;
+			#}		
 		}
 	}
 	#
@@ -413,46 +513,54 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 	if ($overwrite eq 0 and -s "$genome.LTR.intact.fa.ori.dusted.cln"){
 		print STDERR "$date\tExisting raw result $genome.LTR.intact.fa.ori.dusted.cln found!\n\t\tWill use this for further analyses.\n\n";
 	} else {
+		#
+		if (-e "$genome.pass.list") { 
+			# get full-length LTR from pass.list
+			`awk '{if (\$1 !~ /#/) print \$1"\\t"\$1}' $genome.pass.list | perl $call_seq - -C $genome > $genome.LTR.intact.fa.ori`;
+			`perl -i -nle 's/\\|.*//; print \$_' $genome.LTR.intact.fa.ori`;
+			`perl $rename_LTR $genome.LTR.intact.fa.ori $genome.defalse > $genome.LTR.intact.fa.anno`;
+			`mv $genome.LTR.intact.fa.anno $genome.LTR.intact.fa.ori`;
 
-		# get full-length LTR from pass.list
-		`awk '{if (\$1 !~ /#/) print \$1"\\t"\$1}' $genome.pass.list | perl $call_seq - -C $genome > $genome.LTR.intact.fa.ori`;
-		`perl -i -nle 's/\\|.*//; print \$_' $genome.LTR.intact.fa.ori`;
-		`perl $rename_LTR $genome.LTR.intact.fa.ori $genome.defalse > $genome.LTR.intact.fa.anno`;
-		`mv $genome.LTR.intact.fa.anno $genome.LTR.intact.fa.ori`;
-
-		# remove simple repeats and candidates with simple repeats at terminals
-		`${mdust}mdust $genome.LTR.intact.fa.ori > $genome.LTR.intact.fa.ori.dusted`;
-		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 100 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.LTR.intact.fa.ori.dusted > $genome.LTR.intact.fa.ori.dusted.cln`;
+			# remove simple repeats and candidates with simple repeats at terminals
+			`${mdust}mdust $genome.LTR.intact.fa.ori > $genome.LTR.intact.fa.ori.dusted`;
+			`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 100 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.LTR.intact.fa.ori.dusted > $genome.LTR.intact.fa.ori.dusted.cln`;
+		}
+		else {
+			print STDERR "$date\tNO LTR DETECT!\n\n";
+			`touch $genome.LTR.intact.fa.ori.dusted.cln`;  	
+		}
 	}
 	#
-	# ==========================================================================================================================================================================================
+	# =======================================================================================================
 	## EDIT / ADDED
-	# ==========================================================================================================================================================================================	
+	# =======================================================================================================
 	#
 	if ($overwrite eq 1) { 
 		`rm -f $genome.LTR.intact.raw.fa`; 
 	}
 	#
-	if (! -e "$genome.LTR.intact.raw.fa"){
+	if (! -e "$genome.LTR.intact.raw.fa" && -e "$genome.LTR.intact.fa.ori.dusted.cln" && -s "$genome.LTR.intact.fa.ori.dusted.cln") {
 		print STDERR "$date\tRunning TEsorter to classify LTR-RT Elements!\n\n";
 		`${TEsorter}TEsorter -pre $genome.LTR -db rexdb-plant --hmm-database rexdb-plant $genome.LTR.intact.fa.ori.dusted.cln -p $threads 2>/dev/null`;
-		`mkdir TMP`;
-		`cat $genome.LTR.cls.lib | sed 's# #_END\t#g' | cut -f 1 | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' | sed 's/#/__/g' |  sed 's#/#_#g' > tmp.fa`;
-		`break_fasta.pl < tmp.fa ./TMP` ; 
-		`find ./TMP -name '*LINE*' | xargs rm -f ` unless -e "./TMP/*LINE*" ; 
-		`find ./TMP -name '*TIR*' | xargs rm -f ` unless -e "./TMP/*TIR*";
-		`find ./TMP -name '*Helitron*' | xargs rm -f ` unless -e "./TMP/*Helitron*";
 		#
-		#`rm -f ./TMP/*LINE*` unless -e "./TMP/*LINE*" ; 
-		#`rm -f ./TMP/*TIR*` unless -e "./TMP/*TIR*"; 
-		#`rm -f ./TMP/*Helitron*` unless -e "./TMP/*Helitron*"; 
-		#
-		#
-		#
-		#
-		`cat $genome.LTR.cls.tsv | cut -f 1 -d"#"  | cut -f 2 -d":" | sed 's#\\.\\.# #g' | awk '{print \$2-\$1}' | sed 's#^-##g'  > len.txt`; 
-		`paste $genome.LTR.cls.tsv len.txt | sed 's# #_#g' > table.txt`; 		
-		#
+		if (-e "$genome.LTR.cls.lib" && -s "$genome.LTR.cls.lib") {
+			`mkdir TMP`;
+			`cat $genome.LTR.cls.lib | sed 's# #_END\t#g' | cut -f 1 | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g' | sed 's/#/__/g' |  sed 's#/#_#g' > tmp.fa`;
+			`break_fasta.pl < tmp.fa ./TMP` ; 
+			`find ./TMP -name '*LINE*' | xargs rm -f ` unless -e "./TMP/*LINE*" ; 
+			`find ./TMP -name '*TIR*' | xargs rm -f ` unless -e "./TMP/*TIR*";
+			`find ./TMP -name '*Helitron*' | xargs rm -f ` unless -e "./TMP/*Helitron*";
+			#
+			#
+			#
+			#
+			#
+			`cat $genome.LTR.cls.tsv | cut -f 1 -d"#"  | cut -f 2 -d":" | sed 's#\\.\\.# #g' | awk '{print \$2-\$1}' | sed 's#^-##g'  > len.txt`; 
+			`paste $genome.LTR.cls.tsv len.txt | sed 's# #_#g' > table.txt`; 		
+			#
+		} else {
+			`touch table.txt` ; 
+		}
 		#
 		`cat table.txt | awk '{if (\$5 == "yes") print \$1}' | cut -f 1 -d"#"  | sed 's#^#cat ./TMP/#g' |  sed 's#\$#*.fasta#g' | sed 's#\\.\\.#--#g'  | sed 's#:#_DOIS_#g'  > pick.sh`;  
 		#
@@ -546,7 +654,6 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#		
 		if ($test_rest > 0) {
 			`find TMP/ -name "*.fasta" | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g'  | sed 's#_END##g' | sed 's#LTR_mixture#LTR/Unknown#g' | sed 's#mixture#LTR/Unknown#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa`;	
-			#`cat TMP/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g'  | sed 's#_END##g' | sed 's#LTR_mixture#LTR/Unknown#g' | sed 's#mixture#LTR/Unknown#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa`;
 		}
 		#
 		#
@@ -562,18 +669,17 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		`rm -f pick.sh` ;
 		`rm -f temp3.fa` ;
 		`rm -f del.sh`;  
-		`rm *LTR.cls.*`;
+		`rm -f *LTR.cls.*`;
 		`rm -f len.txt`;
 		`rm -f table.txt`; 
-
 		print STDERR "$date\tTEsorter and classification of LTR-RT Elements finished!\n\n";
 	} else {
 		print STDERR "$date\tUsing the previous generated $genome.LTR.intact.raw.fa\n\n";
 	}
-	# ==========================================================================================================================================================================================
+	# =======================================================================================================
 	# ADDED	
 	# generate annotated output and gff
-	# ==========================================================================================================================================================================================
+	# =======================================================================================================
 	if ($overwrite eq 1) { 
 		`rm -f $genome.LTR.intact.raw.gff3`; 
 	}
@@ -582,33 +688,38 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		chomp ($date = `date`);
 		print STDERR "$date\t$genome.LTR.intact.raw.gff3 exists, not necessary to create it\n";
 	} else {
-		`perl $output_by_list 1 $genome.LTR.intact.raw.fa 1 $genome.LTR.intact.fa.ori.dusted.cln -FA -ex | grep \\> | perl -nle 's/>//; print "Name\\t\$_"' > $genome.LTR.intact.fa.ori.rmlist`;
 		#
-		# Priorize TGCA motif
-		`cat $genome.pass.list  | grep "motif:TGCA"  | sort -V  > A.txt`;
-		`cat $genome.pass.list  | grep -v "motif:TGCA"  | sort -V  >> A.txt`;
-		#
-		`cat $genome.LTR.intact.raw.fa | grep "^>"  | sed 's/#/\t/g'  |  sed 's#^>#cat A.txt | grep -w "#g' | sed 's/\t/" | head -n 1 \t/g'  | cut -f 1 | sort -V > pick.sh`;
-		`bash pick.sh | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7,\$8,\$9}' > 1-to-9.txt`; 
-		`bash pick.sh | awk '{print \$12}' > 12.txt`;   
-		#
-		#
-		`cat $genome.LTR.intact.raw.fa | grep "^" | sort -V > tmp.txt`;   
-		`cat pick.sh | sed 's#A.txt#tmp.txt#g' > pick2.sh`;
-		#
-		`bash pick2.sh | cut -f 2 -d"#"  | sed 's#LTR/#LTR\t#g' | sed 's#LARD#LTR\tLARD#g'  | sed 's#TRIM#LTR\tTRIM#g' | sed 's#BARE-2#LTR\tBARE-2\t#g' | sed 's#TR_GAG#LTR\tTR_GAG\t#g' | awk '{print \$2,\$1}' > middle.txt`; 
+		if (-e "$genome.LTR.intact.raw.fa" && -e "$genome.pass.list") {
+			`perl $output_by_list 1 $genome.LTR.intact.raw.fa 1 $genome.LTR.intact.fa.ori.dusted.cln -FA -ex | grep \\> | perl -nle 's/>//; print "Name\\t\$_"' > $genome.LTR.intact.fa.ori.rmlist`;
+			#
+			# Priorize TGCA motif
+			`cat $genome.pass.list  | grep "motif:TGCA"  | sort -V  > A.txt`;
+			`cat $genome.pass.list  | grep -v "motif:TGCA"  | sort -V  >> A.txt`;
+			#
+			`cat $genome.LTR.intact.raw.fa | grep "^>"  | sed 's/#/\t/g'  |  sed 's#^>#cat A.txt | grep -w "#g' | sed 's/\t/" | head -n 1 \t/g'  | cut -f 1 | sort -V > pick.sh`;
+			`bash pick.sh | awk '{print \$1,\$2,\$3,\$4,\$5,\$6,\$7,\$8,\$9}' > 1-to-9.txt`; 
+			`bash pick.sh | awk '{print \$12}' > 12.txt`;   
+			#
+			#
+			`cat $genome.LTR.intact.raw.fa | grep "^" | sort -V > tmp.txt`;   
+			`cat pick.sh | sed 's#A.txt#tmp.txt#g' > pick2.sh`;
+			#
+			`bash pick2.sh | cut -f 2 -d"#"  | sed 's#LTR/#LTR\t#g' | sed 's#LARD#LTR\tLARD#g'  | sed 's#TRIM#LTR\tTRIM#g' | sed 's#BARE-2#LTR\tBARE-2\t#g' | sed 's#TR_GAG#LTR\tTR_GAG\t#g' | awk '{print \$2,\$1}' > middle.txt`; 
 
-		`paste 1-to-9.txt middle.txt 12.txt -d" " | sed 's/ /\t/g'  > $genome.pass.list-fixed`; 
-		#
-		#
-		`cp $genome.pass.list-fixed ../$genome.LTR-AGE.pass.list`;
-		#	
-		#
-		`perl $MAKE_GFF3 ../../$genome $genome.pass.list-fixed`;
-		`cat $genome.pass.list-fixed.gff3 | sed 's#LTR_retriever#EDTA#g' | sed 's#LTR/0#LTR/Unknown#g' > $genome.LTR.intact.raw.gff3`;
-		`rm -f 1-to-9.txt ; rm -f 12.txt ; rm -f middle.txt ; rm -f pick.sh ; rm -f pick2.sh ; rm A.txt ; rm -f tmp.txt`;
-		`rm $genome`;
-		print STDERR "$date\t$genome.LTR.intact.raw.gff3 created!\n";
+			`paste 1-to-9.txt middle.txt 12.txt -d" " | sed 's/ /\t/g'  > $genome.pass.list-fixed`; 
+			#
+			#
+			`cp $genome.pass.list-fixed ../$genome.LTR-AGE.pass.list`;
+			#	
+			#
+			`perl $MAKE_GFF3 ../../$genome $genome.pass.list-fixed`;
+			`cat $genome.pass.list-fixed.gff3 | sed 's#LTR_retriever#EDTA#g' | sed 's#LTR/0#LTR/Unknown#g' > $genome.LTR.intact.raw.gff3`;
+			`rm -f 1-to-9.txt ; rm -f 12.txt ; rm -f middle.txt ; rm -f pick.sh ; rm -f pick2.sh ; rm A.txt ; rm -f tmp.txt`;
+			`rm $genome`;
+			print STDERR "$date\t$genome.LTR.intact.raw.gff3 created!\n";
+		} else {
+			print STDERR "$date\tNo LTR candidates found.\n\n";
+		}
 	}
 }
 
@@ -625,9 +736,12 @@ if (-e "$genome.LTR.intact.raw.fa"){
 }
 #
 #
-`cp $genome.LTR.intact.raw.fa $genome.LTR.intact.raw.gff3 ../`;
+if (-e "$genome.LTR.intact.raw.fa" && -e "$genome.LTR.intact.raw.gff3") {
+	`cp $genome.LTR.intact.raw.fa $genome.LTR.intact.raw.gff3 ../`;
+} 
+#
 chdir '../..';
-
+#
 # check results
 chomp ($date = `date`);
 die "Error: LTR results not found!\n\n" unless -e "$genome.EDTA.raw/$genome.LTR.raw.fa";
@@ -663,9 +777,17 @@ if ($type eq "sine" or $type eq "all"){
 		#
 		### EDIT
 		# 
-		$status = system("python3 ${annosine}AnnoSINE_v2 -t $threads --num_alignments 50000 -rpm 0 --copy_number 3 --shift 100 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		if ($genome_size <= 10000000) {
+			$status = system("python3 ${annosine}AnnoSINE_v2 -t $threads --num_alignments 100000 -rpm 0 --copy_number 2 --shift 50 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		}
+		elsif ($genome_size > 10000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+			$status = system("python3 ${annosine}AnnoSINE_v2 -t $threads --num_alignments 50000 -rpm 0 --copy_number 3 --shift 100 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		}
+		else {  # Genomes larger than 2 Gb
+			$status = system("python3 ${annosine}AnnoSINE_v2 -t $threads --num_alignments 25000 -rpm 0 --copy_number 5 --shift 200 -auto 1 3 $genome ./ > /dev/null 2>&1");
+		}		
 	}
-
+	#
 	# filter and reclassify AnnoSINE candidates with TEsorter and make SINE library
 	if (-s "Seed_SINE.fa"){
 		# annotate and remove non-SINE candidates
@@ -729,7 +851,18 @@ if ($type eq "tir" or $type eq "all"){
 		if ($overwrite eq 0 and -s "./TIR-Learner-Result/TIR-Learner_FinalAnn.fa"){
 			print STDERR "$date\tExisting raw result TIR-Learner_FinalAnn.fa found!\n\t\tWill use this for further analyses.\n\t\tPlease specify --overwrite 1 if you want to rerun this module.\n\n";
 		} else {
-			`python3 $TIR_Learner/TIR-Learner3.0.py -f $genome_file_real_path -s $species -t $threads -l $maxint -c -o $genome_file_real_path.EDTA.raw/TIR --grf_path $grfp --gt_path $genometools -w $genome_file_real_path.EDTA.raw/TIR`;
+			#
+			#
+			if ($genome_size <= 50000000) {
+				`python3 $TIR_Learner/TIR-Learner3.0.py -f $genome_file_real_path -s $species -t $threads -l $maxint -m boost -c -o $genome_file_real_path.EDTA.raw/TIR --grf_path $grfp --gt_path $genometools -w $genome_file_real_path.EDTA.raw/TIR`;
+			}
+			elsif ($genome_size > 50000000 && $genome_size < 2000000000) {  # 2 Gb of limit
+				`python3 $TIR_Learner/TIR-Learner3.0.py -f $genome_file_real_path -s $species -t $threads -l $maxint -c -o $genome_file_real_path.EDTA.raw/TIR --grf_path $grfp --gt_path $genometools -w $genome_file_real_path.EDTA.raw/TIR`;
+			}
+			else {  # Genomes larger than 2 Gb
+
+				`python3 $TIR_Learner/TIR-Learner3.0.py -f $genome_file_real_path -s $species -t $threads -l $maxint -c -o $genome_file_real_path.EDTA.raw/TIR --grf_path $grfp --gt_path $genometools -w $genome_file_real_path.EDTA.raw/TIR`;
+			}
 		}
 		# clean raw predictions with flanking alignment
 		`perl $rename_tirlearner ./TIR-Learner-Result/TIR-Learner_FinalAnn.fa | perl -nle 's/TIR-Learner_//g; print \$_' > $genome.TIR`;
@@ -744,12 +877,12 @@ if ($type eq "tir" or $type eq "all"){
 		`perl $cleanup_tandem -misschar N -nc 50000 -nr 0.9 -minlen 80 -minscore 3000 -trf 1 -trf_path $trf -cleanN 1 -cleanT 1 -f $genome.TIR.ext30.fa.pass.fa.dusted > $genome.TIR.ext30.fa.pass.fa.dusted.cln`;
 
 
-	# ==========================================================================================================================================================================================
+	# ==============================================================================================
 	#
 	## EDIT / ADDED
 	#
-	# ==========================================================================================================================================================================================	
-		if ($overwrite eq 1) { 
+	# ==============================================================================================
+	if ($overwrite eq 1) { 
 			`rm -f "$genome.TIR.raw.fa"`; 
 		}
 
@@ -775,6 +908,7 @@ if ($type eq "tir" or $type eq "all"){
 			#
 			if ($test_tir > 0) {
 				`find ./TMP -name '*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#DNA_#DNA/#g' > tst.fa`;	
+				#`cat ./TMP/*.fasta | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#DNA_#DNA/#g' > tst.fa`;
 				#
 				`${TEsorter}TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre $genome.TIR -p $threads tst.fa 2>/dev/null`;
 				`find ./TMP -name '*.fasta' | xargs rm -f `;
@@ -874,7 +1008,7 @@ if ($type eq "helitron" or $type eq "all"){
 		if ( ! -s "$genome.HelitronScanner.draw.rc.hel.fa" or ! -s "$genome.HelitronScanner.draw.hel.fa" ) {
 			`sh $HelitronScanner $genome $threads`;
 		}
-
+		#
 		if ( -s "$genome.HelitronScanner.draw.rc.hel.fa" and -s "$genome.HelitronScanner.draw.hel.fa" ) {
 
 			# filter candidates based on repeatness of flanking regions
