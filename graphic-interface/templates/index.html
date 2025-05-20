@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../static/assets/icon.svg" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/home.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/help.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/modal.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main/dark-theme.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/help.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dark-theme.css') }}" />
     <title> AnnoTEP </title>
 </head>
 <body>
 	<div class="menuMobile">
-		<i class="ph-bold ph-list"></i>
+		<img src="../static/assets/icon_menu.png" alt="menu icon" class="menuIcon">
 	</div>
 
 	<aside class="aside">
@@ -24,6 +25,10 @@
 			<li class="li open home" id="Home">
 				<img class="home-icon" src="../static/assets/home.svg">
 				<span class="txt-link">Home</span>
+			</li>
+			<li class="li" id="Results">
+				<img class="help-icon" src="../static/assets/box.svg">
+				<span class="txt-link"> Results </span>
 			</li>
 			<li class="li" id="Help">
 				<img class="help-icon" src="../static/assets/QuestionCircle.svg">
@@ -71,19 +76,19 @@
 			</div>
 			<div class="data-input">
 				<section class="container-email">
-					<p class="session-title">Email Adress <span class="required">*</span> </p></p>
-					<input name=email id="email" class="email" placeholder="Enter email" type="email" pattern=".com"   onfocus="clearPlaceholder(this)" required/> 
+					<p class="session-title">Email Adress</p>
+					<input name=email id="email" class="email" placeholder="Enter email" type="email" onfocus="clearPlaceholder(this)"/> 
 				</section>
 				
 				<section class="container-genome">
-					<p class="session-title">Genome data <span class="required">*</span> </p> </p>
+					<p class="session-title">Genome data <span class="required">*</span> </p>
 					<div  class="input-genome">
 						<div class="box-input">
-							<input type="text" id="fileNameInput" placeholder=".fasta" class="input-text" readonly disabled>
+							<input type="text" id="fileNameInput" placeholder="FASTA" class="input-text" readonly disabled>
 		
 							<label for="inputdata" class="file-input">
 								<p class="name-btn">Browser</p>
-								<input name="genome-file" type="file" class="input-data" accept=".fasta" id="inputdata">
+								<input name="genome-file" type="file" class="input-data" accept=".fasta,.fa,.fna,.ffn,.faa,.frn" id="inputdata">
 							</label>
 						</div>
 					</div>
@@ -213,6 +218,7 @@
 					<input type="number" id="threads" name="threads" min="4" value="4" step="1">
 				</section>
 			</div>
+			<span class="not-required">* For highly repetitive genomes, users are encouraged to adjust the "Maximum divergence" parameter </span>
 		</section>
 
 			<section class="container-action">
@@ -230,7 +236,7 @@
 							<input type="text" id="cdsInput" name="cds_file" class="input-library" placeholder=".fasta .fa" readonly disabled>
 							<label for="cds" class="file-input">
 								<p class="name-btn">Browser</p>
-								<input type="file" class="input-data" accept=".fasta, .fa" id="cds">
+								<input type="file" class="input-data" accept="fasta,.fa,.fna,.ffn,.faa,.frn" id="cds">
 							</label>
 						</div>
 					</section>
@@ -294,14 +300,32 @@
 			</section>
 	
 		<section class="container-submit">
-			<button type="button" id="uploaddata" class="uploaddata" disabled> Submit </button>
+			<button type="button" id="uploaddata" class="uploaddata"> Submit </button>
 		</section>
 
 		<footer class="footer">
 			<div class="cite-us">
-				Thank you for downloading and using AnnoTEP, please <a href=""> cite us </a>
+				<!-- Thank you for downloading and using AnnoTEP, please <a href=""> cite us </a> -->
 			</div>
 		</footer>
+	</main>
+
+	<main class="results">
+		<header class="header">
+			<section class="container-header">
+				<img class="logo" src="../static/assets/Logo.svg" alt="Logo TEP"/>
+			</section>
+		</header>
+		<section class="container-results">
+			<div class="title-input">
+				<p>Latest Activities</p>
+			</div>
+			<article>
+				<p> List of the 10 most recent genomic data annotations </p>
+			</article>
+
+			<ul class="list-results" id="list-results"></ul>
+		</section>
 	</main>
 
 	<main class="Help">
@@ -327,7 +351,7 @@
 
 			<section class="bloco">
 				<h4> Data Input </h4>
-				<p><b>Email Address: </b> To start the annotation process, enter a valid email address. This is a mandatory field and is used to send notifications about the status of the analysis. While the email facilitates communication, the annotation occurs locally, so keep the system running during the process. </p>
+				<p><b>Email Address: </b> To start the annotation process, enter a valid email address. This is a optional field and is used to send notifications about the status of the analysis. While the email facilitates communication, the annotation occurs locally, so keep the system running during the process. </p>
 				
 				<p><b>Genome Data: </b> Upload the input file containing the complete genomic sequence in FASTA format. Use the "Browse" button to select the file from the local system.</p>
 			</section>
@@ -357,8 +381,8 @@
 				<p><b>Evaluate:</b> Check if the classification of annotated TEs is consistent. The "Annotation" field must be enabled to use this feature.</p>
 				<p><b>Force:</b> If no reliable TE candidates are identified, enabling this option allows the script to continue using a backup rice TE library.</p>
 
-				<p><b>Neutral Mutation Rate:</b> Set the neutral mutation rate for calculating the age of intact LTR elements (default: 1.3e-8 bp per year, based on rice). For more information, visit the <a href="https://plantgenomics.ncc.unesp.br/AnnoTEP/">website</a> and check out the table in the genome section.</p>
-				<p><b>Maximum Divergence:</b> Define the maximum acceptable divergence for TE fragments.</p>
+				<p><b>Neutral Mutation Rate:</b> Set the neutral mutation rate for calculating the age of intact LTR elements (default: 1.3e-8 bp per year, based on rice). For more information, visit the <a href="https://plantgenomics.ncc.unesp.br/AnnoTEP/" target="_blank">website</a> and check out the table in the genome section.</p>
+				<p><b>Maximum Divergence:</b> Define the maximum acceptable divergence for TE fragments. For highly repetitive genomes, users are encouraged to adjust the parameter (default: 40). </p>
 				<p><b>Threads:</b> Determine the number of threads to be used in running the pipeline (default: 4).</p>
 			</section>
 				
@@ -374,8 +398,24 @@
 			</section>
 				
 			<section class="bloco">
-				<h4> Submit </h4>
-				<p> After completing all necessary fields, click "Submit" to start the analysis. Ensure that all configurations are correct for efficient and accurate processing. Upon submission, an email will be sent to indicate the start of the annotation and another upon completion, including the name of the folder where the data has been stored. </p>
+				<h4> Submit and results </h4>
+				<p> After completing all necessary fields, click "Submit" to start the analysis. Ensure that all configurations are correct for efficient and accurate processing. </p>
+
+				<p>If you have provided a valid email address, you will receive a notification once the annotation process has started. Upon completion, a second email will be sent, indicating whether the process was successful or if any issues occurred. This final email will include a detailed log file outlining the outcome.</p>
+
+				<p>You can also monitor the progress of the annotation by accessing the "Results" tab. This section displays key information such as:</p>
+
+				<ul>
+					<li><p>The name of the generated output file;</p></li>
+
+					<li><p>Start and end timestamps (when available);</p></li>
+
+					<li><p>The current status of the annotation (e.g., in progress, completed, failed);</p></li>
+
+					<li><p>The last 20 lines of the annotation log.</p></li>
+				</ul>
+
+				<p><b>Please note:</b> all results and output files will be stored in the Docker volume you specified as the output directory. Ensure this path is correctly mounted to access the generated data.</p>
 			</section>
 		</section>
 		
@@ -387,9 +427,9 @@
 	</main>
 
 	<script src="https://unpkg.com/@phosphor-icons/web"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/main.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/style.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/dark-theme.js') }}"></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main/pages.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/style.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/dark-theme.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='scripts/pages.js') }}"></script>
 </body>
 </html>

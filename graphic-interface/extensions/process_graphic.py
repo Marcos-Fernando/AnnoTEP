@@ -10,21 +10,21 @@ GRAPHIC_FOLDER = os.path.join(EXTENSIONS_FOLDER, '..')
 UPLOAD_FOLDER = os.path.join(GRAPHIC_FOLDER, '..')
 RESULTS_FOLDER = os.path.join(GRAPHIC_FOLDER, 'results')
 
-def dataGeneration(new_filename, resultsAddress, log_path, threads):
+def dataGeneration(genome_fasta, output_dir, log_file_path, num_threads):
     cmds = f"""
-    cd {resultsAddress}
+    cd {output_dir}
     mkdir TE-REPORT
     cd TE-REPORT
-    ln -s ../{new_filename}.mod.EDTA.anno/{new_filename}.mod.cat.gz .
+    ln -s ../{genome_fasta}.mod.EDTA.anno/{genome_fasta}.mod.cat.gz .
 
-    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint {new_filename}.mod.cat.gz
-    mv {new_filename}.mod.tbl TEs-Report-Complete.txt
+    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint {genome_fasta}.mod.cat.gz
+    mv {genome_fasta}.mod.tbl TEs-Report-Complete.txt
 
-    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a {new_filename}.mod.cat.gz
-    mv {new_filename}.mod.tbl TEs-Report-Lite.txt
+    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a {genome_fasta}.mod.cat.gz
+    mv {genome_fasta}.mod.tbl TEs-Report-Lite.txt
 
     #Plot
-    cat {new_filename}.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#SINE/.\+ #SINE &#g'| sed 's#LINE/.\+ #LINE &#g' > tmp.txt
+    cat {genome_fasta}.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#SINE/.\+ #SINE &#g'| sed 's#LINE/.\+ #LINE &#g' > tmp.txt
     sed -i '/RC\/Helitron/d' tmp.txt
     
     cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Copia" -A 5 |  grep -v "\-\-"  > align2.txt
@@ -39,7 +39,7 @@ def dataGeneration(new_filename, resultsAddress, log_path, threads):
 
     perl {UPLOAD_FOLDER}/ProcessRepeats/calcDivergenceFromAlign.pl -s At.divsum align2.txt
 
-    genome_size="`perl {UPLOAD_FOLDER}/EDTA/util/count_base.pl ../{new_filename}.mod | cut -f 2`"
+    genome_size="`perl {UPLOAD_FOLDER}/EDTA/util/count_base.pl ../{genome_fasta}.mod | cut -f 2`"
     perl {UPLOAD_FOLDER}/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > RepeatLandscape.html
 
     tail -n 72 At.divsum > divsum.txt
@@ -147,16 +147,16 @@ def dataGeneration(new_filename, resultsAddress, log_path, threads):
 
     # ========================
     wait
-    cd {resultsAddress}
+    cd {output_dir}
     mkdir LTR-AGE
     cd LTR-AGE
-    ln -s ../{new_filename}.mod.EDTA.raw/{new_filename}.mod.LTR-AGE.pass.list
+    ln -s ../{genome_fasta}.mod.EDTA.raw/{genome_fasta}.mod.LTR-AGE.pass.list
 
     ln -s {UPLOAD_FOLDER}/Rscripts/plot-AGE-Gypsy.R
     ln -s {UPLOAD_FOLDER}/Rscripts/plot-AGE-Copia.R
 
-    cat -n {new_filename}.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
-    cat -n {new_filename}.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
+    cat -n {genome_fasta}.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
+    cat -n {genome_fasta}.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
 
     Rscript plot-AGE-Gypsy.R
     Rscript plot-AGE-Copia.R
@@ -164,19 +164,19 @@ def dataGeneration(new_filename, resultsAddress, log_path, threads):
     pdf2svg AGE-Copia.pdf AGE-Copia.svg
     pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
 
-    cd {resultsAddress}
+    cd {output_dir}
     mkdir TREE
     cd TREE
 
-    ln -s ../{new_filename}.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
+    ln -s ../{genome_fasta}.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
 
-    cat ../{new_filename}.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
+    cat ../{genome_fasta}.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
     mkdir tmp
     break_fasta.pl < tmp.txt ./tmp
     cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
 
     source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p {threads} TE.fasta >/dev/null 2>&1 &&
+    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p {num_threads} TE.fasta >/dev/null 2>&1 &&
     
     concatenate_domains.py TE.cls.pep GAG > GAG.aln &&
     concatenate_domains.py TE.cls.pep PROT > PROT.aln &&
@@ -192,7 +192,7 @@ def dataGeneration(new_filename, resultsAddress, log_path, threads):
     cat INT.aln | cut -f 1 -d" " > INT.fas
     
     perl {UPLOAD_FOLDER}/Scripts/catfasta2phyml.pl -c -f *.fas > all.fas
-    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt {threads}
+    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt {num_threads}
 
     wait
     cat TE.cls.tsv | cut -f 1 | sed 's#^#cat tree.mod.EDTA.TEanno.sum | grep -w "#g' | sed 's#$#"#g' > pick-occur.sh
@@ -226,7 +226,7 @@ def dataGeneration(new_filename, resultsAddress, log_path, threads):
     pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
     """
 
-    with open(log_path, "a") as logfile:
+    with open(log_file_path, "a") as logfile:
         logfile.flush()
         process = subprocess.Popen(cmds, shell=True, executable="/bin/bash",
                                    stdout=logfile, stderr=logfile)

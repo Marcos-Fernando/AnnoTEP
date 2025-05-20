@@ -1,4 +1,4 @@
-// ------ Chamada do Flask ---------
+// ------ Call Flask ---------
 function getFileAndEmail() {
   var filegenome = document.getElementById('inputdata').files[0];
   var email = document.getElementById('email').value;
@@ -7,11 +7,11 @@ function getFileAndEmail() {
 }
 
 function getCheckedValues() {
-  // Seleciona todos os checkboxes marcados no grupo "tir"
+  // Selects all the checkboxes marked in the ‘tir’ group
   const checkedTir = Array.from(document.querySelectorAll('input[name="tir"]:checked'))
     .map(checkbox => checkbox.value);
   
-  // Seleciona todos os checkboxes marcados no grupo "step"
+  // Select all the checkboxes marked in the ‘step’ group
   const checkedStep = Array.from(document.querySelectorAll('input[name="step"]:checked'))
     .map(checkbox => checkbox.value);
 
@@ -28,8 +28,8 @@ function getValuesAndValidate() {
   let mutationRate = "";
   let maxDivergence = "";
 
-  // Validação para mutation rate
-  const mutationRateRegex = /^[0-9]+\.[0-9]+e[-+]?[0-9]+$/; // Notação científica
+  // Validation for mutation rate
+  const mutationRateRegex = /^[0-9]+\.[0-9]+e[-+]?[0-9]+$/; // Scientific notation
   if (mutationRateValue === "" || mutationRateValue === "1.3e-8") {
       mutationRate = "";
   } else if (!mutationRateRegex.test(mutationRateValue)) {
@@ -39,7 +39,7 @@ function getValuesAndValidate() {
       mutationRate = mutationRateValue;
   }
 
-  // Validação para maximum divergence
+  // Validation for maximum divergence
   if (maxDivergenceValue === 40) {
       maxDivergence = "";
   } else if (maxDivergenceValue >= 0 && maxDivergenceValue <= 100) {
@@ -53,14 +53,14 @@ function getValuesAndValidate() {
 }
 
 function getFiles() {
-  // Receber os arquivos (caso existam) dos campos de input
-  var cdsFile = document.getElementById('cds').files[0] || null; // Retorna null se não houver arquivo
+  // Receive the files (if any) of the input fields
+  var cdsFile = document.getElementById('cds').files[0] || null; // Returns null if there is no file
   var curateLibFile = document.getElementById('curatelib').files[0] || null;
   var maskedRegionsFile = document.getElementById('exclude').files[0] || null;
   var rmLibFile = document.getElementById('rmlib').files[0] || null;
   var rmoutFile = document.getElementById('rmout').files[0] || null;
 
-  // Retornar um objeto com os arquivos, podendo ser null ou undefined se não houver arquivos
+  // Return an object with the files, which can be null or undefined if there are no files
   return {
     cdsFile,
     curateLibFile,
@@ -71,7 +71,6 @@ function getFiles() {
 }
 
 
-// Função para ativar apenas a anotação dos elementos SINE
 function execute_annotation(threadsValue) {
   const { filegenome, email } = getFileAndEmail();
   const { checkedTir: tircandidates, checkedStep: stepannotation } = getCheckedValues();
@@ -82,12 +81,12 @@ function execute_annotation(threadsValue) {
         data.append('email', email);
         data.append('thread', threadsValue);
         
-        // Adiciona cada item de `tircandidates` e `stepannotation` individualmente
+        // Adds each item from `tircandidates` and `stepannotation` individually
         tircandidates.forEach(item => data.append('tircandidates', item));
         stepannotation.forEach(item => data.append('stepannotation', item));
 
         const validatedValues = getValuesAndValidate();
-        if (!validatedValues) return; // Encerra se a validação falhar
+        if (!validatedValues) return; // Terminate if validation fails
         const { mutationRate, maxDivergence } = validatedValues;
 
         data.append('overwrite', switchValues.overwriteValue);
@@ -126,7 +125,7 @@ function execute_annotation(threadsValue) {
                 body: data
         }).then(response => {
               
-              console.log("Resposta do Flask recebida");
+              console.log("Flask response received");
         }).catch(error => {
                 console.error(error);
         });
@@ -141,22 +140,20 @@ function execute_annotation(threadsValue) {
 
 
 const uploaddate = document.getElementById('uploaddata');
-const threadsInput = document.getElementById('threads'); // Certifique-se de que este ID está correto
+const threadsInput = document.getElementById('threads'); // Make sure this ID is correct
 let threadsValue;
 
 uploaddate.addEventListener('click', function () {
-  // Obtém o valor de threads e garante que seja no mínimo 4
+  // Get the number of threads and make sure it's at least 4
   threadsValue = parseInt(threadsInput.value, 10);
   if (isNaN(threadsValue) || threadsValue < 4) {
-    threadsValue = 4; // Ajusta para 4 se estiver vazio, inválido ou menor que 4
-    threadsInput.value = threadsValue; // Atualiza o campo para refletir o ajuste
+    threadsValue = 4; // Set to 4 if empty, invalid or less than 4
+    threadsInput.value = threadsValue; // Update the field to reflect the adjustment
   }
 
   // Executa a função com o valor corrigido
   execute_annotation(threadsValue);
 
-  // Desabilita o botão após o clique
-  // uploaddate.setAttribute("disabled", "disabled");
 });
 
 
@@ -213,16 +210,16 @@ switch5.addEventListener("change", function () {
   updateSwitchStatus(switch5, statusTextswitch5, 'forceValue');
 });
 
-// Função para atualizar o estado visual e de texto de switch3 (Annotation)
+// Function to update the visual and text status of switch3 (Annotation)
 function updateSwitch3() {
   if (switch3.checked) {
       statusTextswitch3.textContent = "Enabled";
       statusTextswitch3.style.color = "#00B37E";
       annotationValue = 1;
 
-      switch4.disabled = false; // Habilita switch4 quando switch3 está ativado
+      switch4.disabled = false; // Enable switch4 when switch3 is activated
       
-      // Habilita a box-input
+      // Enable box-input
       rmoutFileInput.disabled = false;
       excludeFileInput.disabled = false;
       browseButton.classList.remove("disabled");
@@ -231,9 +228,9 @@ function updateSwitch3() {
       statusTextswitch3.textContent = "Deactivated";
       statusTextswitch3.style.color = "#C4C4CC";
       annotationValue = 0;
-      switch4.checked = false; // Desativa switch4 se switch3 for desativado
-      switch4.disabled = true; // Desabilita switch4 quando switch3 está desativado
-      updateSwitch4(); // Atualiza o estado de texto e cor de switch4
+      switch4.checked = false; // Deactivate switch4 if switch3 is deactivated
+      switch4.disabled = true; // Disable switch4 when switch3 is disabled
+      updateSwitch4(); // Updates the text and colour status of switch4
 
       // Desabilita a box-input
       rmoutFileInput.disabled = true;
@@ -248,15 +245,15 @@ function updateSwitch3() {
   }
 }
 
-// Função para atualizar o estado visual e de texto de switch4 (evaluate)
+// Function to update the visual and text status of switch4 (evaluate)
 function updateSwitch4() {
   if (switch4.checked) {
       statusTextswitch4.textContent = "Enabled";
       statusTextswitch4.style.color = "#00B37E";
       evaluateValue = 1;
 
-      switch3.checked = true; // Ativa switch3 automaticamente se switch4 for ativado
-      updateSwitch3(); // Atualiza o estado de switch3 para refletir a ativação
+      switch3.checked = true; // Activates switch3 automatically if switch4 is activated
+      updateSwitch3(); // Update the state of switch3 to reflect activation
   } else {
       statusTextswitch4.textContent = "Deactivated";
       statusTextswitch4.style.color = "#C4C4CC";
@@ -264,10 +261,105 @@ function updateSwitch4() {
   }
 }
 
-// Adiciona ouvintes de evento para as mudanças em switch3 e switch4
+// Add event listeners for the changes in switch3 and switch4
 switch3.addEventListener("change", updateSwitch3);
 switch4.addEventListener("change", updateSwitch4);
 
-// Inicializa o estado padrão ao carregar a página
+// Initialises the default state when loading the page
 updateSwitch3();
 updateSwitch4();
+
+// =========== Finding results ============
+async function atualizarStatus() {
+  const res = await fetch("/status");
+  const dados = await res.json();
+
+  const ul = document.getElementById("list-results");
+
+  // Saves the IDs of the logs that are expanded
+  const logsAbertos = new Set();
+  ul.querySelectorAll("li").forEach(li => {
+    const name = li.dataset.name;
+    const logVisivel = li.querySelector(".log-container")?.style.display === "block";
+    if (logVisivel && name) logsAbertos.add(name);
+  });
+
+  ul.innerHTML = "";
+
+  dados.forEach(item => {
+    const li = document.createElement("li");
+    li.dataset.name = item.name || "desconhecido";
+    
+    // Main div with data (name, start, end)
+    const divInfo = document.createElement("div");
+    let text = `<span>${item.name || "name não disponível"}</span> — `;
+    
+    if (item.start) {
+      const inicioDate = new Date(item.start);
+      const inicio = `${inicioDate.getFullYear()}/${String(inicioDate.getMonth() + 1).padStart(2, '0')}/${String(inicioDate.getDate()).padStart(2, '0')} ${String(inicioDate.getHours()).padStart(2, '0')}:${String(inicioDate.getMinutes()).padStart(2, '0')}:${String(inicioDate.getSeconds()).padStart(2, '0')}`;
+      text += `<b>Starting at: </b> ${inicio} — `;
+    } else {
+        text += "<b>Starting at: -- </b> — ";
+    }
+  
+    if (item.completed && item.end) {
+        const fimDate = new Date(item.end * 1000);
+        const fim = `${fimDate.getFullYear()}/${String(fimDate.getMonth() + 1).padStart(2, '0')}/${String(fimDate.getDate()).padStart(2, '0')} ${String(fimDate.getHours()).padStart(2, '0')}:${String(fimDate.getMinutes()).padStart(2, '0')}:${String(fimDate.getSeconds()).padStart(2, '0')}`;
+        text += `<b>Ending at:</b> ${fim}`;
+    } else {
+        text += "<b>Ending at: -- </b> ";
+    }
+    
+    divInfo.innerHTML = `<p>${text}</p>`;
+    
+    // Status div (below info, above log)
+    const divStatus = document.createElement("div");
+    divStatus.className = "status-container";
+    
+    let textStatus = "";
+    let status = item.results || "Annotating ...";
+    textStatus += `<b>Status:</b> ${status}`;
+    
+    divStatus.innerHTML = `<p>${textStatus}</p>`;
+    
+    // Div do log
+    const divLog = document.createElement("div");
+    divLog.className = "log-container";
+
+    const logContent = item.last_lines_log?.length > 0
+      ? item.last_lines_log.join("<br>")
+      : "No log lines.";
+
+    divLog.innerHTML = `<div class="log">${logContent}</div>`;
+    divLog.style.display = "none";
+
+    // Toggle button
+    const toggleBtn = document.createElement("button");
+    toggleBtn.classList.add("toggle-log-btn"); 
+    toggleBtn.textContent = "Show log";
+
+    toggleBtn.onclick = () => {
+      const isHidden = divLog.style.display === "none";
+      divLog.style.display = isHidden ? "block" : "none";
+      toggleBtn.textContent = isHidden ? "Hide log" : "Show log";
+    };
+
+    // Restore expansion
+    if (logsAbertos.has(item.name)) {
+      divLog.style.display = "block";
+      toggleBtn.textContent = "Hide log";
+    }
+
+
+    // Correct order of assembly
+    li.appendChild(divInfo);
+    li.appendChild(divStatus);
+    li.appendChild(toggleBtn);
+    li.appendChild(divLog);
+    ul.appendChild(li);
+
+  });
+}
+
+setInterval(atualizarStatus, 10000);
+atualizarStatus();

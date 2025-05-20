@@ -1,0 +1,187 @@
+======================================================================
+file name: Athaliana.fa.mod.filtered
+sequences:             7
+total length:  119667750 bp  (119482712 bp excl N/X-runs)
+bases masked:   20706482 bp ( 17.30 %)
+======================================================================
+               			number of      length   percentage
+               			elements*    occupied  of sequence
+----------------------------------------------------------------------
+----------------------------Class I:Results---------------------------
+Class I Total:			  8349	   8380989 bp	 7.00 %
+----------------------------------------------------------------------
+|-Non-LTR:			  1392	    443848 bp	 0.37 %
+|  |-SINEs:			   604	     90608 bp	 0.08 %
+|  |-LINEs:			   788	    353240 bp	 0.30 %
+|    |-LINE-L1:			    92	     87743 bp	 0.07 %
+|    |-LINE-L2:			     0	         0 bp	 0.00 %
+|    |-LINE-Penelope:		     0	         0 bp	 0.00 %
+|    |-LINE-CR1:		     0	         0 bp	 0.00 %
+|    |-LINE-R1:			     0	         0 bp	 0.00 %
+|    |-LINE-RTE:		     0	         0 bp	 0.00 %
+|    |-LINE-Tad1:		     0	         0 bp	 0.00 %
+|    |-LINE-Daphne:		     0	         0 bp	 0.00 %
+|    |-LINE-Hero:		     0	         0 bp	 0.00 %
+|    |-LINE-Jockey:		     0	         0 bp	 0.00 %
+|    |-LINE-NeSL:		     0	         0 bp	 0.00 %
+|    |-LINE-Nimb:		     0	         0 bp	 0.00 %
+|    |-LINE-RandI:		     0	         0 bp	 0.00 %
+|    |-LINE-Tx1:		     0	         0 bp	 0.00 %
+|    |-LINE-RTETP:		     0	         0 bp	 0.00 %
+|    |-LINE-CRE:		     0	         0 bp	 0.00 %
+|
+|-LTR
+|   |-LTR Non-auto:		  1114	    719470 bp	 0.60 %
+|   |  |-LARDs:			   879	    536187 bp	 0.45 %
+|   |  | |-LARDs-like:		     0	         0 bp	 0.00 %
+|   |  |-TRIMs:			     0	         0 bp	 0.00 %
+|   |  | |-TRIMs-like:		    94	     44822 bp	 0.04 %
+|   |  |-TR_GAG:		     0	         0 bp	 0.00 %
+|   |  |-BARE-2:		   141	    138461 bp	 0.12 %
+|   |
+|   |-LTR auto:			  6631	   7570911 bp	 6.33 %
+|     |
+|     |-LTR/Copia:		  1760	   1695967 bp	 1.42 %
+|     |  |-Ale:			   828	    683777 bp    0.57 %
+|     |  | |-Ale-like:		    72	     44821 bp	 0.04 %
+|     |  |-Alesia:		     0	         0 bp	 0.00 %
+|     |  | |-Alesia-like:	     0	         0 bp	 0.00 %
+|     |  |-Angela:		     0	         0 bp	 0.00 %
+|     |  | |-Angela-like:	     0	         0 bp	 0.00 %
+|     |  |-Bianca:		    86	     52083 bp	 0.04 %
+|     |  | |-Bianca-like:	   112	    132081 bp	 0.11 %
+|     |  |-Bryco:		     0	         0 bp	 0.00 %
+|     |  | |-Bryco-like:	     0	         0 bp	 0.00 %
+|     |  |-Lyco:		     0	         0 bp	 0.00 %
+|     |  | |-Lyco-like:		     0	         0 bp	 0.00 %
+|     |  |-Gymco-I:		     0	         0 bp	 0.00 %
+|     |  | |-Gymco-I-like:	     0	         0 bp	 0.00 %
+|     |  |-Gymco-II:		     0	         0 bp	 0.00 %
+|     |  | |-Gymco-II-like:	     0	         0 bp	 0.00 %
+|     |  |-Gymco-III:		     0	         0 bp	 0.00 %
+|     |  | |-Gymco-III-like:	     0	         0 bp	 0.00 %
+|     |  |-Gymco-IV:		     0	         0 bp	 0.00 %
+|     |  | |-Gymco-IV-like:	     0	         0 bp	 0.00 %
+|     |  |-Ikeros:		     0	         0 bp	 0.00 %
+|     |  | |-Ikeros-like:	     0	         0 bp	 0.00 %
+|     |  |-Ivana:		   160	    224305 bp	 0.19 %
+|     |  | |-Ivana-like:	    17	     15484 bp	 0.01 %
+|     |  |-Osser:		     0	         0 bp	 0.00 %
+|     |  | |-Osser-like:	     0	         0 bp	 0.00 %
+|     |  |-SIRE:		    45	     73194 bp	 0.06 %
+|     |  | |-SIRE-like:		    74	    106298 bp	 0.09 %
+|     |  |-TAR:			     0	         0 bp	 0.00 %
+|     |  | |-TAR-like:		    32	     13536 bp	 0.01 %
+|     |  |-Tork:		   215	    224466 bp	 0.19 %
+|     |  | |-Tork-like:		    70	     39638 bp	 0.03 %
+|     |  |-Alexandra:		     0	         0 bp	 0.00 %
+|     |  | |-Alexandra-like:	     0	         0 bp	 0.00 %
+|     |  |-Ferco:		     0	         0 bp	 0.00 %
+|     |  | |-Ferco-like:	     0	         0 bp	 0.00 %
+|     |  |-Bryana:		     0	         0 bp	 0.00 %
+|     |  | |-Bryana-like:	     0	         0 bp	 0.00 %
+|     |  |-Unclassified:	    49	     86284 bp	 0.07 %
+|     |
+|     |
+|     |-LTR/Gypsy:		  4871	   5874944 bp	 4.91 %
+|       |
+|       |-Unclassified:		   190	    150284 bp	 0.13 %
+|       |-non-chromovirus:	  3552	   4742199 bp	 3.96 %
+|       |  |-outgroup:		     0	         0 bp	 0.00 %
+|       |  |  |-outgroup-like:	     0	         0 bp	 0.00 %
+|       |  |-Phygy:		     0	         0 bp	 0.00 %
+|       |  |  |-Phygy-like:	     0	         0 bp	 0.00 %
+|       |  |-Selgy:		     0	         0 bp	 0.00 %
+|       |  |  |-Selgy-like:	     0	         0 bp	 0.00 %
+|       |  |-OTA:		  3552	   4742199 bp	 3.96 %
+|       |     |-Athila:		  1026	   1233339 bp	 1.03 %
+|       |     | |-Athila-like:	  1349	   2120022 bp	 1.77 %
+|       |     |-Tatius:		     0	         0 bp	 0.00 %
+|       |     | |-Tatius-like:	     0	         0 bp	 0.00 %
+|       |     |-Tat:		  1177	   1388838 bp	 1.16 %
+|       |        |-TatI:	     0	         0 bp	 0.00 %
+|       |        |  |-like:	     0	         0 bp	 0.00 %
+|       |        |-TatII:	     0	         0 bp	 0.00 %
+|       |        |  |-like:	     0	         0 bp	 0.00 %
+|       |        |-TatIII:	     0	         0 bp	 0.00 %
+|       |        |  |-like:	     0	         0 bp	 0.00 %
+|       |        |-Ogre:	     0	         0 bp	 0.00 %
+|       |        |  |-like:	     0	         0 bp	 0.00 %
+|       |        |-Retand:	   758	    991921 bp	 0.83 %
+|       |           |-like:	   419	    396917 bp	 0.33 %
+|       |
+|       |-chromovirus:		  1129	    982461 bp	 0.82 %
+|          |-Chlamyvir:		     0	         0 bp	 0.00 %
+|          |  |-like:		     0	         0 bp	 0.00 %
+|          |-Tcn1:		     0	         0 bp	 0.00 %
+|          |  |-Tcn1-like:	     0	         0 bp	 0.00 %
+|          |-chromo-outgroup:	     0	         0 bp	 0.00 %
+|          |  |-chr-outg-like:	     0	         0 bp	 0.00 %
+|          |-CRM:		   120	    114242 bp	 0.10 %
+|          |  |-CRM-like:	   567	    318042 bp	 0.27 %
+|          |-Galadriel:		     0	         0 bp	 0.00 %
+|          |  |-like:		     0	         0 bp	 0.00 %
+|          |-Tekay/Del:		   171	    302346 bp	 0.25 %
+|          |  |-like:		     0	         0 bp	 0.00 %
+|          |-Reina:		   237	    227542 bp	 0.19 %
+|          |  |-like:		    34	     20289 bp	 0.02 %
+|          |-Ferney:		     0	         0 bp	 0.00 %
+|          |  |-Ferney-like:	     0	         0 bp	 0.00 %
+|
+|-Class I others:		     0	         0 bp	 0.00 %
+|  |-Penelope:			     0	         0 bp	 0.00 %
+|  |-DIRS:			     0	         0 bp	 0.00 %
+|  |-Pararetrovirus:		     0	         0 bp	 0.00 %
+|-Class I Unknown:		     0	         0 bp	 0.00 %
+
+-----------------------------Class II:Results--------------------------
+Class II Total:			 19115	   8197390 bp	 6.85 %
+-----------------------------------------------------------------------
+-Subclass_1
+|  |-TIRs:			  3289	   1551063 bp	 1.30 %
+|     |-non-autonomous
+|     |  |-MITEs:		  1378	    672663 bp	 0.56 %
+|     |-autonomous
+|        |-EnSpm_CACTA:		   429	    297868 bp	 0.25 %
+|        |-hAT:			   601	    203398 bp	 0.17 %
+|        |-Kolobok:		     0	         0 bp	 0.00 %
+|        |-Merlin:		     0	         0 bp	 0.00 %
+|        |-MuDR_Mutator/MULE:	   585	    290151 bp	 0.24 %
+|        |-Novosib:		     0	         0 bp	 0.00 %
+|        |-P element:		     0	         0 bp	 0.00 %
+|        |-PIF_Harbinger:	   296	     86983 bp	 0.07 %
+|        |-Ginger:		     0	         0 bp	 0.00 %
+|        |-PiggyBac:		     0	         0 bp	 0.00 %
+|        |-Sola1:		     0	         0 bp	 0.00 %
+|        |-Sola2:		     0	         0 bp	 0.00 %
+|        |-Sola3:		     0	         0 bp	 0.00 %
+|        |-Tc1_Mariner:		     0	         0 bp	 0.00 %
+|        |-Transib:		     0	         0 bp	 0.00 %
+-Subclass_2
+|  |-RC/Helitron:		 15826	   6646327 bp	 5.55 %
+|     |-Helitron-Auto:		  1228	    686734 bp	 0.57 %
+|     |-Helitron-Non-auto:	 14598	   5959593 bp	 4.98 %
+|
+-Class II Unknown:		     0           0 bp    0.00 %
+-----------------------------------------------------------------------
+
+-Unclassified:			 11477	   3774863 bp	 3.15 %
+
+-----------------------------------------------------------------------
+=======================================================================
+
+* most repeats fragmented by insertions or deletions
+  have been counted as one element
+                                                      
+
+The query species was assumed to be viridiplantae 
+RepeatMasker version 4.1.2-p1 , sensitive mode
+                                   
+run with rmblastn version 2.14.1+
+
+
+Plant TEs classification based on Orozco-Arias et al.,2019
+Based on TEsorter classification and REXdb 4.0 (LTR,TIRs and etc), and
+Kapitonov, et al., 2009 (LINE) databases
+
+=======================================================================

@@ -1,4 +1,5 @@
-import os
+import os, json
+import re
 from datetime import datetime
 import subprocess
 
@@ -6,17 +7,15 @@ from app import create_app, allowed_file
 from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, flash, jsonify
 from extensions.sendemail import send_email_checking, send_email_complete_annotation, send_email_error_annotation
-from extensions.annotation import dataGeneration
 
 app, _ = create_app()
 
-# ===================== Ambientes ======================
-GRAPHIC_FOLDER = os.path.dirname(os.path.abspath(__file__))
-
-# ================= Locais dos arquivos ================
-RESULTS_FOLDER = os.path.join(GRAPHIC_FOLDER, 'results')
-UPLOAD_FOLDER = os.path.join(GRAPHIC_FOLDER, '..')
-EDTA_FOLDER = os.path.join(UPLOAD_FOLDER,'EDTA')
+# ===================== Environments ======================
+GRAPHIC_DIR = os.path.dirname(os.path.abspath(__file__))
+RESULTS_DIR = os.path.join(GRAPHIC_DIR, 'results')
+UPLOAD_DIR = os.path.join(GRAPHIC_DIR, '..')
+EDTA_DIR = os.path.join(UPLOAD_DIR,'EDTA')
+SCRIPT_DIR = os.path.join(UPLOAD_DIR,'Scripts')
 
 @app.route("/")
 def index():
@@ -24,11 +23,12 @@ def index():
 
 @app.route('/annotation_process', methods=['GET','POST'])
 def annotation_process():
-    # Recebendo os dados do front-end
+    # Receiving data from the front-end
     email = request.form.get('email')
+    email = email.strip() if email else None
     genome = request.files.get('genome')
 
-    # Extrai o primeiro item de cada lista ou deixa vazio caso a lista esteja vazia
+    # Extracts the first item from each list or leaves it empty if the list is empty
     speciesTIR = request.form.getlist('tircandidates')[0] if request.form.getlist('tircandidates') else None
     stepsExecuted = request.form.getlist('stepannotation')[0] if request.form.getlist('stepannotation') else None
 
@@ -40,7 +40,7 @@ def annotation_process():
 
     mutation_rate = request.form.get("mutation_rate") 
     max_divergence = request.form.get("max_divergence")
-    threads = int(request.form.get('thread'))
+    num_threads = int(request.form.get('thread'))
 
     cds_file = request.files.get('cds_file')
     curate_lib_file = request.files.get('curate_lib')
@@ -48,27 +48,27 @@ def annotation_process():
     rm_lib_file = request.files.get('rm_lib')
     rmout_file = request.files.get('rmout_lib')
 
-    #verificação de dados
+    #Data verification
     if genome.filename == '':
         flash('No selected file')
         return redirect(request.url)
     
     if genome and allowed_file(genome.filename):
-        #secure_filename() verificar se um inject foi aplicado, se o arquivo conter ../ será alterado para: " " ou "_"
+        #secure_filename() check if an inject has been applied, if the file contains ../ it will be changed to: ‘ ’ or ‘_’
         genome_name = secure_filename(genome.filename)
         genome_name, extension = os.path.splitext(genome.filename)
 
-    #-------------- Processo de nomeação dos dados -------------------
-    #Obtendo e formatando data e hora
+    #-------------- Data naming process -------------------
+    #Getting and formatting date and time
     now = datetime.now()
     formatted_date = now.strftime("%Y%m%d-%H%M%S")
     storageFolder = f'{genome_name}_{"".join(formatted_date)}'
 
-    resultsAddress = os.path.join(RESULTS_FOLDER, storageFolder)
-    os.makedirs(resultsAddress)
+    output_dir = os.path.join(RESULTS_DIR, storageFolder)
+    os.makedirs(output_dir)
 
-    new_genome_name = f'{genome_name}{extension}'
-    genome.save(os.path.join(RESULTS_FOLDER, storageFolder, new_genome_name))
+    genome_fasta = f'{genome_name}{extension}'
+    genome.save(os.path.join(RESULTS_DIR, storageFolder, genome_fasta))
 
     params = {
         '--overwrite': overwrite,
@@ -84,70 +84,69 @@ def annotation_process():
         '--rmout': rmout_file.filename if rmout_file else ''
     }
 
-    # Filtre parâmetros que estão vazios ou com valor 0
+    # Filter out parameters that are empty or have a value of 0
     filtered_params = {key: value for key, value in params.items() if value not in [None, 0, '']}
-    # Construa a string de parâmetros
+    # Build the parameter string
     param_str = ' '.join([f"{key} {value}" for key, value in filtered_params.items()])
 
-    #enviando email informando os dados utilizados
-    send_email_checking(email, new_genome_name, speciesTIR, stepsExecuted, sensitivity, threads, param_str)
+    #If you have a registered e-mail address, a message will be sent informing you of the data used.
+    if email:
+        send_email_checking(email, genome_fasta, speciesTIR, stepsExecuted, sensitivity, num_threads, param_str)
 
-    log_path = os.path.join(resultsAddress, "log.txt")
+
+    log_file_path = os.path.join(output_dir, "log.txt")
     success = True
-    stageNotice = None
 
-    # Comando final
+    # Final command
     try:
         cmds = f"""
-            cd {resultsAddress}
+            cd {output_dir}
 
-            source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-            export PATH="$HOME/miniconda3/envs/EDTA2/bin:$PATH" &&
-            export PATH="$HOME/miniconda3/envs/EDTA2/bin/RepeatMasker:$PATH" &&
-            export PATH="$HOME/miniconda3/envs/EDTA2/bin/gt:$PATH" &&
-            export PATH="$HOME/TEs/EDTA/util:$PATH" &&
+            source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new &&
+            export PATH="$HOME/miniconda3/envs/EDTA-new/bin:$PATH" &&
+            export PATH="$HOME/miniconda3/envs/EDTA-new/bin/RepeatMasker:$PATH" &&
+            export PATH="$HOME/miniconda3/envs/EDTA-new/bin/gt:$PATH" &&
+            export PATH="{EDTA_DIR}/util:$PATH" &&
 
-            {EDTA_FOLDER}/EDTA.pl --genome {new_genome_name} --species {speciesTIR} --step {stepsExecuted} --sensitive {sensitivity} --threads {threads} {param_str}
+            {EDTA_DIR}/EDTA.pl --genome {genome_fasta} --species {speciesTIR} --step {stepsExecuted} --sensitive {sensitivity} --threads {num_threads} {param_str} &&
+
+            wait &&
+            perl {SCRIPT_DIR}/generate_PLOTs-for-TE-pipe.sh {genome_fasta}
         """
 
-        with open(log_path, "w") as logfile:
+        with open(log_file_path, "w") as logfile:
             process = subprocess.Popen(cmds, shell=True, executable='/bin/bash',
                                    stdout=logfile, stderr=logfile)
             process.wait()
 
-        # Verifica se o EDTA falhou
+        # Check if it failed
         if process.returncode != 0:
             success = False
-            stageNotice = "Error in the annotation step"
+            badAnnotation = "Error in the annotation step"
         else:
-            print("EDTA finalised")
-            # Se EDTA rodou bem, tenta executar dataGeneration
-            try:
-                print("Generation of graphs and reports")
-                dataGeneration(new_genome_name, resultsAddress, log_path, threads)
-                success = True
-            except Exception as e:
-                success = False
-                with open(log_path, "a") as logfile:
-                    logfile.write(f"\n\n[Error at the stage of generating graphs and reports]\n{str(e)}\n")
-                stageNotice = "Error in the generation of graphs and reports"
+            succeededAnnotation = "Annotation finalised"
+            
+        with open(os.path.join(output_dir, "status.txt"), "w") as f:
+            f.write(succeededAnnotation if success else badAnnotation)
 
     except Exception as e:
         success = False
-        with open(log_path, "a") as logfile:
+        with open(log_file_path, "a") as logfile:
             logfile.write(f"\n\n[Pipeline Error]\n{str(e)}\n")
 
     finally:
-        if success:
-            send_email_complete_annotation(email, storageFolder, log_path)
-        else:
-            send_email_error_annotation(email, storageFolder, log_path, stageNotice)
+        if email:
+            if success:
+                send_email_complete_annotation(email, storageFolder, log_file_path)
+            else:
+                send_email_error_annotation(email, storageFolder, log_file_path)
+
 
     print("Finished annotation")
     print("")
 
     # print("Email:", email)
-    # print("Threads:", threads)
+    # print("Threads:", num_threads)
     # print("Genome File:", genome.filename)
     # print("TIR:", speciesTIR)
     # print("Step:", stepsExecuted)
@@ -164,6 +163,87 @@ def annotation_process():
     # print("RM_Lib:", rm_lib_file.filename if rm_lib_file else '')
     # print("RM_out:", rmout_file.filename if rmout_file else '')
     return render_template("index.html")
+
+@app.route("/status")
+def status():
+    subfolders = sorted(
+        [os.path.join(RESULTS_DIR, p) for p in os.listdir(RESULTS_DIR)],
+        key=lambda p: os.path.getctime(p),
+        reverse=True
+    )[:10]
+
+    data = [read_page_status(p) for p in subfolders]
+    return jsonify(data)
+
+def read_page_status(folder):
+    try:
+        log_path = os.path.join(folder, "log.txt")
+        status_path = os.path.join(folder, "status.txt")
+        
+        start_time = extract_folder_time(os.path.basename(folder))
+
+        status = {
+            "name": os.path.basename(folder),
+            "start": start_time,
+            "completed": False,
+            "end": None,
+            "results": None,
+            "last_lines_log": read_last_lines_log(log_path) if os.path.exists(log_path) else []
+        }
+
+        if os.path.exists(status_path):
+            status["completed"] = True
+            status["end"] = os.path.getmtime(status_path)
+
+            try:
+                with open(status_path, 'r') as f:
+                    status["results"] = f.read().strip()
+            except Exception as e:
+                status["results"] = f"Erro ao ler status: {str(e)}"
+
+        return status
+        
+    except Exception as e:
+        return {
+            "nome": os.path.basename(folder),
+            "erro": str(e)
+        }
+
+def read_last_lines_log(log_path, num_lines=20):
+    try:
+        with open(log_path, "r") as f:
+            lines = f.readlines()
+            # Returns the last `num_lines` of the file, and ensures that each line has a date/time
+            return [line.strip() for line in lines[-num_lines:]]  # Remove line breaks
+    except FileNotFoundError:
+        return []
+    
+# def read_last_lines_log(log_path):
+#     try:
+#         with open(log_path, "r") as f:
+#             lines = f.readlines()
+#             return [line.strip() for line in lines]  # Returns all lines, without limit
+#     except FileNotFoundError:
+#         return []
+
+def extract_folder_time(name_folder):
+    # Regular expression to extract the ‘YYYYMMDD-HHMMSS’ part of the folder name
+    match = re.search(r"(\d{8}-\d{6})$", name_folder)
+    
+    if match:
+        # Extracts the part of the folder name that contains the date and time
+        data_str = match.group(1)
+        
+        # Converts the date string to a datetime object
+        try:
+            time = datetime.strptime(data_str, "%Y%m%d-%H%M%S")
+            
+            # Returns the ISO format to be understood by JavaScript
+            return time.isoformat()
+        except ValueError:
+            return None  # If unable to convert, returns None
+    return None  # If you don't find the expected format
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -25,10 +25,12 @@
 	color: var(--grey-02);
 }
 
+.results.dark-theme,
 main.dark-theme{
 	background-color: var(--grey-03);
 }
 
+.container-results.dark-theme b,
 .container-main.dark-theme b{
 	color: var(--orange);
 }
@@ -150,7 +152,7 @@ main.dark-theme label,
 	color: var(--grey-01);
 }
 
-
+.container-results.dark-theme,
 main.dark-theme .container-data-input,
 main.dark-theme .container-action,
 main.dark-theme .container-submit,
@@ -159,6 +161,7 @@ main.dark-theme .container-submit,
 	box-shadow: 0px 4px 10px rgb(22, 100, 61);
 }
 
+.container-results.dark-theme p,
 .documentation-annotep.dark-theme li{
 	color: var(--grey-02);
 }
@@ -181,7 +184,11 @@ main.dark-theme .container-submit,
 	color: var(--grey-02);
 }
 
+.container-results.dark-theme span,
 .description-contact.dark-theme p{
 	color: var(--purple-01);
 }
 
+.log-container.dark-theme{
+	border: 0.0625rem solid var(--green-05);
+}

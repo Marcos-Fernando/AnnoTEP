@@ -1,0 +1,79 @@
+:root{
+	--white:	#F5F5F5;
+	--white1:	#E9E9E9;
+	--grey-01:  #DDD;
+	--grey-02:	#C4C4CC;
+	--grey-03:  #121214;
+    --green-01: #00B37E;
+	--green-02: #00875F;
+	--green-03: #23693B;
+	--green-04: #015F43;
+	--green-05: #2d8b6f80;
+	--purple-01:#8D6FC5;
+    --purple-02:#3B2369;
+	--blue: 	#81D8F7;
+	--orange:   #FBA94C;
+	--black:    #29292E;
+	--red:		#B22222;
+	
+}
+
+.container-results article{
+   margin: 1rem 0 1rem 0;
+}
+
+.container-results span{
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--purple-02);
+    text-shadow: rgba(59, 35, 105, 0.25) 0px 0.25rem 0.625rem;
+}
+
+.list-results li {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 0.0625rem solid var(--green-05);
+    border-radius: 0.5rem;
+
+    list-style-type: none
+  }
+
+  /* Estilo para o botão de toggle */
+.toggle-log-btn {
+    background-color: var(--green-01);
+    color: white;
+    border: none;
+    border-radius: 1.625rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .toggle-log-btn:hover {
+    background-color: var(--green-02);
+  }
+  
+  .toggle-log-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); 
+  }
+  
+
+  .log-container {
+    margin-top: 0.5rem;
+    background-color: #f0f8f0;
+    border: 0.0625rem solid var(--green-01);
+    padding: 0.9375rem;
+    border-radius: 0.5rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--black);
+    max-height: 360px;
+    overflow-y: auto;
+  }

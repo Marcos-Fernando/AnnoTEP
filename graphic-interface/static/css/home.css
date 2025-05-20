@@ -237,6 +237,12 @@ aside li:hover{
 	display: none;
 	font-family: 'Roboto', sans-serif;
 }
+
+.results{
+	flex-direction: column;
+	display: none;
+	font-family: 'Roboto', sans-serif;
+}
 /* ======================================== */
 
 main{
@@ -312,7 +318,8 @@ header section{
 .container-submit,
 .container-data-input,
 .container-main,
-.container-action{
+.container-action,
+.container-results{
 	margin: 1rem 1rem 0 1rem;
 	border-radius: 2rem;
 	background: var(--white);
@@ -872,6 +879,10 @@ input[type="file"]{
 	color: var(--red);
 }
 
+.note{
+	font-size: 1rem;
+}
+
 footer{
 	margin-top: 1rem;
 	border-top: 0.125rem solid var(--green-02);
@@ -1031,9 +1042,9 @@ footer span{
 		animation: showElementAnimation 1s ease-in-out 1s forwards;
 	}
 	
-	.ph-list{
+	.menuIcon, .iconClose{
 		color: var(--green-01);
-		font-size: 2.6rem;
+		width: 2.6rem;
 		transition: all 1.2s ease;
 	}
 	
@@ -1156,9 +1167,9 @@ footer span{
 		animation: showElementAnimation 1s ease-in-out 1s forwards;
 	}
 	
-	.ph-list{
+	.menuIcon, .iconClose{
 		color: var(--green-01);
-		font-size: 2.6rem;
+		width: 2.6rem;
 		transition: all 1.2s ease;
 	}
 	

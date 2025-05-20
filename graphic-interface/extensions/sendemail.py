@@ -79,7 +79,7 @@ def send_email_complete_annotation(email, storageFolder, log_path):
         print(f"Failed to send completion email: {str(e)}")
         return False
 
-def send_email_error_annotation(email, storageFolder, log_path, stageNotice):
+def send_email_error_annotation(email, storageFolder, log_path):
     """Envia email de erro com log anexado"""
     try:
         msg_title = "Annotation Failed - Error Report"
@@ -97,23 +97,13 @@ def send_email_error_annotation(email, storageFolder, log_path, stageNotice):
         
         msg.body = f"""We regret to inform you that your genome annotation process failed.
 
-                    Error details:
                     - The execution log is attached to this email
-                    - Error stage: {stageNotice}
                     - Folder location: {storageFolder}
-
-                    Possible causes:
-                    1. Invalid input data format
-                    2. Insufficient system resources
-                    3. Internal processing error
 
                     Please review the attached log file for detailed error information. 
                     If the problem persists, contact our support team.
 
-                    We apologize for the inconvenience.
-
-                    Best regards,
-                    Annotation Team"""
+                    We apologize for the inconvenience."""
         
         # Adiciona anexo corretamente
         with open(log_path, 'rb') as fp:

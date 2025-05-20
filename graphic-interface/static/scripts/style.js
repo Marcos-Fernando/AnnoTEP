@@ -26,17 +26,17 @@ document.getElementById('rmout').addEventListener('change', () => updateFileName
 
 
 // Função para verificar o formato de email válido
-function isValidEmail(email) {
-  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  return emailRegex.test(email);
-}
+// function isValidEmail(email) {
+//   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+//   return emailRegex.test(email);
+// }
 
 // Função para validar ambos os campos
 function validateInputs() {
-const isEmailValid = isValidEmail(emailInput.value);
+// const isEmailValid = isValidEmail(emailInput.value);
 const isFileSelected = fileInput.files.length > 0;
 
-submitButton.disabled = !(isEmailValid && isFileSelected);
+submitButton.disabled = !(isFileSelected);
 }
 
 const fileInput = document.getElementById('inputdata');
@@ -44,7 +44,7 @@ const emailInput = document.getElementById('email');
 const submitButton = document.getElementById('uploaddata');
 
 // Enquanto não houver arquivo para ser enviado, o submit fica desativado
-emailInput.addEventListener('input', validateInputs);
+// emailInput.addEventListener('input', validateInputs);
 fileInput.addEventListener('change', validateInputs);
 
 
@@ -82,10 +82,20 @@ menuItems.forEach(function(item) {
 
 //------------------  Aside formato MOBILE ---------------//
 let menuMobile = document.querySelector('.menuMobile');
-let menuIcon = document.querySelector('.ph-list');
+let menuIcon = document.querySelector('.menuIcon');
 
 menuMobile.addEventListener('click', () => {
   menuSide.classList.toggle('showAside');
   menuIcon.classList.toggle('iconColor');
-  console.log('ok!!!')
+});
+
+let menuOpen = false;
+
+menuMobile.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  setTimeout(() => {
+    menuIcon.src = menuOpen
+      ? "../static/assets/icon_close.png"
+      : "../static/assets/icon_menu.png";
+  }, 250);
 });

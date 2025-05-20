@@ -1,14 +1,17 @@
 // ==== Código para alternar os guias da página ====
-document.querySelectorAll('.home').forEach(element => {
-  element.addEventListener('click', () => {
-      document.querySelector('.main').style.display = 'inline-block';
-      document.querySelector('.Help').style.display = 'none';
+function showSection(sectionToShow) {
+  const sections = ['main', 'results', 'Help'];
+  sections.forEach(section => {
+    const element = document.querySelector(`.${section}`);
+    element.style.display = section === sectionToShow ? 'flex' : 'none';
   });
-});
-  
-document.getElementById('Help').addEventListener('click', () => {
-  document.querySelector('.Help').style.display = 'flex';
-  document.querySelector('.main').style.display = 'none';
+}
+
+// E então vincular os eventos:
+document.getElementById('Results').addEventListener('click', () => showSection('results'));
+document.getElementById('Help').addEventListener('click', () => showSection('Help'));
+document.querySelectorAll('.home').forEach(el => {
+  el.addEventListener('click', () => showSection('main'));
 });
 
 
