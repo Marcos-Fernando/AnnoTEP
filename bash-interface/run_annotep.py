@@ -2,27 +2,21 @@ import subprocess
 import argparse
 import os
 import re
+import shutil
 from datetime import datetime
 from argparse import RawTextHelpFormatter
 
-#Definindo local dos arquivos
-#principal
-# ===================== Ambientes ======================
-BASH_FOLDER = os.path.dirname(os.path.abspath(__file__))
-
-# ================= Locais dos arquivos ================
-RESULTS_FOLDER = os.path.join(BASH_FOLDER, 'results')
-UPLOAD_FOLDER = os.path.join(BASH_FOLDER, '..')
-EDTA_FOLDER = os.path.join(UPLOAD_FOLDER,'EDTA')
-
-#verifica se o arquivo é do tipo fasta
-def check_fasta_file(value):
-    ext = os.path.splitext(value)[-1].lower()
-    if ext != '.fasta':
-        raise argparse.ArgumentTypeError(f"The file must have the .fasta extension: {value}")
-    return value
+# ===================== Environment ======================
+BASH_DIR = os.path.dirname(os.path.abspath(__file__))
+RESULTS_DIR = os.path.join(BASH_DIR, 'results')
+UPLOAD_DIR = os.path.join(BASH_DIR, '..')
+EDTA_DIR = os.path.join(UPLOAD_DIR,'EDTA')
+SCRIPT_DIR = os.path.join(UPLOAD_DIR, 'Scripts')
 
 def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cds, curatedlib, exclude, rmlib, rmout, species, step, sensitive):
+    genome = os.path.abspath(genome)
+    print(genome)
+
     genome_dir = os.path.dirname(genome)
     if not os.path.exists(genome_dir):
         raise Exception(f"The directory {genome_dir} does not exist.")
@@ -30,21 +24,26 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
     if not os.path.exists(genome):
         raise Exception(f"The genome {genome} does not exist.")
 
-    new_genome, _ = os.path.splitext(os.path.basename(genome))
+    genome_fasta = os.path.basename(genome)
+    genome_name, _ = os.path.splitext(os.path.basename(genome))
     print(f'The path to the genome is {genome}')
-    print(f'{new_genome}')
+    print(f'{genome_name}')
+    print(f'{genome_fasta}')
 
-    adjusted_threads = max(4, threads)
+    num_threads = max(4, threads)
     if threads < 4:
         print("Warning: The number of threads provided is less than 4. Set to 4.")
 
-    #Obtendo e formatando data e hora
+    #Getting and formatting date and time
     now = datetime.now()
     formatted_date = now.strftime("%Y%m%d-%H%M%S")
 
-    storageFolder = f'{new_genome}_{"".join(formatted_date)}'
-    resultsAddress = os.path.join(RESULTS_FOLDER, storageFolder)
-    os.makedirs(resultsAddress, exist_ok=True)
+    storageFolder = f'{genome_name}_{"".join(formatted_date)}'
+    output_dir = os.path.join(RESULTS_DIR, storageFolder)
+    os.makedirs(output_dir, exist_ok=True)
+
+    genome_copy = os.path.join(output_dir, genome_fasta)
+    shutil.copy2(genome, genome_copy)
 
     params = {
         '--overwrite': overwrite,
@@ -64,275 +63,52 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
     species = species if species else 'others'
     step = step if step else 'all'
 
-    # Filtra os parâmetros vazios ou com valor 0
+    # Filters out empty parameters or parameters with a value of 0
     filtered_params = {key: value for key, value in params.items() if value not in [None, 0, '']}
     
-    # Construa a string de parâmetros para o comando
+    # Construct the parameter string for the command
     param_str = ' '.join([f"{key} {value}" for key, value in filtered_params.items()])
 
-    print(f">>>>>>>>>> Annotation started >>>> Input: {new_genome}")
+    print(f">>>>>>>>>> Annotation started >>>> Input: {genome_name}")
     cmds = f"""
-        cd {resultsAddress}
+        #cd {output_dir}
 
-        source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-        export PATH="$HOME/miniconda3/envs/EDTA2/bin:$PATH" &&
-        export PATH="$HOME/miniconda3/envs/EDTA2/bin/RepeatMasker:$PATH" &&
-        export PATH="$HOME/miniconda3/envs/EDTA2/bin/gt:$PATH" &&
-        export PATH="$HOME/TEs/EDTA/util:$PATH" &&
+        source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new &&
+        export PATH="$HOME/miniconda3/envs/EDTA-new/bin:$PATH" &&
+        export PATH="$HOME/miniconda3/envs/EDTA-new/bin/RepeatMasker:$PATH" &&
+        export PATH="$HOME/miniconda3/envs/EDTA-new/bin/gt:$PATH" &&
+        export PATH="{EDTA_DIR}/util:$PATH" &&
         
-        {EDTA_FOLDER}/EDTA.pl --genome {genome} --species {species} --step {step} --threads {adjusted_threads} {param_str}
+        {EDTA_DIR}/EDTA.pl --genome {genome} --species {species} --step {step} --threads {num_threads} {param_str} &&
 
-        wait
+        wait &&
+        perl {SCRIPT_DIR}/generate_PLOTs-for-TE-pipe.sh {genome_fasta}
     """
-    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
+    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash', cwd=output_dir)
     process.wait()
-    
-    complete_Analysis(new_genome, resultsAddress, adjusted_threads)
 
-    # cmds = f""" EDTA.pl --genome {genome} --species {species} --step {step} --threads {adjusted_threads} {param_str} """
-    # print(cmds)
-    
     print(f">>>>>>>>>> Process finished >>>> Output: {storageFolder}")
 
-
-def complete_Analysis(new_genome, resultsAddress, adjusted_threads):
-    cmds = f"""
-    cd {resultsAddress}
-    mkdir TE-REPORT
-    cd TE-REPORT
-    ln -s ../{new_genome}.fasta.mod.EDTA.anno/{new_genome}.fasta.mod.cat.gz .
-
-    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-complete.pl -species viridiplantae -nolow -noint {new_genome}.fasta.mod.cat.gz
-    mv {new_genome}.fasta.mod.tbl TEs-Report-Complete.txt
-    perl {UPLOAD_FOLDER}/ProcessRepeats/ProcessRepeats-lite.pl -species viridiplantae -nolow -noint -a {new_genome}.fasta.mod.cat.gz
-    mv {new_genome}.fasta.mod.tbl TEs-Report-Lite.txt
-
-    #Plot
-    cat {new_genome}.fasta.mod.align  | sed 's#TIR/.\+ #TIR &#g'  | sed 's#DNA/Helitron.\+ #Helitron &#g' | sed 's#LTR/Copia.\+ #LTR/Copia &#g' | sed 's#LTR/Gypsy.\+ #LTR/Gypsy &#g'  | sed 's#LINE-like#LINE#g' | sed 's#TR_GAG/Copia.\+ #LTR/Copia &#g' | sed 's#TR_GAG/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#TRBARE-2/Copia.\+ #LTR/Copia &#g' | sed 's#BARE-2/Gypsy.\+ #LTR/Gypsy &#g' | sed 's#SINE/.\+ #SINE &#g'| sed 's#LINE/.\+ #LINE &#g' > tmp.txt
-    sed -i '/RC\/Helitron/d' tmp.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Copia" -A 5 |  grep -v "\-\-"  > align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LTR/Gypsy" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "TIR" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LINE" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "LARD" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "TRIM" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "Helitron" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "SINE" -A 5 |  grep -v "\-\-"  >> align2.txt
-    cat tmp.txt  | grep "^[0-9]"  -B 6 |  grep -v "\-\-"  | grep "Unknown" -A 5 |  grep -v "\-\-"  >> align2.txt
-
-    perl {UPLOAD_FOLDER}/ProcessRepeats/calcDivergenceFromAlign.pl -s At.divsum align2.txt
-
-    genome_size="`perl {UPLOAD_FOLDER}/EDTA/util/count_base.pl ../{new_genome}.fasta.mod | cut -f 2`"
-    perl {UPLOAD_FOLDER}/ProcessRepeats/createRepeatLandscape.pl -g $genome_size -div At.divsum > RepeatLandscape.html
-
-    tail -n 72 At.divsum > divsum.txt
-
-    cat {UPLOAD_FOLDER}/Rscripts/plotKimura.R | sed "s#_SIZE_GEN_#$genome_size#g" > plotKimura.R
-    Rscript plotKimura.R
-    mv Rplots.pdf RepeatLandScape.pdf
-    pdf2svg RepeatLandScape.pdf RLandScape.svg
-    
-    rm align2.txt
-    rm tmp.txt
-
-    #Plotting
-    cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{{print $1}}' > count.txt
-	cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{{print $2}}' > bp.txt
-	cat TEs-Report-Lite.txt | grep "%"   | cut -f 2 -d":"   | awk '{{print $4}}' > percentage.txt
-	cat TEs-Report-Lite.txt | grep "%"   | cut -f 1 -d":"   | sed 's# ##g'  | sed 's#-##g'  | sed 's#|##g' > names.txt
-
-	paste names.txt count.txt bp.txt percentage.txt | grep -w NonLTR  > plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w LTRNonauto | sed 's#LTRNonauto#LTR_nonauto#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "LTR/Copia"  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "LTR/Gypsy"  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "Pararetrovirus"  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIUnknown" | sed 's#ClassIUnknown#Class_I_Unknown#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "TIRs"  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIIUnknown" | sed 's#ClassIIUnknown#Class_II_Unknown#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | tac | grep -m 1 -w "Unclassified" | tac  >> plot.txt
-	echo "Type	Number	length	percentage" > header.txt
-	cat header.txt plot.txt > plot1.txt
-    
-	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
-	mv TE-Report.pdf TE-Report1.pdf
-    pdf2svg TE-Report1.pdf TE-Report1.svg
-
-    python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
-	mv TE-Report.pdf TE-Report1-number.pdf
-    pdf2svg TE-Report1-number.pdf TE-Report1-number.svg
-
-	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
-	mv TE-Report.pdf TE-Report1-bubble.pdf
-    pdf2svg TE-Report1-bubble.pdf TE-Report1-bubble.svg
-
-    paste names.txt count.txt bp.txt percentage.txt | grep -w SINEs > plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w LINEs >> plot.txt
-	
-	paste names.txt count.txt bp.txt percentage.txt | grep -w LARDs >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w TRIMs >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w TR_GAG >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w BARE2 >> plot.txt
-	
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Ale >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Alesia >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Angela >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Bianca >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Bryco >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Lyco >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w GymcoI >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w GymcoII >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w GymcoIII >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w GymcoIV >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Ikeros >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Ivana >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Osser >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w SIRE >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w TAR >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Tork >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Ty1outgroup | sed 's#Ty1outgroup#Ty1-outgroup#g' >> plot.txt
-	
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Phygy >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Selgy >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTA >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTAAthila | sed 's#OTAAthila#Athila#g'  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTATatI | sed 's#OTATatI#TatI#g'  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTATatII | sed 's#OTATatII#TatII#g'  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTATatIII | sed 's#OTATatIII#TatIII#g'  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTATatOgre | sed 's#OTATatOgre#Ogre#g'  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w OTATatRetand | sed 's#OTATatRetand#Retand#g'  >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Chlamyvir >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Tcn1 >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w CRM >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Galadriel >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Tekay >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Reina >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w MITEs >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w EnSpm_CACTA | sed 's#EnSpm_CACTA#CACTA#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w hAT >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w MuDR_Mutator | sed 's#MuDR_Mutator#MuDR#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w PIF_Harbinger | sed 's#PIF_Harbinger#Harbinger#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w "RC/Helitron" | sed 's#RC/Helitron#Helitron#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w Tc1_Mariner >> plot.txt
-	cat header.txt plot.txt > plot1.txt
-
-	python {UPLOAD_FOLDER}/Scripts/plot_TEs_length.py
-	mv TE-Report.pdf TE-Report2.pdf
-    pdf2svg TE-Report2.pdf TE-Report2.svg
-
-    python {UPLOAD_FOLDER}/Scripts/plot_TEs.py
-	mv TE-Report.pdf TE-Report2-number.pdf
-    pdf2svg TE-Report2-number.pdf TE-Report2-number.svg
-
-	python {UPLOAD_FOLDER}/Scripts/plot_TEs-bubble.py
-	mv TE-Report.pdf TE-Report2-bubble.pdf
-    pdf2svg TE-Report2-bubble.pdf TE-Report2-bubble.svg
-
-    wait
-    cd {resultsAddress}
-    mkdir LTR-AGE
-    cd LTR-AGE
-    ln -s ../{new_genome}.fasta.mod.EDTA.raw/{new_genome}.fasta.mod.LTR-AGE.pass.list
-
-    ln -s {UPLOAD_FOLDER}/Rscripts/plot-AGE-Gypsy.R
-    ln -s {UPLOAD_FOLDER}/Rscripts/plot-AGE-Copia.R
-
-    cat -n {new_genome}.fasta.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
-    cat -n {new_genome}.fasta.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
-
-    Rscript plot-AGE-Gypsy.R
-    Rscript plot-AGE-Copia.R
-
-    pdf2svg AGE-Copia.pdf AGE-Copia.svg
-    pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
-
-    cd {resultsAddress}
-    mkdir TREE
-    cd TREE
-
-    ln -s ../{new_genome}.fasta.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
-
-    cat ../{new_genome}.fasta.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
-    mkdir tmp
-    break_fasta.pl < tmp.txt ./tmp
-    cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
-
-    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p {adjusted_threads} TE.fasta >/dev/null 2>&1 &&
-    
-    concatenate_domains.py TE.cls.pep GAG > GAG.aln &&
-    concatenate_domains.py TE.cls.pep PROT > PROT.aln &&
-    concatenate_domains.py TE.cls.pep RH > RH.aln &&
-    concatenate_domains.py TE.cls.pep RT > RT.aln &&
-    concatenate_domains.py TE.cls.pep INT > INT.aln &&
-    conda deactivate
-
-    cat GAG.aln | cut -f 1 -d" " > GAG.fas
-    cat PROT.aln | cut -f 1 -d" " > PROT.fas
-    cat RH.aln | cut -f 1 -d" " > RH.fas
-    cat RT.aln | cut -f 1 -d" " > RT.fas
-    cat INT.aln | cut -f 1 -d" " > INT.fas
-    
-    perl {UPLOAD_FOLDER}/Scripts/catfasta2phyml.pl -c -f *.fas > all.fas
-    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt {adjusted_threads}
-
-    wait
-    cat TE.cls.tsv | cut -f 1 | sed 's#^#cat tree.mod.EDTA.TEanno.sum | grep -w "#g' | sed 's#$#"#g' > pick-occur.sh
-    bash pick-occur.sh > occur.txt
-    
-    wait
-    cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{{print $1,$2,$3}}' | sed 's# #\t#g' |  sort -k 2 -V  > sort_occur.txt
-    cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{{print $1,$2,$3}}' | sed 's# #\t#g' |  sort -k 3 -V  > sort_size.txt
-
-    cat all.fas | grep \> | sed 's#^>##g' > ids.txt
-
-    cat sort_occur.txt | cut -f 1,2 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > occ-pick.sh
-    bash occ-pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > occurrences.tsv
-
-    cat sort_size.txt | cut -f 1,3 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > size-pick.sh
-    bash size-pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > size.tsv
-    
-    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree.R
-    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree-density.R
-    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree_rec_1.R
-    ln -s {UPLOAD_FOLDER}/Rscripts/LTR_tree_rec_2.R
-
-    Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
-    Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
-    Rscript LTR_tree_rec_1.R all.fas.contree TE.cls.tsv LTR_RT-Tree3.pdf
-    Rscript LTR_tree_rec_2.R all.fas.contree TE.cls.tsv LTR_RT-Tree4.pdf
-
-    pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
-    pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
-    pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
-    pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
-    """
-
-    process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
-    process.wait()
-
-    print("Finished annotation")
-    print("")
-
-# Função para verificar a notação científica
+# Function to check scientific notation
 def check_scientific(value):
     if not re.match(r'^[0-9]+\.[0-9]+e[-+]?[0-9]+$', value):
-        raise argparse.ArgumentTypeError(f"{value} não é um valor válido em notação científica.")
+        raise argparse.ArgumentTypeError(f"{value} is not a valid value in scientific notation.")
     return float(value)
 
-# Função para verificar arquivos de entrada
+# Function for checking input files
 def check_file(value):
     try:
         with open(value, 'r') as file:
             return value
     except FileNotFoundError:
-        raise argparse.ArgumentTypeError(f"O arquivo {value} não foi encontrado.")
+        raise argparse.ArgumentTypeError(f"The file {value} was not found.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run annotep with specified parameters.",
                                      formatter_class=argparse.RawTextHelpFormatter)
 
     required = parser.add_argument_group('required arguments')
-    required.add_argument("--genome", type=check_fasta_file, help="The genome FASTA file (.fasta)", required=True)
+    required.add_argument("--genome", type=str, help="The genome FASTA file", required=True)
     required.add_argument("--threads", type=int, help="Number of threads used to complete annotation (default threads: 4)", default=4, required=True)
 
     optional = parser.add_argument_group('optional arguments')
