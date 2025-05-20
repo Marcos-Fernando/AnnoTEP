@@ -377,7 +377,7 @@ The **TE-REPORT** directory is generated at the end of the annotation process an
 
 📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/TE-Report-bar.svg" alt="TE-Report-bar" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report-bar.png" alt="TE-Report-bar" border="0" width="650px" />
     <img src="graphic-interface/static/assets/screenshot/TE-Report2-bar.png" alt="TE-Report2-bar" border="0" width="650px" />
     <img src="graphic-interface/static/assets/screenshot/TE-Report-bubble.png" alt="TE-Report-bubble" border="0" width="650px" />
     <img src="graphic-interface/static/assets/screenshot/TE-Report2-bubble-panels.png" alt="TE-Report2-bubble-panels" border="0" width="650px" />
@@ -387,22 +387,22 @@ The **TE-REPORT** directory is generated at the end of the annotation process an
 📌 ``kimura_distance_plot.pdf``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
 By applying Kimura’s calculation, the graph distinguishes older elements (with greater accumulated divergence) from more recent ones (with lower divergence), offering valuable insights into the evolutionary dynamics and genomic history of the organism under study.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/kimura_distance_plot.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/kimura_distance_plot.png" alt="Repeat-Land-Scape" border="0" width="650px" />
 </div>
 
 
 📌 ``AGE-Gypsy.pdf`` and ``AGE-Copia.pdf``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
-    <img src="graphic-interface/static/assets/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
+    <img src="graphic-interface/static/assets/screenshot/AGE-Copia.png" alt="AGE-Copia" border="0" width="650px">
+    <img src="graphic-interface/static/assets/screenshot/AGE-Gypsy.png" alt="AGE-Gypsy" border="0" width="650px">
 </div>
 
 
 📌 ``LTR_RT-Tree1*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_original_circular.svg" alt="LTR_RT-Tree1_original_circular" border="0" width="750px">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_cladogram_circular.svg" alt="LTR_RT-Tree1_cladogram_circular" border="0" width="750px">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_radial_circular.svg" alt="LTR_RT-Tree1_radial_circular" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_original_circular.png" alt="LTR_RT-Tree1_original_circular" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_cladogram_circular.png" alt="LTR_RT-Tree1_cladogram_circular" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_radial_circular.png" alt="LTR_RT-Tree1_radial_circular" border="0" width="750px">
 </div>
 <br>
 
@@ -410,21 +410,21 @@ By applying Kimura’s calculation, the graph distinguishes older elements (with
     - The outer circle (purple) represents the length (in base pairs) occupied by each element.
     - The inner circle (red) represents the number of occurrences of each element.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_circular_density.svg" alt="LTR_RT-Tree2_circular_density" border="0" width="750px">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_cladogram_density.svg" alt="LTR_RT-Tree2_cladogram_density" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_circular_density.png" alt="LTR_RT-Tree2_circular_density" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_cladogram_density.png" alt="LTR_RT-Tree2_cladogram_density" border="0" width="750px">
 </div>
 <br>
 
 📌 ``divergence_plot*`` and ``chromosome_density*``: These files are originally generated by the EDTA pipeline and are preserved and further refined by AnnoTEP to improve visual clarity and consistency within the results framework.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/divergence_plot.svg" alt="divergence_plot" border="0" width="750px">
-    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.1.svg" alt="divergence_plot_2.1" border="0" width="750px">
-    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.2.svg" alt="divergence_plot_2.2" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/divergence_plot.png" alt="divergence_plot" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.1.png" alt="divergence_plot_2.1" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.2.png" alt="divergence_plot_2.2" border="0" width="750px">
 </div>
 
 * The number of files generated by ``chromosome_density*`` may vary between genomes, with some genomes producing over 100 files.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/chromosome_density_plots_page1.svg" alt="chromosome_density_plots_page1" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/chromosome_density_plots_page1.png" alt="chromosome_density_plots_page1" border="0" width="750px">
 </div>
 
 📎 Return to [Table of contents](#table-of-contents)
