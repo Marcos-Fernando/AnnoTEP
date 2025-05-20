@@ -2,32 +2,33 @@ FROM ubuntu:22.04
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
-    && apt-get install -y curl gnupg wget python3-pip python3.6 git vim lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen python3-venv\
-    trf hmmer2 seqtk hmmer emboss python3-virtualenv pdf2svg cd-hit iqtree python2-dev build-essential cpanminus\
-    linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl\
-    libgdal-dev \
-    && cpanm --notest Text::Soundex
+    && apt-get install -y curl gnupg wget git vim 
+    
+    # python3-pip python3.6 lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen python3-venv\
+    # trf seqtk hmmer emboss python3-virtualenv cd-hit  build-essential cpanminus\
+    # linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl\
+    # libgdal-dev \ 
+    #&& cpanm --notest Text::Soundex
     
 # Instalar pacotes no sistema global do Python
-RUN pip install --upgrade pip \
-    && pip install biopython==1.78 regex==2016.6.24 tensorflow matplotlib pandas python-dotenv seaborn
+# RUN pip install --upgrade pip \
+#     && pip install biopython==1.78 regex==2016.6.24 tensorflow matplotlib pandas python-dotenv seaborn
 
-# Install R
-RUN apt-get install -y --no-install-recommends software-properties-common dirmngr wget \
-    && wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc \
-    && add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+# # Install R
+# RUN apt-get install -y --no-install-recommends software-properties-common dirmngr wget \
+#     && wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc \
+#     && add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends r-base \
-    && apt-get install -y r-cran-ggplot2 r-cran-tidyr r-cran-reshape2 r-cran-reshape r-cran-viridis r-cran-tidyverse r-cran-gridextra r-cran-gdtools r-cran-phangorn r-cran-phytools r-cran-ggrepel \
-    && R -e "install.packages('hrbrthemes')" \
-    && R -e "if (!requireNamespace('devtools', quietly = TRUE)) install.packages('devtools')" \
-    && R -e "devtools::install_github('YuLab-SMU/ggtree')" \
-    && R -e "devtools::install_github('YuLab-SMU/ggtreeExtra')"
+# RUN apt-get update \
+#     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends r-base \
+#     && apt-get install -y r-cran-ggplot2 r-cran-tidyr r-cran-reshape2 r-cran-reshape r-cran-viridis r-cran-tidyverse r-cran-gridextra r-cran-gdtools r-cran-phangorn r-cran-phytools r-cran-ggrepel \
+#     && R -e "install.packages('hrbrthemes')" \
+#     && R -e "if (!requireNamespace('devtools', quietly = TRUE)) install.packages('devtools')" \
+#     && R -e "devtools::install_github('YuLab-SMU/ggtree')" \
+#     && R -e "devtools::install_github('YuLab-SMU/ggtreeExtra')"
 
-COPY . /root/TEs
+COPY . /root/AnnoTEP
 COPY Scripts/break_fasta.pl /usr/local/bin/
-COPY Scripts/irf /usr/local/bin/ 
 
 #Install miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -41,18 +42,18 @@ ENV PATH="/root/miniconda3/bin:$PATH"
 ENV PATH="/usr/bin:$PATH"
 
 #Install EDTA
-RUN cd /root/TEs/EDTA \
-    && conda env create -f EDTA_2.2.x.yml
+RUN cd /root/AnnoTEP \
+    && conda env create -f environment.yml
 
 # Config UTF-8 for Flask
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 # Port Flask
-EXPOSE 5000
+# EXPOSE 5000
 
 # Work directory
-WORKDIR /root/TEs/bash-interface
+WORKDIR /root/AnnoTEP/bash-interface
 
 # Command to start Flask and synchronize the folder
 #CMD ["/bin/bash", "-c", "source /root/miniconda3/bin/activate && source /root/TEs/bash-interface/.venv/bin/activate && export LC_ALL=C.UTF-8 && export LANG=C.UTF-8"]
