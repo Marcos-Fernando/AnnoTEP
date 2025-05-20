@@ -9,22 +9,21 @@
 </div>
 
 # Table of contents
-* [📖 Introduction](#introduction)
-* [⚙️ Installing with library and conda](#installing-with-library-and-conda)
-    * [🧪 Testing](#testing)
-    * [🎨 Generating Graphs](#generating-graphs)
-        * [📝 Running AnnoTEP CLI in Alternative Ways](#running-annotep-cli-in-alternative-ways)
-    * [🖥️ Using AnnoTEP with graphical user interface](#using-annotep-with-graphical-user-interface)
-* [⚙️ Installing with Container](#installing-with-container)
-    * [🖌️ Graphic User Interface - GUI](#graphic-user-interface---gui)
-    * [✏️ Command Line Interface - CLI](#command-line-interface---cli)
-* [🔬 Results](#results)
-    * [🗂️ TE-REPORT](#te-report)
-    * [🗂️ LTR-AGE](#ltr-age)
-    * [🗂️ TREE](#tree)
-* [🧬 List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
-* [📝 Citations](#citations)
-* [🗨️ Questions and Issues](#questions-and-issues)
+* [Introduction](#introduction)
+* [Installing with library and conda](#installing-with-library-and-conda)
+    * [Testing](#testing)
+    * [Generating Graphs](#generating-graphs)
+    * [Using AnnoTEP with graphical user interface](#using-annotep-with-graphical-user-interface)
+* [Installing with Container](#installing-with-container)
+    * [Graphic User Interface - GUI](#graphic-user-interface---gui)
+    * [Command Line Interface - CLI](#command-line-interface---cli)
+* [Results](#results)
+    * [TE-REPORT](#te-report)
+    * [LTR-AGE](#ltr-age)
+    * [TREE](#tree)
+* [List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
+* [Citations](#citations)
+* [Questions and Issues](#questions-and-issues)
 <br>
 
 # Introduction
@@ -39,7 +38,7 @@ In addition to its GitHub repository, AnnoTEP also has a [website](https://plant
 * Classification of lineages belonging to the Copia and Gypsy superfamilies.
 * Classification of Helitrons into autonomous and non-autonomous.
 * Optimisation of repetitive sequence masking.
-* Generation of transposable element (TE) classification reports.
+* Generation of TE classification reports.
 * Creation of repeat landscape plots, histograms, and phylogenetic trees of LTR lineages.
 
 <br>
@@ -47,87 +46,39 @@ In addition to its GitHub repository, AnnoTEP also has a [website](https://plant
 # Installing and configuring environments
 AnnoTEP can be installed in different ways, depending on your preferences and needs. In this tutorial, we will guide you through two main installation methods: the traditional method and installation via Docker. Both methods are detailed to ensure a smooth and efficient setup on your machine.
 
-# Installing with library and conda
-
-> [!NOTE] 
-> <b> Prerequisites </b> <br>
-> - 🐍 [Python 3.7+](https://www.python.org/)  
-> - 📦 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)  
-> - 📊 [R 4.4+](https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html)  
-> - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
-
 >[!IMPORTANT]
 > <b> System requirements </b> <br>
-> Minimum requirements for both versions for Genomes up to <b>1GB</b>
+> Minimum requirements for Genomes up to <b>1GB</b>
 > * <b>Threads:</b> 20
 > * <b> RAM: </b> 50GB
 > * <b> Storage: </b> 1TB 
 > 
-> More resources are recommended for larger genomes.
+> ⚠️ Higher computational resources are strongly recommended for larger genomes.
+
+# Installing with Conda
+
+> [!NOTE] 
+> <b> Prerequisites </b> <br>
+> - 📦 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/) 
+> - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
 
 > [!TIP]
-> **MiniConda Installation**
+> **Installing Miniconda**
 ><br>
 >After downloading Miniconda from the link above, run the following command in your terminal:
 > ```sh
 > bash Miniconda3-latest-Linux-x86_64.sh
 > ```
 
-## Configuring the repository
-### 📚 Installing Required Libraries
-**Step 1.** Install the necessary libraries by running the following commands in your terminal:
+📌 Once Miniconda is installed, follow the steps below to set up the environment:
 ```sh
-sudo apt-get install libgdal-dev lib32z1 python-is-python3 python3-setuptools python3-biopython python3-xopen trf hmmer2 seqtk libtext-soundex-perl
-sudo apt-get install hmmer emboss python3-virtualenv cd-hit iqtree build-essential linux-generic libmpich-dev libopenmpi-dev bedtools pullseq bioperl
-sudo apt-get install pdf2svg
+cd AnnoTEP
 
-# R dependencies
-sudo apt-get install r-cran-ggplot2 r-cran-tidyr r-cran-reshape2 r-cran-reshape rs r-cran-viridis r-cran-tidyverse r-cran-gridextra r-cran-gdtools r-cran-phangorn r-cran-phytools r-cran-ggrepel
-```
-Access the R program from the terminal and install libraries from within it:
-```sh
-R
-
-install.packages("hrbrthemes")
-
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("ggtree")
-BiocManager::install("ggtreeExtra")
-```
-
-> [!TIP]
-> <b>Alternative Method:</b> If you encounter errors with ``BiocManager``, ``ggtree``, or ``ggtreeExtra``, use the following approach:
-> ```sh
-> if (!requireNamespace("devtools", quietly = TRUE))
->     install.packages("devtools")
-> devtools::install_github("YuLab-SMU/ggtree")
-> devtools::install_github("YuLab-SMU/ggtreeExtra")
-> ```
-
-**Step 2.** Copy the ``break_fasta.pl`` scripts to ``/usr/local/bin``:
-```sh
-sudo cp Scripts/break_fasta.pl /usr/local/bin
-```
-
-### ⚙️ Configuring modified EDTA
-📌 AnnoTEP uses the same installation method as EDTA. To set up the environment, navigate to the AnnoTEP folder and follow the steps below:
-```sh
-# Navigate to the EDTA directory
-cd EDTA
-
-conda env create -f EDTA_2.2.x.yml
-conda activate EDTA2
-perl EDTA.pl -h
+conda env create -f environment.yml
+conda activate EDTA-new
 ```
 
 > [!IMPORTANT]
-> 📌 <b> FOR NVIDIA GPU SERVERS ONLY!!!!!</b> <br>
-> The **TIR Learner**  in EDTA may may not work correctly on GPU servers. To resolve this, follow the instructions below to install EDTA correctly:
-> ```sh
-> mamba create -n EDTA2.2 -c conda-forge -c bioconda -c r annosine2 biopython blast cd-hit coreutils genericrepeatfinder genometools-genometools glob2    h5py==3.9 keras==2.11 ltr_finder ltr_retriever mdust multiprocess muscle openjdk pandas perl perl-text-soundex pyarrow python r-base r-dplyr regex repeatmodeler r-ggplot2 r-here r-tidyr scikit-learn swifter tensorflow==2.11 tesorter
-> ``` 
-> <br>
 > 📌 <b> RepeatMasker Fixes for Long Names </b> <br>
 >
 > During execution, you may encounter the following error: ``` FastaDB::_cleanIndexAndCompact(): Fasta file contains a sequence identifier which is too long ( max id length = 50 )```
@@ -137,7 +88,7 @@ perl EDTA.pl -h
 > **Step 1.** Edit the **RepeatMasker File**
 > * Access the RepeatMasker file installed in the Conda environment:
 >   ```sh
->   /home/"user"/miniconda3/envs/EDTA/bin/RepeatMasker
+>   /home/"user"/miniconda3/envs/EDTA-new/bin/RepeatMasker
 >   ``` 
 >
 > * Locate all occurrences of ``FastaDB`` where the following snippet appears:
@@ -161,7 +112,7 @@ perl EDTA.pl -h
 > * Acess the ``ProcessRepeats`` file:
 >
 >   ```sh
->   /home/"user"/miniconda3/envs/EDTA/share/RepeatMasker/ProcessRepeats
+>   /home/"user"/miniconda3/envs/EDTA-new/share/RepeatMasker/ProcessRepeats
 >   ``` 
 > * Repeat the same procedure to change the value of  ``maxIDLength`` to ``80``.
 >
@@ -191,112 +142,66 @@ rm TAIR10_chr_all.fas
 
 **Step 2.** Run EDTA on the downloaded genome:
 ```sh
-cd EDTA
+cd AnnoTEP
 mkdir Athaliana
 cd Athaliana
 
-nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 > EDTA.log 2>&1 &
+nohup ../EDTA/EDTA.pl --genome ../At.fasta --species others --step all --sensitive 1 --anno 1 --threads 20 -u 7.0e-9 > EDTA.log 2>&1 &
 ```
 
-> [!NOTE]
-> Replace ``{absolute path to the-AnnoTEP-folder}`` and ``{absolute path to the-genome-folder}`` with the appropriate path
-
-
-**Step 3.** Monitor the progress of the EDTA run:
+**Step 3.** Monitor the progress:
 ```sh
 tail -f EDTA.log
 ```
 
 > [!TIP]
 >
-> 📌 Adjust the number of threads based on your computer or server's capacity. Set it to the maximum available. In the example above, it is set to 12.
+> 📌 <b>Adjust the number of threads - </b>  Set the number of threads ``--threads`` according to the capacity of your machine or server. For optimal performance, use the maximum available. In the example above, it is set to 20.
 > <br>
-> 📌 For more accurate TE detection and annotation, enable the ``--sensitive 1``. This activates RepeatModeler to identify remaining TEs and other repeats, and it also generates Superfamily and Lineage classifications for TEs.
+> 📌 <b> Improving TE detection - </b> Enable ``--sensitive 1``. for more accurate TE detection and annotation. This option runs RepeatModeler to identify additional TEs and repeat sequences, and it also provides Superfamily and Lineage-level classifications.
 > <br>
-> 📌 To perform a more accurate analysis of the genome, we recommend enable the mutation rate ``-u float``. The values and explanation are provided in the file ``LTR-Ages.doc``. <br>
+> 📌 <b>Enhancing genome analysis with mutation rate - </b> For a more refined analysis of TE insertion age, we recommend setting the mutation rate using the ``-u <float>``parameter. Suggested values and detailed explanations can be found in the ``LTR-Ages.doc`` file or in the Genome section of the [AnnoTEP](https://plantgenomics.ncc.unesp.br/AnnoTEP/). <br>
 > 
-> <b> Example of usage: </b>
-> ```sh
-> nohup "{absolute-path-to-folder-AnnoTEP}"/EDTA/EDTA.pl --genome "{absolute-path-to-folder-genome}"/At.fasta --species others --step all --sensitive 1 --anno 1 --threads 12 -u 7.0e-9 > EDTA.log 2>&1 & 
-> ``` 
->
 
 
 > [!NOTE]
 > Non-autonomous elements (e.g., non-autonomous LARDs and Helitrons) can carry passenger genes. For proper genome annotation, these elements must be partially masked. The modified EDTA pipeline handles this automatically and generates a softmasked genome sequence, available in the EDTA folder as ``$genome-Softmasked.fa`` .
 
 ## Generating Graphs
-**Step 1. Create and activate the virtual environment:** Before proceeding, ``disable the Conda environment`` if it is active to prevent dependency conflicts. Then, navigate to the ``AnnoTEP folder``, create a Python virtual environment to ensure an isolated and proper setup, and finally, install the required dependencies by running the command below:
-```sh
-python -m venv .results
-. .results/bin/activate
-
-pip install -r requirements.txt 
-```
-
-**Step 2. Run the processing script:** Next, navigate to the folder created to store the annotated genome (e.g., Athaliana) and run the command below to generate new data and graphs from the input genome (e.g., At.fasta):
+**Step 1. Run the processing script:** With the Conda environment still activated, navigate to the folder where the annotated genome was stored (e.g., Athaliana) and run the script below to generate summary data and graphs from the input genome (e.g., At.fasta):
  ```sh
-cd {absolute-path-to-folder-AnnoTEP}/EDTA/Athaliana
-python -u {absolute-path-to-folder-AnnoTEP}/Scripts/process_graphic.py At.fasta
+cd Athaliana
+python -u ../Scripts/generate_PLOTs-for-TE-pipe.sh At.fasta
 ```
 
 > [!TIP]
-> Make sure to replace At.fasta with the name of the input file you wish to process, if it is different.
+> Make sure to replace ``At.fasta`` with the name of the input genome file you wish to process, if it is different.
 
-At the end of the analysis, three main directories will be generated: TE-REPORT, LTR-AGE, and TREE, each containing detailed results and relevant visualisations. In the [results section](#🔬-results), each generated graph will be described in detail.
+At the end of the analysis, a directory named REPORT will be created. It contains all the outputs, including bubble and bar plots, phylogenetic trees, and summary reports. Each of these results is described in detail in the [results section](#results).
 
 📎 Return to [Table of contents](#table-of-contents)
 
----
-### Running AnnoTEP CLI in Alternative Ways
-AnnoTEP CLI can also be executed using an alternative method. Follow the steps below to set up and run the CLI. <br>
-
-**Step 1. Set Up the Virtual Environment:** After installing the required libraries and the conda environment, navigate to the ``bash-interface`` directory within the AnnoTEP folder. Create a Python virtual environment and install the necessary libraries:
-```sh
-python -m venv .bashinterface
-
-. .bashinterface/bin/activate
-pip install -r requirements.txt 
-```
-
-**Step 2. Run the AnnoTEP CLI Script:** Once the installation is complete, execute the ``run_annotep.py`` script. You can check the available options using the ``-h`` flag:
-```sh
-python run_annotep.py -h
-```
-
-* To run the script with your genome file, use the following command:
-
-```sh
-python run_annotep.py --genome "{absolute-path-to-folder-genomes}"/genome.fasta --threads number
-```
-
-> [!NOTE]
-> This script uses the same parameters as EDTA. The key difference is that it automatically generates the graphs without requiring additional commands.
-
-<br>
 
 # Using AnnoTEP with Graphical User Interface
+The graphical interface of AnnoTEP has been designed with a focus on accessibility and precise user control throughout the TE annotation process. It follows user-centred design principles adapted to the field of bioinformatics, and leverages the parameters already defined by ``EDTA``. <br>
+
+The interface architecture prioritises continuous user supervision during execution, offering an optional ``email notification system``. When enabled, AnnoTEP automatically sends updates regarding the start and completion of analyses, as well as any errors encountered. <br>
+
+In addition, regardless of whether the email system is active, the interface provides an ``integrated results dashboard``, allowing real-time and dynamic visualisation of annotations in progress or already completed.
+
 > [!IMPORTANT]
-> Before proceeding, ensure that all required libraries and the conda environment have been installed.
+> Before proceeding, make sure the Conda environment is properly set up and activated.
 
-**Step 1. Set Up the Virtual Environment:** Navigate to the ``graphic-interface`` folder within the AnnoTEP directory. Create a Python virtual environment and install the necessary libraries:
-```sh
-python -m venv .graphic
-
-. .graphic/bin/activate
-pip install -r requirements.txt 
-```
-<br>
-
-> [!NOTE]
-> The ``requirements.txt`` file contains essential libraries, such as Flask and python-dotenv. If any package fails to install, you may need to install it manually.
-
-**Step 2. Configure the .flaskenv File:** Create and configure a ``.flaskenv`` file. This file is essential for setting up Flask and enabling email functionality. Below is an example configuration:
+**Step 1. Configure flaskenv:** Navigate to the ``graphic-interface`` folder within the AnnoTEP directory. With the Conda environment still active, you will need to create and configure a ``.flaskenv`` file. This file defines essential Flask settings and, optionally, enables email functionality.
+* You can create the ``.flaskenv`` file using the following content:
 ```sh
 FLASK_APP = "main.py"
 FLASK_DEBUG = True
 FLASK_ENV = development
+```
 
+If you plan to use the built-in email system (for the notification system), you must also include the following email configuration:
+```sh
 MAIL_SERVER=server-email
 MAIL_PORT=number
 MAIL_USE_TLS=True or False
@@ -315,8 +220,8 @@ MAIL_PASSWORD=app*password*
 > <br>
 >
 > <b>App Password for Gmail:</b> <br>
-> To generate an app password for Gmail, follow these steps:
-> 1. Go to your Google Account settings.
+> To use Gmail securely, create an app-specific password:
+> 1. Open your Google Account settings.
 > 2. Search for "App Passwords" in the search bar.
 > 3. Generate a new app password and use it in the MAIL_PASSWORD field.
 
@@ -324,10 +229,10 @@ MAIL_PASSWORD=app*password*
 
 > [!WARNING]
 > <b> Security Recommendations: </b>
-> * You do not need to use your primary Gmail account. You can create and use any email address for this method.
-> * When sharing this configuration, <b>never share the ``.flaskenv`` file</b> or its contents, as it contains sensitive information.
+> * Avoid using your primary email account. You can use a dedicated email address for application use.
+> * <b>Never share your ``.flaskenv`` file</b> or expose it in public repositories, as it contains sensitive credentials.
 
-**Step 3. Run the Application:** Inside the ``graphic-interface`` folder and with the virtual environment activated, start the application by running:
+**Step 3. Run the Application:** Within the ``graphic-interface`` folder, and with the Conda environment activated, start the application by running the following command:
 ```sh
 flask run
 ```
@@ -343,7 +248,7 @@ If all settings are correct, you will see a message similar to this:
  * Debugger PIN: 264-075-516
 ```
 
-**Step 4. Access the Platform:** Click on the link http://127.0.0.1:5000/ or copy and paste it into your browser to access the platform and start testing it.
+**Step 4. Access the Platform:** Click on the link http://127.0.0.1:5000/, or copy and paste it into your browser to access the platform and start testing it.
 
 📎 Return to [Table of contents](#table-of-contents)
 
@@ -351,8 +256,10 @@ If all settings are correct, you will see a message similar to this:
 
 ---
 # Installing with Container
-AnnoTEP can be installed on the machine in different ways, one of which is using Docker. The tool is available in two formats: with a graphical interface and without an interface (terminal mode). To follow the steps below, you need to have Docker installed on your machine. You can download it directly from the official [Docker website](https://docs.docker.com/engine/install/)
 
+> [!NOTE] 
+> <b> Prerequisites </b> <br>
+> - 🐳 [Docker](https://docs.docker.com/engine/install/)
 
 ## Graphic User Interface - GUI
 <div align="center"> 
@@ -360,43 +267,31 @@ AnnoTEP can be installed on the machine in different ways, one of which is using
 </div><br>
 
 >[!IMPORTANT] 
-> For this version, your machine must have access to the internet.
+> If you intend to use the email notification system, please note that <b>your machine must have access to the internet</b> for this feature to function properly.
 
 Open the terminal and run the following commands:
 
 **Step 1. Download the AnnoTEP Image:** Open your terminal and run the following command to download the AnnoTEP Docker image:
 ```sh
-docker pull annotep/annotep-gui:v2
+docker pull annotep/annotep-gui:v1
 ```
 
 **Step 2. Run the Container** Next, run the container using the command below. Specify a folder on your machine to store the annotation results:
 ```sh
-docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v2
+docker run -it -v <path-to-results-folder>:/root/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
 ```
 > [!TIP]
 > ### Description:
-> - ``-v {folder-results}:/root/TEs/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/graphic-interface/results`` is the directory inside the container and should not be changed.
+> - ``-v <path-to-results-folder>:/root/AnnoTEP/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/AnnoTEP/graphic-interface/results`` is the directory inside the container and should not be changed.
 > - ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine.
-> - ``annotep/annotep-gui:v2``: Specifies the Docker image to use.
+> - ``annotep/annotep-gui:v1``: Specifies the Docker image to use.
 > <br>
-> 📌 For testing, you can download the Arabidopsis thaliana (Chromosome 4) file AtChr4.fasta from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
->
-> #### Example:
-> ```sh
-> docker run -it -v /home/"user"/results-annotep:/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v2
-> ```
+
 
 **Step 3. Acess the AnnoTEP interface:** After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
 
-> [!NOTE]
-> 📌 When you access 127.0.0.1:5000, you will see a version of the AnnoTEP platform similar to the web version.
->
-> 📌 For testing, you can download the _Arabidopsis thaliana_ (Chromosome 4) file ``AtChr4.fasta`` from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
->
-> 📌 This version includes a field to specify the number of threads. It is recommended to have at least 4 threads available on your machine. **Note that fewer threads will result in longer analysis times**.
-
 **Step 4. Submit Data for Analysis:** In the graphical interface, input the required data, such as: 
-* <b>Email Address:</b> notifications about the process status.
+* <b>Email Address:</b> notifications about the process status (optional).
 * <b>Genome:</b> The genome file to be analysed.
 * <b>Features:</b> Choose the type of analysis to be performed.
 
@@ -404,20 +299,8 @@ docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0
 
 Once the process is complete, you will receive an email confirming whether it finished successfully or with errors. The email will include:
 
-* The name of the generated folder (available in the results directory specified via ``-v {folder-results}``);
+* The name of the generated folder (available in the results directory specified via ``-v <path-to-results-folder>``);
 * A detailed ``log`` of the annotation steps;
-* Any ``error messages``, if they occurred.
-
-**Step 5. Monitor Progress via Docker Logs:** To monitor the annotation progress, use the Docker logs:.
-   1. In the terminal, type 
-   ```sh 
-   docker ps 
-   ```
-   2. A list of active containers will appear. Copy the ``CONTAINER ID`` of the AnnoTEP image.
-   3. Use the following command to view the logs: 
-   ```sh
-   docker logs -f "CONTAINER ID"
-   ```
 
 >[!IMPORTANT]
 > * **Avoid shutting down your machine during the process**, as this may interrupt the analysis. Even when using the web interface, processing occurs locally on your machine.
@@ -436,75 +319,27 @@ While the primary focus of AnnoTEP is its user-friendly graphical interface, we 
 
 **Step 1. Download the AnnoTEP Image:** To get started, download the AnnoTEP CLI Docker image by running the following command:
 ```sh
-docker pull annotep/annotep-cli:v2
+docker pull annotep/annotep-cli:v1
 ```
 
 **Step 2. Display the User Guide:** Use the ``-h`` parameter to display a detailed guide on how to use the script:
 
 ```sh
-docker run annotep/annotep-cli:v2 python run_annotep.py -h
+docker run annotep/annotep-cli:v1 python run_annotep.py -h
 ```
-
-This will show the following usage instructions:
-
-```sh
-usage: run_annotep.py [-h] --genome GENOME --threads THREADS
-                      [--species {Rice,Maize,others}]
-                      [--step {all,filter,final,anno}] [--sensitive {0,1}]
-                      [--overwrite {0,1}] [--anno {0,1}] [--evaluate {0,1}]
-                      [--force {0,1}] [--u U] [--maxdiv [0-100]] [--cds CDS]
-                      [--curatedlib CURATEDLIB] [--exclude EXCLUDE]
-                      [--rmlib RMLIB] [--rmout RMOUT]
-
-Run annotep with specified parameters.
-
-optional arguments:
-  -h, --help            show this help message and exit
-
-required arguments:
-  --genome GENOME       The genome FASTA file (.fasta)
-  --threads THREADS     Number of threads used to complete annotation (default threads: 4)
-
-optional arguments:
-  --species {Rice,Maize,others}
-                        Specify the species for identification of TIR candidates. Default: others
-  --step {all,filter,final,anno}
-                        Specify which steps you want to run EDTA.
-  --sensitive {0,1}     Use RepeatModeler to identify remaining TEs (1) or not (0, default). This step may help to recover some TEs.
-  --overwrite {0,1}     If previous raw TE results are found, decide to overwrite (1, rerun) or not (0, default).
-  --anno {0,1}          Perform (1) or not perform (0, default) whole-genome TE annotation after TE library construction.
-  --evaluate {0,1}      Evaluate (1) classification consistency of the TE annotation. (--anno 1 required).
-  --force {0,1}         When no confident TE candidates are found: 0, interrupt and exit (default); 1, use rice TEs to continue.
-  --u U                 Neutral mutation rate to calculate the age of intact LTR elements. Intact LTR age is found in this file: *EDTA_raw/LTR/*.pass.list. Default: 1.3e-8 (per bp per year, from rice).
-  --maxdiv [0-100]      Maximum divergence (0-100, default: 40) of repeat fragments comparing to library sequences.
-  --cds CDS             Provide a FASTA file containing the coding sequence (no introns, UTRs, nor TEs) of this genome or its close relative.
-  --curatedlib CURATEDLIB
-                        Provided a curated library to keep consistant naming and classification for known TEs. TEs in this file will be trusted 100%, so please ONLY provide MANUALLY CURATED ones. This option is not mandatory. It is totally OK if no file is provided (default).
-  --exclude EXCLUDE     Exclude regions (bed format) from TE masking in the MAKER.masked output. Default: undef. (--anno 1 required).
-  --rmlib RMLIB         Provide the RepeatModeler library containing classified TEs to enhance the sensitivity especially for LINEs. If no file is provided (default), EDTA will generate such file for you.
-  --rmout RMOUT         Provide your own homology-based TE annotation instead of using the EDTA library for masking. File is in RepeatMasker .out format. This file will be merged with the structural-based TE annotation. (--anno 1 required). Default: use the EDTA library for annotation.
-```
-<br>
 
 **Step 3. Run the Container:** To simplify this step, we recommend creating a folder to store your genomic data in **FASTA format**. Once created, run the container using the command below as a guide. Ensure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absolute-path-to-folder-genomes}":"{absolute-path-to-folder-genomes}" annotep/annotep-cli:v2 python run_annotep.py --genome "{absolute-path-to-folder-genomes/genome.fasta}" --threads "{number}"
+docker run -it -v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results -v "<absolute-path-to-folder-genomes>":"<absolute-path-to-folder-genomes>" annotep/annotep-cli:v1 python run_annotep.py --genome "<absolute-path-to-folder-genomes>/genome.fa" --threads "<number>"
 ```
 
 >[!TIP]
 > ### Description:
-> - ``-v {folder-results}:/root/TEs/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v {folder-results}`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/TEs/www/results``  is the directory inside the container and should not be changed.
-> - ``-v {absolute-path-to-folder-genomes}:{absolute-path-to-folder-genomes}``: Creates a temporary copy of the genomic files inside Docker. Ensure you provide the correct path to the folder containing your genomes.
-> - ``--genome {absolute-path-to-folder-genomes/genome.fasta}``: Specify the full path to the genome file you want to annotate.
-> - ``--threads {number}``: Define the number of threads to use.
-> <br>
-> 📌 For testing, you can download the Arabidopsis thaliana (Chromosome 4) file AtChr4.fasta from the repository. **The annotation process may take approximately 1 hour if 10 threads are used**.
->
-> #### Example:
-> ```sh
-> docker run -it -v /home/"user"/results-annotep:/root/TEs/bash-interface/results -v /home/"user"/Documents/TEs:/home/"user"/Documents/TEs annotep/annotep-cli:v2 python run_annotep.py --genome /home/"user"/TEs/AtChr4.fasta --threads 12 --sensitive 1 --anno 1
-> ```
+> - ``-v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/AnnoTEP/www/results``  is the directory inside the container and should not be changed.
+> - ``-v <absolute-path-to-folder-genomes>:<absolute-path-to-folder-genomes>``: Creates a temporary copy of the genomic files inside Docker. Ensure you provide the correct path to the folder containing your genomes.
+> - ``--genome <absolute-path-to-folder-genomes>/genome.fa``: Specify the full path to the genome file you want to annotate.
+> - ``--threads <number>``: Define the number of threads to use.
 
 **Step 4. Monitor the Annotation Process:** Wait for the genome annotation to complete. You can monitor the progress directly through the terminal.
 
@@ -515,10 +350,10 @@ docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absol
 > If Docker containers experience memory issues or unexpected terminations due to intensive resource usage, you can adjust the process limits (``--pids-limit``) and swap memory (``--memory-swap``). 
 > Example usage: 
 >```sh
-> docker run -it -v "{folder-results}":/root/TEs/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "{threads x 10000}" --memory-swap -1 annotep/annotep-gui:v2
+> docker run -it -v <path-to-results-folder>:/root/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "<threads x 10000>" --memory-swap -1 annotep/annotep-gui:v1
 >```
 > <b> Explanation: </b>
-> - ``--pids-limit {threads x 10000}``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
+> - ``--pids-limit <threads x 10000>``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
 > - ``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient.
 
 📎 Return to [Table of contents](#table-of-contents)
@@ -528,65 +363,72 @@ docker run -it -v "{folder-results}":/root/TEs/bash-interface/results -v "{absol
 In addition to FASTA libraries, GFF3 files, and softmasking outputs, AnnoTEP also generates informative graphs and detailed reports based on the data obtained during the annotation process.
 
 ## TE-REPORT
-In the **TE-REPORT** directory, you will find a table that categorises TEs hierarchically by order, superfamily, and autonomy, along with metrics such as base pairs, size, and percentage. This data is visualised using bar charts and bubble charts.
+The **TE-REPORT** directory is generated at the end of the annotation process and contains a comprehensive set of reports and visualisations. Within this directory, you will find both detailed and summary reports that hierarchically classify transposable elements (TEs) by order, superfamily, and autonomy; Bubble and bar charts representing the TE classification; Repeat landscape plots generated using Kimura distance calculations; LTR age distribution charts, showing the estimated insertion times of LTR superfamilies; and Phylogenetic trees of LTR elements.
 
-📌 ``TEs-Report-Complete.txt``: A comprehensive table listing the classifications of TEs, including partial elements, which are labelled with the suffix “-like” (e.g., Angela-like).
+
+📌 ``TEs-Report-Complete.tbl``: A comprehensive table listing the classifications of TEs, including partial elements, which are labelled with the suffix “-like” (e.g., Angela-like).
 <div align="center">
-    <img src="graphic-interface/static/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
+    <img src="graphic-interface/static/assets/screenshot/TEs-Complete.png" alt="TEs-Complete" border="0" width="550px" />
 </div>
 <br>
 
-📌 ``TEs-Report-Lite.txt``: A simplified report derived from the complete version, containing concise and accessible information.
+📌 ``TEs-Report-Lite.tbl``: A simplified report derived from the complete version, containing concise and accessible information.
 <div align="center">
-    <img src="graphic-interface/static/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
+    <img src="graphic-interface/static/assets/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
 </div>
 <br>
 
 📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
-    <img src="graphic-interface/static/screenshot/TE-Report1-length.svg" alt="TE-Report1-length" border="0" width="650px" />
-    <img src="graphic-interface/static/screenshot/TE-Report2-length.svg" alt="TE-Report2-length" border="0" width="650px" />
-    <img src="graphic-interface/static/screenshot/TE-Report1-number.svg" alt="TE-Report1-number" border="0" width="650px" />
-    <img src="graphic-interface/static/screenshot/TE-Report2-number.svg" alt="TE-Report2-number" border="0" width="650px" />
-    <img src="graphic-interface/static/screenshot/TE-Report1-bubble.svg" alt="TE-Report1-bubble" border="0" width="650px" />
-    <img src="graphic-interface/static/screenshot/TE-Report2-bubble.svg" alt="TE-Report2-bubble" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report-bar.svg" alt="TE-Report-bar" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bar.svg" alt="TE-Report2-bar" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report-bubble.svg" alt="TE-Report-bubble" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bubble-panels.svg" alt="TE-Report2-bubble-panels" border="0" width="650px" />
 </div>
 <br>
 
-📌 ``RepeatLandScape.*``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
+📌 ``kimura_distance_plot.pdf``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
 By applying Kimura’s calculation, the graph distinguishes older elements (with greater accumulated divergence) from more recent ones (with lower divergence), offering valuable insights into the evolutionary dynamics and genomic history of the organism under study.
 <div align="center">
-    <img src="graphic-interface/static/screenshot/RLandScape.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/kimura_distance_plot.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
 </div>
 
-### LTR-AGE
-This directory **LTR-AGE** directory contains charts that estimate the ages of LTR Gypsy and LTR Copia elements:
-<br>
-📌 ``AGE-Gypsy.*`` and ``AGE-Copia.*``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
+
+📌 ``AGE-Gypsy.pdf`` and ``AGE-Copia.pdf``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
 <div align="center">
-    <img src="graphic-interface/static/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
-    <img src="graphic-interface/static/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
+    <img src="graphic-interface/static/assets/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
+    <img src="graphic-interface/static/assets/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
 </div>
 
-### TREE
-This **TREE** directory contains phylogenetic charts for the alignments of all LTR-RT domains:
-<br>
 
-📌 ``LTR_RT-Tree1.*``, ``LTR_RT-Tree3.*``, ``LTR_RT-Tree4.*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
+📌 ``LTR_RT-Tree1*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
 <div align="center">
-    <img src="graphic-interface/static/screenshot/LTR_RT-Tree1.svg" alt="LTR-RT-Tree1" border="0" width="750px">
-    <img src="graphic-interface/static/screenshot/LTR_RT-Tree3.svg" alt="LTR-RT-Tree3" border="0" width="750px">
-    <img src="graphic-interface/static/screenshot/LTR_RT-Tree4.svg" alt="LTR-RT-Tree4" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_original_circular.svg" alt="LTR_RT-Tree1_original_circular" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_cladogram_circular.svg" alt="LTR_RT-Tree1_cladogram_circular" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_radial_circular.svg" alt="LTR_RT-Tree1_radial_circular" border="0" width="750px">
 </div>
 <br>
 
-📌 ``LTR_RT-Tree2.*``: A circular chart where: 
+📌 ``LTR_RT-Tree2*``: A circular chart where: 
     - The outer circle (purple) represents the length (in base pairs) occupied by each element.
     - The inner circle (red) represents the number of occurrences of each element.
 <div align="center">
-    <img src="graphic-interface/static/screenshot/LTR_RT-Tree2.svg" alt="LTR-RT-Tree2" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_circular_density.svg" alt="LTR_RT-Tree2_circular_density" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_cladogram_density.svg" alt="LTR_RT-Tree2_cladogram_density" border="0" width="750px">
 </div>
 <br>
+
+📌 ``divergence_plot*`` and ``chromosome_density*``: These files are originally generated by the EDTA pipeline and are preserved and further refined by AnnoTEP to improve visual clarity and consistency within the results framework.
+<div align="center">
+    <img src="graphic-interface/static/assets/screenshot/divergence_plot.svg" alt="divergence_plot" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.1.svg" alt="divergence_plot_2.1" border="0" width="750px">
+    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.2.svg" alt="divergence_plot_2.2" border="0" width="750px">
+</div>
+
+* The number of files generated by ``chromosome_density*`` may vary between genomes, with some genomes producing over 100 files.
+<div align="center">
+    <img src="graphic-interface/static/assets/screenshot/chromosome_density_plots_page1.svg" alt="chromosome_density_plots_page1" border="0" width="750px">
+</div>
 
 📎 Return to [Table of contents](#table-of-contents)
 
