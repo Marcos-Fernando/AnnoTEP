@@ -1,43 +1,21 @@
-# import os
-# import warnings
-#
-# os.environ["TF_CPP_MIN_LOG_LEVEL"] = '3'  # mute all tensorflow info, warnings, and error msgs. #shujun
-# os.environ["KMP_WARNINGS"] = '0'  # mute all OpenMP warnings. #shujun
-# warnings.filterwarnings("ignore", category=FutureWarning)  # mute tensorflow warnings #shujun
-#
-# # Use if True to suppress the PEP8: E402 warning
-# if True:  # noqa: E402
-#     import numpy as np
-#     import pandas as pd
-#     import swifter  # ATTENTION: DO NOT REMOVE "swifter" EVEN IF IDE SHOWS IT IS NOT USED!
-#
-#     from sklearn.preprocessing import LabelEncoder
-#     # Attention: sklearn does not automatically import its subpackages
-#     import tensorflow as tf
-#     from tensorflow.python.framework.errors_impl import InternalError
-#     from keras.utils import to_categorical
-#     from keras.models import load_model
-#
-#     import prog_const
-
-from prog_const import *
+from const import *
 
 
-def get_sequence_fragment(x, featureSize=200):
+def get_sequence_fragment(x: pd.Series, feature_size: int = 200) -> str:
     seq = x["seq"]
     len_seq = len(seq)
-    if len_seq >= featureSize * 2:
-        return seq[0:featureSize] + seq[-featureSize:]
+    if len_seq >= feature_size * 2:
+        return seq[0:feature_size] + seq[-feature_size:]
     s1 = seq[0:int(len_seq / 2)]
     s2 = seq[int(len_seq / 2):]
-    n1 = "N" * (featureSize - len(s1))
-    n2 = "N" * (featureSize - len(s2))
+    n1 = "N" * (feature_size - len(s1))
+    n2 = "N" * (feature_size - len(s2))
     s1 = s1 + n1
     s2 = n2 + s2
     return s1 + s2
 
 
-def feature_encoding(df_in, flag_verbose):
+def feature_encoding(df_in: pd.DataFrame, flag_verbose: bool) -> pd.DataFrame:
     feature_int_encoder = LabelEncoder()
     voc = ["A", "C", "G", "T", "N"]
     num_classes = len(voc)
@@ -48,18 +26,17 @@ def feature_encoding(df_in, flag_verbose):
     df["int_enc"] = df.swifter.progress_bar(flag_verbose).apply(
         lambda x: np.array(feature_int_encoder.transform(list(x["seq_frag"]))).reshape(-1, 1), axis=1)
     df = df.drop(columns="seq_frag")
+
     print("  Step 3/7: One-Hot Encoding - Converting class vectors to binary class matrices")
     df["feature"] = df.swifter.progress_bar(flag_verbose).apply(
-        lambda x: to_categorical(x["int_enc"], num_classes=num_classes), axis=1)
+        lambda x: keras.utils.to_categorical(x["int_enc"], num_classes=num_classes), axis=1)
     df = df.drop(columns="int_enc")
 
-    # inputfeatures = np.array(input_features)
-    # np.save(file + spliter + "features.npy", inputfeatures)
     return df
 
 
-def predict(df_in, genome_file, path_to_model):
-    model = load_model(path_to_model)
+def predict(df_in: pd.DataFrame, genome_file: str, path_to_model: str) -> Optional[pd.DataFrame]:
+    model = keras.models.load_model(path_to_model)
     pre_feature = df_in["feature"].to_numpy()
     df = df_in.drop(columns="feature")
 
@@ -74,13 +51,14 @@ def predict(df_in, genome_file, path_to_model):
     d = dict(zip(target_int_encoded, l_class))
 
     print("  Step 4/7: CNN prediction")
-    try:
-        predicted_labels = model.predict(np.stack(pre_feature))
-    except InternalError as e:
-        print(e)
-        with tf.device("/cpu:0"):
-            pre_feature_tensor = tf.convert_to_tensor(np.stack(pre_feature), np.float32)
-            predicted_labels = model.predict(pre_feature_tensor)
+    # try:
+    #     predicted_labels = model.predict(np.stack(pre_feature))
+    # except InternalError as e:
+    #     print(e)
+    #     with tf.device("/cpu:0"):
+    #         pre_feature_tensor = tf.convert_to_tensor(np.stack(pre_feature), np.float32)
+    #         predicted_labels = model.predict(pre_feature_tensor)
+    predicted_labels = model.predict(np.stack(pre_feature))
 
     df["percent"] = pd.Series(predicted_labels.max(axis=-1))
     y_classes = predicted_labels.argmax(axis=-1)
@@ -88,7 +66,7 @@ def predict(df_in, genome_file, path_to_model):
     return df
 
 
-def postprocessing(df_in, flag_verbose):
+def postprocessing(df_in: pd.DataFrame, flag_verbose: bool) -> pd.DataFrame:
     df = df_in.loc[:, ["id", "TIR_type"]]
     df = df[df["TIR_type"] != "NonTIR"].reset_index(drop=True)
     print("  Step 5/7: Retrieving sequence ID")
@@ -111,7 +89,6 @@ def execute(TIRLearner_instance) -> pd.DataFrame:
 
     df = feature_encoding(df, TIRLearner_instance.flag_verbose)
 
-    df = predict(df, TIRLearner_instance.genome_file_path,
-                 os.path.join(program_root_dir_path, CNN_model_dir_name))
+    df = predict(df, TIRLearner_instance.genome_file_path, CNN_MODEL_DIR_PATH)
 
     return postprocessing(df, TIRLearner_instance.flag_verbose)

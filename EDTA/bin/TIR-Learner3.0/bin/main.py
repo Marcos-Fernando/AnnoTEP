@@ -1,25 +1,8 @@
 #!/usr/bin/env python3
 # Tianyu Lu (tlu83@wisc.edu)
-# 2024-01-09
+# 2025-02-13
 
-# import datetime
-# import json
-# import os
-# import re
-# import shutil
-# import subprocess
-# import tempfile
-#
-# import warnings
-# warnings.simplefilter(action='ignore', category=FutureWarning)
-#
-# import pandas as pd
-# import swifter
-#
-# from Bio import SeqIO
-# from Bio.Seq import Seq
-
-from prog_const import *
+from const import *
 
 # Use if True to suppress the PEP8: E402 warning
 if True:  # noqa: E402
@@ -33,25 +16,104 @@ if True:  # noqa: E402
     import get_fasta_sequence
     import check_TIR_TSD
     import post_processing
-    # import prog_const
 
 
-def get_timestamp_now_utc_iso8601():
+def get_timestamp_now_utc_iso8601() -> str:
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
+
+
+def humanized_time(seconds: float) -> str:
+    return next(f"{seconds / 60 ** i:.4g} {unit}" for i, unit in enumerate(("s", "min", "h")) if
+                seconds < 60 ** (i + 1) or i == 2)
+
+
+def humanized_file_size(file_size: float) -> str:
+    return next(f"{file_size / 1024 ** i:.6g}{unit}" for i, unit in
+                enumerate(("Byte", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB")) if
+                file_size < 1024 ** (i + 1) or i == 6)
+
+
+def get_process_memory_usage_in_byte(pid: int = None,
+                                     detail: bool = True) -> Optional[dict[str, Union[dict[str, int], int]]]:
+    """
+    Return memory usage for a specific process and all its children.
+
+    Parameters:
+    - pid: Process ID to analyze. If None, uses current process ID.
+    - detail: If True, return detailed dict for each process.
+             If False, only return total.
+
+    Returns:
+    - dict: If detail = True: {pid: {"rss": bytes, "vms": bytes}, ..., "total": {"rss": bytes, "vms": bytes}}
+            If detail = False: {"rss": bytes, "vms": bytes}
+    """
+    import os
+    import psutil
+
+    if pid is None:
+        pid = os.getpid()
+
+    try:
+        parent = psutil.Process(pid)
+        result = {}
+
+        mem = parent.memory_info()
+        total_rss = mem.rss
+        total_vms = mem.vms
+
+        if detail:
+            result[pid] = {"rss": mem.rss, "vms": mem.vms}
+
+        try:
+            children = parent.children(recursive=True)
+            for child in children:
+                try:
+                    mem = child.memory_info()
+                    if detail:
+                        result[child.pid] = {"rss": mem.rss, "vms": mem.vms}
+                    total_rss += mem.rss
+                    total_vms += mem.vms
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    continue
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+
+        if detail:
+            result["total"] = {"rss": total_rss, "vms": total_vms}
+            return result
+        return {"rss": total_rss, "vms": total_vms}
+
+    except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
+        print(f"Error accessing process: {e}")
+        return None
+
+
+def get_df_total_memory_usage_in_byte(obj: Optional[Union[dict[str, pd.DataFrame], pd.DataFrame]]) -> int:
+    if obj is None:
+        return 0
+    elif type(obj) is pd.DataFrame:
+        return obj.memory_usage(index=False, deep=True).sum()
+    elif type(obj) is dict:
+        total_size = 0
+        for k, v in obj.items():
+            total_size += get_df_total_memory_usage_in_byte(v)
+        return total_size
+    else:
+        raise ValueError(f"ERROR: Not supported type \"{type(obj)}\"")
 
 
 class TIRLearner:
     def __init__(self, genome_file_path: str, genome_name: str, species: str, TIR_length: int,
-                 cpu_cores: int, GRF_mode: str,
+                 processors: int, para_mode: str,
                  working_dir_path: str, output_dir_path: str, checkpoint_dir_input_path: str,
-                 flag_verbose: bool, flag_debug: bool, GRF_path: str, gt_path: str, additional_args: tuple):
+                 flag_verbose: bool, flag_debug: bool, GRF_path: str, gt_path: str, additional_args: tuple[str]):
         self.genome_file_path = genome_file_path
         self.genome_name = genome_name
         self.species = species
 
         self.TIR_length = TIR_length
-        self.cpu_cores = cpu_cores
-        self.GRF_mode = GRF_mode
+        self.processors = processors
+        self.para_mode = para_mode
 
         self.working_dir_path = working_dir_path
         self.output_dir_path = output_dir_path
@@ -62,10 +124,9 @@ class TIRLearner:
 
         self.GRF_path = GRF_path
         self.gt_path = gt_path
-        # self.flag_checkpoint = flag_checkpoint
         self.additional_args = additional_args
 
-        self.processed_de_novo_result_file_name = f"{self.genome_name}{spliter}processed_de_novo_result.fa"
+        self.processed_de_novo_result_file_name = f"{self.genome_name}{FILE_NAME_SPLITER}processed_de_novo_result.fa"
 
         if CHECKPOINT_OFF not in additional_args:
             self.checkpoint_dir_output_path = os.path.join(
@@ -75,23 +136,23 @@ class TIRLearner:
         self.genome_file_stat = {"file_size_gib": -0.1, "num": -1,
                                  "short_seq_num": 0, "short_seq_perc": -0.1,
                                  "total_len": 0, "avg_len": -1}
-        self.current_step = [0, 0]
+        self.current_progress = [0, 0]
         self.working_df_dict = {}
+        self.split_fasta_files_path_list = []
 
         self.execute()
 
-    def __getitem__(self, item):
-        return self.working_df_dict[item]
+    def __getitem__(self, key: str) -> Optional[pd.DataFrame]:
+        return self.working_df_dict[key]
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: str, value: Optional[pd.DataFrame]):
         self.working_df_dict[key] = value
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: str) -> int:
         try:
             del self.working_df_dict[key]
             return 0
         except KeyError:
-            # pass
             return -1
 
     def keys(self):
@@ -100,8 +161,8 @@ class TIRLearner:
     def items(self):
         return self.working_df_dict.items()
 
-    def get(self, keyname, value=None):
-        return self.working_df_dict.get(keyname, value)
+    def get(self, key: str, value=None) -> Optional[pd.DataFrame]:
+        return self.working_df_dict.get(key, value)
 
     def clear(self):
         self.working_df_dict.clear()
@@ -112,13 +173,13 @@ class TIRLearner:
         self.pre_scan_fasta_file()
         # print(os.getcwd())  # TODO ONLY FOR DEBUG REMOVE AFTER FINISHED
 
-        if self.species in ref_lib_available_species:
-            self.execute_M1()
-            self.execute_M2()
-            self.execute_M3()
+        if self.species in REFLIB_AVAILABLE_SPECIES:
+            self.execute_m1()
+            self.execute_m2()
+            self.execute_m3()
             raw_result_df_list = [self["m1"], self["m2"], self["m3"]]
         else:
-            self.execute_M4()
+            self.execute_m4()
             raw_result_df_list = [self["m4"]]
 
         post_processing.execute(self, raw_result_df_list)
@@ -127,17 +188,17 @@ class TIRLearner:
 
         # subprocess.Popen(["unlink", self.genome_file_path]).wait()
         # os.rmdir(self.working_dir_path)
-        if temp_dir is not None:
-            shutil.rmtree(temp_dir)
-        else:
-            shutil.rmtree(self.working_dir_path)
+        if not self.flag_debug:
+            if temp_dir is not None:
+                shutil.rmtree(temp_dir)
+            else:
+                shutil.rmtree(self.working_dir_path)
 
     def pre_scan_fasta_file(self):
-        # names = [record.id for record in SeqIO.parse(self.genome_file, "fasta")]
         print("Doing pre-scan for genome file...")
-        self.genome_file_stat["file_size_gib"] = os.path.getsize(self.genome_file_path) / (2 ** 10) ** 3
-        # if file_size_gib > 1.0:
-        #     print(f"File size {file_size_gib} GiB > 1 GiB, pre-scan might be slow.")
+        start_time = time.perf_counter()
+        self.genome_file_stat["file_size"] = os.path.getsize(self.genome_file_path)
+
         try:
             self.genome_file_stat["num"] = len(list(SeqIO.index(self.genome_file_path, "fasta")))
         except Exception:
@@ -148,31 +209,35 @@ class TIRLearner:
         for record in SeqIO.parse(self.genome_file_path, "fasta"):
             record.seq = record.seq.upper()
             sequence_str = str(record.seq)
+            seq_len = len(sequence_str)
+            drop_seq_len = self.TIR_length + 500
+            if seq_len < drop_seq_len:
+                continue
 
             if set(sequence_str) > {'A', 'C', 'G', 'T', 'N'}:
                 print(f"WARN: Unknown character exist in sequence {record.id} will be replaced by \'N\'.")
                 record.seq = Seq(re.sub("[^ACGTN]", "N", sequence_str))
 
-            if spliter in record.id:
-                print((f"WARN: Sequence name \"{record.id}\" has reserved string \"{spliter}\", "
+            if FILE_NAME_SPLITER in record.id:
+                print((f"WARN: Sequence name \"{record.id}\" has reserved string \"{FILE_NAME_SPLITER}\", "
                        "which makes it incompatible with TIR-Learner and will be replaced with \'_\'."))
-                record.id = record.id.replace(spliter, "_")
+                record.id = record.id.replace(FILE_NAME_SPLITER, "_")
 
-            if len(sequence_str) < short_seq_len:
+            if len(sequence_str) < SHORT_SEQ_LEN:
                 self.genome_file_stat["short_seq_num"] += 1
 
-            self.genome_file_stat["total_len"] += len(sequence_str)
+            self.genome_file_stat["total_len"] += seq_len
             records.append(record)
-        checked_genome_file = f"{self.genome_name}{spliter}checked.fa"
+        checked_genome_file = f"{self.genome_name}{FILE_NAME_SPLITER}checked.fa"
         SeqIO.write(records, checked_genome_file, "fasta")
         self.genome_file_stat["short_seq_perc"] = (self.genome_file_stat["short_seq_num"] /
                                                    self.genome_file_stat["num"])
         self.genome_file_stat["avg_len"] = self.genome_file_stat["total_len"] // self.genome_file_stat["num"]
 
-        self.GRF_execution_mode_check()
-        print("Genome file scan finished!")
+        end_time = time.perf_counter()
+        print(f"Genome file scan finished! Time elapsed: {humanized_time(end_time - start_time)}.")
         print(f"  File name: {os.path.basename(self.genome_file_path)}")
-        print(f"  File size: {float('%.4g' % self.genome_file_stat['file_size_gib'])} GiB")
+        print(f"  File size: " + humanized_file_size(self.genome_file_stat["file_size"]))
         print(f"  Number of sequences: {self.genome_file_stat['num']}")
         print(f"  Number of short sequences: {self.genome_file_stat['short_seq_num']}")
         print(f"  Percentage of short sequences: {self.genome_file_stat['short_seq_perc'] * 100} %")
@@ -183,11 +248,10 @@ class TIRLearner:
         if self.working_dir_path is None:
             temp_dir = tempfile.mkdtemp()
             self.working_dir_path = temp_dir
-        # self.load_genome_file()
         else:
             temp_dir = None
             os.makedirs(self.working_dir_path, exist_ok=True)
-        self.working_dir_path = os.path.join(self.working_dir_path, sandbox_dir_name)
+        self.working_dir_path = os.path.join(self.working_dir_path, SANDBOX_DIR_NAME)
         os.makedirs(self.working_dir_path, exist_ok=True)
         self.working_dir_path = os.path.abspath(self.working_dir_path)
         os.chdir(self.working_dir_path)
@@ -206,10 +270,6 @@ class TIRLearner:
             pass
         if len(checkpoint_dirs) == 0:
             return "not_found"
-
-        # print(checkpoint_dirs)  # TODO only for debug
-        # print(self.checkpoint_folder)  # TODO only for debug
-        # print(os.path.basename(self.checkpoint_dir_output_path) in checkpoint_dirs)  # TODO only for debug
 
         latest_checkpoint_dir_path = os.path.join(self.output_dir_path, checkpoint_dirs.pop())
         while not os.listdir(latest_checkpoint_dir_path) and len(checkpoint_dirs) != 0:
@@ -232,24 +292,10 @@ class TIRLearner:
                 genome_file_directory = os.path.dirname(self.genome_file_path)
                 self.checkpoint_dir_input_path = self.get_latest_valid_checkpoint_dir(genome_file_directory)
             if self.checkpoint_dir_input_path == "not_found":
-                print("WARN: Unable to find checkpoint file. "
-                      "Will skip loading checkpoint and start from the very beginning.")
-                # self.flag_checkpoint = False
+                self.reset_checkpoint_load_state("Unable to find checkpoint file. ")
                 return
-            # if not os.listdir(self.checkpoint_dir_input_path):
-            #     print("WARN: Checkpoint file found but is empty. "
-            #           "Will skip loading checkpoint and start from the very beginning.")
-            #     # self.flag_checkpoint = False
-            #     return
 
-        # print(self.checkpoint_input)  # TODO only for debug
         checkpoint_info_file_path = os.path.join(self.checkpoint_dir_input_path, "info.txt")
-        # print(checkpoint_info_file_path)  # TODO only for debug
-        # if not os.path.exists(checkpoint_info_file_path):
-        #     print("WARN: Checkpoint file invalid, \"info.txt\" is missing or empty. "
-        #           "Will skip loading checkpoint and start from the very beginning.")
-        #     # self.flag_checkpoint = False
-        #     return
 
         try:
             with open(checkpoint_info_file_path) as checkpoint_info_file:
@@ -263,28 +309,25 @@ class TIRLearner:
                 step = int(execution_progress_info[2])
 
                 if species != self.species:
-                    print(f"WARN: Species \"{species}\" in checkpoint mismatch with "
-                          f"species \"{self.species}\" in argument. "
-                          f"Will skip loading checkpoint and start from the very beginning.")
+                    self.reset_checkpoint_load_state(f"Species \"{species}\" in checkpoint "
+                                                     f"mismatch with species \"{self.species}\" in argument. ")
                     return
 
-                self.current_step = [module, step]
+                self.current_progress = [module, step]
 
-                # df_current_file = f.readline().rstrip()
                 working_df_filename_dict = json.loads(checkpoint_info_file.readline().rstrip())
                 for k, v in working_df_filename_dict.items():
+                    if v is None:
+                        self[k] = None
+                        continue
                     df_file_name = os.path.join(self.checkpoint_dir_input_path, v)
                     df_dtype_file_name = f"{df_file_name}_dtypes.txt"
                     with open(df_dtype_file_name, 'r') as df_dtype_file:
                         if os.path.getsize(df_dtype_file_name) == 0:
                             raise EOFError(df_dtype_file_name)
-                        # df_dtypes_dict = json.loads(df_dtype_file.readline().rstrip())
                         df_dtypes_dict = {k: eval(v) for k, v in json.loads(df_dtype_file.readline().rstrip()).items()}
                     self[k] = pd.read_csv(f"{df_file_name}.csv", sep='\t', header=0, dtype=df_dtypes_dict,
                                           engine='c', memory_map=True)
-                    # self[k] = pd.read_csv(f"{df_file_name}.csv", sep='\t', header=0, engine='c', memory_map=True)
-                    # self[k] = pd.read_csv(f"{df_file_name}.csv", sep='\t', header=0,
-                    #                       engine='c', memory_map=True).astype()
 
             processed_de_novo_result_checkpoint_file = os.path.join(self.checkpoint_dir_input_path,
                                                                     self.processed_de_novo_result_file_name)
@@ -299,60 +342,56 @@ class TIRLearner:
                   f"  Module: {module}\n"
                   f"  Step: {step}")
         except FileNotFoundError as e:
-            self.reset_checkpoint_load_state(f"WARN: Checkpoint file invalid, "
-                                             f"\"{os.path.basename(e.filename)}\" is missing. "
-                                             f"Will skip loading checkpoint and start from the very beginning.")
+            self.reset_checkpoint_load_state("Checkpoint file invalid, "
+                                             f"\"{os.path.basename(e.filename)}\" is missing. ")
             return
         except EOFError as e:
-            self.reset_checkpoint_load_state(f"WARN: Checkpoint file invalid, \"{os.path.basename(str(e))}\" is empty. "
-                                             f"Will skip loading checkpoint and start from the very beginning.")
+            self.reset_checkpoint_load_state(f"Checkpoint file invalid, \"{os.path.basename(str(e))}\" is empty. ")
             return
         except ValueError:
-            self.reset_checkpoint_load_state(f"WARN: Checkpoint file invalid, \"{df_file_name}.csv\" is empty. "
-                                             f"Will skip loading checkpoint and start from the very beginning.")
+            self.reset_checkpoint_load_state(f"Checkpoint file invalid, \"{df_file_name}.csv\" is empty. ")
             return
 
     def reset_checkpoint_load_state(self, warn_info: str):
-        print(warn_info)
-        self.current_step = [0, 0]
+        print("WARN: " + warn_info + "Will skip loading checkpoint and start from the very beginning.")
+        self.current_progress = [0, 0]
         self.clear()
 
     def save_checkpoint_file(self):
-        # if not self.flag_debug and self.checkpoint_input is None:
-        #     return
         if CHECKPOINT_OFF in self.additional_args:
             return
 
-        # print(self.current_step) # TODO debug only
-        module = self.current_step[0]
-        step = self.current_step[1]
+        module = self.current_progress[0]
+        step = self.current_progress[1]
         # checkpoint_file_name = f"module_{module}_step_{step}_{timestamp_now_iso8601}.csv"
         working_df_filename_dict = {k: f"{k}_module_{module}_step_{step}_{get_timestamp_now_utc_iso8601()}"
                                     for k in self.keys()}
-        # print(working_df_filename_dict) # TODO debug only
+
         for k, v in self.items():
+            if v is None:
+                working_df_filename_dict[k] = None
+                continue
             df_file_name = os.path.join(self.checkpoint_dir_output_path, working_df_filename_dict[k])
             v.to_csv(f"{df_file_name}.csv", index=False, header=True, sep='\t')
             with open(f"{df_file_name}_dtypes.txt", 'w') as f:
-                # f.write(json.dumps(v.dtypes.astype(str).to_dict()) + '\n')
-                f.write(json.dumps(v.loc[0, :].apply(type).apply(str).str[8:-2].to_dict()) + '\n')
+                try:
+                    f.write(json.dumps(v.loc[0, :].apply(type).apply(str).str[8:-2].
+                                       str.replace("numpy", "np").to_dict()) + '\n')
+                except KeyError:
+                    pass
 
         with open(os.path.join(self.checkpoint_dir_output_path, "info.txt"), 'w') as f:
             f.write(get_timestamp_now_utc_iso8601() + '\n')
             f.write(json.dumps([self.species, module, step]) + '\n')
-            # f.write(checkpoint_file_name)
             f.write(json.dumps(working_df_filename_dict))
             f.write('\n')
 
-        # print(os.listdir(self.checkpoint_folder)) # TODO debug only
         if not self.flag_debug:
             remove_file_set = (set(os.listdir(self.checkpoint_dir_output_path)) -
                                set(map("{}.csv".format, working_df_filename_dict.values())) -
                                set(map("{}_dtypes.txt".format, working_df_filename_dict.values())) -
                                {"info.txt", self.processed_de_novo_result_file_name})
-            # print(remove_file_set) # TODO debug only
             for f in remove_file_set:
-                # os.remove(os.path.join(self.checkpoint_output, f))
                 subprocess.Popen(["unlink", os.path.join(self.checkpoint_dir_output_path, f)],
                                  stderr=subprocess.DEVNULL)
 
@@ -365,335 +404,357 @@ class TIRLearner:
         with open(os.path.join(self.checkpoint_dir_output_path, "info.txt"), 'r') as f:
             lines = f.readlines()
 
-        module = self.current_step[0]
-        step = self.current_step[1]
+        module = self.current_progress[0]
+        step = self.current_progress[1]
         lines[1] = json.dumps((self.species, module, step)) + '\n'
 
         with open(os.path.join(self.checkpoint_dir_output_path, "info.txt"), 'w') as f:
             f.writelines(lines)
 
-    def module_step_execution_check(self, executing_module: int, executing_step: int) -> bool:
+    def progress_check(self, progress_or_module: Union[list[int], int], step: Optional[int] = None) -> bool:
+        if type(progress_or_module) is list:
+            executing_module = progress_or_module[0]
+            executing_step = progress_or_module[1]
+        else:
+            executing_module = progress_or_module
+            executing_step = step
+
         return (self.checkpoint_dir_input_path is None or
-                self.current_step[0] < executing_module or
-                (self.current_step[0] == executing_module and self.current_step[1] < executing_step))
+                self.current_progress[0] < executing_module or
+                (self.current_progress[0] == executing_module and self.current_progress[1] < executing_step))
 
-    def GRF_execution_mode_check(self):
-        if (SKIP_GRF in self.additional_args or FORCE_GRF_MODE in self.additional_args or
-                self.GRF_mode in ("native", "boost")):
-            return
+    def show_current_memory_usage(self):
+        process_memory_usage = get_process_memory_usage_in_byte(detail=False)
+        print('-' * CONSOLE_SPLITER_LEN)
+        print("Current Memory Usage:")
+        print(f"RSS: {humanized_file_size(process_memory_usage['rss'])}, "
+              f"VMS: {humanized_file_size(process_memory_usage['vms'])}")
+        print(f"DataFrame: {humanized_file_size(get_df_total_memory_usage_in_byte(self.working_df_dict))}")
+        print('-' * CONSOLE_SPLITER_LEN)
 
-        if self.genome_file_stat["num"] <= general_split_num_threshold:
-            if self.GRF_mode == "smart":
-                print("  \"native\" mode is selected due to insufficient number of sequences.")
-            else:
-                print(f"   Number of sequences insufficient "
-                      f"(expect >= {general_split_num_threshold}"
-                      f" but actually got {self.genome_file_stat['num']}), "
-                      f"{self.GRF_mode} mode unneeded, redirect to \"native\" mode.")
-            self.GRF_mode = "native"
-            return
-
-        if self.GRF_mode == "mix" and self.cpu_cores < 2 * mix_short_seq_process_num:
-            if self.GRF_mode == "smart":
-                print("  \"native\" mode is selected due to insufficient number of available cpu cores.")
-            else:
-                print(f"   Number of available cpu cores insufficient "
-                      f"(expect >= {2 * mix_short_seq_process_num}"
-                      f" but actually got {self.cpu_cores}), "
-                      f"\"mix\" mode unavailable, redirect to \"native\" mode.")
-            self.GRF_mode = "native"
-
-        # "mix" mode or "smart" mode
-        drop_seq_len = int(self.TIR_length) + 500
-        if drop_seq_len >= short_seq_len:
-            if self.GRF_mode == "mix":
-                print("  Short sequence does not exist after dropping, "
-                      "\"mix\" mode unneeded, redirect to \"native\" mode.")
-            else:
-                print("  \"native\" mode is selected due to short sequence does not exist after dropping.")
-            self.GRF_mode = "native"
-            return
-
-        if self.genome_file_stat["short_seq_perc"] < mix_split_percent_threshold:
-            if self.GRF_mode == "mix":
-                print(f"  Percentage of short sequences insufficient "
-                      f"(expect >= {mix_split_percent_threshold * 100}%"
-                      f" but actually got {self.genome_file_stat['short_seq_perc'] * 100}%), "
-                      f"\"mix\" mode unneeded, redirect to \"native\" mode")
-            else:
-                print("  \"native\" mode is selected due to low percentage of short sequences.")
-            self.GRF_mode = "native"
-            return
-
-        if self.genome_file_stat["short_seq_perc"] > 1 - mix_split_percent_threshold:
-            if self.GRF_mode == "mix":
-                print(f"  Percentage of short sequences too high "
-                      f"(expect < {(1 - mix_split_percent_threshold) * 100}%"
-                      f" but actually got {self.genome_file_stat['short_seq_perc'] * 100}%), "
-                      f"\"mix\" mode inappropriate, redirect to \"boost\" mode")
-            else:
-                print("  \"boost\" mode is selected due to high percentage of short sequences.")
-            self.GRF_mode = "boost"
-            return
-
-        if self.GRF_mode == "smart":
-            print("  \"mix\" mode is selected.")
-            self.GRF_mode = "mix"
-
-    def empty_df_check(self, df_name):
-        raise NotImplementedError()
-
-    def execute_M1(self):
-        print("############################################################ Module 1 Begin "
-              "###########################################################")
+    def execute_m1(self):
+        print('#' * CONSOLE_SPLITER_LEN + " Module 1 Begin " + '#' * CONSOLE_SPLITER_LEN)
 
         module = "Module1"
-        # # Create genome_name directory if it doesn't exist
-        # os.makedirs(os.path.join(dir, module), exist_ok=True)
-        # os.chdir(os.path.join(dir, module))
 
         # Module 1, Step 1: Blast reference library in genome file
-        if self.module_step_execution_check(1, 1):
+        current_progress = [1, 1]
+        if self.progress_check(current_progress):
             blast_reference.blast_genome_file(self)
-            self.current_step = [1, 1]
+            self.current_progress = current_progress
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 1, Step 2: Select 100% coverage entries from blast results
-        if self.module_step_execution_check(1, 2):
+        current_progress = [1, 2]
+        if self.progress_check(current_progress):
             self["base"] = process_homology.select_full_coverage(self)
-            self.current_step = [1, 2]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 1, Step 3: Making blastDB and get candidate FASTA sequences
-        if self.module_step_execution_check(1, 3):
+        current_progress = [1, 3]
+        if self.progress_check(current_progress):
             print("Module 1, Step 3: Making blastDB and get candidate FASTA sequences")
             self["base"] = get_fasta_sequence.execute(self)
-            self.current_step = [1, 3]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 1, Step 4: Check TIR and TSD
-        if self.module_step_execution_check(1, 4):
+        current_progress = [1, 4]
+        if self.progress_check(current_progress):
             print("Module 1, Step 4: Check TIR and TSD")
             self["base"] = check_TIR_TSD.execute(self, module)
-            self.current_step = [1, 4]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 1, Step 5: Save module result
-        if self.module_step_execution_check(1, 5):
+        current_progress = [1, 5]
+        if self.progress_check(current_progress):
             self["m1"] = self["base"]
             del self["base"]
-            self.current_step = [1, 5]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
-        print("############################################################ Module 1 Finished "
-              "########################################################")
-        # return self.df_current.copy()
+        print('#' * CONSOLE_SPLITER_LEN + " Module 1 Finished " + '#' * CONSOLE_SPLITER_LEN)
 
-    def execute_M2(self):
-        print("############################################################ Module 2 Begin "
-              "###########################################################")
+    def execute_m2(self):
+        print('#' * CONSOLE_SPLITER_LEN + " Module 2 Begin " + '#' * CONSOLE_SPLITER_LEN)
 
         module = "Module2"
-        # os.makedirs(os.path.join(dir, module), exist_ok=True)
-        # os.chdir(os.path.join(dir, module))
 
         # Module 2, Step 1: Run TIRvish to find inverted repeats
-        if self.module_step_execution_check(2, 1) and SKIP_TIRVISH not in self.additional_args:
+        current_progress = [2, 1]
+        if self.progress_check(current_progress) and SKIP_TIRVISH not in self.additional_args:
             print("Module 2, Step 1: Run TIRvish to find inverted repeats")
             self["TIRvish"] = run_TIRvish.execute(self)
-            self.current_step = [2, 1]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 2: Process TIRvish results
-        if self.module_step_execution_check(2, 2) and SKIP_TIRVISH not in self.additional_args:
+        current_progress = [2, 2]
+        if self.progress_check(current_progress) and SKIP_TIRVISH not in self.additional_args:
             print("Module 2, Step 2: Process TIRvish results")
             self["TIRvish"] = process_de_novo_result.process_TIRvish_result(self)
-            self.current_step = [2, 2]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 3: Run GRF to find inverted repeats
-        if self.module_step_execution_check(2, 3) and SKIP_GRF not in self.additional_args:
+        current_progress = [2, 3]
+        if self.progress_check(current_progress) and SKIP_GRF not in self.additional_args:
             print("Module 2, Step 3: Run GRF to find inverted repeats")
             self["GRF"] = run_GRF.execute(self)
-            self.current_step = [2, 3]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 4: Process GRF results
-        if self.module_step_execution_check(2, 4) and SKIP_GRF not in self.additional_args:
+        current_progress = [2, 4]
+        if self.progress_check(current_progress) and SKIP_GRF not in self.additional_args:
             print("Module 2, Step 4: Process GRF results")
             self["GRF"] = process_de_novo_result.process_GRF_result(self)
-            self.current_step = [2, 4]
+            self.current_progress = current_progress
+            self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 5: Combine TIRvish and GRF results
-        if self.module_step_execution_check(2, 5):
+        current_progress = [2, 5]
+        if self.progress_check(current_progress):
             print("Module 2, Step 5: Combine TIRvish and GRF results")
             process_de_novo_result.combine_de_novo_result(self)
-            self.current_step = [2, 5]
+            self.current_progress = current_progress
             self.save_processed_de_novo_result_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 6: Blast GRF and TIRvish result in reference library
-        if self.module_step_execution_check(2, 6):
+        current_progress = [2, 6]
+        if self.progress_check(current_progress):
             # Checkpoint saving for this step is currently not available
             blast_reference.blast_de_novo_result(self)
-            self.current_step = [2, 6]
+            self.current_progress = current_progress
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 7: Select 80% similar entries from blast results
-        if self.module_step_execution_check(2, 7):
+        current_progress = [2, 7]
+        if self.progress_check(current_progress):
             self["base"] = process_homology.select_eighty_similarity(self)
-            self.current_step = [2, 7]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 8: Get FASTA sequences from 80% similarity
-        if self.module_step_execution_check(2, 8):
+        current_progress = [2, 8]
+        if self.progress_check(current_progress):
             print("Module 2, Step 8: Get FASTA sequences from 80% similarity")
             self["base"] = get_fasta_sequence.execute(self)
             self["m2_homo"] = self["base"].copy()
-            self.current_step = [2, 8]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 6: Check TIR and TSD
-        if self.module_step_execution_check(2, 9):
+        current_progress = [2, 9]
+        if self.progress_check(current_progress):
             print("Module 2, Step 9: Check TIR and TSD")
             self["base"] = check_TIR_TSD.execute(self, module)
-            self.current_step = [2, 9]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 2, Step 7: Save module result
-        if self.module_step_execution_check(2, 10):
+        current_progress = [2, 10]
+        if self.progress_check(current_progress):
             print("Module 2, Step 10: Save module result")
             self["m2"] = self["base"]
             del self["base"]
-            self.current_step = [2, 10]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
-        print("############################################################ Module 2 Finished "
-              "########################################################")
-        # return self.df_current.copy(), df_fasta
+        print('#' * CONSOLE_SPLITER_LEN + " Module 2 Finished " + '#' * CONSOLE_SPLITER_LEN)
 
-    def execute_M3(self):
-        print("############################################################ Module 3 Begin "
-              "###########################################################")
+    def execute_m3(self):
+        print('#' * CONSOLE_SPLITER_LEN + " Module 3 Begin " + '#' * CONSOLE_SPLITER_LEN)
 
         module = "Module3"
-        # os.makedirs(os.path.join(dir, module), exist_ok=True)
-        # os.chdir(os.path.join(dir, module))
 
         # Module 3, Step 1: Prepare data
-        if self.module_step_execution_check(3, 1):
+        current_progress = [3, 1]
+        if self.progress_check(current_progress):
             print("Module 3, Step 1: Prepare data")
             self["base"] = prepare_data.execute(self, self["m2_homo"])
             del self["m2_homo"]
-            self.current_step = [3, 1]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 3, Step 2: CNN prediction
-        if self.module_step_execution_check(3, 2):
+        current_progress = [3, 2]
+        if self.progress_check(current_progress):
             print("Module 3, Step 2: CNN prediction")
             self["base"] = CNN_predict.execute(self)
-            self.current_step = [3, 2]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 3, Step 3: Get FASTA sequences from CNN prediction
-        if self.module_step_execution_check(3, 3):
+        current_progress = [3, 3]
+        if self.progress_check(current_progress):
             print("Module 3, Step 3: Get FASTA sequences from CNN prediction")
             self["base"] = get_fasta_sequence.execute(self)
-            self.current_step = [3, 3]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 3, Step 4: Check TIR and TSD
-        if self.module_step_execution_check(3, 4):
+        current_progress = [3, 4]
+        if self.progress_check(current_progress):
             print("Module 3, Step 4: Check TIR and TSD")
             self["base"] = check_TIR_TSD.execute(self, module)
-            self.current_step = [3, 4]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 3, Step 5: Save module result
-        if self.module_step_execution_check(3, 5):
+        current_progress = [3, 5]
+        if self.progress_check(current_progress):
+            print("Module 3, Step 5: Save module result")
             self["m3"] = self["base"]
             del self["base"]
-            self.current_step = [3, 5]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
-        print("############################################################ Module 3 Finished "
-              "########################################################")
-        # return df_TIR_TSD
+        print('#' * CONSOLE_SPLITER_LEN + " Module 3 Finished " + '#' * CONSOLE_SPLITER_LEN)
 
-    def execute_M4(self):
-        print("########################################################## Module 4 Begin "
-              "#########################################################")
+    def execute_m4(self):
+        print('#' * CONSOLE_SPLITER_LEN + " Module 4 Begin " + '#' * CONSOLE_SPLITER_LEN)
 
         module = "Module4"
-        # os.makedirs(os.path.join(dir, module), exist_ok=True)
-        # os.chdir(os.path.join(dir, module))
 
         # Module 4, Step 1: Run TIRvish to find inverted repeats
-        if self.module_step_execution_check(4, 1) and SKIP_TIRVISH not in self.additional_args:
+        current_progress = [4, 1]
+        if self.progress_check(current_progress) and SKIP_TIRVISH not in self.additional_args:
             print("Module 4, Step 1: Run TIRvish to find inverted repeats")
             self["TIRvish"] = run_TIRvish.execute(self)
-            self.current_step = [4, 1]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 2: Process TIRvish results
-        if self.module_step_execution_check(4, 2) and SKIP_TIRVISH not in self.additional_args:
+        current_progress = [4, 2]
+        if self.progress_check(current_progress) and SKIP_TIRVISH not in self.additional_args:
             print("Module 4, Step 2: Process TIRvish results")
             self["TIRvish"] = process_de_novo_result.process_TIRvish_result(self)
-            self.current_step = [4, 2]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 3: Run GRF to find inverted repeats
-        if self.module_step_execution_check(4, 3) and SKIP_GRF not in self.additional_args:
+        current_progress = [4, 3]
+        if self.progress_check(current_progress) and SKIP_GRF not in self.additional_args:
             print("Module 4, Step 3: Run GRF to find inverted repeats")
             self["GRF"] = run_GRF.execute(self)
-            self.current_step = [4, 3]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 4: Process GRF results
-        if self.module_step_execution_check(4, 4) and SKIP_GRF not in self.additional_args:
+        current_progress = [4, 4]
+        if self.progress_check(current_progress) and SKIP_GRF not in self.additional_args:
             print("Module 4, Step 4: Process GRF results")
             self["GRF"] = process_de_novo_result.process_GRF_result(self)
-            self.current_step = [4, 4]
+            self.current_progress = current_progress
+            self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 5: Combine TIRvish and GRF results
-        if self.module_step_execution_check(4, 5):
+        current_progress = [4, 5]
+        if self.progress_check(current_progress):
             print("Module 4, Step 5: Combine TIRvish and GRF results")
             process_de_novo_result.combine_de_novo_result(self)
-            self.current_step = [4, 5]
+            self.current_progress = current_progress
             self.save_processed_de_novo_result_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 6: Prepare data
-        if self.module_step_execution_check(4, 6):
+        current_progress = [4, 6]
+        if self.progress_check(current_progress):
             print("Module 4, Step 6: Prepare data")
             self["base"] = prepare_data.execute(self)
-            self.current_step = [4, 6]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 7: CNN prediction
         print("Module 4, Step 7: CNN prediction")
-        if self.module_step_execution_check(4, 7):
+        current_progress = [4, 7]
+        if self.progress_check(current_progress):
             self["base"] = CNN_predict.execute(self)
-            self.current_step = [4, 7]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 8: Get FASTA sequences from CNN prediction
-        if self.module_step_execution_check(4, 8):
+        current_progress = [4, 8]
+        if self.progress_check(current_progress):
             print("Module 4, Step 8: Get FASTA sequences from CNN prediction")
             self["base"] = get_fasta_sequence.execute(self)
-            self.current_step = [4, 8]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 9: Check TIR and TSD
-        if self.module_step_execution_check(4, 9):
+        current_progress = [4, 9]
+        if self.progress_check(current_progress):
             print("Module 4, Step 9: Check TIR and TSD")
             self["base"] = check_TIR_TSD.execute(self, module)
-            self.current_step = [4, 9]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
         # Module 4, Step 10: Save module result
-        if self.module_step_execution_check(4, 10):
+        current_progress = [4, 10]
+        if self.progress_check(current_progress):
             self["m4"] = self["base"]
             del self["base"]
-            self.current_step = [4, 10]
+            self.current_progress = current_progress
             self.save_checkpoint_file()
+            if self.flag_debug:
+                self.show_current_memory_usage()
 
-        print("########################################################## Module 4 Finished "
-              "######################################################")
-        # return self.df_current.copy()
+        print('#' * CONSOLE_SPLITER_LEN + " Module 4 Finished " + '#' * CONSOLE_SPLITER_LEN)

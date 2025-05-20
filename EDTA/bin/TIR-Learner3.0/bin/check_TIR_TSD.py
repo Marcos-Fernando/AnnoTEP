@@ -1,10 +1,4 @@
-# import re
-# import numpy as np
-# import pandas as pd
-# import swifter  # ATTENTION: DO NOT REMOVE "swifter" EVEN IF IDE SHOWS IT IS NOT USED!
-# from Bio.Seq import Seq
-
-from prog_const import *
+from const import *
 
 # DTA:8
 # DTC:2/3
@@ -19,15 +13,15 @@ TSD = {"DTA": [8],
        "DTT": [2]}
 
 
-def compare(TIR1, TIR2):
+def compare(tir1: str, tir2: str) -> int:
     d = 0
-    for i in range(0, len(TIR1)):
-        if TIR1[i] != TIR2[i]:
+    for i in range(0, len(tir1)):
+        if tir1[i] != tir2[i]:
             d += 1
     return d
 
 
-def sliding_window(seq1, seq2, TSD_length):
+def sliding_window(seq1: str, seq2: str, TSD_length: int) -> tuple[list[str], list[str]]:
     set1 = []
     set2 = []
     for i in range(0, len(seq1) - TSD_length + 1):
@@ -36,7 +30,7 @@ def sliding_window(seq1, seq2, TSD_length):
     return set1, set2
 
 
-def conserved(fam, s1):
+def conserved(fam: str, s1: str) -> bool:
     noMotif = ["DTX", "NonTIR"]
     if fam in noMotif:
         return True
@@ -77,29 +71,10 @@ def conserved(fam, s1):
         z2 = bool(re.match(pattern, motif2))
         if z1 or z2:
             return True
-        else:
-            return False
+        return False
 
 
-def conserved_DTH(set1, TSD_dffset, l):
-    for i in TSD_dffset:
-        if TSD_dffset[i] < l * 0.2:
-            s1 = set1[int(i.split(":")[0])]
-            if s1 in ("TTA", "TAA"):
-                return True
-    return False
-
-
-def conserved_DTT(set1, TSD_dffset, l):
-    for i in TSD_dffset:
-        if TSD_dffset[i] < l * 0.2:
-            s1 = set1[int(i.split(":")[0])]
-            if s1[0:2] == "TA":
-                return True
-    return False
-
-
-def get_difference(set1, set2):
+def get_difference(set1: list[str], set2: list[str]) -> dict[str, int]:
     tsd_diff = {}
     for i in range(0, len(set1)):
         for j in range(0, len(set2)):
@@ -109,36 +84,54 @@ def get_difference(set1, set2):
     return tsd_diff
 
 
-def is_TSD(TSD_dffset, l):
+def conserved_DTH(set1: list[str], TSD_dffset: dict[str, int], l: int) -> bool:
+    for i in TSD_dffset:
+        if TSD_dffset[i] < l * 0.2:
+            s1 = set1[int(i.split(":")[0])]
+            if s1 in ("TTA", "TAA"):
+                return True
+    return False
+
+
+def conserved_DTT(set1: list[str], TSD_dffset: dict[str, int], l: int) -> bool:
+    for i in TSD_dffset:
+        if TSD_dffset[i] < l * 0.2:
+            s1 = set1[int(i.split(":")[0])]
+            if s1[0:2] == "TA":
+                return True
+    return False
+
+
+def is_TSD(TSD_dffset: dict[str, int], l: int) -> bool:
     for i in TSD_dffset:
         if TSD_dffset[i] < l * 0.2:
             return True
     return False
 
 
-def check_TIR(x):
-    family = x[0]
+def check_TIR(x: pd.Series) -> Union[int, float]:
+    family = x[0]  # Use idx as the column name for TIR superfamily may differ
     s = x["seq"][200:-200]
     len_s = len(s)
-    minL = 10
+    min_l = 10
 
     if len_s <= 200:
-        l_List = list(range(minL, int(len_s / 2)))
+        l_list = list(range(min_l, int(len_s / 2)))
     else:
-        l_List = list(range(minL, 100))
+        l_list = list(range(min_l, 100))
 
-    for l in l_List:
+    for l in l_list:
         s1 = s[0:l]
         s2_ = s[-l:]
         s2 = Seq(s2_).reverse_complement()
         d = compare(s1, s2)
         if d < l * 0.2 and conserved(family, s1):
             return l
-    return np.nan
+    return np.nan  # np.nan is float
 
 
-def check_TSD(x):
-    family = x[0]
+def check_TSD(x: pd.Series) -> Union[int, float]:
+    family = x[0]  # Use idx as the column name for TIR superfamily may differ
     s = x["seq"]
     l = TSD[family]
 
@@ -154,16 +147,16 @@ def check_TSD(x):
             return i
         elif family != "DTH" and family != "DTT" and is_TSD(dff, i):
             return i
-    return np.nan
+    return np.nan  # np.nan is float
 
 
-def get_TIR(x):
+def get_TIR(x: pd.Series) -> pd.Series:
     s = x["seq"][200:-200]
     TIR_len = x["TIR_len"]
     return pd.Series([s[0:TIR_len], s[-TIR_len:]])
 
 
-def get_TSD(x):
+def get_TSD(x: pd.Series) -> pd.Series:
     s = x["seq"]
     TSD_len = x["TSD_len"]
 
@@ -180,7 +173,7 @@ def get_TSD(x):
     return pd.Series([np.nan * 2])
 
 
-def TIR_TSD_percent(seq1, seq2):
+def TIR_TSD_percent(seq1: str, seq2: str) -> float:
     d = compare(seq1, seq2)
     l = len(seq1)
     p = (l - d) / l
@@ -189,7 +182,7 @@ def TIR_TSD_percent(seq1, seq2):
     return p
 
 
-def process_result(df_in, module):
+def process_result(df_in: pd.DataFrame, module: str) -> pd.DataFrame:
     df = df_in.copy()
     df["source"] = module
     df = df.loc[:, ["seqid", "source", "TIR_type", "sstart", "send",
@@ -198,21 +191,22 @@ def process_result(df_in, module):
     return df
 
 
-def execute(TIRLearner_instance, module: str):
+def execute(TIRLearner_instance, module: str) -> pd.DataFrame:
     df = TIRLearner_instance["base"].copy()
     df["len"] = df["end"] - df["start"]
     df = df[df["len"] >= 450].reset_index(drop=True)
 
     print("  Step 1/6: Checking TIR")
     df["TIR_len"] = df.swifter.progress_bar(TIRLearner_instance.flag_verbose).apply(check_TIR, axis=1)
+    # df.to_csv("test1")
     print("  Step 2/6: Checking TSD")
     df["TSD_len"] = df.swifter.progress_bar(TIRLearner_instance.flag_verbose).apply(check_TSD, axis=1)
+    # df.to_csv("test2")
     df = df.dropna(ignore_index=True)
     df = df.astype({"TIR_len": int, "TSD_len": int})
 
     if df.shape[0] == 0:
-        return None
-    # TODO possible throw SystemExit
+        return df
 
     print("  Step 3/6: Retrieving TIR")
     df[["TIR1", "TIR2"]] = df.swifter.progress_bar(TIRLearner_instance.flag_verbose).apply(get_TIR, axis=1)
