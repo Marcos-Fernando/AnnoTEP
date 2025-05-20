@@ -5183,7 +5183,7 @@ sub generateOutput {
                          'LINELRAND'     => { 'RE' => '^LINE\/RandI' },                                                                                     
                          'LINELTX1'      => { 'RE' => '^LINE\/Tx1' },                                                                                     
                          'LINELRTETP'    => { 'RE' => '^LINE\/RTETP' },    
-                         'LINELCRE'    => { 'RE' => '^LINE\/CRE' },                                                                                                              
+                         'LINELCRE'      => { 'RE' => '^LINE\/CRE' },                                                                                                              
 
 
                          'LTR'           => { 'RE' => '^LTR' },
