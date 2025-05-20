@@ -1,3 +1,1 @@
 ProcessRepeats-PRE/Libraries/*.h5 filter=lfs diff=lfs merge=lfs -text
-ProcessRepeats-PRE/*.tar.gz filter=lfs diff=lfs merge=lfs -text
-ProcessRepeats-PRE/Libraries/*.dat filter=lfs diff=lfs merge=lfs -text
