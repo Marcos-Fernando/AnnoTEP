@@ -18,9 +18,6 @@
     * [Graphic User Interface - GUI](#graphic-user-interface---gui)
     * [Command Line Interface - CLI](#command-line-interface---cli)
 * [Results](#results)
-    * [TE-REPORT](#te-report)
-    * [LTR-AGE](#ltr-age)
-    * [TREE](#tree)
 * [List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
 * [Citations](#citations)
 * [Questions and Issues](#questions-and-issues)
@@ -381,7 +378,7 @@ The **TE-REPORT** directory is generated at the end of the annotation process an
 📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
     <img src="graphic-interface/static/assets/screenshot/TE-Report-bar.svg" alt="TE-Report-bar" border="0" width="650px" />
-    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bar.svg" alt="TE-Report2-bar" border="0" width="500px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bar.svg" alt="TE-Report2-bar" border="0" width="650px" />
     <img src="graphic-interface/static/assets/screenshot/TE-Report-bubble.svg" alt="TE-Report-bubble" border="0" width="650px" />
     <img src="graphic-interface/static/assets/screenshot/TE-Report2-bubble-panels.svg" alt="TE-Report2-bubble-panels" border="0" width="650px" />
 </div>
@@ -413,7 +410,7 @@ By applying Kimura’s calculation, the graph distinguishes older elements (with
     - The outer circle (purple) represents the length (in base pairs) occupied by each element.
     - The inner circle (red) represents the number of occurrences of each element.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_circular_density.svg" alt="LTR_RT-Tree2_circular_density" border="0" width="550px">
+    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_circular_density.svg" alt="LTR_RT-Tree2_circular_density" border="0" width="750px">
     <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_cladogram_density.svg" alt="LTR_RT-Tree2_cladogram_density" border="0" width="750px">
 </div>
 <br>
