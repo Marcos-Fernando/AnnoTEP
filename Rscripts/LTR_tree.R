@@ -1,79 +1,149 @@
 #!/bin/env Rscript
+
+# Pacotes necessários
+suppressPackageStartupMessages({
+  library(ape)
+  library(phangorn)
+  library(ggplot2)
+  library(ggtree)
+  library(treeio)
+  library(phytools)
+  library(RColorBrewer)
+  library(scales)
+  library(dplyr)
+  library(cowplot)
+})
+
+#  Argumentos
 args = commandArgs(T)
 treefile = args[1]
 mapfile = args[2]
-outfig = args[3]
-if (is.na(outfig)) {outfig = paste0(treefile, '.pdf')}
-
-branch_color = 'Clade'
-library(ape)
-library(phangorn)
-library(ggplot2)
-library(ggtree)
-library(treeio)
-library(svglite)
-library(phytools)
-
-map = read.table(mapfile, head=T, fill=T, comment.char='!', sep="\t")
-#tree <- read.tree(file = treefile)
-
-tree <- midpoint(read.tree(file = treefile))
-
-split_id <- function(x) {
-	x = strsplit(x, '#')[[1]][1]
-	return(x)
+outfile_prefix = args[3]
+if (is.na(outfile_prefix)) {
+  outfile_prefix = sub("\\.nwk$", "", treefile)
 }
+
+#  Funções auxiliares
+split_id <- function(x) strsplit(x, '#')[[1]][1]
 format_id <- function(x1, x2, x3, x4) {
-	x1 = sapply(x1, split_id)	
-	x1 = gsub('\\W+', '_', x1)
-	x = paste(x1, x2, x3, x4, sep='_')
-	return(x)
+  x1 <- sapply(x1, split_id)
+  x1 <- gsub('\\W+', '_', x1)
+  paste(x1, x2, x3, x4, sep = '_')
 }
 
-if (branch_color == 'Clade') {
-	clades = sort(unique(map$Clade))
-	head(tree)
-	tree$tip.label = gsub('\\W+', '_', tree$tip.label)
-	print(clades)
-	grp = list()
-	for (clade in clades){
-			if (clade=='unknown') { next }
-			labels = map[which(map$Clade==clade), ]
-			clade = paste(labels$Superfamily, labels$Clade, sep='/')[1]
-			labels = format_id(labels$X.TE, labels$Order, labels$Superfamily, labels$Clade)
-			if (! any(labels %in% tree$tip.label)) {next}
-			print(clade)
-			grp[[clade]] = labels
-	}
-	clades = sort(names(grp))
-	tree3 = groupOTU(tree, grp, 'Clade')
-	p = ggtree(tree3 , aes(color=Clade) , layout='circular' ) + geom_rootedge(rootedge = 5) + geom_tiplab(size=1) + geom_rootpoint() + 
-	  theme(legend.position="right")  + 
-	  scale_fill_manual(values=c('#f9c00c','#00b9f1','#7200da','#f9320c','#980000','#00ffff','#0000ff','#ff0000','#4a86e8','#ff9900','#ffff00','#00ff00','#9900ff','#ff00ff','#20124d','#274e13','#000000','#cccccc','#7f6000','#a64d79','#6aa84f','#fff2cc','#47a952','#3ea6b6','#a5b805','#8f9276','#ca8d7c')) + scale_colour_discrete(limits=clades, labels=clades) +
-	  guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2))
+#  Ler dados
+tree <- midpoint(read.tree(file = treefile))
+map <- read.table(mapfile, header = TRUE, fill = TRUE, comment.char = '!', sep = "\t")
+tree$tip.label <- gsub('\\W+', '_', tree$tip.label)
 
-} else {	# branch_color == 'Taxon'
-	taxa = sort(unique(map$Taxon))
-	grp = list()
-	for (taxon in taxa){
-			labels = map[which(map$Taxon==taxon), ]
-			labels = labels$label
-			grp[[taxon]] = labels
-	}
-	tree3 = groupOTU(tree, grp, 'Taxon')
-	map3 = data.frame(label=map$label, Clade=map$Clade)
-	p = ggtree(tree3 , aes(color=Taxon) , layout='circular' ) %<+% map3 + geom_rootedge(rootedge = 5) + geom_tiplab(size=1) + geom_rootpoint() + 
-	  theme(legend.position="right")  + 
-	  scale_colour_manual(values=c('#f9c00c','#00b9f1','#7200da','#f9320c','#980000','#00ffff','#0000ff','#ff0000','#4a86e8','#ff9900','#ffff00','#00ff00','#9900ff','#ff00ff','#20124d','#274e13','#000000','#cccccc','#7f6000','#a64d79','#6aa84f','#fff2cc','#47a952','#3ea6b6','#a5b805','#8f9276','#ca8d7c'),limits=taxa, labels=taxa) +
-	  geom_tippoint(aes(fill=Clade), pch=21, stroke=0, size=1.2, color='#00000000') +
-	  scale_fill_hue(l=35) +
-	  guides(colour=guide_legend(order = 1), fill=guide_legend(order = 2))
+#  Agrupar TE_ids por Clade
+clades_raw <- map %>%
+  filter(Clade != "unknown") %>%
+  mutate(formatted = format_id(X.TE, Order, Superfamily, Clade)) %>%
+  filter(formatted %in% tree$tip.label)
 
+clade_counts <- clades_raw %>%
+  count(Clade) %>%
+  arrange(desc(n)) %>%
+  mutate(legend_label = paste0(Clade, " (", n, ")"))
+
+grp <- list()
+for (clade in unique(clades_raw$Clade)) {
+  tips <- clades_raw$formatted[clades_raw$Clade == clade]
+  grp[[clade]] <- tips
 }
 
-position = c(0.05, 0.95)
-p = p + theme(legend.position.inside = position) +
-    theme(legend.justification = position) +
-    theme(legend.text = element_text(size = 10), legend.title = element_text(size = 16))
+tree3 <- groupOTU(tree, grp, group_name = "Clade")
+tree3$Clade <- tree3$group
 
-ggsave(outfig, p, width=13, height=8.5, dpi=350, units="in")
+# Paleta de cores
+get_colors <- function(n) {
+  if (n <= 12) {
+    return(RColorBrewer::brewer.pal(n, "Set3"))
+  } else {
+    return(scales::hue_pal()(n))
+  }
+}
+clade_colors <- setNames(get_colors(length(clade_counts$Clade)), clade_counts$Clade)
+legend_labels <- clade_counts$legend_label
+names(legend_labels) <- clade_counts$Clade
+
+# Função para plotar árvore + legenda
+plot_tree <- function(tree_obj, layout_type, branch_length = "none", file_suffix) {
+  
+  # Criar a árvore
+  p_tree <- ggtree(tree_obj, aes(color = Clade), layout = layout_type, branch.length = branch_length) +
+    geom_rootpoint(size = 0.8) +
+    geom_tiplab(size = 1, linesize = 0.15) +
+    geom_point(aes(color = Clade), size = 0) +
+    theme_tree2(base_size = 6) +
+    theme(
+      legend.position = "none",
+      panel.grid = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank()
+    ) +
+    scale_color_manual(
+      values = c("black", clade_colors),
+      na.value = "black",
+      breaks = clade_counts$Clade,
+      labels = legend_labels
+    )
+  
+  #  Adicionar bootstrap apenas no cladograma circular
+  plot_data <- p_tree$data
+  has_bootstrap <- "label" %in% colnames(plot_data) &&
+    any(!plot_data$isTip & suppressWarnings(!is.na(as.numeric(plot_data$label))))
+  
+  if (layout_type == "circular" && branch_length == "none" && has_bootstrap) {
+    p_tree <- p_tree + geom_text2(
+      aes(label = ifelse(!isTip & !is.na(as.numeric(label)) & as.numeric(label) * 100 > 50,
+                         round(as.numeric(label) * 100), "")),
+      size = 1.8,
+      hjust = -0.2,
+      color = "black",
+      show.legend = FALSE
+    )
+  }
+  
+  #  Criar a legenda separada
+  p_legend <- cowplot::get_legend(
+    ggtree(tree_obj, aes(color = Clade)) +
+      geom_point(aes(color = Clade), size = 3) +
+      scale_color_manual(
+        values = c("black", clade_colors),
+        na.value = "black",
+        breaks = clade_counts$Clade,
+        labels = legend_labels
+      ) +
+      guides(color = guide_legend(
+        title = NULL,
+        override.aes = list(shape = 15, size = 5, linetype = 0),
+        ncol = 1
+      )) +
+      theme(
+        legend.position = "right",
+        legend.justification = "center",
+        legend.text = element_text(size = 6),
+        legend.key.size = unit(0.4, "cm"),
+        legend.box.margin = margin(0, 10, 0, 0)
+      )
+  )
+
+  #  Juntar árvore + legenda
+  final_plot <- cowplot::plot_grid(
+    p_tree, p_legend,
+    ncol = 2,
+    rel_widths = c(4, 1)
+  )
+  
+  #  Exportar
+  ggsave(paste0(outfile_prefix, "_", file_suffix, ".pdf"), plot = final_plot, width = 9, height = 7, dpi = 350, units = "in")
+  ggsave(paste0(outfile_prefix, "_", file_suffix, ".png"), plot = final_plot, width = 9, height = 7, dpi = 350, units = "in")
+}
+
+#  Rodar para as três versões:
+plot_tree(tree3, layout_type = "circular", branch_length = "none", file_suffix = "cladogram_circular")
+plot_tree(tree3, layout_type = "circular", branch_length = "branch.length", file_suffix = "original_circular")
+plot_tree(tree3, layout_type = "radial", branch_length = "branch.length", file_suffix = "radial_circular")
+
