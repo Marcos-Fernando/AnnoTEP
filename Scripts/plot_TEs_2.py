@@ -63,8 +63,8 @@ def plot_data(df):
     plt.tight_layout()
 
     # Salvar em PDF e PNG
-    plt.savefig("TE-Report-bar.pdf", dpi=350)
-    plt.savefig("TE-Report-bar.png", dpi=350)
+    plt.savefig("TE-Report2-bar.pdf", dpi=350)
+    plt.savefig("TE-Report2-bar.png", dpi=350)
     plt.close()
 
 def main():

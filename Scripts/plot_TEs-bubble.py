@@ -1,43 +1,67 @@
+#!/usr/bin/env python3
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.cm import ScalarMappable
 
 def plot_data(df):
-
-    df['length'] = df['length'] / 1e6
-
     # Remover linhas com valor zero e resetar índices
     df = df[df["Number"] != 0].reset_index(drop=True)
 
-    # Use o tema 'seaborn-whitegrid' para uma estética melhorada
-    try:
-        plt.style.use('seaborn-whitegrid')
-    except OSError:
+    # Estilo: tentar usar seaborn-whitegrid de forma segura
+    if 'seaborn-v0_8-whitegrid' in plt.style.available:
         plt.style.use('seaborn-v0_8-whitegrid')
+    elif 'seaborn-whitegrid' in plt.style.available:
+        plt.style.use('seaborn-whitegrid')
+    else:
+        plt.style.use('default')
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(8, 6))
 
-    # Scatter plot
-    bubbles = ax.scatter(df['Number'], df['length'], s=df['percentage']*100, 
-                        c=df['percentage'], cmap='coolwarm', alpha=0.6)
+    # Scatter plot (bubbles)
+    bubbles = ax.scatter(
+        df['Number'], 
+        df['length'], 
+        s=df['percentage'] * 100, 
+        c=df['percentage'], 
+        cmap='coolwarm', 
+        alpha=0.7, 
+        edgecolors='w', 
+        linewidths=0.5
+    )
 
-    # Configuração do plot
-    ax.set_xlabel('Occurrences', fontsize=12, color='black')
-    ax.set_ylabel("Length Occupied (Mb)", fontsize=12, color='black')
-    ax.set_title('Distribution of TEs', fontsize=16, color='black')
+    # Configurações dos eixos
+    ax.set_xlabel('Occurrences', fontsize=10, color='black')
+    ax.set_ylabel('Length Occupied (Mb)', fontsize=10, color='black')
+    ax.set_title('TE-Report', fontsize=12, color='black')
 
-    # Cria uma colorbar
+    plt.setp(ax.get_xticklabels(), fontsize=8, color='black')
+    plt.setp(ax.get_yticklabels(), fontsize=8, color='black')
+
+    # Criar colorbar pequena e harmonizada
     cbar = fig.colorbar(bubbles)
-    cbar.set_label("Percentage of Genome Occupied", fontsize=8)
-    cbar.ax.tick_params(labelsize=6)  # Reduz tamanho da fonte
-    cbar.set_ticks([min(df['percentage']), df['percentage'].mean(), max(df['percentage'])])  # Apenas mínimo, médio e máximo
+    cbar.set_label("Percentage of Genome Occupied", fontsize=8, color='black')
+    cbar.ax.tick_params(labelsize=6)
+    cbar.set_ticks([min(df['percentage']), max(df['percentage'])])
 
-    # Adiciona rótulos aos pontos
-    for x, y, s in zip(df['Number'], df['length'], df['Type']):
-        plt.text(x, y, s, ha='center', va='top', fontsize=8)
+    # Adicionar rótulos aos pontos
+    for x, y, label in zip(df['Number'], df['length'], df['Type']):
+        ax.annotate(
+            label, 
+            (x, y), 
+            textcoords="offset points", 
+            xytext=(0, -5), 
+            ha='center',
+            fontsize=6,
+            color='black'
+        )
 
     plt.tight_layout()
-    plt.savefig("TE-Report.pdf")
+
+    # Salvar em PDF e PNG
+    plt.savefig("TE-Report-bubble.pdf", dpi=350)
+    plt.savefig("TE-Report-bubble.png", dpi=350)
+    plt.close()
 
 def main():
     df = pd.read_csv('plot1.txt', sep='\t')

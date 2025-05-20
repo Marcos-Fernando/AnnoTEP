@@ -39,10 +39,10 @@ def plot_data(df):
     ax2.grid(False)  # Remove as linhas de grade do segundo eixo Y
 
     # Configuração do plot
-    ax1.set_xlabel('Classification levels of TEs', fontsize=12, color='black')
+    ax1.set_xlabel('TE Type', fontsize=12, color='black')
     ax1.set_ylabel("Length Occupied (Mb)", fontsize=12, color='black')
     ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:.1f}'))
-    ax1.set_title('Distribution of TEs', fontsize=14, color='black')
+    ax1.set_title('Distribution of TEs: Length and Occurrences', fontsize=14, color='black')
     ax1.grid(False)  # Remover grid do eixo principal
 
     # Diminuir tamanho da fonte do eixo x e rotacionar

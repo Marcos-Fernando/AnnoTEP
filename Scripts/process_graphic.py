@@ -67,11 +67,10 @@ def dataGeneration(genome):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIUnknown" | sed 's#ClassIUnknown#Class_I_Unknown#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "TIRs"  >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "ClassIIUnknown" | sed 's#ClassIIUnknown#Class_II_Unknown#g' >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | tac | grep -m 1 -w "Unclassified" | tac  >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | grep -w "Unclassified"  >> plot.txt
 	echo "Type	Number	length	percentage" > header.txt
 	cat header.txt plot.txt > plot1.txt
     
-    #/home/marcos/TEs/Scripts
 	python {SCRIPT}/plot_TEs_length.py
 	mv TE-Report.pdf TE-Report1-length.pdf
     pdf2svg TE-Report1-length.pdf TE-Report1-length.svg
@@ -126,15 +125,14 @@ def dataGeneration(genome):
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Galadriel >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Tekay >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w Reina >> plot.txt
-	paste names.txt count.txt bp.txt percentage.txt | grep -w MITEs >> plot.txt
+	paste names.txt count.txt bp.txt percentage.txt | grep -w MITE >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w EnSpm_CACTA | sed 's#EnSpm_CACTA#CACTA#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w hAT >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w MuDR_Mutator | sed 's#MuDR_Mutator#MuDR#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w PIF_Harbinger | sed 's#PIF_Harbinger#Harbinger#g' >> plot.txt
 	paste names.txt count.txt bp.txt percentage.txt | grep -w "RC/Helitron" | sed 's#RC/Helitron#Helitron#g' >> plot.txt
-    paste names.txt count.txt bp.txt percentage.txt | grep -w Tc1_Mariner >> plot.txt
+	
 	cat header.txt plot.txt > plot1.txt
-
 	python {SCRIPT}/plot_TEs_length.py
 	mv TE-Report.pdf  TE-Report2-length.pdf
     pdf2svg TE-Report2-length.pdf TE-Report2-length.svg
@@ -159,121 +157,121 @@ def dataGeneration(genome):
       names.txt \
       percentage.txt \
       plot.txt \
-      plot1.txt \
       plotKimura.R \
       tmp.txt
 
-    # ========================
-    wait
-    cd ..
-    mkdir LTR-AGE
-    cd LTR-AGE
-    ln -s ../{genome}.mod.EDTA.raw/{genome}.mod.LTR-AGE.pass.list
+    # # ========================
+    # wait
+    # cd ..
+    # mkdir LTR-AGE
+    # cd LTR-AGE
+    # ln -s ../{genome}.mod.EDTA.raw/{genome}.mod.LTR-AGE.pass.list
 
-    ln -s {RSCRIPT}/plot-AGE-Gypsy.R
-    ln -s {RSCRIPT}/plot-AGE-Copia.R
+    # ln -s {RSCRIPT}/plot-AGE-Gypsy.R
+    # ln -s {RSCRIPT}/plot-AGE-Copia.R
 
-    cat -n {genome}.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
-    cat -n {genome}.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
+    # cat -n {genome}.mod.LTR-AGE.pass.list | grep Gypsy | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Gypsy.txt
+    # cat -n {genome}.mod.LTR-AGE.pass.list | grep Copia | cut -f 1,13 | sed 's# ##g' | sed 's#^#Cluster_#g' | awk '{{if ($2 > 0) print $n}}' > AGE-Copia.txt
 
-    Rscript plot-AGE-Gypsy.R
-    Rscript plot-AGE-Copia.R
+    # Rscript plot-AGE-Gypsy.R
+    # Rscript plot-AGE-Copia.R
 
-    pdf2svg AGE-Copia.pdf AGE-Copia.svg
-    pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
+    # pdf2svg AGE-Copia.pdf AGE-Copia.svg
+    # pdf2svg AGE-Gypsy.pdf AGE-Gypsy.svg
 
-    wait
-    rm -f *mod.LTR-AGE.pass.list \
-            plot-AGE-Copia.R \
-            plot-AGE-Gypsy.R
+    # wait
+    # rm -f *mod.LTR-AGE.pass.list \
+    #         plot-AGE-Copia.R \
+    #         plot-AGE-Gypsy.R
 
-    # =============================
-    cd ..
-    mkdir TREE
-    cd TREE
+    # # =============================
+    # cd ..
+    # mkdir TREE
+    # cd TREE
 
-    ln -s ../{genome}.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
+    # ln -s ../{genome}.mod.EDTA.TEanno.sum tree.mod.EDTA.TEanno.sum
 
-    cat ../{genome}.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
-    mkdir tmp
-    break_fasta.pl < tmp.txt ./tmp
-    cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
+    # cat ../{genome}.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
+    # mkdir tmp
+    # break_fasta.pl < tmp.txt ./tmp
+    # cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
 
-    source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
-    TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1 &&
-    concatenate_domains.py TE.cls.pep GAG > GAG.aln &&
-    concatenate_domains.py TE.cls.pep PROT > PROT.aln &&
-    concatenate_domains.py TE.cls.pep RH > RH.aln &&
-    concatenate_domains.py TE.cls.pep RT > RT.aln &&
-    concatenate_domains.py TE.cls.pep INT > INT.aln &&
-    conda deactivate
+    # source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA2 &&
+    # TEsorter -db rexdb-plant --hmm-database rexdb-plant -pre TE -dp2 -p 40 TE.fasta >/dev/null 2>&1 &&
+    # conda deactivate
 
-    cat GAG.aln | cut -f 1 -d" " > GAG.fas
-    cat PROT.aln | cut -f 1 -d" " > PROT.fas
-    cat RH.aln | cut -f 1 -d" " > RH.fas
-    cat RT.aln | cut -f 1 -d" " > RT.fas
-    cat INT.aln | cut -f 1 -d" " > INT.fas
+    # concatenate_domains.py TE.cls.pep GAG > GAG.aln
+    # concatenate_domains.py TE.cls.pep PROT > PROT.aln
+    # concatenate_domains.py TE.cls.pep RH > RH.aln
+    # concatenate_domains.py TE.cls.pep RT > RT.aln
+    # concatenate_domains.py TE.cls.pep INT > INT.aln
+
+    # cat GAG.aln | cut -f 1 -d" " > GAG.fas
+    # cat PROT.aln | cut -f 1 -d" " > PROT.fas
+    # cat RH.aln | cut -f 1 -d" " > RH.fas
+    # cat RT.aln | cut -f 1 -d" " > RT.fas
+    # cat INT.aln | cut -f 1 -d" " > INT.fas
     
-    perl {SCRIPT}/catfasta2phyml.pl -c -f *.fas > all.fas
-    iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt AUTO
+    # perl {SCRIPT}/catfasta2phyml.pl -c -f *.fas > all.fas
+    # iqtree2 -s all.fas -alrt 1000 -bb 1000 -nt AUTO
 
-    wait
-    cat TE.cls.tsv | cut -f 1 | sed 's#^#cat tree.mod.EDTA.TEanno.sum | grep -w "#g' | sed 's#$#"#g' > pick-occur.sh
-    bash pick-occur.sh > occur.txt
+    # wait
+    # cat TE.cls.tsv | cut -f 1 | sed 's#^#cat tree.mod.EDTA.TEanno.sum | grep -w "#g' | sed 's#$#"#g' > pick-occur.sh
+    # bash pick-occur.sh > occur.txt
     
-    wait
-    cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{{print $1,$2,$3}}' | sed 's# #\t#g' |  sort -k 2 -V  > sort_occur.txt
-    cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{{print $1,$2,$3}}' | sed 's# #\t#g' |  sort -k 3 -V  > sort_size.txt
+    # wait
+    # cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{{print $1,$2,$3}}' | sed 's# #\t#g' |  sort -k 2 -V  > sort_occur.txt
+    # cat occur.txt  | sed 's#^      TE_#TE_#g'  | awk '{{print $1,$2,$3}}' | sed 's# #\t#g' |  sort -k 3 -V  > sort_size.txt
 
-    cat all.fas | grep \> | sed 's#^>##g' > ids.txt
+    # cat all.fas | grep \> | sed 's#^>##g' > ids.txt
 
-    cat sort_occur.txt | cut -f 1,2 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > occ-pick.sh
-    bash occ-pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > occurrences.tsv
+    # cat sort_occur.txt | cut -f 1,2 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > occ-pick.sh
+    # bash occ-pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > occurrences.tsv
 
-    cat sort_size.txt | cut -f 1,3 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > size-pick.sh
-    bash size-pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > size.tsv
+    # cat sort_size.txt | cut -f 1,3 | sed 's#^#id="#g' | sed 's#\t#" ; data="#g' | sed 's#$#" ; ver="`cat ids.txt | grep $id`" ; echo -e "$ver\\t$data" #g'   > size-pick.sh
+    # bash size-pick.sh  | grep "^TE" | grep "^TE"  | sed 's/#/_/g' | sed 's#/#_#g'  > size.tsv
     
-    ln -s {RSCRIPT}/LTR_tree.R
-    ln -s {RSCRIPT}/LTR_tree-density.R
-    ln -s {RSCRIPT}/LTR_tree_rec_1.R
-    ln -s {RSCRIPT}/LTR_tree_rec_2.R
+    # ln -s {RSCRIPT}/LTR_tree.R
+    # ln -s {RSCRIPT}/LTR_tree-density.R
+    # ln -s {RSCRIPT}/LTR_tree_rec_1.R
+    # ln -s {RSCRIPT}/LTR_tree_rec_2.R
 
-    Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
-    Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
-    Rscript LTR_tree_rec_1.R all.fas.contree TE.cls.tsv LTR_RT-Tree3.pdf
-    Rscript LTR_tree_rec_2.R all.fas.contree TE.cls.tsv LTR_RT-Tree4.pdf
+    # Rscript LTR_tree.R all.fas.contree TE.cls.tsv LTR_RT-Tree1.pdf
+    # Rscript LTR_tree-density.R all.fas.contree TE.cls.tsv occurrences.tsv size.tsv LTR_RT-Tree2.pdf
+    # Rscript LTR_tree_rec_1.R all.fas.contree TE.cls.tsv LTR_RT-Tree3.pdf
+    # Rscript LTR_tree_rec_2.R all.fas.contree TE.cls.tsv LTR_RT-Tree4.pdf
 
-    pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
-    pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
-    pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
-    pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
+    # pdf2svg LTR_RT-Tree1.pdf LTR_RT-Tree1.svg
+    # pdf2svg LTR_RT-Tree2.pdf LTR_RT-Tree2.svg
+    # pdf2svg LTR_RT-Tree3.pdf LTR_RT-Tree3.svg
+    # pdf2svg LTR_RT-Tree4.pdf LTR_RT-Tree4.svg
 
-    wait
-    rm -f all.fas \
-            all.fas.* \
-            GAG.* \
-            ids.txt \
-            INT.* \
-            occ-pick.sh \
-            occur.txt \
-            occurrences.tsv \
-            sort_occur.txt \
-            sort_size.txt \
-            pick-occur.sh \
-            PROT.* \
-            RH.* \
-            RT.* \
-            size.tsv \
-            size-pick.sh \
-            TE.* \
-            tmp.txt \
-            tree.mod.* \
-            LTR_tree.R \
-            LTR_tree-density.R \
-            LTR_tree_rec_1.R \
-            LTR_tree_rec_2.R
+    # wait
+    # rm -f all.fas \
+    #         all.fas.* \
+    #         GAG.* \
+    #         ids.txt \
+    #         INT.* \
+    #         occ-pick.sh \
+    #         occur.txt \
+    #         occurrences.tsv \
+    #         sort_occur.txt \
+    #         sort_size.txt \
+    #         pick-occur.sh \
+    #         PROT.* \
+    #         RH.* \
+    #         RT.* \
+    #         size.tsv \
+    #         size-pick.sh \
+    #         TE.* \
+    #         tmp.txt \
+    #         tree.mod.* \
+    #         LTR_tree.R \
+    #         LTR_tree-density.R \
+    #         LTR_tree_rec_1.R \
+    #         LTR_tree_rec_2.R
 
-    rm -rf tmp
+    # rm -rf tmp
     """
 
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash')
