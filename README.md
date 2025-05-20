@@ -378,9 +378,9 @@ The **TE-REPORT** directory is generated at the end of the annotation process an
 📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
     <img src="graphic-interface/static/assets/screenshot/TE-Report-bar.svg" alt="TE-Report-bar" border="0" width="650px" />
-    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bar.svg" alt="TE-Report2-bar" border="0" width="650px" />
-    <img src="graphic-interface/static/assets/screenshot/TE-Report-bubble.svg" alt="TE-Report-bubble" border="0" width="650px" />
-    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bubble-panels.svg" alt="TE-Report2-bubble-panels" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bar.png" alt="TE-Report2-bar" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report-bubble.png" alt="TE-Report-bubble" border="0" width="650px" />
+    <img src="graphic-interface/static/assets/screenshot/TE-Report2-bubble-panels.png" alt="TE-Report2-bubble-panels" border="0" width="650px" />
 </div>
 <br>
 
