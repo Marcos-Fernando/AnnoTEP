@@ -115,29 +115,12 @@ conda activate EDTA-new
 >
 
 ## Testing 
-### 📥 Downloading genomes
-**Step 1.** You can choose to use your own data or download example genomes for testing: <br>
-
-🧬 _Theobrama cacao_
-```sh
-wget https://cocoa-genome-hub.southgreen.fr/sites/cocoa-genome-hub.southgreen.fr/files/download/Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
-tar xvfz Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
-mv Theobroma_cacao_pseudochromosome_v1.0_tot.fna Tcacao.fasta
-rm Theobroma_cacao_pseudochromosome_v1.0_tot.fna.tar.gz
-```
-<br>
+**Step 1.** Download the genome <br>
 
 🧬 _Arabidopsis thaliana_ 
-```sh
-wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz
-gzip -d TAIR10_chr_all.fas.gz
-cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
-rm TAIR10_chr_all.fas
-```
-> [!TIP]
-> If you can't download _Arabidopsis thaliana_ automatically, you can manually download it from [tair](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files), Click on `TAIR10_chr_all.fas.gz` and follow the commands above starting from the second line.
+* Download the TAIR10_chr_all.fas.gz file from the [TAIR](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files) website and extract its contents.
 
-**Step 2.** Run EDTA on the downloaded genome:
+**Step 2.** Run EDTA on the downloaded genome
 ```sh
 cd AnnoTEP
 mkdir Athaliana
@@ -146,7 +129,7 @@ cd Athaliana
 nohup ../EDTA/EDTA.pl --genome ../At.fasta --species others --step all --sensitive 1 --anno 1 --threads 20 -u 7.0e-9 > EDTA.log 2>&1 &
 ```
 
-**Step 3.** Monitor the progress:
+**Step 3.** Monitor the progress
 ```sh
 tail -f EDTA.log
 ```
