@@ -23,6 +23,6 @@ def create_app():
 
 #Verifica se a extensão é válida e depois redireciona o usuário para a URL
 def allowed_file(filename):
-    ALLOWED_EXTENSIONS = {'fasta'}
+    ALLOWED_EXTENSIONS = {'fa', 'fasta', 'fna', 'ffn', 'faa', 'frn'}
     
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

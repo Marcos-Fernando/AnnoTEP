@@ -55,8 +55,8 @@ def annotation_process():
     
     if genome and allowed_file(genome.filename):
         #secure_filename() check if an inject has been applied, if the file contains ../ it will be changed to: ‘ ’ or ‘_’
-        genome_name = secure_filename(genome.filename)
-        genome_name, extension = os.path.splitext(genome.filename)
+        filename_genome = secure_filename(genome.filename)
+        genome_name, extension = os.path.splitext(filename_genome)
 
     #-------------- Data naming process -------------------
     #Getting and formatting date and time
