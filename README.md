@@ -75,6 +75,12 @@ conda env create -f environment.yml
 conda activate EDTA-new
 ```
 
+📌 Copy the <b>break_fasta.pl script</b> to /usr/local/bin
+```sh
+sudo cp Scripts/break_fasta.pl /usr/local/bin
+```
+
+
 > [!IMPORTANT]
 > 📌 <b> RepeatMasker Fixes for Long Names </b> <br>
 >
