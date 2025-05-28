@@ -13,7 +13,7 @@ use Cwd qw(abs_path);
 $ENV{'BLAST_USAGE_REPORT'} = 'false';  
 print "BLAST_USAGE_REPORT set to: $ENV{'BLAST_USAGE_REPORT'}\n";
 
-my $version = "v2.2.1-AnnoTEP-b1";
+my $version = "v2.2.1-AnnoTEP-b2";
 #v1.0 05/31/2019
 #v1.1 06/05/2019
 #v1.2 06/16/2019
@@ -29,17 +29,15 @@ my $version = "v2.2.1-AnnoTEP-b1";
 #v2.2 01/05/2024
 
 #v2.2.1-AnnoTEP-v1 - 01/13/2025
+#v2.2.1-AnnoTEP-v1f - 05/27/2025
 
 print "
 ######################################################################
-##### Extensive de-novo TE Annotator (EDTA) - v2.2.1-AnnoTEP-b1  #####
+##### Extensive de-novo TE Annotator (EDTA) - v2.2.1-AnnoTEP     #####
 ##### Shujun Ou (shujun.ou.1\@gmail.com)                          #####
 ######################################################################
 #####   AnnoTEP-v1 from Marcos Costa (marcosnandosc\@gmail.com)    ####
 ##### Modified and Enhanced EDTA version for Plant Genomics       ####
-##### This is an beta version                                     ####
-##### The results obtained from this version should be manually   #### 
-##### validated to ensure accuracy. Use at your own discretion.   #### 
 ######################################################################
 \n\nParameters: @ARGV\n\n\n";
 
@@ -51,9 +49,13 @@ my $usage = "\nThis is the Extensive de-novo TE Annotator that generates a high-
 structure-based TE library. Usage:
 
 perl EDTA.pl [options]
-	--genome [File]		The genome FASTA file. Required.
+	--genome [File]			The genome FASTA file. Required.
 	--species [Rice|Maize|others]	Specify the species for identification of TIR
 					candidates. Default: others
+	--TIR_filter     		Filter TIRs without annotated domains:  
+               				(1) Yes; (0) No [default].  
+               		 		Enabling this filter can substantially reduce false positives,  
+                	 		but may also result in the loss of some true positives (false negatives).
 	--step [all|filter|final|anno]	Specify which steps you want to run EDTA.
 					all: run the entire pipeline (default)
 					filter: start from raw TEs to the end.
@@ -76,6 +78,10 @@ perl EDTA.pl [options]
 				default). This step may help to recover some TEs.
 	--anno [0|1]	Perform (1) or not perform (0, default) whole-genome TE annotation
 			after TE library construction.
+	--ANNOT_TYPE    Specify whether to annotate the genome using a RepeatMasker-based library:  
+            		(1) Yes; (0) No [default, uses intact elements].  
+                	Enabling this option (1) may negatively affect the filtering step and compromise benchmark 
+                	results.
 	--rmout	[File]	Provide your own homology-based TE annotation instead of using the
 			EDTA library for masking. File is in RepeatMasker .out format. This
 			file will be merged with the structural-based TE annotation. (--anno 1
@@ -106,6 +112,11 @@ my $genome = '';
 my $check_dependencies = undef;
 my $species = "others";
 my $step = "ALL";
+# ADDED ###################
+my $TIR_filter = "0"; 
+my $ANNOT_TYPE = "0"; 
+my $genome_size = "0";
+###########################
 my $overwrite = 0; #0, no rerun. 1, rerun even old results exist.
 my $HQlib = ''; #curated library
 my $RMlib = 'null'; #RepeatModeler library, classified
@@ -203,6 +214,10 @@ if ( !GetOptions( 'genome=s'            => \$genome,
                   'protlib=s'            => \$protlib,
                   'sensitive=s'          => \$sensitive,
 		  'anno=i'               => \$anno,
+# ADDED ###################
+		  'TIR_filter=i'         => \$TIR_filter,
+		  'ANNOT_TYPE=i'         => \$ANNOT_TYPE, 
+###########################		  
 		  'rmout=s'              => \$rmout,
 		  'maxdiv=i'		 => \$maxdiv,
 		  'evaluate=i'           => \$evaluate,
@@ -254,8 +269,10 @@ if ($force != 0 and $force != 1){ die "The expected value for the force paramete
 if ($miu !~ /[0-9\.e\-]+/){ die "The expected value for the u parameter is float value without units!\n"}
 if ($debug != 0 and $debug != 1){ die "The expected value for the debug parameter is 0 or 1!\n"}
 if ($threads !~ /^[0-9]+$/){ die "The expected value for the threads parameter is an integer!\n"}
-
-
+# ADDED ###################
+if ($TIR_filter != 0 and $TIR_filter != 1){ die "The expected value for the TIR_filter parameter is 0 or 1!\n"}
+if ($ANNOT_TYPE != 0 and $ANNOT_TYPE != 1){ die "The expected value for the ANNOT_TYPE parameter is 0 or 1!\n"}
+###########################
 # define RepeatMasker -pa parameter
 #my $rm_threads = int($threads/4);
 my $rm_threads = $threads;
@@ -498,6 +515,30 @@ if ($exclude ne ''){
 	}
 }
 
+
+# ==============================================================================
+# ======================
+# Calculate genome size
+# ======================
+#
+my $fai_file = "$genome.fai";
+unless (-e $fai_file) {
+    system("samtools faidx $genome") == 0 or die "samtools faidx error\n";
+}	
+#
+open(my $fh, "<", $fai_file) or die "samtools faidx error: $fai_file: $!\n";
+#
+while (my $line = <$fh>) {
+    my @cols = split(/\t/, $line);
+    $genome_size += $cols[1];  
+}
+close($fh);	
+print STDERR "$date\tGenome size is: $genome_size bp \n";
+
+
+# ==============================================================================
+
+
 $step = uc $step;
 goto $step;
 
@@ -508,12 +549,13 @@ goto $step;
 
 ALL:
 
+
 # report status
 chomp ($date = `date`);
 print "$date\tObtain raw TE libraries using various structure-based programs: \n";
 
 # Get raw TE candidates
-`perl $EDTA_raw --genome $genome --overwrite $overwrite --species $species --u $miu --threads $threads --genometools $genometools --ltrretriever $LTR_retriever --blastplus $blastplus --tesorter $TEsorter --GRF $GRF --trf_path $trf --repeatmasker $repeatmasker --repeatmodeler $repeatmodeler --annosine $annosine --convert_seq_name 0 --rmlib $RMlib`;
+`perl $EDTA_raw --genome $genome --overwrite $overwrite --species $species --u $miu --threads $threads --genometools $genometools --ltrretriever $LTR_retriever --blastplus $blastplus --tesorter $TEsorter --GRF $GRF --trf_path $trf --repeatmasker $repeatmasker --repeatmodeler $repeatmodeler --annosine $annosine --convert_seq_name 0 --rmlib $RMlib --TIR_filter $TIR_filter --gen_size $genome_size`;
 
 chdir "$genome.EDTA.raw";
 
@@ -564,7 +606,7 @@ print "$date\tPerform EDTA advance filtering for raw TE candidates and generate 
 `rm ./$genome.EDTA.combine/* 2>/dev/null` if $overwrite == 1;
 
 # Filter raw TE candidates and the make stage 1 library
-`perl $EDTA_process -genome $genome -ltr $genome.EDTA.raw/$genome.LTR.raw.fa -ltrint $genome.EDTA.raw/$genome.LTR.intact.raw.fa -line $genome.EDTA.raw/$genome.LINE.raw.fa -sine $genome.EDTA.raw/$genome.SINE.raw.fa -tir $genome.EDTA.raw/$genome.TIR.intact.raw.fa -helitron $genome.EDTA.raw/$genome.Helitron.intact.raw.fa -repeatmasker $repeatmasker -blast $blastplus -threads $threads`;
+`perl $EDTA_process -genome $genome -ltr $genome.EDTA.raw/$genome.LTR.raw.fa -ltrint $genome.EDTA.raw/$genome.LTR.intact.raw.fa -line $genome.EDTA.raw/$genome.LINE.raw.fa -sine $genome.EDTA.raw/$genome.SINE.raw.fa -tir $genome.EDTA.raw/$genome.TIR.intact.raw.fa -helitron $genome.EDTA.raw/$genome.Helitron.intact.raw.fa -repeatmasker $repeatmasker -blast $blastplus -threads $threads -ANNOT_TYPE $ANNOT_TYPE -gen_size $genome_size`;
 
 # check results, remove intermediate files, and report status
 die "ERROR: Stage 1 library not found in $genome.EDTA.combine/$genome.EDTA.fa.stg1" unless -s "$genome.EDTA.combine/$genome.EDTA.fa.stg1";
@@ -617,7 +659,7 @@ if ($sensitive == 1 and -s "$genome.RM2.fa"){
 	if (-s "$genome.RM2.fa.stg1.clean"){
 		# ===============================================================================================
 		#
-		### ADDED
+		### ADDED 
 		#
 		# ===============================================================================================
 		`cat $genome.RM2.fa.stg1.clean | cut -f 1 -d"#" > $genome.RM.consensi.fa`;  
@@ -989,9 +1031,8 @@ if ($anno == 1){
 	# ADDED
 	# make softmasked genome for proper structural gene annotation
 	`cat ../$genome.EDTA.intact.gff3 | grep LTR_retrotransposon > temp.txt`; 
-	`cat ../$genome.EDTA.intact.gff3 | grep "RC/Helitron" >> temp.txt`; 
-	`cat ../$genome.EDTA.intact.gff3 | grep TIR_transposon >> temp.txt`; 
-	`cat ../$genome.EDTA.intact.gff3 | grep LINE >> temp.txt`;
+	`cat ../$genome.EDTA.intact.gff3 | grep "RC/Helitron" | grep -v "RC/Helitron-like" >> temp.txt`; 
+	`cat ../$genome.EDTA.intact.gff3 | grep TIR_transposon | grep -v "TIR/Unknown" >> temp.txt`; 
 	#
 	`cat temp.txt  | sort -V  > mask.gff`; 
 	#
@@ -1000,15 +1041,15 @@ if ($anno == 1){
 	#
 	# Removes non-autonomous elements 
 	# `cp $genome.out $genome.out.txt`;
-	`cat $genome.out | grep -v LARD | grep -v TRIM | grep -v LARD-like | grep -v TRIM-like | grep -v MITE | grep -v "RC/Helitron-like" | grep -v Unknown | grep -v SINE > to-mask.out`;
+	`cat $genome.out | grep -v LARD | grep -v TRIM | grep -v LARD-like | grep -v TRIM-like | grep -v MITE | grep -v "RC/Helitron-like" | grep -v Unknown | grep -v SINE | grep -v "TIR/Unknown" | grep -v "LINE-like" > to-mask.out`;
 	#
 	`perl $make_masked -genome temp2.fasta -rmout to-mask.out -maxdiv 20 -minscore 1000 -minlen 1000 -hardmask 0 -threads $threads -maxdiv 35 -minscore 1000 -minlen 1000`; 
 	`pullseq -i temp2.fasta.new.masked -m 1 > ../$genome-Softmasked.fa`;
 	#
 	`rm -f temp.txt ; rm -f mask.gff ; rm -f temp2.fasta* ; rm -f *.new ; rm -f *.bed ; rm -f *.cbi ; rm -f *.new.masked ; rm -f to-mask.out `; 
 	my $structural_TE = `perl $count_base2 ../$genome-Softmasked.fa`;
-        $structural_TE = (split /\s+/, $structural_TE)[3];
-        $structural_TE = sprintf("%.2f%%", $structural_TE*100);
+   $structural_TE = (split /\s+/, $structural_TE)[3];
+   $structural_TE = sprintf("%.2f%%", $structural_TE*100);
 	#
 	# ==================
 	# Calculating LAI 
