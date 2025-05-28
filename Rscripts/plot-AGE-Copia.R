@@ -2,6 +2,7 @@
 library(ggplot2)
 library(dplyr)
 library(scales)
+library(ggrepel)
 
 # Ler dados
 aa <- read.table("./AGE-Copia.txt", header = FALSE, sep = "\t", stringsAsFactors = FALSE)
@@ -74,16 +75,15 @@ p <- ggplot(aa, aes(age)) +
   ) +
   # Marcar picos com bolinhas
   geom_point(data = picos, aes(x = x, y = y), size = 1.3, shape = 21, fill = "black") +
-  # Labels dos picos em caixinhas
-  geom_label(
+  # Labels dos picos com repel
+  geom_label_repel(
     data = picos,
     aes(x = x, y = y, label = label),
     size = 1.6,
-    hjust = -0.1,
-    vjust = -0.5,
     fill = "white",
     color = "black",
-    label.size = 0.1
+    label.size = 0.1,
+    min.segment.length = 0  # sempre desenha segmento
   )
 
 # Exportar em PDF e PNG
@@ -91,4 +91,5 @@ ggsave("AGE-Copia.pdf", p, width = 8, height = 5, units = "cm", dpi = 300)
 ggsave("AGE-Copia.png", p, width = 8, height = 5, units = "cm", dpi = 300)
 
 # Visualizar (opcional)
-print(p)
+#print(p)
+
