@@ -13,7 +13,7 @@ UPLOAD_DIR = os.path.join(BASH_DIR, '..')
 EDTA_DIR = os.path.join(UPLOAD_DIR,'EDTA')
 SCRIPT_DIR = os.path.join(UPLOAD_DIR, 'Scripts')
 
-def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cds, curatedlib, exclude, rmlib, rmout, species, step, sensitive):
+def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cds, curatedlib, exclude, rmlib, rmout, species, step, sensitive, tirfilter, annottype):
     genome = os.path.abspath(genome)
     print(genome)
 
@@ -50,6 +50,8 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
         '--anno': anno,
         '--sensitive': sensitive, 
         '--evaluate': evaluate,
+        '--TIR_filter': tirfilter,
+        '--ANNOT_TYPE': annottype,
         '--force': force,
         '--u': u,
         '--maxdiv': maxdiv,
@@ -109,7 +111,7 @@ if __name__ == "__main__":
 
     required = parser.add_argument_group('required arguments')
     required.add_argument("--genome", type=str, help="The genome FASTA file", required=True)
-    required.add_argument("--threads", type=int, help="Number of threads used to complete annotation (default threads: 4)", default=4, required=True)
+    required.add_argument("--threads", type=int, help="Number of threads used to complete annotation (default threads: 4)", default=4)
 
     optional = parser.add_argument_group('optional arguments')
     optional.add_argument("--species", choices=["Rice", "Maize", "others"], default="others", 
@@ -118,14 +120,14 @@ if __name__ == "__main__":
                           help="Specify which steps you want to run EDTA.")
     optional.add_argument("--sensitive", type=int, choices=[0, 1], default=0, 
                           help="Use RepeatModeler to identify remaining TEs (1) or not (0, default). This step may help to recover some TEs.")
-    
+    optional.add_argument("--TIR_filter", type=int, choices=[0, 1], help="Filter TIRs without annotated domains: (1) Yes; (0) No [default]. Enabling this filter can substantially reduce false positives, but may also result in the loss of some true positives (false negatives).", default=0)
     optional.add_argument("--overwrite", type=int, choices=[0, 1], help="If previous raw TE results are found, decide to overwrite (1, rerun) or not (0, default).", default=0)
     optional.add_argument("--anno", type=int, choices=[0, 1], help="Perform (1) or not perform (0, default) whole-genome TE annotation after TE library construction.", default=0)
     optional.add_argument("--evaluate", type=int, choices=[0, 1], help="Evaluate (1) classification consistency of the TE annotation. (--anno 1 required).", default=0)
     optional.add_argument("--force", type=int, choices=[0, 1], help="When no confident TE candidates are found: 0, interrupt and exit (default); 1, use rice TEs to continue.", default=0)
     optional.add_argument("--u", type=check_scientific, help="Neutral mutation rate to calculate the age of intact LTR elements. Intact LTR age is found in this file: *EDTA_raw/LTR/*.pass.list. Default: 1.3e-8 (per bp per year, from rice).", default=None)
     optional.add_argument("--maxdiv", type=int, choices=range(0,101), metavar="[0-100]", help="Maximum divergence (0-100, default: 40) of repeat fragments comparing to library sequences.", default=None)
-    
+    optional.add_argument("--ANNOT_TYPE", type=int, choices=[0, 1], help="Specify whether to annotate the genome using a RepeatMasker-based library: (1) Yes; (0) No [default, uses intact elements]. Enabling this option (1) may negatively affect the filtering step and compromise benchmark results.", default=0)
     optional.add_argument("--cds", type=check_file, help="Provide a FASTA file containing the coding sequence (no introns, UTRs, nor TEs) of this genome or its close relative.", default=None)
     optional.add_argument("--curatedlib", type=check_file, help="Provided a curated library to keep consistant naming and classification for known TEs. TEs in this file will be trusted 100%, so please ONLY provide MANUALLY CURATED ones. This option is not mandatory. It's totally OK if no file is provided (default).".replace("%", "%%"), default=None)
     optional.add_argument("--exclude", type=check_file, help="Exclude regions (bed format) from TE masking in the MAKER.masked output. Default: undef. (--anno 1 required).", default=None)
@@ -135,4 +137,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Chamada da função com os parâmetros obtidos
-    run_annotep(args.genome, args.threads, args.overwrite, args.anno, args.evaluate, args.force, args.u, args.maxdiv, args.cds, args.curatedlib, args.exclude, args.rmlib, args.rmout, args.species, args.step, args.sensitive)
+    run_annotep(args.genome, args.threads, args.overwrite, args.anno, args.evaluate, args.force, args.u, args.maxdiv, args.cds, args.curatedlib, args.exclude, args.rmlib, args.rmout, args.species, args.step, args.sensitive, args.TIR_filter, args.ANNOT_TYPE)
