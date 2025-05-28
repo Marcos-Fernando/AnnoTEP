@@ -8,7 +8,6 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/help.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modal.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dark-theme.css') }}" />
     <title> AnnoTEP </title>
 </head>
@@ -198,6 +197,29 @@
 							</div>
 						</td>
 						<td><p id="status-text-switch5">Deactivated</p></td>
+					</tr>
+					<tr>
+						<td><p class="session-title">TIR filter</p></td>
+						<td class="button-switch">
+							<div class="switch">
+								<input type="checkbox" id="switch6" name="tirfilter"/>
+								<label for="switch6">Toggle</label>   
+							</div>
+						</td>
+						<td><p id="status-text-switch6">Deactivated</p></td>
+					</tr>
+				</table>
+
+				<table class="table-switch">
+					<tr>
+						<td><p class="session-title">Annot. type</p></td>
+						<td class="button-switch" style="padding-left: 0.5rem;">
+							<div class="switch">
+								<input type="checkbox" id="switch7" name="annottype"/>
+								<label for="switch7">Toggle</label>   
+							</div>
+						</td>
+						<td><p id="status-text-switch7">Deactivated</p></td>
 					</tr>
 				</table>
 		   </section>
