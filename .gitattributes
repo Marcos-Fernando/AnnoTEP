@@ -1,3 +1,5 @@
 ProcessRepeats-PRE/Libraries/taxonomy.dat filter=lfs diff=lfs merge=lfs -text
 ProcessRepeats-PRE/Libraries/famdb/dfam39_full.0.h5 filter=lfs diff=lfs merge=lfs -text
 ProcessRepeats-PRE/RepeatMasker-4.1.8.tar.gz filter=lfs diff=lfs merge=lfs -text
+EDTA/bin/TIR-Learner3.0/RefLib/rice_DTM_RefLib filter=lfs diff=lfs merge=lfs -text
+EDTA/bin/TIR-Learner3.0-OLD/RefLib/rice_DTM_RefLib filter=lfs diff=lfs merge=lfs -text
