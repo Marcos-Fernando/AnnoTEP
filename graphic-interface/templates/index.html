@@ -402,6 +402,8 @@
 				<p><b>Annotation:</b> Specify whether the genome-wide annotation of TEs should proceed after building the TE library.</p>
 				<p><b>Evaluate:</b> Check if the classification of annotated TEs is consistent. The "Annotation" field must be enabled to use this feature.</p>
 				<p><b>Force:</b> If no reliable TE candidates are identified, enabling this option allows the script to continue using a backup rice TE library.</p>
+				<p><b>TIR filter:</b> Filter TIRs without annotated domains. Enabling this filter can substantially reduce false positives,  but may also result in the loss of some true positives (false negatives).</p>
+				<p><b>Annot. type:</b> Specify whether to annotate the genome using a RepeatMasker-based librar. Enabling this option may negatively affect the filtering step and compromise benchmark results.</p>
 
 				<p><b>Neutral Mutation Rate:</b> Set the neutral mutation rate for calculating the age of intact LTR elements (default: 1.3e-8 bp per year, based on rice). For more information, visit the <a href="https://plantgenomics.ncc.unesp.br/AnnoTEP/" target="_blank">website</a> and check out the table in the genome section.</p>
 				<p><b>Maximum Divergence:</b> Define the maximum acceptable divergence for TE fragments. For highly repetitive genomes, users are encouraged to adjust the parameter (default: 40). </p>
@@ -437,7 +439,17 @@
 					<li><p>The last 20 lines of the annotation log.</p></li>
 				</ul>
 
-				<p><b>Please note:</b> all results and output files will be stored in the Docker volume you specified as the output directory. Ensure this path is correctly mounted to access the generated data.</p>
+				<p><b>Note 1:</b> all results and output files will be stored in the Docker volume you specified as the output directory. Ensure this path is correctly mounted to access the generated data.</p>
+
+				<p><b>Note 2:</b> Errors may occasionally occur during the annotation process, so it is important to pay attention to two key stages:</p>
+				<ol>
+					<li><p><b>Start of annotation: </b>After uploading a file, ensure that the annotation process has actually begun. Sometimes, the file may not be properly recognised by the system, and in such cases, you will need to re-upload the file and restart the process.</p></li>
+					<li><p><b>Completion of annotation: </b>Even if the process runs, the annotation may not be successfully finalised in the Results section. Therefore, it is important to check the following:</p></li>
+					<ul style="margin-left: 1.5rem;">
+						<li>Look out for any prolonged error messages.</li>
+						<li>Confirm whether the message <i>"The generation of charts and reports has been completed"</i> appears — this message indicates that the annotation has been successfully completed.</li>
+					</ul>
+				</ol>
 			</section>
 		</section>
 		
