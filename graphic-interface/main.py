@@ -37,6 +37,8 @@ def annotation_process():
     annotation = int(request.form.get('annotation', 0))
     evaluate = int(request.form.get('evaluate', 0))
     force = int(request.form.get('force', 0))
+    tirfilter = int(request.form.get('tirfilter', 0))
+    annottype = int(request.form.get('annottype', 0))
 
     mutation_rate = request.form.get("mutation_rate") 
     max_divergence = request.form.get("max_divergence")
@@ -77,6 +79,8 @@ def annotation_process():
         '--force': force,
         '--u': mutation_rate,
         '--maxdiv': max_divergence,
+        '--TIR_filter': tirfilter,
+        '--ANNOT_TYPE':annottype,
         '--cds': cds_file.filename if cds_file else '',
         '--curatedlib': curate_lib_file.filename if curate_lib_file else '',
         '--exclude': masked_regions_file.filename if masked_regions_file else '',
@@ -155,6 +159,8 @@ def annotation_process():
     # print("Annotation:", annotation)
     # print("Evaluate:", evaluate)
     # print("Force:", force)
+    print("TIR filter:", tirfilter)
+    print("Annotation type:", annottype)
     # print("Mutation Rate:", mutation_rate)
     # print("Maximum Divergence:", max_divergence)
     # print("CDS:", cds_file.filename if cds_file else '')
