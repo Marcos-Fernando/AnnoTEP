@@ -2,25 +2,39 @@
 docker-compose.ym
 
 At*
+AtChr4.fasta
 short*
 *-matches.fasta
 At.fasta
 Tcacao.fasta
 __pycache__
+modificacoes.txt
+performances.txt
 
 .www
 
-/bash-interface/results
-/graphic-interface/results
+*/results/*
 /graphic-interface/.graphic
+/graphic-interface/.flaskenv
 
-/EDTA/bin/TIR-Learner*/Module3/Maize_model.sav
-/EDTA/database/*
+# /EDTA/bin/TIR-Learner*/Module3/Maize_model.sav
+
+/EDTA/.gio*
+/EDTA/EDTA (copy).pl
 
 /Scripts/plot_comparison*
+/Rscripts/plotRadio*
+/Rscripts/plotbar*
 
-modificacoes.txt
-ProcessRepeats_file
-RepeatMasker
+/bash-interface
+/EDTA
+/graphic*
+/Process*
+/Rscripts
+/Scripts
 
-graphic-interface
+.gitignore
+
+
+
+
