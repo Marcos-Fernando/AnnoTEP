@@ -23,7 +23,7 @@ if [ -f "$source_file" ]; then
     echo "File found: $source_file"
     # Creates or updates the symbolic link in the current folder
     ln -sf "$source_file" "${genome}.mod.cat.gz"
-    echo "Link simbólico criado: ${genome}.mod.cat.gz -> $source_file"
+    echo "Symbolic link created ${genome}.mod.cat.gz -> $source_file"
 else
     echo "Error: file $source_file not found. Aborting execution."
     exit 1
@@ -122,7 +122,14 @@ ln -s ../../$genome.mod.EDTA.TEanno.sum .
 cat $genome.mod.EDTA.TElib.fa | sed 's/#/_CERC_/g'  | sed 's#/#_BARRA_#g'  > tmp.txt
 mkdir tmp
 break_fasta.pl < tmp.txt ./tmp
-cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
+num_ltr="`ls tmp/*LTR* | wc -l`"
+#
+if [ "$num_ltr" -gt "700" ] ; then
+	rm tmp/*like*.fasta
+	cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
+else 
+	cat tmp/*LTR* | sed 's#_CERC_#\t#g' | cut -f 1 > TE.fasta
+fi
 #
 rm -f tmp.txt ; rm -f $genome.mod.EDTA.TElib.fa ; rm -Rf tmp
 #
@@ -307,6 +314,8 @@ Rscript density_plot.R $genome.mod.EDTA.TEanno.split.density > /dev/null 2>&1
 #
 # Cleaning the mess
 rm -f bp.txt count.txt divsum.txt header.txt names.txt percentage.txt plot1.txt plot.txt Rplots.pdf
+#
+echo "The generation of charts and reports has been completed"
 #
 #
 exit 0
