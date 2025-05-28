@@ -92,6 +92,8 @@ function execute_annotation(threadsValue) {
         data.append('overwrite', switchValues.overwriteValue);
         data.append('sensitivity', switchValues.sensitivityValue);
         data.append('force', switchValues.forceValue);
+        data.append('tirfilter', switchValues.tirfilterValue);
+        data.append('annottype', switchValues.annottypeValue);
         data.append('annotation', annotationValue);
         data.append('evaluate', evaluateValue);
         data.append("mutation_rate", mutationRate);
@@ -107,6 +109,8 @@ function execute_annotation(threadsValue) {
         // console.log(threadsValue);
         // console.log(tircandidates);
         // console.log(stepannotation);
+        console.log(switchValues.tirfilterValue);
+        console.log(switchValues.annottypeValue);
         // console.log(switchValues.overwriteValue);
         // console.log(switchValues.sensitivityValue);
         // console.log(annotationValue);
@@ -161,7 +165,9 @@ uploaddate.addEventListener('click', function () {
 const switchValues = {
   overwriteValue: 0,
   sensitivityValue: 1,
-  forceValue: 0
+  forceValue: 0,
+  tirfilterValue: 0,
+  annottypeValue: 0
 };
 
 let annotationValue = 0;
@@ -172,12 +178,16 @@ const switch2 = document.getElementById("switch2");
 const switch3 = document.getElementById("switch3");
 const switch4 = document.getElementById("switch4");
 const switch5 = document.getElementById("switch5");
+const switch6 = document.getElementById("switch6");
+const switch7 = document.getElementById("switch7");
 
 const statusTextswitch1 = document.getElementById("status-text-switch1");
 const statusTextswitch2 = document.getElementById("status-text-switch2");
 const statusTextswitch3 = document.getElementById("status-text-switch3");
 const statusTextswitch4 = document.getElementById("status-text-switch4");
 const statusTextswitch5 = document.getElementById("status-text-switch5");
+const statusTextswitch6 = document.getElementById("status-text-switch6");
+const statusTextswitch7 = document.getElementById("status-text-switch7");
 
 const rmoutFileInput = document.getElementById("rmout");
 const excludeFileInput = document.getElementById("exclude");
@@ -208,6 +218,14 @@ switch2.addEventListener("change", function () {
 
 switch5.addEventListener("change", function () {
   updateSwitchStatus(switch5, statusTextswitch5, 'forceValue');
+});
+
+switch6.addEventListener("change", function () {
+  updateSwitchStatus(switch6, statusTextswitch6, 'tirfilterValue');
+});
+
+switch7.addEventListener("change", function () {
+  updateSwitchStatus(switch7, statusTextswitch7, 'annottypeValue');
 });
 
 // Function to update the visual and text status of switch3 (Annotation)

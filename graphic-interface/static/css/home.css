@@ -784,7 +784,9 @@ input[type="file"]{
 #status-text-switch1,
 #status-text-switch3,
 #status-text-switch4,
-#status-text-switch5{
+#status-text-switch5,
+#status-text-switch6,
+#status-text-switch7{
 	color: var(--grey-02);
 	font-weight: 700;
 	font-size: 1.125rem;

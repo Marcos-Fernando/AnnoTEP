@@ -33,18 +33,15 @@ document.getElementById('rmout').addEventListener('change', () => updateFileName
 
 // Função para validar ambos os campos
 function validateInputs() {
-// const isEmailValid = isValidEmail(emailInput.value);
-const isFileSelected = fileInput.files.length > 0;
+  const isFileSelected = fileInput.files.length > 0;
 
-submitButton.disabled = !(isFileSelected);
+  submitButton.disabled = !(isFileSelected);
 }
 
 const fileInput = document.getElementById('inputdata');
-const emailInput = document.getElementById('email');
 const submitButton = document.getElementById('uploaddata');
 
-// Enquanto não houver arquivo para ser enviado, o submit fica desativado
-// emailInput.addEventListener('input', validateInputs);
+
 fileInput.addEventListener('change', validateInputs);
 
 
