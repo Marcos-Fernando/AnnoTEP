@@ -109,8 +109,8 @@ function execute_annotation(threadsValue) {
         // console.log(threadsValue);
         // console.log(tircandidates);
         // console.log(stepannotation);
-        console.log(switchValues.tirfilterValue);
-        console.log(switchValues.annottypeValue);
+        // console.log(switchValues.tirfilterValue);
+        // console.log(switchValues.annottypeValue);
         // console.log(switchValues.overwriteValue);
         // console.log(switchValues.sensitivityValue);
         // console.log(annotationValue);
