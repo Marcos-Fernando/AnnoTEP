@@ -423,36 +423,33 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Arabidopsis thaliana_ (TAIR10)                  | Thale cress            | 119,67 Mb     |
 | _Azolla filiculoides_                            | Mosquito fern          | 622,59 Mb     |
 | _Brachypodium distachyon_ (ABR2 v1)              | Stiff brome            | 271,43 Mb     |
-| _Brassica oleracea capitata_ (v1.0)              | Cabbage                | 385,01 Mb     |
+| _Brassica oleracea_ capitata (v1.0)              | Cabbage                | 385,01 Mb     |
 | _Carnegiea gigantea_                             | Saguaro                | 1,14 Gb       |
 | _Ceratodon purpureus_                            | Moss                   | 349,46 Mb     |
 | _Chlamydomonas reinhardtii_                      | Green algae            | 114,63 Mb     |
 | _Coffea arabica_                                 | Arabian coffee         | 1,19 Gb       |
 | _Conticribra weissflogii_                        | Diatoms                | 231,50 Mb     |
-| _Cryptomonas gyropyrenoidosa_                    | Cryptomonads           | 0,74 Mb       |  
-| _Cyanidia caldarium_                             | Red algae              | 8,79 Mb       |
-| _Cyanidiococcus yangmingshanensis_               | Red algae              | 12,02 Mb      |
 | _Cyanophora paradoxa_                            | Freshwater Glaucophyte | 99,94 Mb      |
 | _Diacronema lutheri_                             | Haptophytes            | 43,50 Mb      |
 | _Eucalyptus grandis_ (v2.0)                      | Rose gum               | 691,35 Mb     |
 | _Euglena gracilis_                               | Unicellular algae      | 2,37 Gb       |
 | _Fragaria x ananassa_ (Royal Royce v1.0)         | Strawberries           | 786,54 Mb     |
-| _Galdieria yellowstonensis_                      | Red algae              | 14,51 Mb      |
 | _Ginkgo biloba_                                  | Maidenhair trees       | 9,35 Gb       |
+| _Glycine max_                                    | Soybean                | 1,01 Gb       |
 | _Gnetum montanum_                                | Joint fir              | 3,79 Gb       |
 | _Gossypium hirsutum_ (v3.1)                      | Cotton                 | 2,28 Gb       |
-| _Glycine max_                                    | Soybean                | 1,01 Gb       |
 | _Helianthus annuus_ (r1.2)                       | Sunflower              | 3,03 Gb       |
 | _Hevea brasiliensis_                             | Rubber tree            | 1,88 Gb       |
 | _Isoetes taiwanensis_                            | Quillwort              | 1,66 Gb       |
+| _Juglans regia_                                  | Walnut                 | -             |
 | _Lotus japonicus_                                | Miyakogusa             | 553,71 Mb     |
 | _Malpighia emarginata_                           | Acerola                | 1,03 Gb       |
 | _Malus domestica_ (v1.1)                         | Apple                  | 709,56 Mb     |
-| _Manihot esculenta_ (V8.1)                       | Cassava                | 639,59 Mb     |
 | _Marchantia polymorpha_ (v3.0)                   | Common liverwort       | 225,76 Mb     |
+| _Manihot esculenta_ (V8.1)                       | Cassava                | 639,59 Mb     |
 | _Mimosa bimucronata_                             | Maricá                 | 640,55 Mb     |
 | _Mimosa pudica_                                  | Sensitive Plant        | 797,25 Mb     |
-| _Musa acuminata_ (Pahang)                        | Banana                 | 484,06 Mb     |
+| _Musa acuminata_                                 | Banana                 | 484,06 Mb     |
 | _Nelumbo nucifera_                               | Sacred lotus           | 821,29 Mb     |
 | _Nepenthes gracilis_                             | Pitcher plant          | 752,88 Mb     |
 | _Oryza sativa_ (v7.0)                            | Rice                   | 374,47 Mb     |
@@ -463,9 +460,9 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Prunus persica_ (v2.1)                          | Peach                  | 227,41 Mb     |
 | _Psidium guajava_                                | Guava                  | 443,76 Mb     |
 | _Quercus rubra_ (v2.1)                           | Northern red oak       | 739,58 Mb     |
+| _Saccharum officinarum x spontaneum_ R570 (v2.1) | Sugarcane              | 5,05 Gb       |
 | _Salix purpurea_ (5.1)                           | Basket willow          | 329,29 Mb     |
 | _Salvinia cucullata_                             | Small rat's ear        | 231,85 Mb     |
-| _Saccharum officinarum x spontaneum_ R570 (v2.1) | Sugarcane              | 5,05 Gb       |
 | _Selaginella moellendorffii_                     | Spikemoss              | 212,32 Mb     |
 | _Setaria viridis_ (v4.1)                         | Green foxtail          | 397,28 Mb     |
 | _Sherardia arvensis_                             | Field madder           | 441,30 Mb     |
@@ -479,6 +476,7 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Vitis vinifera_ (v2.1)                          | Grape vine             | 486,20 Mb     |
 | _Welwitschia mirabilis_                          | Tree Tumbo             | 6,87 Gb       |
 | _Zea mays_                                       | maize                  | 2,14 Gb       |
+| _Zostera marina_                                 | Eelgrass               | -             |
 
 <br>
 
@@ -488,10 +486,7 @@ This section lists the genomes currently being analysed using the AnnoTEP pipeli
 
 | Genome                                           | Common Name            | Size          |
 |--------------------------------------------------|------------------------|---------------|
-| _Ceratopteris richardii_ (v2.1)                  | Fern                   | 7,46 Gb       |
-| _Pinus tabuliformis_                             | Chinese pine           | 24,41 Gb      |
-| _Triticum aestivum cv. Chinese Spring_ (v2.1)    | bread wheat            | 14,58 Gb      |
-
+| -                                                | -                      | -             |
 
 📎 Return to [Table of contents](#table-of-contents)
 
