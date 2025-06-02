@@ -830,7 +830,7 @@ if (-s "$cds"){
 	#
 	# ADDED / EDIT
 	##
-	# Adapt seq length tp 50 chars
+	# Adapt seq length bp 50 chars
 	`perl $rename_TE2 $genome.EDTA.intact.fa.raw >  $genome.EDTA.intact.fa.raw2`;
 	#		
 	$rm_status = `${repeatmasker}RepeatMasker -e ncbi -pa $threads -q -no_is -norna -nolow -div 40 -cutoff 225 -lib $cds $genome.EDTA.intact.fa.raw2 2>/dev/null`;		
@@ -873,6 +873,10 @@ if (-s "$cds"){
 `perl $cleanup_nested -in $genome.EDTA.raw.fa.cln -threads $threads -minlen 80 -cov 0.95 -blastplus $blastplus 2>/dev/null`;
 
 # rename all TEs in the EDTA library
+# ================================
+# Fix for SINEs: EDTA Bug ? 
+# ================================
+`sed -i 's/^\\(>SINE_[0-9]\\+\\)\$/\\1#SINE/' $genome.EDTA.raw.fa.cln.cln`;
 `perl $rename_TE $genome.EDTA.raw.fa.cln.cln | sed 's#unknown#Unknown#g' > $genome.EDTA.TElib.fa`;
 #`perl $rename_TE $genome.EDTA.raw.fa.cln.cln | perl $format_TElib - > $genome.EDTA.TElib.fa`;
 
