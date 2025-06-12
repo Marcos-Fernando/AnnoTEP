@@ -674,7 +674,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 			`bash pick.sh | awk '{print \$12}' > 12.txt`;   
 			#
 			#
-			`cat $genome.LTR.intact.raw.fa | grep "^" | sort -V > tmp.txt`;   
+			`cat $genome.LTR.intact.raw.fa | grep "^>" | sort -V > tmp.txt`;    
 			`cat pick.sh | sed 's#A.txt#tmp.txt#g' > pick2.sh`;
 			#
 			`bash pick2.sh | cut -f 2 -d"#"  | sed 's#LTR/#LTR\t#g' | sed 's#LARD#LTR\tLARD#g'  | sed 's#TRIM#LTR\tTRIM#g' | sed 's#BARE-2#LTR\tBARE-2\t#g' | sed 's#TR_GAG#LTR\tTR_GAG\t#g' | awk '{print \$2,\$1}' > middle.txt`; 
