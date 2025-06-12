@@ -78,7 +78,7 @@ cd $HOME/AnnoTEP
 > bash Miniconda3-latest-Linux-x86_64.sh
 > ```
 
-📌 Once Miniconda is installed, make sure you are inside the <b>AnnoTEP directory</br>, then set up the environment as follows:
+📌 Once Miniconda is installed, make sure you are inside the <b>AnnoTEP directory</b>, then set up the environment as follows:
 ```sh
 cd $HOME/AnnoTEP
 
@@ -86,7 +86,7 @@ conda env create -f environment.yml
 conda activate EDTA-new
 ```
 
-📌  Still within the <b>AnnoTEP directory</br>, copy the ```break_fasta.pl``` script to ```/usr/local/bin``` to make it accessible system-wide:
+📌  Still within the <b>AnnoTEP directory</b>, copy the ```break_fasta.pl``` script to ```/usr/local/bin``` to make it accessible system-wide:
 ```sh
 sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
