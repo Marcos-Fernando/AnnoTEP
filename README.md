@@ -40,42 +40,53 @@ In addition to its GitHub repository, AnnoTEP also has a [website](https://plant
 
 <br>
 
-# Installing and configuring environments
+# Installing AnnoTEP
 AnnoTEP can be installed in different ways, depending on your preferences and needs. In this tutorial, we will guide you through two main installation methods: the traditional method and installation via Docker. Both methods are detailed to ensure a smooth and efficient setup on your machine.
 
 >[!IMPORTANT]
 > <b> System requirements </b> <br>
-> Minimum requirements for Genomes up to <b>1GB</b>
+> 💾 <b>Software</b>
+> - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
+> - 📦 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/) 
+>
+> 💻 <b> Hardware </b> <br>
+> Minimum requirements for Genomes up to <b>1GB</b> 
 > * <b>Threads:</b> 20
 > * <b> RAM: </b> 50GB
 > * <b> Storage: </b> 1TB 
 > 
 > ⚠️ Higher computational resources are strongly recommended for larger genomes.
 
-# Installing with Conda
+**Step 1.** In terminal, Download the repository
+```sh 
+git clone https://github.com/Marcos-Fernando/AnnoTEP.git $HOME/AnnoTEP
+```
 
-> [!NOTE] 
-> <b> Prerequisites </b> <br>
-> - 📦 [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/) 
-> - 🖥️ System Ubuntu (20.04.6 LTS, 22.04.4 LTS)
+**Step 2.** Enter into the folder
+```sh 
+cd $HOME/AnnoTEP
+```
+
+##  Installing with library and conda
 
 > [!TIP]
 > **Installing Miniconda**
 ><br>
->After downloading Miniconda from the link above, run the following command in your terminal:
+> * Download [Miniconda3](https://docs.conda.io/projects/miniconda/en/latest/)
+> * After downloading Miniconda from the link above, run the following command in your terminal:
 > ```sh
 > bash Miniconda3-latest-Linux-x86_64.sh
 > ```
 
-📌 Once Miniconda is installed, follow the steps below to set up the environment:
+📌 Once Miniconda is installed, make sure you are inside the <b>AnnoTEP directory</br>, then set up the environment as follows:
 ```sh
-cd AnnoTEP
+cd $HOME/AnnoTEP
 
 conda env create -f environment.yml
 conda activate EDTA-new
 ```
 
-📌 Copy the <b>break_fasta.pl script</b> to /usr/local/bin
+📌  Still within the <b>AnnoTEP directory</br>, copy the ```break_fasta.pl``` script to ```/usr/local/bin``` to make it accessible system-wide:
 ```sh
 sudo cp Scripts/break_fasta.pl /usr/local/bin
 ```
@@ -126,7 +137,7 @@ sudo cp Scripts/break_fasta.pl /usr/local/bin
 🧬 _Arabidopsis thaliana_ 
 * Download the TAIR10_chr_all.fas.gz file from the [TAIR](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files) website and extract its contents.
 
-**Step 2.** Run EDTA on the downloaded genome
+**Step 2.** Inside the AnnoTEP directory, run EDTA on the downloaded genome
 ```sh
 cd AnnoTEP
 mkdir Athaliana
@@ -157,7 +168,7 @@ tail -f EDTA.log
 **Step 1. Run the processing script:** With the Conda environment still activated, navigate to the folder where the annotated genome was stored (e.g., Athaliana) and run the script below to generate summary data and graphs from the input genome (e.g., At.fasta):
  ```sh
 cd Athaliana
-python -u ../Scripts/generate_PLOTs-for-TE-pipe.sh At.fasta
+bash -u ../Scripts/generate_PLOTs-for-TE-pipe.sh At.fasta
 ```
 
 > [!TIP]
@@ -178,7 +189,12 @@ In addition, regardless of whether the email system is active, the interface pro
 > [!IMPORTANT]
 > Before proceeding, make sure the Conda environment is properly set up and activated.
 
-**Step 1. Configure flaskenv:** Navigate to the ``graphic-interface`` folder within the AnnoTEP directory. With the Conda environment still active, you will need to create and configure a ``.flaskenv`` file. This file defines essential Flask settings and, optionally, enables email functionality.
+**Step 1.** Navigate to the ``graphic-interface`` folder within the AnnoTEP directory.
+```sh
+cd AnnoTEP/graphic-interface
+```
+
+**Step 2. Configure flaskenv:** With the Conda environment still active, you will need to create and configure a ``.flaskenv`` file. This file defines essential Flask settings and, optionally, enables email functionality.
 * You can create the ``.flaskenv`` file using the following content:
 ```sh
 FLASK_APP = "main.py"
@@ -243,9 +259,15 @@ If all settings are correct, you will see a message similar to this:
 ---
 # Installing with Container
 
-> [!NOTE] 
+> [!IMPORTANT] 
 > <b> Prerequisites </b> <br>
 > - 🐳 [Docker](https://docs.docker.com/engine/install/)
+
+>[!NOTE]
+> 🧪 Singularity Support (Under Development)
+> At present, AnnoTEP does not offer official support for Singularity. We are actively working on the necessary adjustments to ensure our Docker images can be converted reliably using <b>singularity build</br>, aiming to support researchers working in HPC environments and clusters where Singularity is the standard.
+> <br>
+>🔧 As soon as this process is complete, we will provide detailed instructions and make the compatible image available here.
 
 ## Graphic User Interface - GUI
 <div align="center"> 
@@ -341,6 +363,7 @@ docker run -it -v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results 
 > <b> Explanation: </b>
 > - ``--pids-limit <threads x 10000>``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
 > - ``--memory-swap -1``: Disables the swap memory limit, allowing the container to use unlimited virtual memory. This helps avoid errors when physical RAM is insufficient.
+
 
 📎 Return to [Table of contents](#table-of-contents)
 <br>
