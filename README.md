@@ -265,6 +265,7 @@ If all settings are correct, you will see a message similar to this:
 
 >[!NOTE]
 > 🧪 Singularity Support (Under Development)
+> <br>
 > At present, AnnoTEP does not offer official support for Singularity. We are actively working on the necessary adjustments to ensure our Docker images can be converted reliably using <b>singularity build</br>, aiming to support researchers working in HPC environments and clusters where Singularity is the standard.
 > <br>
 >🔧 As soon as this process is complete, we will provide detailed instructions and make the compatible image available here.
