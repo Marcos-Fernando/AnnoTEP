@@ -10,6 +10,7 @@
 
 # Table of contents
 * [Introduction](#introduction)
+* [Installing AnnoTEP](#installing-annotep)
 * [Installing with library and conda](#installing-with-library-and-conda)
     * [Testing](#testing)
     * [Generating Graphs](#generating-graphs)
