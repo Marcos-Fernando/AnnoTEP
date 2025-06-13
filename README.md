@@ -16,8 +16,12 @@
     * [Generating Graphs](#generating-graphs)
     * [Using AnnoTEP with graphical user interface](#using-annotep-with-graphical-user-interface)
 * [Installing with Container](#installing-with-container)
-    * [Graphic User Interface - GUI](#graphic-user-interface---gui)
-    * [Command Line Interface - CLI](#command-line-interface---cli)
+    * [Docker](#docker)
+        * [Graphic User Interface - GUI](#graphic-user-interface---gui)
+        * [Command Line Interface - CLI](#command-line-interface---cli)
+    * [Singularity](#singularity)
+        * [GUI](#gui)
+        * [CLI](#cli)
 * [Results](#results)
 * [List of genomes tested in this pipeline](#list-of-genomes-tested-in-this-pipeline)
 * [Citations](#citations)
@@ -367,12 +371,75 @@ docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/res
 <br>
 
 ## Singularity
->[!NOTE]
-> 🧪 <b> Singularity Support (Under Development) </b>
-> <br>
-> At present, AnnoTEP does not offer official support for Singularity. We are actively working on the necessary adjustments to ensure our Docker images can be converted reliably using ```singularity build```, aiming to support researchers working in HPC environments and clusters where Singularity is the standard.
-> <br>
->🔧 As soon as this process is complete, we will provide detailed instructions and make the compatible image available here.
+You can use AnnoTEP with Singularity by converting the official Docker images. Below are the available methods to obtain and run ``.sif`` images.
+
+**Step 1. Obtaining the Singularity Image:** There are two ways to obtain the image:
+<br>
+
+📌  **Method 1 – Direct Conversion from Docker Hub:** Download and convert the image directly from Docker Hub using:
+```sh
+singularity build <name-image>.sif docker://annotep/annotep-cli:v1
+#or
+singularity build <name-image>.sif docker://annotep/annotep-gui:v1
+```
+
+>[!TIP]
+> ### Description:
+> - ``<name-image>``: you can name the image anything you like; the extension must be ``.sif``.
+> - ``docker://``: specifies that the image will be pulled from a remote repository (e.g. Docker Hub).
+<br>
+
+📌 **Method 2 – Conversion from a Local Docker Image:** This method involves saving the Docker image locally and then converting it:
+1. Save the Docker image to a ``.tar`` file:
+```sh
+docker save annotep/annotep-cli:v1 -o annotep_cli1.tar
+#or
+docker save annotep/annotep-gui:v1 -o annotep_gui1.tar
+```
+2. Convert the ``.tar`` file to a Singularity image:
+```sh
+singularity build <name-image>.sif docker-archive://annotep_cli1.tar
+#or
+singularity build <name-image>.sif docker-archive://annotep_gui1.tar
+```
+
+>[!TIP]
+> ### Description:
+> - ``-o``: specifies the name of the ``.tar`` file.
+> - ``<name-image>``:  you can name the image anything you like; the extension must be ``.sif``.
+> - ``docker-archive://``: indicates the image will be built from a local ``.tar`` archive.
+
+**Step 2. Running the Image:** As formas de execução de cada imagem diferenciasse entre imagens
+#### GUI
+📌 To launch the graphical interface, use:
+```sh
+singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results annotep_gui1.sif bash -c "cd /usr/local/AnnoTEP/graphic-interface && source /usr/local/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new && python main.py"
+```
+
+📌 After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
+
+
+>[!TIP]
+> ### Description:
+> - ``--bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results``: maps a directory from your local machine to a directory inside the container
+> - ``bash -c "..."``: executes a sequence of commands within the container.
+
+#### CLI
+📌 To run via the command line, use:
+```sh 
+singularity exec -B <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results -B <absolute-path-to-folder-genomes>:/genomas annotep_cl1.sif python /usr/local/AnnoTEP/bash-interface/run_annotep.py --genome /genomas/genome.fasta --threads <threads>
+```
+
+>[!TIP]
+> ### Description:
+> - ``-B``: equivalent to ``--bind``, links local directories to container paths.
+> - ``<path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results``: folder where analysis results will be saved.
+> - ``<absolute-path-to-folder-genomes>:/genomas``: folder containing the input genome files.
+> - ``python /usr/local/AnnoTEP/bash-interface/run_annotep.py``: the main command that starts the analysis.
+> - ``--genome /genomas/genome.fasta:``: path to the genome file to be annotated.
+
+📎 Return to [Table of contents](#table-of-contents)
+<br>
 
 # Results
 In addition to FASTA libraries, GFF3 files, and softmasking outputs, AnnoTEP also generates informative graphs and detailed reports based on the data obtained during the annotation process.
