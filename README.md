@@ -409,7 +409,7 @@ singularity build <name-image>.sif docker-archive://annotep_gui1.tar
 > - ``<name-image>``:  you can name the image anything you like; the extension must be ``.sif``.
 > - ``docker-archive://``: indicates the image will be built from a local ``.tar`` archive.
 
-**Step 2. Running the Image:** AHow you run the container depends on the interface you choose:
+**Step 2. Running the Image:** How you run the container depends on the interface you choose:
 #### GUI
 📌 To launch the graphical interface, use:
 ```sh
