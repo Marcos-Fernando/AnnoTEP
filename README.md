@@ -263,13 +263,9 @@ If all settings are correct, you will see a message similar to this:
 > [!IMPORTANT] 
 > <b> Prerequisites </b> <br>
 > - 🐳 [Docker](https://docs.docker.com/engine/install/)
+> - 📦 [Singularity](https://docs.sylabs.io/guides/3.5/user-guide/quick_start.html)
 
->[!NOTE]
-> 🧪 <b> Singularity Support (Under Development) </b>
-> <br>
-> At present, AnnoTEP does not offer official support for Singularity. We are actively working on the necessary adjustments to ensure our Docker images can be converted reliably using ```singularity build```, aiming to support researchers working in HPC environments and clusters where Singularity is the standard.
-> <br>
->🔧 As soon as this process is complete, we will provide detailed instructions and make the compatible image available here.
+## Docker
 
 ## Graphic User Interface - GUI
 <div align="center"> 
@@ -288,11 +284,11 @@ docker pull annotep/annotep-gui:v1
 
 **Step 2. Run the Container** Next, run the container using the command below. Specify a folder on your machine to store the annotation results:
 ```sh
-docker run -it -v <path-to-results-folder>:/root/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
+docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
 ```
 > [!TIP]
 > ### Description:
-> - ``-v <path-to-results-folder>:/root/AnnoTEP/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/AnnoTEP/graphic-interface/results`` is the directory inside the container and should not be changed.
+> - ``-v <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/usr/local/AnnoTEP/graphic-interface/results`` is the directory inside the container and should not be changed.
 > - ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine.
 > - ``annotep/annotep-gui:v1``: Specifies the Docker image to use.
 > <br>
@@ -341,12 +337,12 @@ docker run annotep/annotep-cli:v1 python run_annotep.py -h
 **Step 3. Run the Container:** To simplify this step, we recommend creating a folder to store your genomic data in **FASTA format**. Once created, run the container using the command below as a guide. Ensure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results -v "<absolute-path-to-folder-genomes>":"<absolute-path-to-folder-genomes>" annotep/annotep-cli:v1 python run_annotep.py --genome "<absolute-path-to-folder-genomes>/genome.fa" --threads "<number>"
+docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results -v "<absolute-path-to-folder-genomes>":"<absolute-path-to-folder-genomes>" annotep/annotep-cli:v1 python run_annotep.py --genome "<absolute-path-to-folder-genomes>/genome.fa" --threads "<number>"
 ```
 
 >[!TIP]
 > ### Description:
-> - ``-v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/root/AnnoTEP/www/results``  is the directory inside the container and should not be changed.
+> - ``-v <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/usr/local/AnnoTEP/bash-interface/results``  is the directory inside the container and should not be changed.
 > - ``-v <absolute-path-to-folder-genomes>:<absolute-path-to-folder-genomes>``: Creates a temporary copy of the genomic files inside Docker. Ensure you provide the correct path to the folder containing your genomes.
 > - ``--genome <absolute-path-to-folder-genomes>/genome.fa``: Specify the full path to the genome file you want to annotate.
 > - ``--threads <number>``: Define the number of threads to use.
@@ -360,7 +356,7 @@ docker run -it -v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results 
 > If Docker containers experience memory issues or unexpected terminations due to intensive resource usage, you can adjust the process limits (``--pids-limit``) and swap memory (``--memory-swap``). 
 > Example usage: 
 >```sh
-> docker run -it -v <path-to-results-folder>:/root/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "<threads x 10000>" --memory-swap -1 annotep/annotep-gui:v1
+> docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "<threads x 10000>" --memory-swap -1 annotep/annotep-gui:v1
 >```
 > <b> Explanation: </b>
 > - ``--pids-limit <threads x 10000>``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
@@ -369,6 +365,14 @@ docker run -it -v <path-to-results-folder>:/root/AnnoTEP/bash-interface/results 
 
 📎 Return to [Table of contents](#table-of-contents)
 <br>
+
+## Singularity
+>[!NOTE]
+> 🧪 <b> Singularity Support (Under Development) </b>
+> <br>
+> At present, AnnoTEP does not offer official support for Singularity. We are actively working on the necessary adjustments to ensure our Docker images can be converted reliably using ```singularity build```, aiming to support researchers working in HPC environments and clusters where Singularity is the standard.
+> <br>
+>🔧 As soon as this process is complete, we will provide detailed instructions and make the compatible image available here.
 
 # Results
 In addition to FASTA libraries, GFF3 files, and softmasking outputs, AnnoTEP also generates informative graphs and detailed reports based on the data obtained during the annotation process.
