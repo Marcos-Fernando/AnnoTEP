@@ -413,7 +413,7 @@ singularity build <name-image>.sif docker-archive://annotep_gui1.tar
 #### GUI
 📌 To launch the graphical interface, use:
 ```sh
-singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results annotep_gui1.sif bash -c "cd /usr/local/AnnoTEP/graphic-interface && source /usr/local/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new && python main.py"
+singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results <name-image>.sif bash -c "cd /usr/local/AnnoTEP/graphic-interface && source /usr/local/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new && python main.py"
 ```
 
 📌 After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
@@ -427,7 +427,7 @@ singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-inte
 #### CLI
 📌 To run via the command line, use:
 ```sh 
-singularity exec -B <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results -B <absolute-path-to-folder-genomes>:/genomas annotep_cl1.sif python /usr/local/AnnoTEP/bash-interface/run_annotep.py --genome /genomas/genome.fasta --threads <threads>
+singularity exec -B <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results -B <absolute-path-to-folder-genomes>:/genomas <name-image>.sif python /usr/local/AnnoTEP/bash-interface/run_annotep.py --genome /genomas/genome.fasta --threads <threads>
 ```
 
 >[!TIP]
