@@ -142,6 +142,12 @@ sudo cp Scripts/break_fasta.pl /usr/local/bin
 🧬 _Arabidopsis thaliana_ 
 * Download the TAIR10_chr_all.fas.gz file from the [TAIR](https://www.arabidopsis.org/download/list?dir=Genes%2FTAIR10_genome_release%2FTAIR10_chromosome_files) website and extract its contents.
 
+```sh
+gzip -d TAIR10_chr_all.fas.gz
+cat TAIR10_chr_all.fas | cut -f 1 -d" " > At.fasta
+rm TAIR10_chr_all.fas
+```
+
 **Step 2.** Inside the AnnoTEP directory, run EDTA on the downloaded genome
 ```sh
 cd AnnoTEP
