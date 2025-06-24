@@ -1068,7 +1068,7 @@ if ($anno == 1){
 			print STDERR "$date\tA LAI result file $genome.LAI is provided! Will use this file without running LAI.\n\n";
 		        $LAI_index=`cat ../$genome.LAI  | grep whole_genome | cut -f 7 | sed 's# ##g' | tr '\n' ' ' `;
 		} else {
-			`LAI -genome ../$genome -intact ../$genome.EDTA.raw/LTR/$genome.pass.list -all ../BK-FINAL-$genome.out 2>/dev/null`;
+			`LAI -genome ../$genome -intact ../$genome.EDTA.raw/LTR/$genome.pass.list -all ../BK-FINAL-$genome.out -q -t $threads  2>/dev/null`;
 			`mv BK-FINAL-$genome.out.LAI ../$genome.LAI 2>/dev/null`; 
 			`rm -f BK-FINAL-$genome.out.LAI.LTR.fa`;
 			`rm -f BK-FINAL-$genome.out.LAI.LTRlist`;
