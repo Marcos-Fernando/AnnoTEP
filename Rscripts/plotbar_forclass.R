@@ -29,43 +29,40 @@ create_barplot <- function(element_name, index) {
 
   desired_order <- c("Sensitivity", "Precision", "Specificity", "Accuracy", "F1", "FDR")
   element_data$Metric <- factor(element_data$Metric, levels = desired_order)
-  element_data$Value <- as.numeric(element_data$Value)  # Força numérico
+  element_data$Value <- as.numeric(element_data$Value)
   tolerance <- 1e-3
-  
+
   element_data <- element_data %>%
-  mutate(
-        is_extreme = abs(Value - 0) < tolerance | abs(Value - 1) < tolerance,
-        angle = ifelse(is_extreme, 0, 90),
-        vjust = ifelse(is_extreme, -0.5, 0.4),
-        hjust = ifelse(is_extreme, 0.5, -0.1)
+    mutate(
+      is_extreme = abs(Value - 0) < tolerance | abs(Value - 1) < tolerance,
+      angle = ifelse(is_extreme, 0, 90),
+      vjust = ifelse(is_extreme, -0.5, 0.4),
+      hjust = ifelse(is_extreme, 0.5, -0.1)
     )
 
-    p <- ggplot(element_data, aes(x = Metric, y = Value, fill = Source)) +
+  p <- ggplot(element_data, aes(x = Metric, y = Value, fill = Source)) +
     geom_bar(stat = "identity", position = position_dodge(width = 0.6), width = 0.4) +
     geom_text(
-        aes(label = round(Value, 4), angle = angle, vjust = vjust, hjust = hjust),
-                position = position_dodge(width = 0.6),
-                size = 3
-        ) +
+      aes(label = round(Value, 4), angle = angle, vjust = vjust, hjust = hjust),
+      position = position_dodge(width = 0.6),
+      size = 3
+    ) +
     scale_fill_manual(values = c("AnnoTEP" = "#089108", "EDTA" = "orange")) +
     scale_y_continuous(limits = c(0, 1.15), breaks = seq(0, 1, by = 0.1)) +
-    labs(title = paste("Performance -", element_name),
-         x = "", y = "Score") +
+    labs(title = paste(element_name, "Performance"), x = "", y = "Score") +
     theme_minimal(base_size = 13) +
     theme(
-      axis.text.x = element_text(angle = 0, vjust = 1),
+      axis.text.x = element_text(size = 16, angle = 0, vjust = 1),
+      axis.title.y = element_text(size = 22),         
+      plot.title = element_text(size = 28, hjust = 0.5, face = "bold"), 
       legend.position = "bottom",
       legend.direction = "horizontal"
     ) +
     guides(fill = guide_legend(title = NULL))
-    # theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
-    # ylim(0, 1.15)
 
   ggsave(paste0("Barplot_", index, "_", element_name, ".pdf"), plot = p, width = 8, height = 6)
-
-  # print(element_data %>% select(Metric, Source, Value, is_extreme, angle))
-
 }
+
 
 
 # Criar gráficos para cada elemento

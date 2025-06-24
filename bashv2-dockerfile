@@ -1,0 +1,28 @@
+FROM ubuntu:22.04
+
+RUN apt-get update -y \
+    && apt-get upgrade -y \
+    && apt-get install -y curl gnupg wget git vim
+
+# Instala Miniconda no local compatível
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b -p /usr/local/miniconda3 \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh
+
+ENV PATH="/usr/local/miniconda3/bin:$PATH"
+
+# Copia os arquivos da aplicação
+COPY . /usr/local/AnnoTEP
+COPY Scripts/break_fasta.pl /usr/local/bin/
+
+# Instala o ambiente Conda
+RUN cd /usr/local/AnnoTEP && conda env create -f environment.yml
+
+# Config UTF-8 para Flask
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+# Define diretório de trabalho
+WORKDIR /usr/local/AnnoTEP/bash-interface
+
+CMD ["/bin/bash"]

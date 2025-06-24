@@ -26,14 +26,12 @@ performances.txt
 /Rscripts/plotRadio*
 /Rscripts/plotbar*
 
-/bash-interface
-/EDTA
-/graphic*
-/Process*
-/Rscripts
-/Scripts
+.dockerignore
 
-.gitignore
+/EDTA
+/Process*
+
+
 
 
 
