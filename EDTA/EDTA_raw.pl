@@ -523,6 +523,9 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 			`find ./TMP -name '*LINE*' | xargs rm -f ` unless -e "./TMP/*LINE*" ; 
 			`find ./TMP -name '*TIR*' | xargs rm -f ` unless -e "./TMP/*TIR*";
 			`find ./TMP -name '*Helitron*' | xargs rm -f ` unless -e "./TMP/*Helitron*";
+			`find ./TMP -name '*DIRS*' | xargs rm -f ` unless -e "./TMP/*DIRS*";
+			`find ./TMP -name '*Penelope*' | xargs rm -f ` unless -e "./TMP/*Penelope*";
+			`find ./TMP -name '*pararetrovirus*' | xargs rm -f ` unless -e "./TMP/*pararetrovirus*";
 			#
 			#
 			#
@@ -588,7 +591,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 			if (!-s "pick.sh") {
 				print STDERR "$date\tNo Gypsy and Copia lineages-like - step 1\n"; 
 			} else {
-				`bash pick2.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END#-like#g' | sed 's#LTR/mixture-like#LTR/Unknown#g' | sed 's#mixture-like#Unknown#g' | sed 's#pararetrovirus-like#pararetrovirus#g' | sed 's#Gypsy-like#Gypsy#g' | sed 's#Copia-like#Copia#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa` ; 
+				`bash pick2.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END#-like#g' | sed 's#LTR/mixture-like#LTR/Unknown#g' | sed 's#mixture-like#Unknown#g' | sed 's#pararetrovirus-like#pararetrovirus#g' | sed 's#Gypsy-like#Gypsy#g' | sed 's#Copia-like#Copia#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#-outgroup##g' | sed 's#Penelope-like#Penelope#g' | sed 's#DIRS-like#DIRS#g' >> $genome.LTR.intact.raw.fa` ; 
 				`cat pick2.sh | sed 's#^cat #rm #g' > del.sh`;
 				`bash del.sh`;
 			} 
@@ -597,7 +600,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 			if (!-s "pick.sh") {
 				print STDERR "$date\tNo Gypsy and Copia lineages-like - step2\n"; 
 			} else {
-				`bash pick2.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END#-like#g' | sed 's#LTR/mixture-like#LTR/Unknown#g' | sed 's#mixture-like#Unknown#g' | sed 's#pararetrovirus-like#pararetrovirus#g' | sed 's#Gypsy-like#Gypsy#g' | sed 's#Copia-like#Copia#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' >> $genome.LTR.intact.raw.fa` ; 
+				`bash pick2.sh | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's/__/#/g' | sed 's#_#/#g' | sed 's#/END#-like#g' | sed 's#LTR/mixture-like#LTR/Unknown#g' | sed 's#mixture-like#Unknown#g' | sed 's#pararetrovirus-like#pararetrovirus#g' | sed 's#Gypsy-like#Gypsy#g' | sed 's#Copia-like#Copia#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#-outgroup##g' | sed 's#Penelope-like#Penelope#g' | sed 's#DIRS-like#DIRS#g' >> $genome.LTR.intact.raw.fa` ; 
 				`cat pick2.sh | sed 's#^cat #rm #g' > del.sh`;
 				`bash del.sh`;
 			} 
@@ -632,7 +635,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 		#
 		# Cleaning and validating the final file
 		#
-		`cat $genome.LTR.intact.raw.fa | sed 's#Caulimoviridae/badnavirus#Caulimoviridae#g' | sed 's#Caulimoviridae/caulimovirus#Caulimoviridae#g' | sed 's#/mixture-like##g' | sed 's#LTR/Copia/mixture#LTR/Copia#g' | sed 's#LTR/Gypsy/mixture#LTR/Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#LTR/0#LTR/Unknown#g' | sed 's#-outgroup##g' | sed 's#chromo-unclass#chromo#g' | sed 's#chromo-unclass-like#chromo-like#g'  > tmp.fa`;  
+		`cat $genome.LTR.intact.raw.fa | sed 's#Caulimoviridae/badnavirus#Caulimoviridae#g' | sed 's#Caulimoviridae/caulimovirus#Caulimoviridae#g' | sed 's#/mixture-like##g' | sed 's#LTR/Copia/mixture#LTR/Copia#g' | sed 's#LTR/Gypsy/mixture#LTR/Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#pararetrovirus#LTR/Unknown#g' | sed 's#_DOIS_#:#g' | sed 's#--#..#g' | sed 's#LTR/0#LTR/Unknown#g' | sed 's#-outgroup##g' | sed 's#chromo-unclass#chromo#g' | sed 's#chromo-unclass-like#chromo-like#g'  | sed 's#Penelope-like#Penelope#g' | sed 's#DIRS-like#DIRS#g' > tmp.fa`;  
 		`pullseq -i tmp.fa -m 1 > $genome.LTR.intact.raw.fa` ;  
 		#
 		#
@@ -674,7 +677,7 @@ if ($overwrite eq 0 and -s "$genome.LTR.raw.fa"){
 			`bash pick.sh | awk '{print \$12}' > 12.txt`;   
 			#
 			#
-			`cat $genome.LTR.intact.raw.fa | grep "^>" | sort -V > tmp.txt`;    
+			`cat $genome.LTR.intact.raw.fa | grep "^>" | sort -V > tmp.txt`;   
 			`cat pick.sh | sed 's#A.txt#tmp.txt#g' > pick2.sh`;
 			#
 			`bash pick2.sh | cut -f 2 -d"#"  | sed 's#LTR/#LTR\t#g' | sed 's#LARD#LTR\tLARD#g'  | sed 's#TRIM#LTR\tTRIM#g' | sed 's#BARE-2#LTR\tBARE-2\t#g' | sed 's#TR_GAG#LTR\tTR_GAG\t#g' | awk '{print \$2,\$1}' > middle.txt`; 
@@ -887,9 +890,10 @@ if ($type eq "tir" or $type eq "all"){
 				if ($test_tir2 > 0) {
 					`find ./TMP -name '*TIR*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' |  sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#TIR_#TIR/#g' | sed 's#_TSD# TSD#g' >> $genome.TIR.raw.fa` ; 	
 					`cp $genome.TIR.raw.fa $genome.TIR.raw.HQ.fa`; 
+					`find ./TMP -name '*TIR*' | xargs rm -f `;				
 				}
 				#
-				# Adding all Unknown - Caution must be taken here potential false positives 
+				# Adding all Unknown - Caution must be taken here ---> potential false positives 
 				#
 				if ($TIR_filter == 0) {
 					my $test_tir3 = `find ./TMP -name '*Unknown*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
@@ -912,13 +916,10 @@ if ($type eq "tir" or $type eq "all"){
 						}
 
 						my $test_tir5 = `find ./TMP -name '*.fasta' 2>/dev/null | grep -q . && echo "1" || echo "0"`;
-						if ($test_tir5 > 0) {
-							#`find ./TMP -name '*.fasta' | xargs cat | sed 's#_DOIS_#:#g' | sed 's#--#..#g' |  sed 's#_SPACE_# #g' | sed 's/__/#/g' | sed 's#_TSD:# TSD:#g' | sed 's/#/ #/g'  | cut -f 1,3 -d" " | sed 's/ /#TIR\/Unknown /g' > $genome.TIR.tmp2` ;
-							
+						if ($test_tir5 > 0) {					
 							`find ./TMP -name '*.fasta' | xargs cat | sed 's|_DOIS_|:|g' | sed 's|--|..|g' | sed 's|_SPACE_| |g' | sed 's|__|#|g' | sed 's|_TSD:| TSD:|g' | sed 's|#| |g' | cut -f 1,3 -d" " | sed 's| |#TIR/Unknown |g' > $genome.TIR.tmp2`;
-
-							
-							 `find ./TMP -name '*.fasta' | xargs rm -f `;
+						
+							`find ./TMP -name '*.fasta' | xargs rm -f `;
 		 					`cat $genome.TIR.tmp2 >> $genome.TIR.raw.fa`; 
 		 					`cat $genome.TIR.tmp2 >> $genome.TIR.raw.non-autonomous.fa`;  
 		 					`rm $genome.TIR.tmp2`;   
@@ -1192,7 +1193,7 @@ if ($type eq "line" or $type eq "all"){
 		`ln -s ../$genome to-LINEs.fasta`; 
 	}
 	#
-	#######################################################################################################
+	#######################################################################################################cat tmp.gff  | sort -V
 	#
 	# enter the working directory and create genome softlink
 	# chdir "$genome.EDTA.raw/LINE";
