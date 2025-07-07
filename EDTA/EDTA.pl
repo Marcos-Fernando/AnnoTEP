@@ -796,9 +796,9 @@ if ($sensitive == 1 and -s "$genome.RM2.fa"){
 		# Formating the output to avoid wrong names
 		# ======================================
 		#
-		`cat $genome.RepeatModeler.raw.tmp | sed 's#Copia/mixture#Copia#g' | sed 's#Gypsy/mixture#Gypsy#g' | sed 's#LTR/mixture#LTR/Unknown#g' | sed 's#mixture#Unknown#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#-outgroup##g' | sed 's#unknown#Unknown#g' > TMP.RepeatModeler.raw.tmp`;		
+		`cat $genome.RepeatModeler.raw.tmp | sed 's#Copia/mixture#Copia#g' | sed 's#Gypsy/mixture#Gypsy#g' | sed 's#LTR/mixture#LTR/Unknown#g' | sed 's#mixture#Unknown#g' | sed 's#Copia/Unknown#Copia#g' | sed 's#Gypsy/Unknown#Gypsy#g' | sed 's#LTR/pararetrovirus#pararetrovirus#g' | sed 's#-outgroup##g' | sed 's#unknown#Unknown#g' | sed 's#Penelope-like#Penelope#g' | sed 's#DIRS-like#DIRS#g' > TMP.RepeatModeler.raw.tmp`;		
 		#
-		`cat $genome.EDTA.fa.stg1 TMP.RepeatModeler.raw.tmp | sed 's#?##g' | sed 's#/ID##g'  | sed 's#chromo-unclass#chromo#g' | sed 's#chromo-unclass-like#chromo-like#g' > $genome.EDTA.raw.fa`;
+		`cat $genome.EDTA.fa.stg1 TMP.RepeatModeler.raw.tmp | sed 's#?##g' | sed 's#/ID##g'  | sed 's#chromo-unclass#chromo#g' | sed 's#chromo-unclass-like#chromo-like#g' | sed 's#Penelope-like#Penelope#g' | sed 's#DIRS-like#DIRS#g' > $genome.EDTA.raw.fa`;
 		#
 		#
 		#
