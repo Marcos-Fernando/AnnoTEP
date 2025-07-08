@@ -5165,32 +5165,32 @@ sub generateOutput {
 # CLASS I Elements
 ###########################################################################################################
 
-                         'RETROTRANS'    => { 'RE' => '^RNA' },
-                         'RPNEL'         => { 'RE' => '^Penelope$' },
-                         'SINE'    	 => { 'RE' => '^SINE' },
-                         'LINE'    	 => { 'RE' => '^LINE' },
-                         'LTR'           => { 'RE' => '^LTR' },
-			 'LTRLARD'       => { 'RE' => '^LARD' },
-			 'LTRTRIM'       => { 'RE' => '^TRIM' },
+          'RETROTRANS'    	=> { 'RE' => '^RNA' },
+          'RPNEL'       	=> { 'RE' => '^Penelope$|^Penelope-like$|LTR\/Penelope$|LTR\/Penelope-like$' },
+          'SINE'    	 	=> { 'RE' => '^SINE' },
+          'LINE'    	 	=> { 'RE' => '^LINE|^LINE-like$' },
+          'LTR'           	=> { 'RE' => '^LTR' },
+	 'LTRLARD'       	=> { 'RE' => '^LARD' },
+	 'LTRTRIM'       	=> { 'RE' => '^TRIM' },
+	
+	 'LTRTRGAG'      	=> { 'RE' => '^TR_GAG' },
+	 'LTRBARE2'      	=> { 'RE' => '^BARE-2' },
 			 
-			 'LTRTRGAG'      => { 'RE' => '^TR_GAG' },
-			 'LTRBARE2'      => { 'RE' => '^BARE-2' },
 			 
+	 'LTRGYP'  	 		=> { 'RE' => '^LTR\/Gypsy' },
+	 'LTRCOP'  	 		=> { 'RE' => '^LTR\/Copia' },
 			 
-			 'LTRGYP'  	 => { 'RE' => '^LTR\/Gypsy' },
-			 'LTRCOP'  	 => { 'RE' => '^LTR\/Copia' },
-			 
-			 'LTRGYPUNK'  	 => { 'RE' => '^LTR\/Gypsy$|^LTR\/Gypsy-like$' },
-			 #'LTRCOPUNK'  	 => { 'RE' => '^LTR\/Copia$|^LTR\/Copia-like$' },
+	 'LTRGYPUNK'  	 	=> { 'RE' => '^LTR\/Gypsy$|^LTR\/Gypsy-like$' },
+	 #'LTRCOPUNK'  	 => { 'RE' => '^LTR\/Copia$|^LTR\/Copia-like$' },
 			 
 
-			 'LTRDIR'  	 => { 'RE' => '^DIRS' },
-			 'LTRDIRR'  	 => { 'RE' => '^DIRS/DIRS$' },
-			 'LTRDIRGR'  	 => { 'RE' => '^DIRS/Ngaro$' },
-			 'LTRDIRVPR'  	 => { 'RE' => '^DIRS/VIPER$' },		 
+	 'LTRDIR'  	 	=> { 'RE' => '^DIRS|^DIRS$' },
+	 'LTRDIRR'  	 	=> { 'RE' => '^DIRS/DIRS$' },
+	 'LTRDIRGR'  	 	=> { 'RE' => '^DIRS/Ngaro$' },
+	 'LTRDIRVPR'  	 	=> { 'RE' => '^DIRS/VIPER$' },		 
 			 
 			 
-			 'LTRUNK'  	 => { 'RE' => '^LTR\/Unknown|^LTR\/unknown' },
+	 'LTRUNK'  	 		=> { 'RE' => '^LTR\/Unknown|^LTR\/unknown' },
 
 ###########################################################################################################
 # LTR/Copia
@@ -5198,7 +5198,7 @@ sub generateOutput {
 
 			 'LTRALE'  	 => { 'RE' => '^LTR\/Copia\/Ale' },
                        
-            		 'LTRASIA'	 => { 'RE' => '^LTR\/Copia\/Alesia' },
+          'LTRASIA'	 => { 'RE' => '^LTR\/Copia\/Alesia' },
                          
 			 'LTRANG'  	 => { 'RE' => '^LTR\/Copia\/Angela' },
 
@@ -5304,7 +5304,7 @@ sub generateOutput {
 			'DNMERL'  =>   { 'RE' => '^TIR\/Merlin' },
 			'DNMUDR'  =>   { 'RE' => '^TIR\/MuDR_Mutator|^TIR\/MULE' },
 			'DNNOVO'  =>   { 'RE' => '^TIR\/Novosib' },
-			'DNPPP'   =>   { 'RE' => '^TIR\/P$' },			
+			'DNPPP'   =>   { 'RE' => '^TIR\/P$|^TIR\/P_element$|^TIR\/P_Element$' },			
 			'DNPIF'   =>   { 'RE' => '^TIR\/PIF_Harbinger|^TIR\/Academ' },
 			'DNGING'  =>   { 'RE' => '^TIR\/Ginger' },			
 			'DNPIGB'  =>   { 'RE' => '^TIR\/PiggyBac' },	
@@ -5314,14 +5314,17 @@ sub generateOutput {
 			'DNMARIN' =>   { 'RE' => '^TIR\/Tc1_Mariner' },				
 			'DNTRANS' =>   { 'RE' => '^TIR\/Transib' },				
 			
-			
+			'TIRUNK'   =>   { 'RE' => '^TIR\/Unknown|^TIR\/unknown' },
+
+
+
 			'DNHEL'   =>   { 'RE' => '^RC\/Helitron|^RC/Unknown' },
                         #'DNHELCO'   =>   { 'RE' => '^RC\/Helitron$' },
                         #'DNHELIN' =>   { 'RE' => '^RC\/Helitron-like$|^RC/Unknown$' },
 
 
 
-			'DNUNK'   =>   { 'RE' => '^DNA\/Unknown|^TIR\/Unknown|^DNA\/unknown|^TIR\/unknown' },
+			'DNUNK'   =>   { 'RE' => '^DNA\/Unknown|^DNA\/unknown' },
 
 
 
@@ -6651,6 +6654,12 @@ sub generateOutput {
         $aggregateStats{'DNTRANS'}->{'count'},
         $aggregateStats{'DNTRANS'}->{'length'},
         $aggregateStats{'DNTRANS'}->{'length'} * 100 * $usePerc / $totseqlen; 
+
+    printf $OUT "|        |-Unknown:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'TIRUNK'}->{'count'},
+        $aggregateStats{'TIRUNK'}->{'length'},
+        $aggregateStats{'TIRUNK'}->{'length'} * 100 * $usePerc / $totseqlen;  
+
 
 
 
