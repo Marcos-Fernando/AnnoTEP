@@ -5163,120 +5163,119 @@ sub generateOutput {
 ###########################################################################################################
 # CLASS I Elements
 ###########################################################################################################
-                         'RETROTRANS'    => { 'RE' => '^RNA' },
-                         'RPNEL'         => { 'RE' => '^Penelope$' },
-                         'SINE'    	 => { 'RE' => '^SINE' },
+          'RETROTRANS'			=> { 'RE' => '^RNA' },
+          'RPNEL'       	  	=> { 'RE' => '^Penelope$|^Penelope-like$|LTR\/Penelope$|LTR\/Penelope-like$' },
+          'SINE'    			=> { 'RE' => '^SINE' },
 
-                         'LINETOT'    	 => { 'RE' => '^LINE' },
-                         'LINEL1'    	 => { 'RE' => '^LINE\/L1|^LINE\/I$' },
-                         'LINEL2'    	 => { 'RE' => '^LINE\/L2|^LINE\/II$' },
-                         'LINELPEL'    	 => { 'RE' => '^LINE\/Penelope$' },
-                         'LINELCR1'    	 => { 'RE' => '^LINE\/CR1$' },
-                         'LINELR1'    	 => { 'RE' => '^LINE\/R1$' },
-                         'LINELRTE'    	 => { 'RE' => '^LINE\/RTE' },
-                         'LINELTAD'    	 => { 'RE' => '^LINE\/Tad1' },              
-                         'LINELDAP'    	 => { 'RE' => '^LINE\/Daphne' },                                       
-                         'LINELHERO'     => { 'RE' => '^LINE\/Hero' },                                                                
-                         'LINELJOCK'     => { 'RE' => '^LINE\/Jockey' },                                                                
-                         'LINELNESL'     => { 'RE' => '^LINE\/NeSL' },
-                         'LINELNIMB'     => { 'RE' => '^LINE\/Nimb' },                                                                                     
-                         'LINELRAND'     => { 'RE' => '^LINE\/RandI' },                                                                                     
-                         'LINELTX1'      => { 'RE' => '^LINE\/Tx1' },                                                                                     
-                         'LINELRTETP'    => { 'RE' => '^LINE\/RTETP' },    
-                         'LINELCRE'      => { 'RE' => '^LINE\/CRE' },                                                                                                              
+          'LINETOT'    	 		=> { 'RE' => '^LINE|^LINE-like$' },
+          'LINEL1'    	 		=> { 'RE' => '^LINE\/L1|^LINE\/I$' },
+          'LINEL2'    	 		=> { 'RE' => '^LINE\/L2|^LINE\/II$' },
+          'LINELPEL'    	 	=> { 'RE' => '^LINE\/Penelope$' },
+          'LINELCR1'    	 	=> { 'RE' => '^LINE\/CR1$' },
+          'LINELR1'    	 		=> { 'RE' => '^LINE\/R1$' },
+          'LINELRTE'    	 	=> { 'RE' => '^LINE\/RTE' },
+          'LINELTAD'    	 	=> { 'RE' => '^LINE\/Tad1' },              
+          'LINELDAP'    	 	=> { 'RE' => '^LINE\/Daphne' },                                       
+          'LINELHERO'     		=> { 'RE' => '^LINE\/Hero' },                                                                
+          'LINELJOCK'     		=> { 'RE' => '^LINE\/Jockey' },                                                                
+          'LINELNESL'     		=> { 'RE' => '^LINE\/NeSL' },
+          'LINELNIMB'     		=> { 'RE' => '^LINE\/Nimb' },                                                                                     
+          'LINELRAND'     		=> { 'RE' => '^LINE\/RandI' },                                                                                     
+          'LINELTX1'      		=> { 'RE' => '^LINE\/Tx1' },                                                                                     
+          'LINELRTETP'    		=> { 'RE' => '^LINE\/RTETP' },    
+          'LINELCRE'      		=> { 'RE' => '^LINE\/CRE' }, 
+          
+          'LTR'           		=> { 'RE' => '^LTR' },
 
-
-                         'LTR'           => { 'RE' => '^LTR' },
-
-			 'LTRLARD'       => { 'RE' => '^LARD$' },
-			 'LTRLARDI'      => { 'RE' => '^LARD-like$' },
+	 'LTRLARD'       		=> { 'RE' => '^LARD$' },
+	 'LTRLARDI'      		=> { 'RE' => '^LARD-like$' },
+		 
+			 
+	 'LTRTRIM'       		=> { 'RE' => '^TRIM$' },
+	 'LTRTRIMI'      		=> { 'RE' => '^TRIM-like$' },			 
+		 
+	 'LTRTRGAG'      		=> { 'RE' => '^TR_GAG' },
+	 'LTRBARE2'      		=> { 'RE' => '^BARE-2' },
 			 
 			 
-			 'LTRTRIM'       => { 'RE' => '^TRIM$' },
-			 'LTRTRIMI'      => { 'RE' => '^TRIM-like$' },			 
+	 'LTRGYP'  	 		=> { 'RE' => '^LTR\/Gypsy' },
+	 'LTRCOP'  	 		=> { 'RE' => '^LTR\/Copia' },
 			 
-			 'LTRTRGAG'      => { 'RE' => '^TR_GAG' },
-			 'LTRBARE2'      => { 'RE' => '^BARE-2' },
-			 
-			 
-			 'LTRGYP'  	 => { 'RE' => '^LTR\/Gypsy' },
-			 'LTRCOP'  	 => { 'RE' => '^LTR\/Copia' },
-			 
-			 'LTRGYPUNK'  	 => { 'RE' => '^LTR\/Gypsy$|^LTR\/Gypsy-like$' },
-			 #'LTRCOPUNK'  	 => { 'RE' => '^LTR\/Copia$|^LTR\/Copia-like$' },
+	 'LTRGYPUNK'  	 		=> { 'RE' => '^LTR\/Gypsy$|^LTR\/Gypsy-like$' },
+	 #'LTRCOPUNK'  	 		=> { 'RE' => '^LTR\/Copia$|^LTR\/Copia-like$' },
 			 
 
-			 'LTRDIR'  	 => { 'RE' => '^DIRS' },
-			 'LTRDIRR'  	 => { 'RE' => '^DIRS/DIRS$' },
-			 'LTRDIRGR'  	 => { 'RE' => '^DIRS/Ngaro$' },
-			 'LTRDIRVPR'  	 => { 'RE' => '^DIRS/VIPER$' },		 
+	 'LTRDIR'  	 		=> { 'RE' => '^DIRS|^DIRS$' },
+	 'LTRDIRR'  	 		=> { 'RE' => '^DIRS/DIRS$' },
+	 'LTRDIRGR'  	 		=> { 'RE' => '^DIRS/Ngaro$' },
+	 'LTRDIRVPR'  	 		=> { 'RE' => '^DIRS/VIPER$' },		 
 			 
 			 
-			 'LTRUNK'  	 => { 'RE' => '^LTR\/Unknown|^LTR\/unknown' },
+	 'LTRUNK'  	 			=> { 'RE' => '^LTR\/Unknown|^LTR\/unknown' },
 ###########################################################################################################
 # LTR/Copia
 ###########################################################################################################
-			 'LTRALE'  	 => { 'RE' => '^LTR\/Copia\/Ale$' },
-                         'LTRALEI'       => { 'RE' => '^LTR\/Copia\/Ale-like' },
+	 'LTRALE'  	 => { 'RE' => '^LTR\/Copia\/Ale$' },
+          'LTRALEI'   		=> { 'RE' => '^LTR\/Copia\/Ale-like' },
                          
-            		 'LTRASIA'	 => { 'RE' => '^LTR\/Copia\/Alesia$' },
-                         'LTRASIAI'      => { 'RE' => '^LTR\/Copia\/Alesia-like' },             
+          'LTRASIA'	 => { 'RE' => '^LTR\/Copia\/Alesia$' },
+          'LTRASIAI'  	=> { 'RE' => '^LTR\/Copia\/Alesia-like' },             
                          
-			 'LTRANG'  	 => { 'RE' => '^LTR\/Copia\/Angela$' },
-                         'LTRANGI'       => { 'RE' => '^LTR\/Copia\/Angela-like' },
+	 'LTRANG'  	 => { 'RE' => '^LTR\/Copia\/Angela$' },
+          'LTRANGI'   => { 'RE' => '^LTR\/Copia\/Angela-like' },
 
-			 'LTRBIA'	 => { 'RE' => '^LTR\/Copia\/Bianca$' },
-                         'LTRBIAI'       => { 'RE' => '^LTR\/Copia\/Bianca-like' },
+	 'LTRBIA'	 => { 'RE' => '^LTR\/Copia\/Bianca$' },
+	 'LTRBIAI'       => { 'RE' => '^LTR\/Copia\/Bianca-like' },
 
-			 'LTRBRCO'	 => { 'RE' => '^LTR\/Copia\/Bryco$' },
-                         'LTRBRCOI'      => { 'RE' => '^LTR\/Copia\/Bryco-like' },
+	 'LTRBRCO'	 => { 'RE' => '^LTR\/Copia\/Bryco$' },
+          'LTRBRCOI'  => { 'RE' => '^LTR\/Copia\/Bryco-like' },
 
 			 'LTRLYCO'	 => { 'RE' => '^LTR\/Copia\/Lyco$' },
-                         'LTRLYCOI'      => { 'RE' => '^LTR\/Copia\/Lyco-like' },
+          'LTRLYCOI'      => { 'RE' => '^LTR\/Copia\/Lyco-like' },
 
 			 'LTRGYCI'	 => { 'RE' => '^LTR\/Copia\/Gymco-I$' },
-                         'LTRGYCIL'      => { 'RE' => '^LTR\/Copia\/Gymco-I-like' },
+          'LTRGYCIL'      => { 'RE' => '^LTR\/Copia\/Gymco-I-like' },
 
 			 'LTRGYCII'	 => { 'RE' => '^LTR\/Copia\/Gymco-II$' },
-                         'LTRGYCIIL'     => { 'RE' => '^LTR\/Copia\/Gymco-II-like' },
+          'LTRGYCIIL'     => { 'RE' => '^LTR\/Copia\/Gymco-II-like' },
 
 			 'LTRGYCIII'	 => { 'RE' => '^LTR\/Copia\/Gymco-III$' },
-                         'LTRGYCIIIL'    => { 'RE' => '^LTR\/Copia\/Gymco-III-like' },
+          'LTRGYCIIIL'    => { 'RE' => '^LTR\/Copia\/Gymco-III-like' },
 
 			 'LTRGYCIV'	 => { 'RE' => '^LTR\/Copia\/Gymco-IV$' },
-                         'LTRGYCIVL'     => { 'RE' => '^LTR\/Copia\/Gymco-IV-like' },
+          'LTRGYCIVL'     => { 'RE' => '^LTR\/Copia\/Gymco-IV-like' },
 
 			 'LTRIKER'	 => { 'RE' => '^LTR\/Copia\/Ikeros$' },
-                         'LTRIKERI'      => { 'RE' => '^LTR\/Copia\/Ikeros-like' },
+          'LTRIKERI'      => { 'RE' => '^LTR\/Copia\/Ikeros-like' },
 
 			 'LTRIVA'  	 => { 'RE' => '^LTR\/Copia\/Ivana$' },
-                         'LTRIVAI'       => { 'RE' => '^LTR\/Copia\/Ivana-like' },
+          'LTRIVAI'       => { 'RE' => '^LTR\/Copia\/Ivana-like' },
                          
-                         'LTROSSER'	 => { 'RE' => '^LTR\/Copia\/Osser$' },
-                         'LTROSSERI'     => { 'RE' => '^LTR\/Copia\/Osser-like' },
+          'LTROSSER'	 => { 'RE' => '^LTR\/Copia\/Osser$' },
+          'LTROSSERI'     => { 'RE' => '^LTR\/Copia\/Osser-like' },
                          
 			 'LTRSIRE'	 => { 'RE' => '^LTR\/Copia\/SIRE$' },
-                         'LTRSIREI'      => { 'RE' => '^LTR\/Copia\/SIRE-like' },
+          'LTRSIREI'      => { 'RE' => '^LTR\/Copia\/SIRE-like' },
 
 			 'LTRTAR'  	 => { 'RE' => '^LTR\/Copia\/TAR$' },
-                         'LTRTARI'       => { 'RE' => '^LTR\/Copia\/TAR-like' },
+          'LTRTARI'       => { 'RE' => '^LTR\/Copia\/TAR-like' },
 
 			 'LTRTOR'  	 => { 'RE' => '^LTR\/Copia\/Tork$' },
-                         'LTRTORI'       => { 'RE' => '^LTR\/Copia\/Tork-like' },
+          'LTRTORI'       => { 'RE' => '^LTR\/Copia\/Tork-like' },
 
 			 'LTRALEX'  	 => { 'RE' => '^LTR\/Copia\/Alexandra$' },	# new	
-                         'LTRALEXI'      => { 'RE' => '^LTR\/Copia\/Alexandra-like' },	# new
+          'LTRALEXI'      => { 'RE' => '^LTR\/Copia\/Alexandra-like' },	# new
 
 			 'LTRFERCO'  	 => { 'RE' => '^LTR\/Copia\/Ferco$' },		# new	
-                         'LTRFERCOI'     => { 'RE' => '^LTR\/Copia\/Ferco-like' },	# new	
+          'LTRFERCOI'     => { 'RE' => '^LTR\/Copia\/Ferco-like' },	# new	
 
 			 'LTRBRYAN'  	 => { 'RE' => '^LTR\/Copia\/Bryana$' },		# new
-                         'LTRBRYANI'     => { 'RE' => '^LTR\/Copia\/Bryana-like' },	# new	
+          'LTRBRYANI'     => { 'RE' => '^LTR\/Copia\/Bryana-like' },	# new	
 
 
-			 'LTRTY1'  	 => { 'RE' => '^LTR\/Copia\/Ty1|^LTR\/Copia$|^LTR\/Copia-like$|^LTR\/Copia\/Ty1-like' },
-			 #'LTRTY1'  	 => { 'RE' => '^LTR\/Copia\/Ty1$' },		
-                         #'LTRTY1I'       => { 'RE' => '^LTR\/Copia\/Ty1-like' },		
+	 'LTRTY1'  	 => { 'RE' => '^LTR\/Copia\/Ty1|^LTR\/Copia$|^LTR\/Copia-like$|^LTR\/Copia\/Ty1-like' },
+	 #'LTRTY1'  	 => { 'RE' => '^LTR\/Copia\/Ty1$' },		
+          #'LTRTY1I'       => { 'RE' => '^LTR\/Copia\/Ty1-like' },		
 
 
 
@@ -5296,18 +5295,18 @@ sub generateOutput {
   			 'LTRPHYGYI'     => { 'RE' => '^LTR\/Gypsy\/Phygy-like' },
 
 			 'LTRSELGY'  	 => { 'RE' => '^LTR\/Gypsy\/Selgy$' },
-                         'LTRSELGYI'     => { 'RE' => '^LTR\/Gypsy\/Selgy-like' },
+          		 'LTRSELGYI'     => { 'RE' => '^LTR\/Gypsy\/Selgy-like' },
 			 
 			 'LTROTA'  	 => { 'RE' => '^LTR\/Gypsy\/OTA|^LTR\/Gypsy\/Athila|^LTR\/Gypsy\/Tatius|^LTR\/Gypsy\/Tat|^LTR\/Gypsy\/Ogre|^LTR\/Gypsy\/Retand' },
-                         #'LTROTAI'       => { 'RE' => '^LTR\/Gypsy\/OTA-like' }, 
+          		#'LTROTAI'       => { 'RE' => '^LTR\/Gypsy\/OTA-like' }, 
 			 
 			 'LTRATH'  	 => { 'RE' => '^LTR\/Gypsy\/Athila$' },
-                         'LTRATHI'       => { 'RE' => '^LTR\/Gypsy\/Athila-like' },
+         		 'LTRATHI'       => { 'RE' => '^LTR\/Gypsy\/Athila-like' },
 
 			 'LTRTATI'  	 => { 'RE' => '^LTR\/Gypsy\/Tatius$' },			# new	
-                         'LTRTATII'      => { 'RE' => '^chromovirusLTR\/Gypsy\/Tatius-like' },	# new
+          		'LTRTATII'      => { 'RE' => '^chromovirusLTR\/Gypsy\/Tatius-like' },	# new
 			 
-                         'LTROTATA'       => { 'RE' => '^LTR\/Gypsy\/Tat|^LTR\/Gypsy\/Ogre|^LTR\/Gypsy\/Retand' }, 
+          		'LTROTATA'       => { 'RE' => '^LTR\/Gypsy\/Tat|^LTR\/Gypsy\/Ogre|^LTR\/Gypsy\/Retand' }, 
 
 			 'LTRTATI'  	 => { 'RE' => '^LTR\/Gypsy\/TatI$' },
                          'LTRTATIL'      => { 'RE' => '^LTR\/Gypsy\/TatI-like' },
@@ -5370,7 +5369,7 @@ sub generateOutput {
 			'DNMERL'  =>   { 'RE' => '^TIR\/Merlin' },
 			'DNMUDR'  =>   { 'RE' => '^TIR\/MuDR_Mutator|^TIR\/MULE' },
 			'DNNOVO'  =>   { 'RE' => '^TIR\/Novosib' },
-			'DNPPP'   =>   { 'RE' => '^TIR\/P$' },			
+			'DNPPP'   =>   { 'RE' => '^TIR\/P$|^TIR\/P_element$|^TIR\/P_Element$' },			
 			'DNPIF'   =>   { 'RE' => '^TIR\/PIF_Harbinger|^TIR\/Academ' },
 			'DNGING'  =>   { 'RE' => '^TIR\/Ginger' },			
 			'DNPIGB'  =>   { 'RE' => '^TIR\/PiggyBac' },	
@@ -5380,14 +5379,15 @@ sub generateOutput {
 			'DNMARIN' =>   { 'RE' => '^TIR\/Tc1_Mariner' },				
 			'DNTRANS' =>   { 'RE' => '^TIR\/Transib' },				
 
+			'TIRUNK'   =>   { 'RE' => '^TIR\/Unknown|^TIR\/unknown' },
 			
-			'DNHEL'   =>   { 'RE' => '^RC' },
-                        'DNHELCO'=>   { 'RE' => '^RC\/Helitron$' },
-                        'DNHELIN' =>   { 'RE' => '^RC\/Helitron-like$|^RC/Unknown$' },
+			'DNHEL'   	=>   { 'RE' => '^RC' },
+        		'DNHELCO'	=>   { 'RE' => '^RC\/Helitron$' },
+         		'DNHELIN' 	=>   { 'RE' => '^RC\/Helitron-like$|^RC/Unknown$' },
 
 
 
-			'DNUNK'   =>   { 'RE' => '^DNA\/Unknown|^TIR\/Unknown|^DNA\/unknown|^TIR\/unknown' },
+			'DNUNK'   =>   { 'RE' => '^DNA\/Unknown|^DNA\/unknown' },
 
 
 
@@ -6982,6 +6982,12 @@ sub generateOutput {
         $aggregateStats{'DNTRANS'}->{'count'},
         $aggregateStats{'DNTRANS'}->{'length'},
         $aggregateStats{'DNTRANS'}->{'length'} * 100 * $usePerc / $totseqlen;  
+
+    printf $OUT "|        |-Unknown:		%6d	%10d bp	%5.2f \%\n",
+        $aggregateStats{'TIRUNK'}->{'count'},
+        $aggregateStats{'TIRUNK'}->{'length'},
+        $aggregateStats{'TIRUNK'}->{'length'} * 100 * $usePerc / $totseqlen;  
+
 
 
     #printf $OUT "-----------------------------------------------------------\n";
