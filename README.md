@@ -515,6 +515,8 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 
 | Genome                                           | Common Name            | Size          |
 |--------------------------------------------------|------------------------|---------------|
+| _Adiantum capillus_                              | S. maidenhair fern     | 4,82 GB       |
+| _Aegilops tauschii_                              | Rough-spike hard grass | 4,12 GB       |
 | _Amborella trichopoda_ (v1.0)                    | Amborella              | 706,33 Mb     |
 | _Ananas comosus_ (v1)                            | Pineapple              | 381,91 Mb     |
 | _Anthoceros angustus_                            | Hornwort               | 119,35 Mb     |
@@ -525,11 +527,17 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Brassica oleracea_ capitata (v1.0)              | Cabbage                | 385,01 Mb     |
 | _Carnegiea gigantea_                             | Saguaro                | 1,14 Gb       |
 | _Ceratodon purpureus_                            | Moss                   | 349,46 Mb     |
+| _Ceratopteris richardii (v2.1)_                  | Fern                   | 7,46 GB       |
 | _Chlamydomonas reinhardtii_                      | Green algae            | 114,63 Mb     |
+| _Citrus sinensis_                                | Orange                 | 620,59 Mb     |
 | _Coffea arabica_                                 | Arabian coffee         | 1,19 Gb       |
 | _Conticribra weissflogii_                        | Diatoms                | 231,50 Mb     |
+| _Cucumis sativus_                                | Cucumber               | 226,64 Mb     |
+| _Cycas panshihuaensis_                           | Dukou sago palm        | 10,48 GB      |
 | _Cyanophora paradoxa_                            | Freshwater Glaucophyte | 99,94 Mb      |
+| _Dendrobium huoshanense_                         | Mihu                   | 1,28 GB       |
 | _Diacronema lutheri_                             | Haptophytes            | 43,50 Mb      |
+| _Dioscorea alata_                                | Guyana arrowroot       | 480,02 Mb     |
 | _Eucalyptus grandis_ (v2.0)                      | Rose gum               | 691,35 Mb     |
 | _Euglena gracilis_                               | Unicellular algae      | 2,37 Gb       |
 | _Fragaria x ananassa_ (Royal Royce v1.0)         | Strawberries           | 786,54 Mb     |
@@ -540,15 +548,17 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Helianthus annuus_ (r1.2)                       | Sunflower              | 3,03 Gb       |
 | _Hevea brasiliensis_                             | Rubber tree            | 1,88 Gb       |
 | _Isoetes taiwanensis_                            | Quillwort              | 1,66 Gb       |
-| _Juglans regia_                                  | Walnut                 | -             |
+| _Juglans regia_                                  | Walnut                 | 572,95 Mb     |
+| _Kappaphycus striatus_                           | Green sacol            | 208,23 Mb     |
 | _Lotus japonicus_                                | Miyakogusa             | 553,71 Mb     |
 | _Malpighia emarginata_                           | Acerola                | 1,03 Gb       |
 | _Malus domestica_ (v1.1)                         | Apple                  | 709,56 Mb     |
+| _Manihot esculenta_                              | Cassava                | 639,59 Mb     |
 | _Marchantia polymorpha_ (v3.0)                   | Common liverwort       | 225,76 Mb     |
 | _Manihot esculenta_ (V8.1)                       | Cassava                | 639,59 Mb     |
 | _Mimosa bimucronata_                             | Maricá                 | 640,55 Mb     |
 | _Mimosa pudica_                                  | Sensitive Plant        | 797,25 Mb     |
-| _Musa acuminata_                                 | Banana                 | 484,06 Mb     |
+| _Musa acuminata_ (Pahang)                        | Banana                 | 484,06 Mb     |
 | _Nelumbo nucifera_                               | Sacred lotus           | 821,29 Mb     |
 | _Nepenthes gracilis_                             | Pitcher plant          | 752,88 Mb     |
 | _Oryza sativa_ (v7.0)                            | Rice                   | 374,47 Mb     |
@@ -570,12 +580,14 @@ AnnoTEP offers the capability to analyse a wide range of plants, algae, and micr
 | _Solanum tuberosum_ (v6.1)                       | Potato                 | 741,59 Mb     |
 | _Sorghum bicolor_ (v5.1)                         | Broomcorn              | 719,89 Mb     |
 | _Theobroma cacao_ (v2.1)                         | Cacao                  | 341,71 Mb     |
+| _Theobroma grandiflorum_ (C174)                  | Cupuassu               | 415,77 Mb     |
 | _Theobroma grandiflorum_ (C1074)                 | Cupuassu               | 423,92 Mb     |
+| _Triticum aestivum_ cv Chinese Spring (v2.1)     | Bread wheat            | 14,58 Gb      |
 | _Utricularia gibba_                              | Floating bladderwort   | 100,69 Mb     |
 | _Vitis vinifera_ (v2.1)                          | Grape vine             | 486,20 Mb     |
 | _Welwitschia mirabilis_                          | Tree Tumbo             | 6,87 Gb       |
-| _Zea mays_                                       | maize                  | 2,14 Gb       |
-| _Zostera marina_                                 | Eelgrass               | -             |
+| _Zea mays_                                       | Maize                  | 2,14 Gb       |
+| _Zostera marina_                                 | Eelgrass               | 260,49 Mb     |
 
 <br>
 
