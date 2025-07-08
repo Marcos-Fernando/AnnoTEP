@@ -111,17 +111,15 @@ sudo cp Scripts/break_fasta.pl /usr/local/bin
 >
 > * Locate all occurrences of ``FastaDB`` where the following snippet appears:
 >   ``` sh
->   my $db = FastaDB->new(
->                   fileName    => $file,
->                   openMode    => SeqDBI::ReadWrite,
+>    = FastaDB->new(
+>                  
 >                   maxIDLength => 50
 >   );
 >   ``` 
 > * Change the value of ``maxIDLength`` from ``50`` to a higher value, for example:
 >   ``` sh
->   my $db = FastaDB->new(
->                   fileName    => $file,
->                   openMode    => SeqDBI::ReadWrite,
+>    = FastaDB->new(
+>                   
 >                   maxIDLength => 80
 >    );
 >    ```
