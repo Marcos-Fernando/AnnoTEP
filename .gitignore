@@ -13,9 +13,17 @@ performances.txt
 
 .www
 
-*/results/*
-/graphic-interface/.graphic
-/graphic-interface/.flaskenv
+gui/.flaskenv
+gui/.graphic
+gui/results/*
+!gui/results/example_20250726-103151
+
+cli/results/*
+!cli/results/example_20250726-103151
+
+gui_docker/
+config_s.py
+config.py
 
 # /EDTA/bin/TIR-Learner*/Module3/Maize_model.sav
 
@@ -27,9 +35,6 @@ performances.txt
 /Rscripts/plotbar*
 
 .dockerignore
-
-/EDTA
-/Process*
 
 
 
