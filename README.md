@@ -218,12 +218,12 @@ FLASK_ENV = development
 * If you plan to use the built-in email system (for notifications), you should also include the following configuration in your ``.flaskenv`` file:
 
 ```sh
-MAIL_SERVER=server-email
-MAIL_PORT=number
-MAIL_USE_TLS=True or False
-MAIL_USE_SSL=True or False
-MAIL_USERNAME=your@email.com
-MAIL_PASSWORD=app*password*
+MAIL_SERVER=smtp.example.com
+MAIL_PORT=587
+MAIL_USE_TLS=True
+MAIL_USE_SSL=True
+MAIL_USERNAME=your_email@example.com
+MAIL_PASSWORD=your_app_password
 ```
 > [!TIP]
 > <b> Email Server Settings: </b>
