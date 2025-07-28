@@ -204,7 +204,7 @@ cd AnnoTEP/gui
 
 **Step 2. Configure flaskenv:** With the Conda environment active, navigate to the ``gui folder``. Inside this folder, you can create a ``.flaskenv`` file, which defines essential Flask settings and can optionally enable the email notification feature.
 ```sh
-cd $HOME/EDTA/gui
+cd $HOME/AnnoTEP/gui
 ```
 
 * You can create the ``.flaskenv`` file using the following content:
