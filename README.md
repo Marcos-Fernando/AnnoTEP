@@ -1,5 +1,5 @@
 <div align="center"> 
-    <img src="graphic-interface/static/assets/Logo2.svg" alt="Logo2">
+    <img src="gui/static/assets/Logo2.svg" alt="Logo2">
 </div><br>
 
 <div align="center">
@@ -197,12 +197,16 @@ In addition, regardless of whether the email system is active, the interface pro
 > [!IMPORTANT]
 > Before proceeding, make sure the Conda environment is properly set up and activated.
 
-**Step 1.** Navigate to the ``graphic-interface`` folder within the AnnoTEP directory.
+**Step 1.** Navigate to the ``gui folder`` within the AnnoTEP directory.
 ```sh
-cd AnnoTEP/graphic-interface
+cd AnnoTEP/gui
 ```
 
-**Step 2. Configure flaskenv:** With the Conda environment still active, you will need to create and configure a ``.flaskenv`` file. This file defines essential Flask settings and, optionally, enables email functionality.
+**Step 2. Configure flaskenv:** With the Conda environment active, navigate to the ``gui folder``. Inside this folder, you can create a ``.flaskenv`` file, which defines essential Flask settings and can optionally enable the email notification feature.
+```sh
+cd $HOME/EDTA/gui
+```
+
 * You can create the ``.flaskenv`` file using the following content:
 ```sh
 FLASK_APP = "main.py"
@@ -210,7 +214,9 @@ FLASK_DEBUG = True
 FLASK_ENV = development
 ```
 
-If you plan to use the built-in email system (for the notification system), you must also include the following email configuration:
+📌 **Email:** The interface architecture is designed to ensure continuous user monitoring during execution by offering an <b>optional</b> ``email notification system``. When enabled, AnnoTEP automatically sends updates about the start and completion of analyses, as well as any errors that may occur.
+* If you plan to use the built-in email system (for notifications), you should also include the following configuration in your ``.flaskenv`` file:
+
 ```sh
 MAIL_SERVER=server-email
 MAIL_PORT=number
@@ -242,7 +248,7 @@ MAIL_PASSWORD=app*password*
 > * Avoid using your primary email account. You can use a dedicated email address for application use.
 > * <b>Never share your ``.flaskenv`` file</b> or expose it in public repositories, as it contains sensitive credentials.
 
-**Step 3. Run the Application:** Within the ``graphic-interface`` folder, and with the Conda environment activated, start the application by running the following command:
+**Step 3. Run the Application:** Within the ``gui folder``, and with the Conda environment activated, start the application by running the following command:
 ```sh
 flask run
 ```
@@ -276,7 +282,7 @@ If all settings are correct, you will see a message similar to this:
 
 ## Graphic User Interface - GUI
 <div align="center"> 
-    <img src="graphic-interface/static/assets/Graphic-interface-logo.svg" alt="Logo3" width="350px">
+    <img src="gui/static/assets/Graphic-interface-logo.svg" alt="Logo3" width="350px">
 </div><br>
 
 >[!IMPORTANT] 
@@ -291,11 +297,11 @@ docker pull annotep/annotep-gui:v1
 
 **Step 2. Run the Container** Next, run the container using the command below. Specify a folder on your machine to store the annotation results:
 ```sh
-docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
+docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/gui/results -dp 0.0.0.0:5000:5000 annotep/annotep-gui:v1
 ```
 > [!TIP]
 > ### Description:
-> - ``-v <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/usr/local/AnnoTEP/graphic-interface/results`` is the directory inside the container and should not be changed.
+> - ``-v <path-to-results-folder>:/usr/local/AnnoTEP/gui/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/usr/local/AnnoTEP/gui/results`` is the directory inside the container and should not be changed.
 > - ``-dp 0.0.0.0:5000:5000``: Maps port 5000 on the container to port 5000 on your machine.
 > - ``annotep/annotep-gui:v1``: Specifies the Docker image to use.
 > <br>
@@ -325,7 +331,7 @@ Once the process is complete, you will receive an email confirming whether it fi
 
 ## Command Line Interface - CLI
 <div align="center"> 
-    <img src="graphic-interface/static/assets/Command-Line-interface-logo.svg" alt="Logo4" width="350px">
+    <img src="gui/static/assets/Command-Line-interface-logo.svg" alt="Logo4" width="350px">
 </div><br>
 
 While the primary focus of AnnoTEP is its user-friendly graphical interface, we also provide a Docker version designed exclusively for command-line use. This option caters to researchers who prefer or are more accustomed to working in a terminal environment. The configurable parameters in the Docker version closely mirror those offered by the EDTA pipeline, ensuring a consistent and flexible experience for diverse workflows.
@@ -344,12 +350,12 @@ docker run annotep/annotep-cli:v1 python run_annotep.py -h
 **Step 3. Run the Container:** To simplify this step, we recommend creating a folder to store your genomic data in **FASTA format**. Once created, run the container using the command below as a guide. Ensure you provide the full path to the folder where you want to save the results, as well as the full path to the genomes folder:
 
 ```sh
-docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results -v "<absolute-path-to-folder-genomes>":"<absolute-path-to-folder-genomes>" annotep/annotep-cli:v1 python run_annotep.py --genome "<absolute-path-to-folder-genomes>/genome.fa" --threads "<number>"
+docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/cli/results -v "<absolute-path-to-folder-genomes>":"<absolute-path-to-folder-genomes>" annotep/annotep-cli:v1 python run_annotep.py --genome "<absolute-path-to-folder-genomes>/genome.fa" --threads "<number>"
 ```
 
 >[!TIP]
 > ### Description:
-> - ``-v <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/usr/local/AnnoTEP/bash-interface/results``  is the directory inside the container and should not be changed.
+> - ``-v <path-to-results-folder>:/usr/local/AnnoTEP/cli/results``: Creates a volume between your machine and the container to store results. Replace ``-v <path-to-results-folder>`` with the path to a folder on your machine. If the folder doesn't exist, Docker will create it. The path ``/usr/local/AnnoTEP/cli/results``  is the directory inside the container and should not be changed.
 > - ``-v <absolute-path-to-folder-genomes>:<absolute-path-to-folder-genomes>``: Creates a temporary copy of the genomic files inside Docker. Ensure you provide the correct path to the folder containing your genomes.
 > - ``--genome <absolute-path-to-folder-genomes>/genome.fa``: Specify the full path to the genome file you want to annotate.
 > - ``--threads <number>``: Define the number of threads to use.
@@ -363,7 +369,7 @@ docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/res
 > If Docker containers experience memory issues or unexpected terminations due to intensive resource usage, you can adjust the process limits (``--pids-limit``) and swap memory (``--memory-swap``). 
 > Example usage: 
 >```sh
-> docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results -dp 0.0.0.0:5000:5000 --pids-limit "<threads x 10000>" --memory-swap -1 annotep/annotep-gui:v1
+> docker run -it -v <path-to-results-folder>:/usr/local/AnnoTEP/gui/results -dp 0.0.0.0:5000:5000 --pids-limit "<threads x 10000>" --memory-swap -1 annotep/annotep-gui:v1
 >```
 > <b> Explanation: </b>
 > - ``--pids-limit <threads x 10000>``:Sets the maximum number of processes the container can create. For example, if you use 12 threads, set this value to 120,000. This ensures each thread can create subprocesses without hitting the process limit, maintaining performance under high load.
@@ -416,7 +422,7 @@ singularity build <name-image>.sif docker-archive://annotep_gui1.tar
 #### GUI
 📌 To launch the graphical interface, use:
 ```sh
-singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results <name-image>.sif bash -c "cd /usr/local/AnnoTEP/graphic-interface && source /usr/local/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new && python main.py"
+singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/gui/results <name-image>.sif bash -c "cd /usr/local/AnnoTEP/gui && source /usr/local/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new && python main.py"
 ```
 
 📌 After running the container, access the AnnoTEP interface by typing the following address into your web browser:``127.0.0.1:5000``
@@ -424,21 +430,21 @@ singularity exec --bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-inte
 
 >[!TIP]
 > ### Description:
-> - ``--bind <path-to-results-folder>:/usr/local/AnnoTEP/graphic-interface/results``: maps a directory from your local machine to a directory inside the container
+> - ``--bind <path-to-results-folder>:/usr/local/AnnoTEP/gui/results``: maps a directory from your local machine to a directory inside the container
 > - ``bash -c "..."``: executes a sequence of commands within the container.
 
 #### CLI
 📌 To run via the command line, use:
 ```sh 
-singularity exec -B <path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results -B <absolute-path-to-folder-genomes>:/genomas <name-image>.sif python /usr/local/AnnoTEP/bash-interface/run_annotep.py --genome /genomas/genome.fasta --threads <threads>
+singularity exec -B <path-to-results-folder>:/usr/local/AnnoTEP/cli/results -B <absolute-path-to-folder-genomes>:/genomas <name-image>.sif python /usr/local/AnnoTEP/cli/run_annotep.py --genome /genomas/genome.fasta --threads <threads>
 ```
 
 >[!TIP]
 > ### Description:
 > - ``-B``: equivalent to ``--bind``, links local directories to container paths.
-> - ``<path-to-results-folder>:/usr/local/AnnoTEP/bash-interface/results``: folder where analysis results will be saved.
+> - ``<path-to-results-folder>:/usr/local/AnnoTEP/cli/results``: folder where analysis results will be saved.
 > - ``<absolute-path-to-folder-genomes>:/genomas``: folder containing the input genome files.
-> - ``python /usr/local/AnnoTEP/bash-interface/run_annotep.py``: the main command that starts the analysis.
+> - ``python /usr/local/AnnoTEP/cli/run_annotep.py``: the main command that starts the analysis.
 > - ``--genome /genomas/genome.fasta:``: path to the genome file to be annotated.
 
 📎 Return to [Table of contents](#table-of-contents)
@@ -455,34 +461,34 @@ The **TE-REPORT** directory is generated at the end of the annotation process an
 <br>
 📌 ``TEs-Report-Lite.tbl``: A simplified report derived from the complete version, containing concise and accessible information.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
+    <img src="gui/static/assets/screenshot/TEs-Lite.png" alt="TEs-Lite" border="0" width="550px"/>
 </div>
 <br>
 
 📌 ``TE-Report*``: These charts, generated from the ``TEs-Report-Lite.txt`` file, provide a clear and informative visualisation of TEs, categorised by hierarchical levels.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/TE-Report-bar.svg" alt="TE-Report-bar" border="0" width="650px" />
-    <img src="graphic-interface/static/assets/screenshot/TE-Report-bubble.svg" alt="TE-Report-bubble" border="0" width="650px" />
+    <img src="gui/static/assets/screenshot/TE-Report-bar.svg" alt="TE-Report-bar" border="0" width="650px" />
+    <img src="gui/static/assets/screenshot/TE-Report-bubble.svg" alt="TE-Report-bubble" border="0" width="650px" />
 </div>
 <br>
 
 📌 ``kimura_distance_plot.pdf``: This graph provides a coherent and easily understandable inference of the relative ages of each repetitive element identified in a specific genome. The analysis is based on the genetic distance calculation proposed by Kimura, which estimates the time elapsed since duplication or insertion events of these elements. <br>
 By applying Kimura’s calculation, the graph distinguishes older elements (with greater accumulated divergence) from more recent ones (with lower divergence), offering valuable insights into the evolutionary dynamics and genomic history of the organism under study.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/kimura_distance_plot.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
+    <img src="gui/static/assets/screenshot/kimura_distance_plot.svg" alt="Repeat-Land-Scape" border="0" width="650px" />
 </div>
 
 
 📌 ``AGE-Gypsy.pdf`` and ``AGE-Copia.pdf``: The histogram displays the age distribution of LTR elements identified in the genome. The dashed vertical lines indicate the median age, while the horizontal line represents the mean, both expressed in million years (Mya). This visualisation provides a clear analysis of the dispersion of LTR ages, highlighting the central tendency and temporal variability of these elements.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
-    <img src="graphic-interface/static/assets/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
+    <img src="gui/static/assets/screenshot/AGE-Copia.svg" alt="AGE-Copia" border="0" width="650px">
+    <img src="gui/static/assets/screenshot/AGE-Gypsy.svg" alt="AGE-Gypsy" border="0" width="650px">
 </div>
 
 
 📌 ``LTR_RT-Tree1*``: These charts represent the phylogeny of lineage alignments within LTR superfamilies, providing a comprehensive visualisation of their evolutionary relationships. The phylogeny illustrates how different LTR-RT domains are related to each other based on their genetic sequences.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree1_original_circular.svg" alt="LTR_RT-Tree1_original_circular" border="0" width="750px">
+    <img src="gui/static/assets/screenshot/LTR_RT-Tree1_original_circular.svg" alt="LTR_RT-Tree1_original_circular" border="0" width="750px">
 </div>
 <br>
 
@@ -490,19 +496,19 @@ By applying Kimura’s calculation, the graph distinguishes older elements (with
     - The outer circle (purple) represents the length (in base pairs) occupied by each element.
     - The inner circle (red) represents the number of occurrences of each element.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/LTR_RT-Tree2_circular_density.svg" alt="LTR_RT-Tree2_circular_density" border="0" width="750px">
+    <img src="gui/static/assets/screenshot/LTR_RT-Tree2_circular_density.svg" alt="LTR_RT-Tree2_circular_density" border="0" width="750px">
 </div>
 <br>
 
 📌 ``divergence_plot*`` and ``chromosome_density*``: These files are originally generated by the EDTA pipeline and are preserved and further refined by AnnoTEP to improve visual clarity and consistency within the results framework.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/divergence_plot.svg" alt="divergence_plot" border="0" width="750px">
-    <img src="graphic-interface/static/assets/screenshot/divergence_plot_2.2.svg" alt="divergence_plot_2.2" border="0" width="750px">
+    <img src="gui/static/assets/screenshot/divergence_plot.svg" alt="divergence_plot" border="0" width="750px">
+    <img src="gui/static/assets/screenshot/divergence_plot_2.2.svg" alt="divergence_plot_2.2" border="0" width="750px">
 </div>
 
 * The number of files generated by ``chromosome_density*`` may vary between genomes, with some genomes producing over 100 files.
 <div align="center">
-    <img src="graphic-interface/static/assets/screenshot/chromosome_density_plots_page1.svg" alt="chromosome_density_plots_page1" border="0" width="750px">
+    <img src="gui/static/assets/screenshot/chromosome_density_plots_page1.svg" alt="chromosome_density_plots_page1" border="0" width="750px">
 </div>
 
 📎 Return to [Table of contents](#table-of-contents)
