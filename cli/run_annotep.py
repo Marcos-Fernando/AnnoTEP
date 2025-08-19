@@ -15,7 +15,7 @@ SCRIPT_DIR = os.path.join(UPLOAD_DIR, 'Scripts')
 
 def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cds, curatedlib, exclude, rmlib, rmout, species, step, sensitive, tirfilter, annottype, folder):
     genome = os.path.abspath(genome)
-    print(genome)
+    # print(genome)
 
     genome_dir = os.path.dirname(genome)
     if not os.path.exists(genome_dir):
@@ -26,9 +26,9 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
 
     genome_fasta = os.path.basename(genome)
     genome_name, _ = os.path.splitext(os.path.basename(genome))
-    print(f'The path to the genome is {genome}')
-    print(f'{genome_name}')
-    print(f'{genome_fasta}')
+    # print(f'The path to the genome is {genome}')
+    # print(f'{genome_name}')
+    # print(f'{genome_fasta}')
 
     num_threads = max(10, threads)
     if threads < 10:
