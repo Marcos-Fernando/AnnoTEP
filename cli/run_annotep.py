@@ -13,7 +13,7 @@ UPLOAD_DIR = os.path.join(CLI, '..')
 EDTA_DIR = os.path.join(UPLOAD_DIR,'EDTA')
 SCRIPT_DIR = os.path.join(UPLOAD_DIR, 'Scripts')
 
-def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cds, curatedlib, exclude, rmlib, rmout, species, step, sensitive, tirfilter, annottype):
+def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cds, curatedlib, exclude, rmlib, rmout, species, step, sensitive, tirfilter, annottype, folder):
     genome = os.path.abspath(genome)
     print(genome)
 
@@ -30,36 +30,46 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
     print(f'{genome_name}')
     print(f'{genome_fasta}')
 
-    num_threads = max(4, threads)
-    if threads < 4:
-        print("Warning: The number of threads provided is less than 4. Set to 4.")
+    num_threads = max(10, threads)
+    if threads < 10:
+        print("Warning: The number of threads provided is less than 10. Set to 10.")
 
-    #Getting and formatting date and time
-    now = datetime.now()
-    formatted_date = now.strftime("%Y%m%d-%H%M%S")
 
-    storageFolder = f'{genome_name}_{"".join(formatted_date)}'
+    # directoryResults = folder
+    # if directoryResults and directoryResults.strip():
+    #     storageFolder = directoryResults.strip()
+    #     output_dir = os.path.join(RESULTS_DIR, storageFolder)
+    # else:
+    #     now = datetime.now()
+    #     formatted_date = now.strftime("%Y%m%d-%H%M%S")
+    #     storageFolder = f'{genome_name}_{"".join(formatted_date)}'
+
+    #     output_dir = os.path.join(RESULTS_DIR, storageFolder)
+    #     os.makedirs(output_dir)
+
+    storageFolder = folder.strip() if folder and folder.strip() else f'{genome_name}_{datetime.now().strftime("%Y%m%d-%H%M%S")}'
     output_dir = os.path.join(RESULTS_DIR, storageFolder)
-    os.makedirs(output_dir, exist_ok=True)
+    if not folder.strip():
+        os.makedirs(output_dir)
 
     genome_copy = os.path.join(output_dir, genome_fasta)
     shutil.copy2(genome, genome_copy)
 
     params = {
-        '--overwrite': overwrite,
-        '--anno': anno,
-        '--sensitive': sensitive, 
-        '--evaluate': evaluate,
-        '--TIR_filter': tirfilter,
-        '--ANNOT_TYPE': annottype,
-        '--force': force,
-        '--u': u,
-        '--maxdiv': maxdiv,
-        '--cds': cds,
-        '--curatedlib': curatedlib,
-        '--exclude': exclude,
-        '--rmlib': rmlib,
-        '--rmout': rmout
+            '--overwrite': overwrite,
+            '--anno': anno,
+            '--sensitive': sensitive, 
+            '--evaluate': evaluate,
+            '--TIR_filter': tirfilter,
+            '--ANNOT_TYPE': annottype,
+            '--force': force,
+            '--u': u,
+            '--maxdiv': maxdiv,
+            '--cds': cds,
+            '--curatedlib': curatedlib,
+            '--exclude': exclude,
+            '--rmlib': rmlib,
+            '--rmout': rmout
     }
 
     species = species if species else 'others'
@@ -67,24 +77,24 @@ def run_annotep(genome, threads, overwrite, anno, evaluate, force, u, maxdiv, cd
 
     # Filters out empty parameters or parameters with a value of 0
     filtered_params = {key: value for key, value in params.items() if value not in [None, 0, '']}
-    
+        
     # Construct the parameter string for the command
     param_str = ' '.join([f"{key} {value}" for key, value in filtered_params.items()])
 
     print(f">>>>>>>>>> Annotation started >>>> Input: {genome_name}")
     cmds = f"""
-        #cd {output_dir}
+            #cd {output_dir}
 
-        source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new &&
-        export PATH="$HOME/miniconda3/envs/EDTA-new/bin:$PATH" &&
-        export PATH="$HOME/miniconda3/envs/EDTA-new/bin/RepeatMasker:$PATH" &&
-        export PATH="$HOME/miniconda3/envs/EDTA-new/bin/gt:$PATH" &&
-        export PATH="{EDTA_DIR}/util:$PATH" &&
-        
-        {EDTA_DIR}/EDTA.pl --genome {genome} --species {species} --step {step} --threads {num_threads} {param_str} &&
+            source $HOME/miniconda3/etc/profile.d/conda.sh && conda activate EDTA-new &&
+            export PATH="$HOME/miniconda3/envs/EDTA-new/bin:$PATH" &&
+            export PATH="$HOME/miniconda3/envs/EDTA-new/bin/RepeatMasker:$PATH" &&
+            export PATH="$HOME/miniconda3/envs/EDTA-new/bin/gt:$PATH" &&
+            export PATH="{EDTA_DIR}/util:$PATH" &&
+            
+            {EDTA_DIR}/EDTA.pl --genome {genome} --species {species} --step {step} --threads {num_threads} {param_str} &&
 
-        wait &&
-        perl {SCRIPT_DIR}/generate_PLOTs-for-TE-pipe.sh {genome_fasta}
+            wait &&
+            perl {SCRIPT_DIR}/generate_PLOTs-for-TE-pipe.sh {genome_fasta}
     """
     process = subprocess.Popen(cmds, shell=True, executable='/bin/bash', cwd=output_dir)
     process.wait()
@@ -111,13 +121,14 @@ if __name__ == "__main__":
 
     required = parser.add_argument_group('required arguments')
     required.add_argument("--genome", type=str, help="The genome FASTA file", required=True)
-    required.add_argument("--threads", type=int, help="Number of threads used to complete annotation (default threads: 4)", default=4)
+    required.add_argument("--threads", type=int, help="Number of threads used to complete annotation (default threads: 10)", default=10)
 
     optional = parser.add_argument_group('optional arguments')
     optional.add_argument("--species", choices=["Rice", "Maize", "others"], default="others", 
                           help="Specify the species for identification of TIR candidates. Default: others")
     optional.add_argument("--step", choices=["all", "filter", "final", "anno"], default="all", 
                           help="Specify which steps you want to run EDTA.")
+    optional.add_argument("--folder", type=str, help="Folder name to resume annotation (--step 'filter' or 'final' or 'all' required)", default=None)
     optional.add_argument("--sensitive", type=int, choices=[0, 1], default=0, 
                           help="Use RepeatModeler to identify remaining TEs (1) or not (0, default). This step may help to recover some TEs.")
     optional.add_argument("--TIR_filter", type=int, choices=[0, 1], help="Filter TIRs without annotated domains: (1) Yes; (0) No [default]. Enabling this filter can substantially reduce false positives, but may also result in the loss of some true positives (false negatives).", default=0)
@@ -137,4 +148,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Chamada da função com os parâmetros obtidos
-    run_annotep(args.genome, args.threads, args.overwrite, args.anno, args.evaluate, args.force, args.u, args.maxdiv, args.cds, args.curatedlib, args.exclude, args.rmlib, args.rmout, args.species, args.step, args.sensitive, args.TIR_filter, args.ANNOT_TYPE)
+    run_annotep(args.genome, args.threads, args.overwrite, args.anno, args.evaluate, args.force, args.u, args.maxdiv, args.cds, args.curatedlib, args.exclude, args.rmlib, args.rmout, args.species, args.step, args.sensitive, args.TIR_filter, args.ANNOT_TYPE, args.folder)
